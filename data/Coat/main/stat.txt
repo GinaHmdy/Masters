@@ -1,0 +1,4 @@
+Total number of train interactions: 3622
+Total number of users in train: 290
+Total number of test interactions: 1862
+Total number of users in test: 290

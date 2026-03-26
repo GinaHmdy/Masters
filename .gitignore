@@ -1,0 +1,72 @@
+# Environments
+apda-venv/
+apda/
+dml-venv/
+pop/
+
+# PyCharm
+#  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
+#  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
+#  and can be added to the global gitignore or merged into this file.  For a more nuclear
+#  option (not recommended) you can uncomment the following to ignore the entire idea folder.
+.idea/
+
+# project specific folder/files
+*.DS_Store
+*.pyc
+*.ipynb_checkpoints
+*.vscode
+../.idea/
+
+data/KuaiRand/log_standard_4_08_to_4_21_pure.csv
+data/KuaiRand/log_random_4_22_to_5_08_pure.csv
+data/KuaiRand/s_pre_adj_mat.npz
+data/KuaiRand/model_state_dict_lgn.pth
+data/KuaiRand/results*
+
+data/KuaiRec/big_matrix.csv
+data/KuaiRec/small_matrix.csv
+data/KuaiRec/s_pre_adj_mat.npz
+data/KuaiRec/model_state_dict_lgn.pth
+data/KuaiRec/model_state_dict.pth
+data/KuaiRec/results*
+data/KuaiRec/topk_predict_ppd.txt
+data/KuaiRec/topk_predict_lightgcn.txt
+
+data/Gowalla/s_pre_adj_mat.npz
+data/Gowalla/model_state_dict_lgn.pth
+data/Gowalla/results*
+data/Gowalla/topk_predict_ppd.txt
+data/Gowalla/topk_predict_lightgcn.txt
+
+data/Coat/s_pre_adj_mat.npz
+data/Coat/results*
+data/Coat/model_state_dict_lgn.pth
+data/Coat/model_state_dict.pth
+data/Coat/topk_predict_ppd.txt
+data/Coat/topk_predict_lightgcn.txt
+
+data/Yahoo/s_pre_adj_mat.npz
+data/Yahoo/results*
+data/Yahoo/model_state_dict_lgn.pth
+data/Yahoo/model_state_dict.pth
+data/Yahoo/topk_predict_ppd.txt
+data/Yahoo/topk_predict_lightgcn.txt
+
+LighGcn/*.xml
+LighGcn/*.log
+LighGcn/*.apk
+LighGcn/*.iml
+LighGcn/**/.vscode/
+LighGcn/**/.idea/
+LighGcn/*.pyc
+LighGcn/.DS_Store
+LighGcn/*.cfg
+LighGcn/*.sqlite3
+# LighGcn/checkpoints/
+LighGcn/runs/
+LighGcn/__pycache__/
+LighGcn/*.npy
+LighGcn/*.so
+LighGcn/.rendered
+LighGcn/lightgcn-env
