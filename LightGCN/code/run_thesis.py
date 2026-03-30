@@ -261,7 +261,25 @@ if __name__ == "__main__":
     model = register.MODELS[world.model_name](world.config, dataset).to(world.device)
 
     baseline_ckpt = args.ckpt if hasattr(args, "ckpt") and args.ckpt else utils.getFileName()
-    model.load_state_dict(torch.load(baseline_ckpt, map_location=world.device, weights_only=False))
+    # --- Checkpoint Bridge (AdvInfoNCE -> LightGCN) ---
+    raw_ckpt = torch.load(baseline_ckpt, map_location=world.device, weights_only=False)
+    
+    # 1. Unwrap the nested dictionary if it came from AdvInfoNCE
+    if "state_dict" in raw_ckpt:
+        raw_state_dict = raw_ckpt["state_dict"]
+    else:
+        raw_state_dict = raw_ckpt
+        
+    # 2. Map the keys (Strip any prefixes AdvInfoNCE might have added)
+    clean_state_dict = {}
+    for k, v in raw_state_dict.items():
+        # Remove 'model.' or 'encoder.' if they exist
+        new_k = k.replace("model.", "").replace("encoder.", "")
+        clean_state_dict[new_k] = v
+        
+    # 3. Load the cleaned dictionary
+    model.load_state_dict(clean_state_dict)
+    # --------------------------------------------------
     print(f"[OK] loaded checkpoint: {baseline_ckpt}")
 
     if getattr(args, "tsp", False):
