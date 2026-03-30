@@ -34,6 +34,7 @@ def build_out_tag(args) -> str:
     if getattr(args, "tsp", False):
         parts.append(
             "TSP"
+            f"-a{_fmt(args.alpha_tsp, 3)}"
             f"-th{_fmt(args.theta_tsp, 3)}"
             f"-m{args.top_m_tsp}"
             f"-k{args.k_tsp}"
@@ -174,7 +175,7 @@ def inter_simplex_propagation_sparse(Xk, Lk_sparse, beta, layers):
     return out
 
 @torch.no_grad()
-def apply_TSP(model, theta, top_m, K, beta, layers, semantic_batch, max_edges):
+def apply_TSP(model, theta, top_m, K, beta, alpha, layers, semantic_batch, max_edges):
     u = model.embedding_user.weight.detach()
     it = model.embedding_item.weight.detach()
     device = next(model.parameters()).device
@@ -209,12 +210,11 @@ def apply_TSP(model, theta, top_m, K, beta, layers, semantic_batch, max_edges):
         print("[TSP] No simplices found for any k>=1; skipping TSP update.")
         return model
 
-    # 🚀 THE MATH FIX: Apply TSP as a Residual Delta, not an absolute addition
-    alpha_tsp = 0.1 # Nudge factor
+    # THE MATH FIX: Apply TSP as a Residual Delta, not an absolute addition
     X_mean = torch.stack(X0_from_orders, dim=0).mean(dim=0)
     
     # Blends (1 - alpha) of the Original and (alpha) of the TSP structure
-    Xrec = X0 + alpha_tsp * (X_mean - X0) 
+    Xrec = X0 + alpha * (X_mean - X0)
 
     before = torch.cat([u, it], dim=0)
     num_users = u.size(0)
@@ -294,6 +294,7 @@ if __name__ == "__main__":
             top_m=args.top_m_tsp,
             K=args.k_tsp,
             beta=args.beta_tsp,
+            alpha=args.alpha_tsp,
             layers=args.layers_tsp,
             semantic_batch=args.semantic_batch,
             max_edges=args.max_edges_tsp,
