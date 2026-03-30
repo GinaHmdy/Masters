@@ -270,11 +270,16 @@ if __name__ == "__main__":
     else:
         raw_state_dict = raw_ckpt
         
-    # 2. Map the keys (Strip any prefixes AdvInfoNCE might have added)
+    # 2. Map the keys (Strip any prefixes and rename to LightGCN standard)
     clean_state_dict = {}
     for k, v in raw_state_dict.items():
         # Remove 'model.' or 'encoder.' if they exist
         new_k = k.replace("model.", "").replace("encoder.", "")
+        
+        # Translate AdvInfoNCE's 'embed_' to LightGCN's 'embedding_'
+        new_k = new_k.replace("embed_user", "embedding_user")
+        new_k = new_k.replace("embed_item", "embedding_item")
+        
         clean_state_dict[new_k] = v
         
     # 3. Load the cleaned dictionary
