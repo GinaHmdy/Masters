@@ -8,7 +8,7 @@ from torch import nn
 
 import Procedure, world
 from constants import VARIANT_EMBEDDING_UPDATE, VARIANT_TRACK_AND_PRUNE, \
-    VARIANT_VECTOR_BIAS_ZERO_LAYER_UPDATE, VARIANT_VECTOR_BIAS_ALL_LAYER_UPDATE
+    VARIANT_VECTOR_BIAS_ZERO_LAYER_UPDATE, VARIANT_VECTOR_BIAS_ALL_LAYER_UPDATE, VARIANT_POST_PROP_PROJECT
 from register import dataset
 
 
@@ -361,6 +361,7 @@ def compute_pop_bias_scores(root_path, user_interactions, Recmodel,
     print("[PPD] bias compute+normalize time:", time.time() - t3)
 
     # 6) Apply the chosen PPD variant
+    all_updated_embeddings = None
     if variant == VARIANT_EMBEDDING_UPDATE:
         Recmodel.Graph = dataloader.getSparseGraphWithWeight(bias_scores_of_user_interactions)
         results_test = Procedure.Test(dataset, Recmodel, best_epoch, None, world.config['multicore'])
@@ -377,8 +378,8 @@ def compute_pop_bias_scores(root_path, user_interactions, Recmodel,
         )
         print("[PPD] d_pop time:", time.time() - t4)
 
-        user_emb_new = project_and_remove(user_emb_weight, d_pop_u)
-        item_emb_new = project_and_remove(item_emb_weight, d_pop_i)
+        user_emb_new = project_and_remove(user_emb_weight, d_pop_u, beta=beta)
+        item_emb_new = project_and_remove(item_emb_weight, d_pop_i, beta=beta)
 
         with torch.no_grad():
             Recmodel.embedding_user.weight.copy_(user_emb_new)
@@ -397,10 +398,40 @@ def compute_pop_bias_scores(root_path, user_interactions, Recmodel,
 
         t4 = time.time()
         all_updated_embeddings = Recmodel.forward_post_hoc_with_bias_vector_estimation(
-            compute_d_pop_all_normalized, phi
+            compute_d_pop_all_normalized, phi, beta
         )
         print("[PPD] all-layer update time:", time.time() - t4)
 
+        results_test = Procedure.Test(
+            dataset, Recmodel, best_epoch, None, world.config['multicore'],
+            posthoc=1, all_updated_embeddings=all_updated_embeddings
+        )
+
+    elif variant == VARIANT_POST_PROP_PROJECT:
+        # Run standard GCN propagation on the raw (or TSP-modified) layer-0 embeddings
+        all_emb = Recmodel.get_all_layer_embeddings(Recmodel.embedding_user.weight, Recmodel.embedding_item.weight)
+        light_out = torch.mean(all_emb, dim=1) # (num_users + num_items, D)
+        
+        user_emb, item_emb = torch.split(light_out, [Recmodel.num_users, Recmodel.num_items])
+        
+        user_emb_weight = nn.functional.normalize(user_emb)
+        item_emb_weight = nn.functional.normalize(item_emb)
+
+        t4 = time.time()
+        d_pop_u, d_pop_i = compute_d_pop_all_normalized(
+            user_emb_weight, item_emb_weight,
+            len(user_emb_weight), len(item_emb_weight),
+            bias_scores_of_user_interactions,
+            user_interactions,
+            phi
+        )
+        print("[PPD] d_pop time:", time.time() - t4)
+
+        user_emb_new = project_and_remove(user_emb_weight, d_pop_u, beta=beta)
+        item_emb_new = project_and_remove(item_emb_weight, d_pop_i, beta=beta)
+
+        all_updated_embeddings = torch.cat([user_emb_new, item_emb_new], dim=0).unsqueeze(1) # Shape (N, 1, D)
+        
         results_test = Procedure.Test(
             dataset, Recmodel, best_epoch, None, world.config['multicore'],
             posthoc=1, all_updated_embeddings=all_updated_embeddings
@@ -432,7 +463,7 @@ def compute_pop_bias_scores(root_path, user_interactions, Recmodel,
     print("------ PPD Test Results -----")
     print(results_test)
 
-    return bias_scores_of_user_interactions
+    return bias_scores_of_user_interactions, all_updated_embeddings
 
 
 def init_influence_tracking_algorithm(num_layers, user_interactions, bias_scores_of_user_interactions):
@@ -670,13 +701,14 @@ def compute_d_pop_all_normalized(emb_u, emb_i, num_users, num_items,
     return d_pop_u, d_pop_i
 
 
-def project_and_remove(embeddings, d_pops):
+def project_and_remove(embeddings, d_pops, beta=1.0):
     """
-    Remove the projection of d_pop from each embedding vector.
+    Remove the projection of d_pop from each embedding vector, scaled by beta.
 
     Args:
         embeddings (torch.Tensor): Tensor of shape (N, D), where N is the number of users/items and D is the embedding dim.
         d_pops (torch.Tensor): Tensor of shape (N, D), the popularity direction vectors per user/item.
+        beta (float): Popularity penalty coefficient.
 
     Returns:
         torch.Tensor: Debiased embeddings of shape (N, D)
@@ -688,7 +720,7 @@ def project_and_remove(embeddings, d_pops):
     projection = (torch.sum(embeddings * d_pops, dim=1, keepdim=True) / d_norm_sq) * d_pops
 
     # Subtract the projection from the original embeddings
-    debiased_embeddings = embeddings - projection
+    debiased_embeddings = embeddings - beta * projection
 
     return debiased_embeddings
 

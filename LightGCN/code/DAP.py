@@ -111,8 +111,8 @@ class LightGCN(BasicModel):
         users_emb = self.embedding_user.weight
         items_emb = self.embedding_item.weight
         all_emb = torch.cat([users_emb, items_emb])
-        u_degree = torch.tensor(self.dataset.users_D)
-        i_degree = torch.tensor(self.dataset.items_D)
+        u_degree = torch.tensor(self.dataset.users_D, device=world.device)
+        i_degree = torch.tensor(self.dataset.items_D, device=world.device)
         degree = torch.cat([u_degree, i_degree], dim=0)
         all_embs_anchor_higher = torch.zeros([self.num_users + self.num_items, self.latent_dim]).to(world.device)
         all_embs_anchor_lower = torch.zeros([self.num_users + self.num_items, self.latent_dim]).to(world.device)
@@ -133,24 +133,53 @@ class LightGCN(BasicModel):
             all_emb_cluster = kmeans.fit_predict(all_emb_i.to('cpu'))
             for k_cluster in range(num_cluster):
                 index = np.where(all_emb_cluster == k_cluster)
-                embs_cluster = all_emb_i[index[0]]
-                degree_cluster = degree[index[0]].unsqueeze(1)
-                for i in range(len(index[0])):
-                    if degree[index[0][i]] > degree_cluster.min() and degree[index[0][i]] < degree_cluster.max():
-                        degree_higher_index = torch.where(degree_cluster > degree[index[0][i]])
-                        degree_lower_index = torch.where(degree_cluster < degree[index[0][i]])
-                        embs_higher_mean = embs_cluster[degree_higher_index[0]].mean(0)
-                        embs_lower_mean = embs_cluster[degree_lower_index[0]].mean(0)
-                        all_embs_anchor_higher[index[0][i]] = embs_higher_mean
-                        all_embs_anchor_lower[index[0][i]] = embs_lower_mean
-                    elif degree[index[0][i]] == degree_cluster.min():
-                        degree_higher_index = torch.where(degree_cluster > degree[index[0][i]])
-                        embs_higher_mean = embs_cluster[degree_higher_index[0]].mean(0)
-                        all_embs_anchor_higher[index[0][i]] = embs_higher_mean
-                    elif degree[index[0][i]] == degree_cluster.max():
-                        degree_lower_index = torch.where(degree_cluster < degree[index[0][i]])
-                        embs_lower_mean = embs_cluster[degree_lower_index[0]].mean(0)
-                        all_embs_anchor_lower[index[0][i]] = embs_lower_mean
+                if len(index[0]) == 0:
+                    continue
+                idx_tensor = torch.tensor(index[0], dtype=torch.long, device=world.device)
+                embs_cluster = all_emb_i[idx_tensor]
+                degree_cluster = degree[idx_tensor].unsqueeze(1).to(world.device)
+
+                sorted_degrees, sort_indices = torch.sort(degree_cluster.squeeze(1))
+                sorted_embs = embs_cluster[sort_indices]
+                
+                prefix_sums = torch.cumsum(sorted_embs, dim=0)
+                suffix_sums = torch.cumsum(sorted_embs.flip(dims=[0]), dim=0).flip(dims=[0])
+                
+                total_elements = len(sorted_degrees)
+                
+                lower_count = torch.searchsorted(sorted_degrees, sorted_degrees, side='left')
+                first_greater_idx = torch.searchsorted(sorted_degrees, sorted_degrees, side='right')
+                higher_count = total_elements - first_greater_idx
+                
+                lower_sum = torch.zeros_like(sorted_embs)
+                valid_lower = lower_count > 0
+                if valid_lower.any():
+                    lower_sum[valid_lower] = prefix_sums[lower_count[valid_lower] - 1]
+                
+                higher_sum = torch.zeros_like(sorted_embs)
+                valid_higher = first_greater_idx < total_elements
+                if valid_higher.any():
+                    higher_sum[valid_higher] = suffix_sums[first_greater_idx[valid_higher]]
+                
+                mean_lower = lower_sum / torch.clamp(lower_count.unsqueeze(1).float(), min=1.0)
+                mean_higher = higher_sum / torch.clamp(higher_count.unsqueeze(1).float(), min=1.0)
+                
+                unsorted_indices = torch.argsort(sort_indices)
+                mean_lower_unsorted = mean_lower[unsorted_indices]
+                mean_higher_unsorted = mean_higher[unsorted_indices]
+                lower_count_unsorted = lower_count[unsorted_indices]
+                higher_count_unsorted = higher_count[unsorted_indices]
+                
+                all_embs_anchor_higher[idx_tensor] = torch.where(
+                    (higher_count_unsorted > 0).unsqueeze(1),
+                    mean_higher_unsorted,
+                    all_embs_anchor_higher[idx_tensor]
+                )
+                all_embs_anchor_lower[idx_tensor] = torch.where(
+                    (lower_count_unsorted > 0).unsqueeze(1),
+                    mean_lower_unsorted,
+                    all_embs_anchor_lower[idx_tensor]
+                )
             all_embs_anchor_higher = nn.functional.normalize(all_embs_anchor_higher)
             all_embs_anchor_lower = nn.functional.normalize(all_embs_anchor_lower)
             alpha_sim_higher = cos_similarity(all_emb, all_embs_anchor_higher.to(world.device))
@@ -285,7 +314,11 @@ class LightGCN(BasicModel):
 
 
     def getUsersRatingDAP(self, users, weight_1, weight_2, num_cluster):
-        all_users, all_items = self.computer_DAP(weight_1, weight_2, num_cluster)
+        cache_key = (weight_1, weight_2, num_cluster)
+        if not hasattr(self, '_dap_cached_key') or self._dap_cached_key != cache_key:
+            self._dap_cached_users, self._dap_cached_items = self.computer_DAP(weight_1, weight_2, num_cluster)
+            self._dap_cached_key = cache_key
+        all_users, all_items = self._dap_cached_users, self._dap_cached_items
         # light_out = torch.mean(all_embeddings, dim=1)
         # all_users, all_items = torch.split(light_out, [self.num_users, self.num_items])
         users_emb = all_users[users.long()]

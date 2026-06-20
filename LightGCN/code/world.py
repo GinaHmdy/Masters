@@ -49,6 +49,8 @@ config['bigdata'] = False
 config['variant'] = args.variant
 config['beta'] = args.beta
 config['phi'] = args.phi
+config['ego_weight'] = args.ego_weight
+
 
 GPU = torch.cuda.is_available()
 device = torch.device('cuda' if GPU else "cpu")

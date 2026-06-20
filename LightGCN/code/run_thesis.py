@@ -46,6 +46,14 @@ def build_out_tag(args) -> str:
             "PPD"
             f"-b{_fmt(args.beta, 2)}"
             f"-phi{_fmt(args.phi, 2)}"
+            f"-v{args.ppd_variant}"
+        )
+    if getattr(args, "dap", False):
+        parts.append(
+            "DAP"
+            f"-w1{_fmt(args.dap_weight1, 2)}"
+            f"-w2{_fmt(args.dap_weight2, 2)}"
+            f"-c{args.dap_num_clusters}"
         )
     if not parts:
         parts.append("BASELINE")
@@ -226,23 +234,30 @@ def apply_TSP(model, theta, top_m, K, beta, alpha, layers, semantic_batch, max_e
     return model
 
 @torch.no_grad()
-def calculate_average_popularity(model, dataset, topk=20):
+def calculate_average_popularity(model, dataset, topk=20, posthoc=0, all_updated_embeddings=None, weight_1=None, weight_2=None, num_cluster=None):
     model.eval()
-    u_emb = model.embedding_user.weight
-    i_emb = model.embedding_item.weight
     item_counts = np.array(dataset.UserItemNet.sum(axis=0)).squeeze()
 
-    num_users = u_emb.shape[0]
+    num_users = dataset.n_users
     batch_size = 512
     all_recs = []
 
     for i in range(0, num_users, batch_size):
         end = min(i + batch_size, num_users)
-        scores = u_emb[i:end] @ i_emb.t()
-        train_items = dataset.getUserPosItems(np.arange(i, end))
+        batch_users = np.arange(i, end)
+        batch_users_gpu = torch.Tensor(batch_users).long().to(world.device)
+
+        if posthoc == 0:
+            rating = model.getUsersRating(batch_users_gpu)
+        elif posthoc == 1:
+            rating = model.getUsersRatingPostHoc(all_updated_embeddings, batch_users_gpu)
+        else: # DAP
+            rating = model.getUsersRatingDAP(batch_users_gpu, weight_1, weight_2, num_cluster)
+
+        train_items = dataset.getUserPosItems(batch_users)
         for row_idx, items in enumerate(train_items):
-            scores[row_idx, items] = -1e9
-        _, top_items = torch.topk(scores, topk, dim=1)
+            rating[row_idx, items] = -1e9
+        _, top_items = torch.topk(rating, topk, dim=1)
         all_recs.append(top_items.cpu().numpy())
 
     all_recs = np.concatenate(all_recs, axis=0)
@@ -258,7 +273,8 @@ if __name__ == "__main__":
     args = world.args 
     utils.set_seed(world.seed)
 
-    model = register.MODELS[world.model_name](world.config, dataset).to(world.device)
+    model_name = "dap" if getattr(args, "dap", False) else world.model_name
+    model = register.MODELS[model_name](world.config, dataset).to(world.device)
 
     baseline_ckpt = args.ckpt if hasattr(args, "ckpt") and args.ckpt else utils.getFileName()
     # --- Checkpoint Bridge (AdvInfoNCE -> LightGCN) ---
@@ -300,30 +316,52 @@ if __name__ == "__main__":
             max_edges=args.max_edges_tsp,
         )
 
+    all_updated_embeddings = None
     if getattr(args, "ppd", False):
-        compute_pop_bias_scores(
+        _, all_updated_embeddings = compute_pop_bias_scores(
             "../../data/" + world.dataset,
             dataset._allPos,
             model,
             dataset,  
             best_epoch=0,
-            variant=VARIANT_VECTOR_BIAS_ZERO_LAYER_UPDATE,
+            variant=args.ppd_variant,
             beta=args.beta,
             phi=args.phi
         )
 
     print("\n[Eval]")
+    eval_model_name = "ppd" if getattr(args, "ppd", False) else ("dap" if getattr(args, "dap", False) else world.model_name)
+    
+    if getattr(args, "dap", False):
+        posthoc = 2
+    elif getattr(args, "ppd", False) and all_updated_embeddings is not None:
+        posthoc = 1
+    else:
+        posthoc = 0
+
     results = Procedure.Test(
         dataset, model, epoch=0, w=None,
         multicore=world.config["multicore"],
         dataset_name=world.dataset,
-        model_name=("ppd" if getattr(args, "ppd", False) else world.model_name),
+        model_name=eval_model_name,
+        posthoc=posthoc,
+        all_updated_embeddings=all_updated_embeddings,
+        weight_1=getattr(args, "dap_weight1", None),
+        weight_2=getattr(args, "dap_weight2", None),
+        num_cluster=getattr(args, "dap_num_clusters", None),
     )
     print(results)
 
     if getattr(args, "fairness", False):
         print("\n[Average Popularity]")
-        calculate_average_popularity(model, dataset, topk=20)
+        calculate_average_popularity(
+            model, dataset, topk=20,
+            posthoc=posthoc,
+            all_updated_embeddings=all_updated_embeddings,
+            weight_1=getattr(args, "dap_weight1", None),
+            weight_2=getattr(args, "dap_weight2", None),
+            num_cluster=getattr(args, "dap_num_clusters", None)
+        )
 
     if getattr(args, "save_ckpt", False):
         out_dir = getattr(args, "out_dir", "./checkpoints")

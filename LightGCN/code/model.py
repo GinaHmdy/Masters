@@ -196,7 +196,13 @@ class LightGCN(BasicModel):
             embs.append(all_emb)
         embs = torch.stack(embs, dim=1)
         #print(embs.size())
-        light_out = torch.mean(embs, dim=1)
+        ego_weight = self.config.get('ego_weight', -1.0)
+        if ego_weight >= 0.0:
+            weights = [ego_weight] + [(1.0 - ego_weight) / self.n_layers] * self.n_layers
+            w_tensor = torch.tensor(weights, device=embs.device).view(1, -1, 1)
+            light_out = torch.sum(embs * w_tensor, dim=1)
+        else:
+            light_out = torch.mean(embs, dim=1)
         users, items = torch.split(light_out, [self.num_users, self.num_items])
         return users, items
     
@@ -277,7 +283,14 @@ class LightGCN(BasicModel):
 
     def getUsersRatingPostHoc(self, all_embeddings, users):
         # all_users, all_items = self.computer()
-        light_out = torch.mean(all_embeddings, dim=1)
+        ego_weight = self.config.get('ego_weight', -1.0)
+        if ego_weight >= 0.0:
+            n_layers = all_embeddings.shape[1] - 1
+            weights = [ego_weight] + [(1.0 - ego_weight) / n_layers] * n_layers
+            w_tensor = torch.tensor(weights, device=all_embeddings.device).view(1, -1, 1)
+            light_out = torch.sum(all_embeddings * w_tensor, dim=1)
+        else:
+            light_out = torch.mean(all_embeddings, dim=1)
         all_users, all_items = torch.split(light_out, [self.num_users, self.num_items])
         users_emb = all_users[users.long()]
         items_emb = all_items
@@ -295,17 +308,12 @@ class LightGCN(BasicModel):
         device = user_emb.device
 
         agg_user_emb = torch.zeros_like(user_emb)
-        user_deg = torch.zeros(self.num_users, device=device)
 
         for u, items in enumerate(self.user_interactions):
-            # if not items:
-            #     continue
             items_tensor = torch.tensor(items, dtype=torch.long, device=device)
             agg_user_emb[u] = item_emb[items_tensor].mean(dim=0)
-            user_deg[u] = len(items)
 
         agg_item_emb = torch.zeros_like(item_emb)
-        item_deg = torch.zeros(self.num_items, device=device)
 
         for i in range(self.num_items):
             users = self.item_to_users.get(i, [])
@@ -313,18 +321,11 @@ class LightGCN(BasicModel):
                 continue
             users_tensor = torch.tensor(users, dtype=torch.long, device=device)
             agg_item_emb[i] = user_emb[users_tensor].mean(dim=0)
-            item_deg[i] = len(users)
-
-        # Normalize embeddings by degree to avoid scale issues
-        user_deg = user_deg.clamp(min=1).unsqueeze(1)
-        item_deg = item_deg.clamp(min=1).unsqueeze(1)
-
-        agg_user_emb = agg_user_emb / user_deg
-        agg_item_emb = agg_item_emb / item_deg
 
         return agg_user_emb, agg_item_emb
 
-    def forward_post_hoc_with_bias_vector_estimation(self, compute_d_pop_all_normalized, phi):
+    def forward_post_hoc_with_bias_vector_estimation(self, compute_d_pop_all_normalized, phi, beta=1.0):
+        print("Inside forward_post_hoc_with_bias_vector_estimation, beta =", beta)
         all_user_embs = [self.embedding_user.weight]
         all_item_embs = [self.embedding_item.weight]
 
@@ -332,8 +333,16 @@ class LightGCN(BasicModel):
         x_i = self.embedding_item.weight
 
         for layer in range(self.n_layers):
-            # Propagate embeddings by aggregating neighbors from interactions
-            x_u_new, x_i_new = self.aggregate(x_u, x_i)
+            # Standard GCN propagation using the actual model's Graph (matrix multiplication)
+            all_emb = torch.cat([x_u, x_i], dim=0)
+            if self.A_split:
+                temp_emb = []
+                for f in range(len(self.Graph)):
+                    temp_emb.append(torch.sparse.mm(self.Graph[f], all_emb))
+                all_emb_new = torch.cat(temp_emb, dim=0)
+            else:
+                all_emb_new = torch.sparse.mm(self.Graph, all_emb)
+            x_u_new, x_i_new = torch.split(all_emb_new, [self.num_users, self.num_items])
 
             x_u, x_i = x_u_new, x_i_new
 
@@ -342,17 +351,18 @@ class LightGCN(BasicModel):
                 x_u, x_i,
                 self.num_users, self.num_items,
                 self.bias_scores_of_user_interactions,
-                self.user_interactions
+                self.user_interactions,
+                phi
             )
 
             # Project and remove bias direction for users
             eps = 1e-8
             proj_coeff_u = (x_u * d_pop_u).sum(dim=1, keepdim=True) / (d_pop_u.norm(dim=1, keepdim=True) ** 2 + eps)
-            x_u = x_u - proj_coeff_u * d_pop_u
+            x_u = x_u - beta * proj_coeff_u * d_pop_u
 
             # Project and remove bias direction for items
             proj_coeff_i = (x_i * d_pop_i).sum(dim=1, keepdim=True) / (d_pop_i.norm(dim=1, keepdim=True) ** 2 + eps)
-            x_i = x_i - proj_coeff_i * d_pop_i
+            x_i = x_i - beta * proj_coeff_i * d_pop_i
 
             all_user_embs.append(x_u)
             all_item_embs.append(x_i)

@@ -47,10 +47,16 @@ def parse_args():
     parser.add_argument('--variant', type=str, default='lgn', help='rec-model, support [lgn, navip]')
     parser.add_argument('--beta', type=float, default=0.20, help='popularity penalty coefficient')
     parser.add_argument('--phi', type=float, default=1.0, help='preference centroid coefficient')
+    parser.add_argument('--ppd_variant', type=int, default=3, help='PPD variant (1: EMBEDDING_UPDATE, 2: TRACK_AND_PRUNE, 3: VECTOR_BIAS_ZERO_LAYER_UPDATE, 4: VECTOR_BIAS_ALL_LAYER_UPDATE)')
+    parser.add_argument('--ego_weight', type=float, default=-1.0, help='weight for layer-0 ego embeddings in LightGCN (set between 0 and 1, defaults to uniform)')
     
     # post-hoc toggles for thesis experiments
     parser.add_argument('--tsp', action='store_true', help='apply TSP posthoc')
     parser.add_argument('--ppd', action='store_true', help='apply PPD posthoc')
+    parser.add_argument('--dap', action='store_true', help='apply DAP (Degree-Aware Propagation)')
+    parser.add_argument('--dap_weight1', type=float, default=0.6, help='DAP high-degree anchor weight')
+    parser.add_argument('--dap_weight2', type=float, default=0.6, help='DAP low-degree anchor weight')
+    parser.add_argument('--dap_num_clusters', type=int, default=5, help='DAP number of clusters')
     parser.add_argument('--fairness', action='store_true', help='print fairness metrics')
     parser.add_argument('--save_ckpt', action='store_true', help='save posthoc checkpoint + results file')
     parser.add_argument('--out_dir', type=str, default='./checkpoints', help='where to save posthoc ckpts/results')
@@ -58,6 +64,7 @@ def parse_args():
     # TSP params
     parser.add_argument('--theta_tsp', type=float, default=0.845)
     parser.add_argument('--top_m_tsp', type=int, default=25)
+
     parser.add_argument('--k_tsp', type=int, default=1)
     parser.add_argument('--alpha_tsp', type=float, default=1.0)
     parser.add_argument('--beta_tsp', type=float, default=0.01)
