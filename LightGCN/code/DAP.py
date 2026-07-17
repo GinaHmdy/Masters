@@ -560,11 +560,11 @@ class LightGCN(BasicModel):
                 eps = 1e-8
                 proj_coeff_u = (x_u * d_pop_u).sum(dim=1, keepdim=True)
                 proj_coeff_u_clamped = torch.clamp(proj_coeff_u, min=0.0)
-                x_u = x_u - beta_l * (proj_coeff_u_clamped / (d_pop_u.norm(dim=1, keepdim=True) ** 2 + eps)) * d_pop_u
+                x_u = x_u - (proj_coeff_u_clamped / (d_pop_u.norm(dim=1, keepdim=True) ** 2 + eps)) * d_pop_u
 
                 proj_coeff_i = (x_i * d_pop_i).sum(dim=1, keepdim=True)
                 proj_coeff_i_clamped = torch.clamp(proj_coeff_i, min=0.0)
-                x_i = x_i - beta_l * (proj_coeff_i_clamped / (d_pop_i.norm(dim=1, keepdim=True) ** 2 + eps)) * d_pop_i
+                x_i = x_i - (proj_coeff_i_clamped / (d_pop_i.norm(dim=1, keepdim=True) ** 2 + eps)) * d_pop_i
 
             all_user_embs.append(x_u)
             all_item_embs.append(x_i)
