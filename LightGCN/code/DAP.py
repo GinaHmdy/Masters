@@ -497,11 +497,11 @@ class LightGCN(BasicModel):
             eps = 1e-8
             proj_coeff_u0 = (x_u * d_pop_u0).sum(dim=1, keepdim=True)
             proj_coeff_u0_clamped = torch.clamp(proj_coeff_u0, min=0.0)
-            x_u = x_u - beta_v3 * (proj_coeff_u0_clamped / (d_pop_u0.norm(dim=1, keepdim=True) ** 2 + eps)) * d_pop_u0
+            x_u = x_u - (proj_coeff_u0_clamped / (d_pop_u0.norm(dim=1, keepdim=True) ** 2 + eps)) * d_pop_u0
 
             proj_coeff_i0 = (x_i * d_pop_i0).sum(dim=1, keepdim=True)
             proj_coeff_i0_clamped = torch.clamp(proj_coeff_i0, min=0.0)
-            x_i = x_i - beta_v3 * (proj_coeff_i0_clamped / (d_pop_i0.norm(dim=1, keepdim=True) ** 2 + eps)) * d_pop_i0
+            x_i = x_i - (proj_coeff_i0_clamped / (d_pop_i0.norm(dim=1, keepdim=True) ** 2 + eps)) * d_pop_i0
 
         all_user_embs = [x_u]
         all_item_embs = [x_i]
@@ -536,6 +536,7 @@ class LightGCN(BasicModel):
                     apply_ppd = True
 
             if apply_ppd:
+                print(f"[PPD v4] Applying projection removal at layer {layer} (out of {self.n_layers})")
                 d_pop_u, d_pop_i = compute_d_pop_all_normalized(
                     x_u, x_i,
                     self.num_users, self.num_items,
