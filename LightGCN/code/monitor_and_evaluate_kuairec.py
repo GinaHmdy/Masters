@@ -142,6 +142,8 @@ for ev in evals:
     prec_delta = (prec_20 - ref["precision"]) / ref["precision"] * 100
     pop_delta = (pop_20 - ref["popularity"]) / ref["popularity"] * 100
     
+    import subprocess
+    commit_hash = subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], cwd=code_dir).decode("utf-8").strip()
     classification = classify_run(rec_20, ndcg_20, prec_20, pop_20, ref)
     
     eval_results.append({
@@ -154,14 +156,15 @@ for ev in evals:
         "ndcg_delta": ndcg_delta,
         "prec_delta": prec_delta,
         "pop_delta": pop_delta,
-        "classification": classification
+        "classification": classification,
+        "commit": commit_hash
     })
 
 print("\n\n==================== KUAIREC CONVERGED MODEL RESULTS ====================")
-print("| Beta | Recall@20 (Delta) | NDCG@20 (Delta) | Precision@20 (Delta) | Average Popularity@20 (Delta) | Classification |")
-print("| :--- | :--- | :--- | :--- | :--- | :--- |")
+print("| Beta | Recall@20 (Delta) | NDCG@20 (Delta) | Precision@20 (Delta) | Average Popularity@20 (Delta) | Classification | Commit |")
+print("| :--- | :--- | :--- | :--- | :--- | :--- | :--- |")
 for r in eval_results:
-    print(f"| beta = {r['beta']} | {r['recall']:.6f} ({r['rec_delta']:+.2f}%) | {r['ndcg']:.6f} ({r['ndcg_delta']:+.2f}%) | {r['precision']:.6f} ({r['prec_delta']:+.2f}%) | {r['popularity']:.3f} ({r['pop_delta']:+.2f}%) | {r['classification']} |")
+    print(f"| beta = {r['beta']} | {r['recall']:.6f} ({r['rec_delta']:+.2f}%) | {r['ndcg']:.6f} ({r['ndcg_delta']:+.2f}%) | {r['precision']:.6f} ({r['prec_delta']:+.2f}%) | {r['popularity']:.3f} ({r['pop_delta']:+.2f}%) | {r['classification']} | {r['commit']} |")
 
 # Write results to README.md
 with open(readme_path, "a") as readme:
