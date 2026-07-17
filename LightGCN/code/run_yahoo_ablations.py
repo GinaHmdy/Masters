@@ -108,6 +108,7 @@ for ab in ablations:
     
     classification = classify_run(rec_20, ndcg_20, prec_20, pop_20, ref)
     
+    commit_hash = subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], cwd=code_dir).decode("utf-8").strip()
     ablation_results.append({
         "id": ab["id"],
         "name": ab["name"],
@@ -119,11 +120,12 @@ for ab in ablations:
         "ndcg_delta": ndcg_delta,
         "prec_delta": prec_delta,
         "pop_delta": pop_delta,
-        "classification": classification
+        "classification": classification,
+        "commit": commit_hash
     })
 
 print("\n\n==================== YAHOO ABLATION RESULTS ====================")
-print("| Ablation | Recall@20 (Delta) | NDCG@20 (Delta) | Precision@20 (Delta) | Average Popularity@20 (Delta) | Classification |")
-print("| :--- | :--- | :--- | :--- | :--- | :--- |")
+print("| Ablation | Recall@20 (Delta) | NDCG@20 (Delta) | Precision@20 (Delta) | Average Popularity@20 (Delta) | Classification | Commit |")
+print("| :--- | :--- | :--- | :--- | :--- | :--- | :--- |")
 for r in ablation_results:
-    print(f"| Ablation {r['id']}: {r['name']} | {r['recall']:.6f} ({r['rec_delta']:+.2f}%) | {r['ndcg']:.6f} ({r['ndcg_delta']:+.2f}%) | {r['precision']:.6f} ({r['prec_delta']:+.2f}%) | {r['popularity']:.3f} ({r['pop_delta']:+.2f}%) | {r['classification']} |")
+    print(f"| Ablation {r['id']}: {r['name']} | {r['recall']:.6f} ({r['rec_delta']:+.2f}%) | {r['ndcg']:.6f} ({r['ndcg_delta']:+.2f}%) | {r['precision']:.6f} ({r['prec_delta']:+.2f}%) | {r['popularity']:.3f} ({r['pop_delta']:+.2f}%) | {r['classification']} | {r['commit']} |")
