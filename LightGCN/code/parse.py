@@ -49,6 +49,9 @@ def parse_args():
     parser.add_argument('--phi', type=float, default=1.0, help='preference centroid coefficient')
     parser.add_argument('--ppd_variant', type=int, default=3, help='PPD variant (1: EMBEDDING_UPDATE, 2: TRACK_AND_PRUNE, 3: VECTOR_BIAS_ZERO_LAYER_UPDATE, 4: VECTOR_BIAS_ALL_LAYER_UPDATE)')
     parser.add_argument('--ppd_v4_layers', type=str, default='all', help='GCN layers to apply PPD Variant 4 (all, last, or comma-separated indices e.g. 0,1)')
+    parser.add_argument('--ppd_beta_schedule', type=str, default=None, help='comma-separated floats for layer-wise beta scheduling in Variant 4 (e.g. 0.2,2.0)')
+    parser.add_argument('--ppd_seq_v3_v4', action='store_true', help='enable sequential PPD v3-then-v4')
+    parser.add_argument('--ppd_seq_beta_v3', type=float, default=None, help='beta value for PPD v3 step in sequential mode')
     parser.add_argument('--ego_weight', type=float, default=-1.0, help='weight for layer-0 ego embeddings in LightGCN (set between 0 and 1, defaults to uniform)')
     
     # Phase III flags

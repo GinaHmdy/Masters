@@ -438,11 +438,32 @@ class LightGCN(BasicModel):
 
     def forward_post_hoc_with_bias_vector_estimation(self, compute_d_pop_all_normalized, phi, beta=1.0):
         print("Inside forward_post_hoc_with_bias_vector_estimation, beta =", beta)
-        all_user_embs = [self.embedding_user.weight]
-        all_item_embs = [self.embedding_item.weight]
-
         x_u = self.embedding_user.weight
         x_i = self.embedding_item.weight
+
+        if self.config.get('ppd_seq_v3_v4', False):
+            beta_v3 = self.config.get('ppd_seq_beta_v3', None)
+            if beta_v3 is None:
+                beta_v3 = beta
+            
+            d_pop_u0, d_pop_i0 = compute_d_pop_all_normalized(
+                torch.nn.functional.normalize(x_u), torch.nn.functional.normalize(x_i),
+                self.num_users, self.num_items,
+                self.bias_scores_of_user_interactions,
+                self.user_interactions,
+                phi
+            )
+            eps = 1e-8
+            proj_coeff_u0 = (x_u * d_pop_u0).sum(dim=1, keepdim=True)
+            proj_coeff_u0_clamped = torch.clamp(proj_coeff_u0, min=0.0)
+            x_u = x_u - beta_v3 * (proj_coeff_u0_clamped / (d_pop_u0.norm(dim=1, keepdim=True) ** 2 + eps)) * d_pop_u0
+
+            proj_coeff_i0 = (x_i * d_pop_i0).sum(dim=1, keepdim=True)
+            proj_coeff_i0_clamped = torch.clamp(proj_coeff_i0, min=0.0)
+            x_i = x_i - beta_v3 * (proj_coeff_i0_clamped / (d_pop_i0.norm(dim=1, keepdim=True) ** 2 + eps)) * d_pop_i0
+
+        all_user_embs = [x_u]
+        all_item_embs = [x_i]
 
         for layer in range(self.n_layers):
             # Standard GCN propagation using the actual model's Graph (matrix multiplication)
@@ -484,16 +505,28 @@ class LightGCN(BasicModel):
                     phi
                 )
 
+                beta_l = 1.0
+                schedule_cfg = self.config.get('ppd_beta_schedule', None)
+                if schedule_cfg is not None:
+                    try:
+                        schedule = [float(x.strip()) for x in schedule_cfg.split(',') if x.strip()]
+                        if layer < len(schedule):
+                            beta_l = schedule[layer]
+                        else:
+                            beta_l = schedule[-1]
+                    except Exception:
+                        beta_l = 1.0
+
                 # Project and remove bias direction for users
                 eps = 1e-8
                 proj_coeff_u = (x_u * d_pop_u).sum(dim=1, keepdim=True)
                 proj_coeff_u_clamped = torch.clamp(proj_coeff_u, min=0.0)
-                x_u = x_u - (proj_coeff_u_clamped / (d_pop_u.norm(dim=1, keepdim=True) ** 2 + eps)) * d_pop_u
+                x_u = x_u - beta_l * (proj_coeff_u_clamped / (d_pop_u.norm(dim=1, keepdim=True) ** 2 + eps)) * d_pop_u
 
                 # Project and remove bias direction for items
                 proj_coeff_i = (x_i * d_pop_i).sum(dim=1, keepdim=True)
                 proj_coeff_i_clamped = torch.clamp(proj_coeff_i, min=0.0)
-                x_i = x_i - (proj_coeff_i_clamped / (d_pop_i.norm(dim=1, keepdim=True) ** 2 + eps)) * d_pop_i
+                x_i = x_i - beta_l * (proj_coeff_i_clamped / (d_pop_i.norm(dim=1, keepdim=True) ** 2 + eps)) * d_pop_i
 
             all_user_embs.append(x_u)
             all_item_embs.append(x_i)
