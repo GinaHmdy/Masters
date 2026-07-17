@@ -22,10 +22,120 @@ from sklearn.metrics import roc_auc_score
 
 CORES = multiprocessing.cpu_count() // 2
 
+import lightgbm as lgb
+import random
+
+def get_eval_embeddings(Recmodel, posthoc, all_updated_embeddings, weight_1, weight_2, num_cluster):
+    if posthoc == 0:
+        all_users, all_items = Recmodel.computer()
+    elif posthoc == 1:
+        ego_weight = Recmodel.config.get('ego_weight', -1.0)
+        if Recmodel.config.get('dynamic_ego', False):
+            light_out = Recmodel.apply_dynamic_ego(all_updated_embeddings)
+        elif ego_weight >= 0.0:
+            n_layers = all_updated_embeddings.shape[1] - 1
+            weights = [ego_weight] + [(1.0 - ego_weight) / n_layers] * n_layers
+            w_tensor = torch.tensor(weights, device=all_updated_embeddings.device).view(1, -1, 1)
+            light_out = torch.sum(all_updated_embeddings * w_tensor, dim=1)
+        else:
+            light_out = torch.mean(all_updated_embeddings, dim=1)
+        all_users, all_items = torch.split(light_out, [Recmodel.num_users, Recmodel.num_items])
+    else: # DAP
+        all_users, all_items = Recmodel.computer_DAP(weight_1, weight_2, num_cluster)
+    return all_users, all_items
+
+def train_lgbm_ranker(dataset, Recmodel, all_users, all_items):
+    print("[LightGBM] Training LightGBM ranker on training sample...")
+    train_dict = dataset.allPos
+    train_users = []
+    train_items = []
+    labels = []
+    
+    sampled_users = list(range(len(train_dict)))
+    random.seed(42)
+    random.shuffle(sampled_users)
+    sampled_users = sampled_users[:2000]
+    
+    for u in sampled_users:
+        pos_items = train_dict[u]
+        if len(pos_items) == 0:
+            continue
+        sampled_pos = pos_items[:5]
+        for pos_i in sampled_pos:
+            train_users.append(u)
+            train_items.append(pos_i)
+            labels.append(1)
+            
+            for _ in range(1):
+                while True:
+                    neg_i = random.randint(0, dataset.m_items - 1)
+                    if neg_i not in pos_items:
+                        break
+                train_users.append(u)
+                train_items.append(neg_i)
+                labels.append(0)
+                
+    train_users = np.array(train_users)
+    train_items = np.array(train_items)
+    labels = np.array(labels)
+    
+    u_emb = all_users[train_users].detach().cpu().numpy()
+    i_emb = all_items[train_items].detach().cpu().numpy()
+    
+    dot_prod = (u_emb * i_emb).sum(axis=1, keepdims=True)
+    cos_sim = dot_prod / (np.linalg.norm(u_emb, axis=1, keepdims=True) * np.linalg.norm(i_emb, axis=1, keepdims=True) + 1e-8)
+    elem_prod = u_emb * i_emb
+    diff = np.abs(u_emb - i_emb)
+    
+    X = np.hstack([dot_prod, cos_sim, elem_prod, diff])
+    y = labels
+    
+    train_data = lgb.Dataset(X, label=y)
+    params = {
+        'objective': 'binary',
+        'metric': 'binary_logloss',
+        'boosting_type': 'gbdt',
+        'learning_rate': 0.1,
+        'num_leaves': 15,
+        'max_depth': 4,
+        'verbosity': -1,
+        'random_state': 42
+    }
+    model = lgb.train(params, train_data, num_boost_round=50)
+    print("[LightGBM] Training complete.")
+    return model
+
+def predict_lgbm(model, u_emb, all_items_emb):
+    num_users = u_emb.shape[0]
+    num_items = all_items_emb.shape[0]
+    
+    preds_all = []
+    # Predict in user batches of 50 to speed up loop while keeping memory safe (~1GB)
+    user_batch_size = 50
+    for i in range(0, num_users, user_batch_size):
+        u_batch = u_emb[i:i+user_batch_size]
+        n_u = u_batch.shape[0]
+        
+        u_emb_rep = np.repeat(u_batch, num_items, axis=0)
+        i_emb_rep = np.tile(all_items_emb, (n_u, 1))
+        
+        dot_prod = (u_emb_rep * i_emb_rep).sum(axis=1, keepdims=True)
+        cos_sim = dot_prod / (np.linalg.norm(u_emb_rep, axis=1, keepdims=True) * np.linalg.norm(i_emb_rep, axis=1, keepdims=True) + 1e-8)
+        elem_prod = u_emb_rep * i_emb_rep
+        diff = np.abs(u_emb_rep - i_emb_rep)
+        
+        X = np.hstack([dot_prod, cos_sim, elem_prod, diff])
+        preds = model.predict(X).reshape(n_u, num_items)
+        preds_all.append(preds)
+        
+    return np.vstack(preds_all)
+
 
 def BPR_train_original(dataset, recommend_model, loss_class, epoch, neg_k=1, w=None):
     Recmodel = recommend_model
     Recmodel.train()
+    if world.config.get('sgl', False) and hasattr(Recmodel, 'sgl_epoch_init'):
+        Recmodel.sgl_epoch_init()
     bpr: utils.BPRLoss = loss_class
     
     with timer(name="Sample"):
@@ -109,12 +219,22 @@ def Test(dataset, Recmodel, epoch, w=None, multicore=0, posthoc=0,
             batch_users_gpu = torch.Tensor(batch_users).long()
             batch_users_gpu = batch_users_gpu.to(world.device)
 
-            if posthoc == 0:
-                rating = Recmodel.getUsersRating(batch_users_gpu)
-            elif posthoc == 1:
-                rating = Recmodel.getUsersRatingPostHoc(all_updated_embeddings, batch_users_gpu)
-            else: # DAP
-                rating = Recmodel.getUsersRatingDAP(batch_users_gpu, weight_1, weight_2, num_cluster)
+            if world.config.get('use_lgbm_ranker', False):
+                if not hasattr(Recmodel, 'lgbm_model') or Recmodel.lgbm_model is None:
+                    all_users, all_items = get_eval_embeddings(Recmodel, posthoc, all_updated_embeddings, weight_1, weight_2, num_cluster)
+                    Recmodel.lgbm_model = train_lgbm_ranker(dataset, Recmodel, all_users, all_items)
+                all_users, all_items = get_eval_embeddings(Recmodel, posthoc, all_updated_embeddings, weight_1, weight_2, num_cluster)
+                u_emb = all_users[batch_users_gpu].detach().cpu().numpy()
+                all_items_emb = all_items.detach().cpu().numpy()
+                preds = predict_lgbm(Recmodel.lgbm_model, u_emb, all_items_emb)
+                rating = torch.tensor(preds, dtype=torch.float32, device=world.device)
+            else:
+                if posthoc == 0:
+                    rating = Recmodel.getUsersRating(batch_users_gpu)
+                elif posthoc == 1:
+                    rating = Recmodel.getUsersRatingPostHoc(all_updated_embeddings, batch_users_gpu)
+                else: # DAP
+                    rating = Recmodel.getUsersRatingDAP(batch_users_gpu, weight_1, weight_2, num_cluster)
             #rating = rating.cpu()
             exclude_index = []
             exclude_items = []
@@ -203,12 +323,22 @@ def Valid(dataset, Recmodel, epoch, w=None, multicore=0, posthoc=0,
             batch_users_gpu = torch.Tensor(batch_users).long()
             batch_users_gpu = batch_users_gpu.to(world.device)
 
-            if posthoc == 0:
-                rating = Recmodel.getUsersRating(batch_users_gpu)
-            elif posthoc == 1:
-                rating = Recmodel.getUsersRatingPostHoc(all_updated_embeddings, batch_users_gpu)
-            else: # DAP
-                rating = Recmodel.getUsersRatingDAP(batch_users_gpu, weight_1, weight_2, num_cluster)
+            if world.config.get('use_lgbm_ranker', False):
+                if not hasattr(Recmodel, 'lgbm_model') or Recmodel.lgbm_model is None:
+                    all_users, all_items = get_eval_embeddings(Recmodel, posthoc, all_updated_embeddings, weight_1, weight_2, num_cluster)
+                    Recmodel.lgbm_model = train_lgbm_ranker(dataset, Recmodel, all_users, all_items)
+                all_users, all_items = get_eval_embeddings(Recmodel, posthoc, all_updated_embeddings, weight_1, weight_2, num_cluster)
+                u_emb = all_users[batch_users_gpu].detach().cpu().numpy()
+                all_items_emb = all_items.detach().cpu().numpy()
+                preds = predict_lgbm(Recmodel.lgbm_model, u_emb, all_items_emb)
+                rating = torch.tensor(preds, dtype=torch.float32, device=world.device)
+            else:
+                if posthoc == 0:
+                    rating = Recmodel.getUsersRating(batch_users_gpu)
+                elif posthoc == 1:
+                    rating = Recmodel.getUsersRatingPostHoc(all_updated_embeddings, batch_users_gpu)
+                else: # DAP
+                    rating = Recmodel.getUsersRatingDAP(batch_users_gpu, weight_1, weight_2, num_cluster)
 
             #rating = rating.cpu()
             exclude_index = []

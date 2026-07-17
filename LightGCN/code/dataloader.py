@@ -271,7 +271,6 @@ class Loader(BasicDataset):
                     testUniqueUsers.append(uid)
                     testUser.extend([uid] * len(items))
                     testItem.extend(items)
-                    print(items)
                     self.m_item = max(self.m_item, max(items))
                     self.n_user = max(self.n_user, uid)
                     self.testDataSize += len(items)
@@ -305,6 +304,23 @@ class Loader(BasicDataset):
         print(f"{self.testDataSize} interactions for testing")
         print(f"{self.validDataSize} interactions for validation")
         print(f"{world.dataset} Sparsity : {(self.trainDataSize + self.testDataSize + self.validDataSize) / self.n_users / self.m_items}")
+
+        if config.get('denoise_edges', False):
+            print("[Denoising] Running IsolationForest to denoise user-item interactions...")
+            u_degrees = np.bincount(self.trainUser, minlength=self.n_user)
+            i_degrees = np.bincount(self.trainItem, minlength=self.m_item)
+            features = np.column_stack((u_degrees[self.trainUser], i_degrees[self.trainItem]))
+            
+            from sklearn.ensemble import IsolationForest
+            iso = IsolationForest(n_estimators=100, contamination=0.05, random_state=42, n_jobs=-1)
+            preds = iso.fit_predict(features)
+            keep_mask = (preds == 1)
+            pruned_count = len(keep_mask) - keep_mask.sum()
+            print(f"[Denoising] Pruned {pruned_count} anomalous interactions out of {len(self.trainUser)} ({pruned_count/len(self.trainUser)*100:.2f}%)")
+            
+            self.trainUser = self.trainUser[keep_mask]
+            self.trainItem = self.trainItem[keep_mask]
+            self.traindataSize = len(self.trainUser)
 
         # (users,items), bipartite graph
         self.UserItemNet = csr_matrix((np.ones(len(self.trainUser)), (self.trainUser, self.trainItem)),
@@ -366,21 +382,22 @@ class Loader(BasicDataset):
     def getSparseGraph(self, variant="lgn"):
         print("loading adjacency matrix")
         if self.Graph is None:
-            try:
-                pre_adj_mat = sp.load_npz(self.path + '/s_pre_adj_mat.npz')
-                print("successfully loaded...")
-                norm_adj = pre_adj_mat
-            except :
+            if world.config.get('denoise_edges', False):
+                pre_adj_mat = None
+            else:
+                try:
+                    pre_adj_mat = sp.load_npz(self.path + '/s_pre_adj_mat.npz')
+                    print("successfully loaded...")
+                    norm_adj = pre_adj_mat
+                except :
+                    pre_adj_mat = None
+            if pre_adj_mat is None:
                 print("generating adjacency matrix")
                 s = time()
-                adj_mat = sp.dok_matrix((self.n_users + self.m_items, self.n_users + self.m_items), dtype=np.float32)
-                adj_mat = adj_mat.tolil()
-                R = self.UserItemNet.tolil()
-                adj_mat[:self.n_users, self.n_users:] = R
-                adj_mat[self.n_users:, :self.n_users] = R.T
-                adj_mat = adj_mat.todok()
-                # adj_mat = adj_mat + sp.eye(adj_mat.shape[0])
-
+                R = self.UserItemNet
+                zero_u = sp.csr_matrix((self.n_users, self.n_users), dtype=np.float32)
+                zero_i = sp.csr_matrix((self.m_items, self.m_items), dtype=np.float32)
+                
                 if variant == "navip":
                     # Compute item interaction-based weighting
                     item_interaction_counts = self.UserItemNet.sum(axis=0).A1  # Convert to 1D array
@@ -392,26 +409,28 @@ class Loader(BasicDataset):
                     ipw_min = normalized_ipw_for_navip.min()
                     ipw_max = normalized_ipw_for_navip.max()
                     normalized_ipw_for_navip = (normalized_ipw_for_navip - normalized_ipw_for_navip.min()) / (ipw_max - ipw_min + 1e-6)
-                    # print(normalized_ipw_for_navip)
 
                     # Create diagonal weighting matrix for items
                     item_weight_diag = sp.diags(normalized_ipw_for_navip)
 
-                    # Apply weighting to both user-to-item and item-to-user parts
-                    adj_mat[self.n_users:, :self.n_users] = item_weight_diag @ adj_mat[self.n_users:, :self.n_users]
-                    adj_mat[:self.n_users, self.n_users:] = adj_mat[:self.n_users, self.n_users:] @ item_weight_diag
+                    # Apply weighting using CSR dot multiplication
+                    R_weighted = R.dot(item_weight_diag)
+                    adj_mat = sp.bmat([[zero_u, R_weighted], [R_weighted.T, zero_i]], format='csr', dtype=np.float32)
+                else:
+                    adj_mat = sp.bmat([[zero_u, R], [R.T, zero_i]], format='csr', dtype=np.float32)
 
-                rowsum = np.array(adj_mat.sum(axis=1))
-                d_inv = np.power(rowsum, -0.5).flatten()
-                d_inv[np.isinf(d_inv)] = 0.
+                rowsum = np.array(adj_mat.sum(axis=1)).flatten()
+                d_inv = np.zeros_like(rowsum)
+                non_zero_mask = rowsum > 0
+                d_inv[non_zero_mask] = np.power(rowsum[non_zero_mask], -0.5)
                 d_mat = sp.diags(d_inv)
 
                 norm_adj = d_mat.dot(adj_mat)
                 norm_adj = norm_adj.dot(d_mat)
-                norm_adj = norm_adj.tocsr()
                 end = time()
                 print(f"costing {end-s}s, saved norm_mat...")
-                sp.save_npz(self.path + '/s_pre_adj_mat.npz', norm_adj)
+                if not world.config.get('denoise_edges', False):
+                    sp.save_npz(self.path + '/s_pre_adj_mat.npz', norm_adj)
 
             if self.split == True:
                 self.Graph = self._split_A_hat(norm_adj)
@@ -482,30 +501,18 @@ class Loader(BasicDataset):
         # range_val = max_val - min_val if max_val != min_val else 1e-9
         # normalized_weights = (all_weights - min_val) / range_val
         #
-        # # Step 3: Assign normalized weights back to R
-        # for (u, i, _), norm_val in zip(user_item_pairs, normalized_weights):
-        #     R[u, i] = norm_val
+        R = R.tocsr()
+        zero_u = sp.csr_matrix((self.n_users, self.n_users), dtype=np.float32)
+        zero_i = sp.csr_matrix((self.m_items, self.m_items), dtype=np.float32)
+        adj_mat = sp.bmat([[zero_u, R], [R.T, zero_i]], format='csr', dtype=np.float32)
 
-        adj_mat[:self.n_users, self.n_users:] = R
-        adj_mat[self.n_users:, :self.n_users] = R.T
-        # adj_mat = adj_mat.todok()
-        # print(R[0])
-        # adj_mat = adj_mat + sp.eye(adj_mat.shape[0])
-
-        rowsum = np.array(adj_mat.sum(axis=1))
-        # rowsum2 = np.array(adj_mat.getnnz(axis=1)).reshape(-1, 1)
-        # rowsum = (rowsum1 + 0) / 1
-        adj_mat = adj_mat.tocsr()  # convert DOK to CSR
-        # rowsum = np.array(adj_mat.getnnz(axis=1)).reshape(-1, 1)
-        # print(rowsum)
-        d_inv = np.power(rowsum, -0.5).flatten()
-        d_inv[np.isinf(d_inv)] = 0.
+        rowsum = np.array(adj_mat.sum(axis=1)).flatten()
+        d_inv = np.zeros_like(rowsum)
+        non_zero_mask = rowsum > 0
+        d_inv[non_zero_mask] = np.power(rowsum[non_zero_mask], -0.5)
         d_mat = sp.diags(d_inv)
 
-        adj_mat = adj_mat.todok()
-        norm_adj = d_mat.dot(adj_mat)
-        norm_adj = norm_adj.dot(d_mat)
-        norm_adj = norm_adj.tocsr()
+        norm_adj = d_mat.dot(adj_mat).dot(d_mat)
         end = time()
         print(f"costing {end - s}s, saved norm_mat...")
         # sp.save_npz(self.path + '/s_pre_adj_mat.npz', norm_adj)

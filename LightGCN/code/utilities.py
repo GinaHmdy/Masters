@@ -378,8 +378,11 @@ def compute_pop_bias_scores(root_path, user_interactions, Recmodel,
         )
         print("[PPD] d_pop time:", time.time() - t4)
 
-        user_emb_new = project_and_remove(user_emb_weight, d_pop_u, beta=beta)
-        item_emb_new = project_and_remove(item_emb_weight, d_pop_i, beta=beta)
+        user_emb_raw = Recmodel.embedding_user.weight.detach()
+        item_emb_raw = Recmodel.embedding_item.weight.detach()
+
+        user_emb_new = project_and_remove(user_emb_raw, d_pop_u, beta=beta)
+        item_emb_new = project_and_remove(item_emb_raw, d_pop_i, beta=beta)
 
         with torch.no_grad():
             Recmodel.embedding_user.weight.copy_(user_emb_new)
@@ -717,10 +720,14 @@ def project_and_remove(embeddings, d_pops, beta=1.0):
     d_norm_sq = torch.sum(d_pops ** 2, dim=1, keepdim=True) + 1e-8
 
     # Compute projection component
-    projection = (torch.sum(embeddings * d_pops, dim=1, keepdim=True) / d_norm_sq) * d_pops
+    proj_coeff = torch.sum(embeddings * d_pops, dim=1, keepdim=True)
+    # Clamp projection coefficient to be >= 0 to only remove popularity component 
+    # from users/items pointing towards popular items, preserving niche preferences
+    proj_coeff_clamped = torch.clamp(proj_coeff, min=0.0)
+    projection = (proj_coeff_clamped / d_norm_sq) * d_pops
 
-    # Subtract the projection from the original embeddings
-    debiased_embeddings = embeddings - beta * projection
+    # Subtract the projection from the original embeddings (orthogonal projection removal has scale 1.0)
+    debiased_embeddings = embeddings - projection
 
     return debiased_embeddings
 

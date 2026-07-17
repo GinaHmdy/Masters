@@ -31,9 +31,10 @@ def _fmt(x, nd=3):
 
 def build_out_tag(args) -> str:
     parts = []
-    if getattr(args, "tsp", False):
+    if getattr(args, "tsp", False) or getattr(args, "tsp_hodge", False):
+        prefix = "TSPHodge" if getattr(args, "tsp_hodge", False) else "TSP"
         parts.append(
-            "TSP"
+            f"{prefix}"
             f"-a{_fmt(args.alpha_tsp, 3)}"
             f"-th{_fmt(args.theta_tsp, 3)}"
             f"-m{args.top_m_tsp}"
@@ -87,6 +88,7 @@ def save_checkpoint_and_results(model, out_ckpt, out_res, results, args, baselin
         f.write(f"layer={world.config.get('lightGCN_n_layers')}\n")
         f.write(f"baseline_ckpt={baseline_ckpt}\n")
         f.write(f"tsp={getattr(args, 'tsp', False)}\n")
+        f.write(f"tsp_hodge={getattr(args, 'tsp_hodge', False)}\n")
         f.write(f"ppd={getattr(args, 'ppd', False)}\n")
         f.write(f"results={results}\n")
 
@@ -144,13 +146,15 @@ def build_semantic_graph_knn_capped(X_cpu, theta, top_m, batch, max_edges):
     return G, False
 
 def build_simplicial_complex_from_graph(G: nx.Graph, K: int):
-    sc = tnx.SimplicialComplex()
-    for v in G.nodes():
-        sc.add_simplex([v])
-    for clique in nx.enumerate_all_cliques(G):
-        if len(clique) <= 1: continue
-        if len(clique) > K + 1: break
-        sc.add_simplex(clique)
+    simplices = list(G.nodes())
+    if K >= 1:
+        simplices.extend(list(G.edges()))
+    if K >= 2:
+        for clique in nx.enumerate_all_cliques(G):
+            if len(clique) <= 2: continue
+            if len(clique) > K + 1: break
+            simplices.append(clique)
+    sc = tnx.SimplicialComplex(simplices)
     return sc
 
 def list_k_simplices(sc: tnx.SimplicialComplex, k: int):
@@ -183,7 +187,7 @@ def inter_simplex_propagation_sparse(Xk, Lk_sparse, beta, layers):
     return out
 
 @torch.no_grad()
-def apply_TSP(model, theta, top_m, K, beta, alpha, layers, semantic_batch, max_edges):
+def apply_TSP(model, theta, top_m, K, beta, alpha, layers, semantic_batch, max_edges, use_hodge=False):
     u = model.embedding_user.weight.detach()
     it = model.embedding_item.weight.detach()
     device = next(model.parameters()).device
@@ -207,7 +211,10 @@ def apply_TSP(model, theta, top_m, K, beta, alpha, layers, semantic_batch, max_e
         if len(simplices_k) == 0: continue
 
         Xk = node_to_simplex_mean(X0, simplices_k)
-        Lk_sp = sc.hodge_laplacian_matrix(k)
+        if use_hodge:
+            Lk_sp = sc.hodge_laplacian_matrix(k)
+        else:
+            Lk_sp = sc.normalized_laplacian_matrix(k)
         Lk = scipy_to_torch_sparse(Lk_sp, device="cpu").to(device)
 
         Xk_p = inter_simplex_propagation_sparse(Xk, Lk, beta=beta, layers=layers)
@@ -247,12 +254,24 @@ def calculate_average_popularity(model, dataset, topk=20, posthoc=0, all_updated
         batch_users = np.arange(i, end)
         batch_users_gpu = torch.Tensor(batch_users).long().to(world.device)
 
-        if posthoc == 0:
-            rating = model.getUsersRating(batch_users_gpu)
-        elif posthoc == 1:
-            rating = model.getUsersRatingPostHoc(all_updated_embeddings, batch_users_gpu)
-        else: # DAP
-            rating = model.getUsersRatingDAP(batch_users_gpu, weight_1, weight_2, num_cluster)
+        if world.config.get('use_lgbm_ranker', False):
+            from Procedure import get_eval_embeddings, predict_lgbm
+            if not hasattr(model, 'lgbm_model') or model.lgbm_model is None:
+                from Procedure import train_lgbm_ranker
+                all_users, all_items = get_eval_embeddings(model, posthoc, all_updated_embeddings, weight_1, weight_2, num_cluster)
+                model.lgbm_model = train_lgbm_ranker(dataset, model, all_users, all_items)
+            all_users, all_items = get_eval_embeddings(model, posthoc, all_updated_embeddings, weight_1, weight_2, num_cluster)
+            u_emb = all_users[batch_users_gpu].detach().cpu().numpy()
+            all_items_emb = all_items.detach().cpu().numpy()
+            preds = predict_lgbm(model.lgbm_model, u_emb, all_items_emb)
+            rating = torch.tensor(preds, dtype=torch.float32, device=world.device)
+        else:
+            if posthoc == 0:
+                rating = model.getUsersRating(batch_users_gpu)
+            elif posthoc == 1:
+                rating = model.getUsersRatingPostHoc(all_updated_embeddings, batch_users_gpu)
+            else: # DAP
+                rating = model.getUsersRatingDAP(batch_users_gpu, weight_1, weight_2, num_cluster)
 
         train_items = dataset.getUserPosItems(batch_users)
         for row_idx, items in enumerate(train_items):
@@ -299,11 +318,11 @@ if __name__ == "__main__":
         clean_state_dict[new_k] = v
         
     # 3. Load the cleaned dictionary
-    model.load_state_dict(clean_state_dict)
+    model.load_state_dict(clean_state_dict, strict=False)
     # --------------------------------------------------
     print(f"[OK] loaded checkpoint: {baseline_ckpt}")
 
-    if getattr(args, "tsp", False):
+    if getattr(args, "tsp", False) or getattr(args, "tsp_hodge", False):
         model = apply_TSP(
             model,
             theta=args.theta_tsp,
@@ -314,6 +333,7 @@ if __name__ == "__main__":
             layers=args.layers_tsp,
             semantic_batch=args.semantic_batch,
             max_edges=args.max_edges_tsp,
+            use_hodge=getattr(args, "tsp_hodge", False)
         )
 
     all_updated_embeddings = None
@@ -332,7 +352,7 @@ if __name__ == "__main__":
     print("\n[Eval]")
     eval_model_name = "ppd" if getattr(args, "ppd", False) else ("dap" if getattr(args, "dap", False) else world.model_name)
     
-    if getattr(args, "dap", False):
+    if getattr(args, "dap", False) and not (getattr(args, "ppd", False) and getattr(args, "ppd_variant", 0) == 4):
         posthoc = 2
     elif getattr(args, "ppd", False) and all_updated_embeddings is not None:
         posthoc = 1
@@ -354,7 +374,7 @@ if __name__ == "__main__":
 
     if getattr(args, "fairness", False):
         print("\n[Average Popularity]")
-        calculate_average_popularity(
+        avg_pop = calculate_average_popularity(
             model, dataset, topk=20,
             posthoc=posthoc,
             all_updated_embeddings=all_updated_embeddings,
@@ -362,6 +382,16 @@ if __name__ == "__main__":
             weight_2=getattr(args, "dap_weight2", None),
             num_cluster=getattr(args, "dap_num_clusters", None)
         )
+        # --- Regression Test Assertion ---
+        if getattr(args, "ppd", False):
+            BASELINE_POPULARITY = {
+                'Gowalla': 253.862280,
+                'KuaiRec': 1058.105442,
+                'Yahoo': 497.358973
+            }
+            baseline_val = BASELINE_POPULARITY.get(args.dataset, 999999.0)
+            assert avg_pop <= baseline_val, f"[Regression Test Fail] PPD Average Popularity ({avg_pop:.6f}) is higher than baseline ({baseline_val:.6f})"
+            print(f"[Regression Test Pass] PPD Popularity Invariant verified: {avg_pop:.6f} <= {baseline_val:.6f}")
 
     if getattr(args, "save_ckpt", False):
         out_dir = getattr(args, "out_dir", "./checkpoints")

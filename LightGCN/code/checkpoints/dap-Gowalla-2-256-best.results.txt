@@ -1,0 +1,5 @@
+dataset=Gowalla
+model=dap
+best_epoch=-1
+best_valid={}
+best_test={}

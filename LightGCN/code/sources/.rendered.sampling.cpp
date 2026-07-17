@@ -31,6 +31,19 @@ py::array_t<int> sample_negative(int user_num, int item_num, int train_num, std:
     for (int user = 0; user < user_num; user++)
     {
         std::vector<int> pos_item = allPos[user];
+        if (pos_item.size() == 0)
+        {
+            for (int pair_i = 0; pair_i < perUserNum; pair_i++)
+            {
+                ptr[(user * perUserNum + pair_i) * row] = user;
+                ptr[(user * perUserNum + pair_i) * row + 1] = 0;
+                for (int index = 2; index < neg_num + 2; index++)
+                {
+                    ptr[(user * perUserNum + pair_i) * row + index] = 0;
+                }
+            }
+            continue;
+        }
 
         for (int pair_i = 0; pair_i < perUserNum; pair_i++)
         {
@@ -63,6 +76,16 @@ py::array_t<int> sample_negative_ByUser(std::vector<int> users, int item_num, st
     {
         int user = users[user_i];
         std::vector<int> pos_item = allPos[user];
+        if (pos_item.size() == 0)
+        {
+            ptr[user_i * row] = user;
+            ptr[user_i * row + 1] = 0;
+            for (int neg_i = 2; neg_i < row; neg_i++)
+            {
+                ptr[user_i * row + neg_i] = 0;
+            }
+            continue;
+        }
         int negitem = 0;
 
         ptr[user_i * row] = user;

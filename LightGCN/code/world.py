@@ -50,6 +50,13 @@ config['variant'] = args.variant
 config['beta'] = args.beta
 config['phi'] = args.phi
 config['ego_weight'] = args.ego_weight
+config['ppd_v4_layers'] = args.ppd_v4_layers
+config['sgl'] = args.sgl
+config['sgl_weight'] = args.sgl_weight
+config['dynamic_ego'] = args.dynamic_ego
+config['denoise_edges'] = args.denoise_edges
+config['use_lgbm_ranker'] = args.use_lgbm_ranker
+config['use_llm_init'] = args.use_llm_init
 
 
 GPU = torch.cuda.is_available()

@@ -8,6 +8,7 @@ import time
 import Procedure
 import copy
 from os.path import join
+import numpy as np
 
 # ==============================
 utils.set_seed(world.seed)
@@ -26,7 +27,7 @@ print(f"load and save to {weight_file}")
 
 if world.LOAD:
     try:
-        Recmodel.load_state_dict(torch.load(weight_file, map_location=world.device))
+        Recmodel.load_state_dict(torch.load(weight_file, map_location=world.device), strict=False)
         world.cprint(f"loaded model weights from {weight_file}")
     except FileNotFoundError:
         print(f"{weight_file} not exists, start from beginning")
@@ -34,7 +35,7 @@ if world.LOAD:
 Neg_k = 1
 
 # init tensorboard
-BUDGET = 10
+BUDGET = 20  # early stopping patience epochs
 
 if world.tensorboard:
     w: SummaryWriter = SummaryWriter(
@@ -44,56 +45,93 @@ else:
     w = None
     world.cprint("not enable tensorflowboard")
 
+def compute_val_bpr_loss(dataset, Recmodel):
+    Recmodel.eval()
+    with torch.no_grad():
+        val_users = dataset.validUser
+        val_pos = dataset.validItem
+        val_neg = []
+        for u in val_users:
+            pos_for_u = dataset.allPos[u]
+            if len(pos_for_u) == 0:
+                val_neg.append(0)
+                continue
+            while True:
+                neg = np.random.randint(0, dataset.m_items)
+                if neg not in pos_for_u:
+                    break
+            val_neg.append(neg)
+        val_users_t = torch.tensor(val_users, dtype=torch.long, device=world.device)
+        val_pos_t = torch.tensor(val_pos, dtype=torch.long, device=world.device)
+        val_neg_t = torch.tensor(val_neg, dtype=torch.long, device=world.device)
+        
+        total_loss = 0.0
+        batch_size = 2048
+        # Get propagated embeddings once for the validation batch
+        all_users, all_items = Recmodel.computer()
+        
+        for i in range(0, len(val_users), batch_size):
+            u_b = val_users_t[i:i+batch_size]
+            p_b = val_pos_t[i:i+batch_size]
+            n_b = val_neg_t[i:i+batch_size]
+            
+            users_emb = all_users[u_b]
+            pos_emb = all_items[p_b]
+            neg_emb = all_items[n_b]
+            
+            # Normalize embeddings to unit length for scale-invariant validation loss
+            users_emb = torch.nn.functional.normalize(users_emb, p=2, dim=1)
+            pos_emb = torch.nn.functional.normalize(pos_emb, p=2, dim=1)
+            neg_emb = torch.nn.functional.normalize(neg_emb, p=2, dim=1)
+            
+            pos_scores = torch.sum(users_emb * pos_emb, dim=1)
+            neg_scores = torch.sum(users_emb * neg_emb, dim=1)
+            loss = torch.mean(torch.nn.functional.softplus(neg_scores - pos_scores))
+            total_loss += loss.item() * len(u_b)
+        return total_loss / len(val_users)
+
 try:
-    budget = BUDGET
+    patience = BUDGET
 
     best_state_dict = None
-    best_result_valid_upto_r20 = -1.0
+    best_val_loss = float('inf')
     best_results_valid = {}
     best_results_test = {}
     best_epoch = -1
 
+    warmup_epochs = min(100, world.TRAIN_epochs // 2)
+    print(f"Early stopping warmup active: first {warmup_epochs} epochs will not trigger early stopping.")
+
     for epoch in range(world.TRAIN_epochs):
-        if epoch % 10 == 0:
-            cprint("[Valid]")
-            results_valid = Procedure.Valid(dataset, Recmodel, epoch, w, world.config["multicore"])
-            print("------ Current Valid Results -----")
-            print(results_valid)
-
-            # Only start early-stopping decisions after warmup,
-            # but DO NOT skip training for these epochs.
-            if epoch >= BUDGET * 10:
-                # using recall@20 (based on your current indexing)
-                recall_upto20_valid = results_valid["recall"][3]
-
-                if recall_upto20_valid > best_result_valid_upto_r20:
-                    best_result_valid_upto_r20 = recall_upto20_valid
-                    best_results_valid = copy.deepcopy(results_valid)
-                    best_epoch = epoch
-
-                    # store best weights
-                    best_state_dict = copy.deepcopy(Recmodel.state_dict())
-
-                    budget = BUDGET
-                    print("------ Updating Best Results -----")
-                    print(best_results_valid)
-
-                    # store test results at the same best point
-                    best_results_test = Procedure.Test(
-                        dataset,
-                        Recmodel,
-                        epoch,
-                        w,
-                        world.config["multicore"],
-                        dataset_name=world.dataset,
-                    )
-                    print("------ Current Test Results (Best so far) -----")
-                    print(best_results_test)
-                else:
-                    budget -= 1
-                    if budget == 0:
-                        print("No more training budget")
-                        break
+        # Compute validation BPR loss every epoch
+        val_loss = compute_val_bpr_loss(dataset, Recmodel)
+        print(f"[Valid] Epoch {epoch}: Val BPR Loss = {val_loss:.6f}")
+        
+        # During warmup, we always treat the latest epoch as the best and save it to disk
+        if epoch < warmup_epochs:
+            best_val_loss = val_loss
+            best_epoch = epoch
+            best_state_dict = copy.deepcopy(Recmodel.state_dict())
+            torch.save(Recmodel.state_dict(), weight_file)
+            best_tag_file = weight_file.replace(".pth.tar", "-best.pth.tar")
+            torch.save(Recmodel.state_dict(), best_tag_file)
+            print(f"--> Warmup active (Epoch {epoch}/{warmup_epochs}). Saved current checkpoints to disk.")
+        else:
+            if val_loss < best_val_loss:
+                best_val_loss = val_loss
+                best_epoch = epoch
+                best_state_dict = copy.deepcopy(Recmodel.state_dict())
+                patience = BUDGET
+                torch.save(Recmodel.state_dict(), weight_file)
+                best_tag_file = weight_file.replace(".pth.tar", "-best.pth.tar")
+                torch.save(Recmodel.state_dict(), best_tag_file)
+                print(f"--> Improved! New best validation loss = {best_val_loss:.6f}. Saved checkpoints to disk. Resetting patience to {patience}")
+            else:
+                patience -= 1
+                print(f"--> No improvement. Patience left: {patience}")
+                if patience == 0:
+                    print("Early stopping triggered due to validation BPR loss plateauing.")
+                    break
 
         output_information = Procedure.BPR_train_original(
             dataset, Recmodel, bpr, epoch, neg_k=Neg_k, w=w
@@ -109,6 +147,15 @@ try:
     # Load best weights before saving
     if best_state_dict is not None:
         Recmodel.load_state_dict(best_state_dict)
+        print(f"Evaluating test set at the best epoch ({best_epoch})...")
+        best_results_test = Procedure.Test(
+            dataset,
+            Recmodel,
+            best_epoch,
+            w,
+            world.config["multicore"],
+            dataset_name=world.dataset,
+        )
     else:
         print(
             "WARNING: best_state_dict is None (validation may not have run enough). "

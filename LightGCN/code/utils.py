@@ -63,7 +63,7 @@ def UniformSample_original(dataset, neg_ratio = 1):
 
 def UniformSample_original_python(dataset):
     """
-    the original impliment of BPR Sampling in LightGCN
+    vectorized implementation of BPR Sampling in LightGCN
     :return:
         np.array
     """
@@ -72,28 +72,30 @@ def UniformSample_original_python(dataset):
     user_num = dataset.trainDataSize
     users = np.random.randint(0, dataset.n_users, user_num)
     allPos = dataset.allPos
-    S = []
-    sample_time1 = 0.
-    sample_time2 = 0.
-    for i, user in enumerate(users):
-        start = time()
-        posForUser = allPos[user]
-        if len(posForUser) == 0:
-            continue
-        sample_time2 += time() - start
-        posindex = np.random.randint(0, len(posForUser))
-        positem = posForUser[posindex]
-        while True:
-            negitem = np.random.randint(0, dataset.m_items)
-            if negitem in posForUser:
-                continue
-            else:
-                break
-        S.append([user, positem, negitem])
-        end = time()
-        sample_time1 += end - start
-    total = time() - total_start
-    return np.array(S)
+    
+    pos_lens = np.array([len(allPos[u]) for u in range(dataset.n_users)])
+    
+    valid_mask = pos_lens[users] > 0
+    users = users[valid_mask]
+    user_num = len(users)
+    
+    pos_indices = (np.random.rand(user_num) * pos_lens[users]).astype(int)
+    pos_items = np.array([allPos[u][idx] for u, idx in zip(users, pos_indices)])
+    
+    neg_items = np.random.randint(0, dataset.m_items, user_num)
+    
+    is_pos = np.array(dataset.UserItemNet[users, neg_items]).flatten()
+    invalid_indices = np.where(is_pos > 0)[0]
+    
+    while len(invalid_indices) > 0:
+        new_negs = np.random.randint(0, dataset.m_items, len(invalid_indices))
+        new_users = users[invalid_indices]
+        new_is_pos = np.array(dataset.UserItemNet[new_users, new_negs]).flatten()
+        neg_items[invalid_indices] = new_negs
+        invalid_indices = invalid_indices[np.where(new_is_pos > 0)[0]]
+        
+    S = np.column_stack((users, pos_items, neg_items))
+    return S
 
 # ===================end samplers==========================
 # =====================utils====================================

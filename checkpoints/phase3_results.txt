@@ -1,0 +1,32 @@
+
+
+--- Phase III Results ---
+dataset=Gowalla | method=DAP + SGL + PPD Variant 4 | Recall@20=0.150303 | NDCG@20=0.123683 | Precision@20=0.046408 | Popularity@20=118.286
+dataset=Gowalla | method=LightGCN + Dynamic Ego + PPD Variant 4 | Recall@20=0.115112 | NDCG@20=0.099430 | Precision@20=0.035871 | Popularity@20=277.184
+dataset=KuaiRec | method=DAP + SGL + PPD Variant 4 | Recall@20=0.011504 | NDCG@20=0.026741 | Precision@20=0.022766 | Popularity@20=472.634
+dataset=Gowalla | method=Denoised LightGCN + LightGBM Ranker | Recall@20=0.091174 | NDCG@20=0.064740 | Precision@20=0.025655 | Popularity@20=121.316
+dataset=KuaiRec | method=LightGCN + Dynamic Ego + PPD Variant 4 | Recall@20=0.068570 | NDCG@20=0.094432 | Precision@20=0.080035 | Popularity@20=605.014
+dataset=KuaiRec | method=Denoised LightGCN + LightGBM Ranker | Recall@20=0.005210 | NDCG@20=0.006052 | Precision@20=0.005851 | Popularity@20=804.843
+
+
+--- Combined Pipeline Grid Search (DAP + SGL + Hodge-Laplacian TSP + PPD Variant 4) ---
+dataset=Gowalla | beta=0.2 | ego=0.6 | Recall@20=0.124879 (+62.41%) | NDCG@20=0.098547 (+81.27%) | Precision@20=0.038248 (+63.12%) | Popularity@20=87.577 (-66.11%) | class=A. DOMINANT
+dataset=Gowalla | beta=0.2 | ego=-1.0 | Recall@20=0.150500 (+95.73%) | NDCG@20=0.123656 (+127.45%) | Precision@20=0.046477 (+98.22%) | Popularity@20=117.759 (-54.44%) | class=A. DOMINANT
+dataset=Gowalla | beta=0.2 | ego=dynamic | Recall@20=0.110327 (+43.48%) | NDCG@20=0.088176 (+62.19%) | Precision@20=0.034666 (+47.85%) | Popularity@20=119.683 (-53.69%) | class=A. DOMINANT
+dataset=Gowalla | beta=0.5 | ego=0.6 | Recall@20=0.121659 (+58.22%) | NDCG@20=0.095925 (+76.44%) | Precision@20=0.037253 (+58.88%) | Popularity@20=87.700 (-66.07%) | class=A. DOMINANT
+dataset=Gowalla | beta=0.5 | ego=-1.0 | Recall@20=0.145595 (+89.35%) | NDCG@20=0.118994 (+118.88%) | Precision@20=0.044939 (+91.66%) | Popularity@20=114.464 (-55.71%) | class=A. DOMINANT
+dataset=Gowalla | beta=0.5 | ego=dynamic | Recall@20=0.111549 (+45.07%) | NDCG@20=0.090635 (+66.71%) | Precision@20=0.035312 (+50.60%) | Popularity@20=132.586 (-48.70%) | class=A. DOMINANT
+dataset=KuaiRec | beta=0.5 | ego=-1.0 | Recall@20=0.001472 (-99.37%) | NDCG@20=0.002543 (-98.86%) | Precision@20=0.002447 (-97.70%) | Popularity@20=537.734 (+37.57%) | class=D. TRADE-OFF/LOSS
+dataset=KuaiRec | beta=0.5 | ego=dynamic | Recall@20=0.000000 (-100.00%) | NDCG@20=0.002864 (-98.71%) | Precision@20=0.003191 (-97.01%) | Popularity@20=508.793 (+30.17%) | class=D. TRADE-OFF/LOSS
+dataset=KuaiRec | beta=1.0 | ego=-1.0 | Recall@20=0.003216 (-98.62%) | NDCG@20=0.006835 (-96.93%) | Precision@20=0.006312 (-94.08%) | Popularity@20=511.508 (+30.86%) | class=D. TRADE-OFF/LOSS
+dataset=KuaiRec | beta=1.0 | ego=dynamic | Recall@20=0.002809 (-98.80%) | NDCG@20=0.005030 (-97.74%) | Precision@20=0.004894 (-95.41%) | Popularity@20=556.578 (+42.39%) | class=D. TRADE-OFF/LOSS
+dataset=KuaiRec | beta=2.0 | ego=-1.0 | Recall@20=0.011449 (-95.09%) | NDCG@20=0.026481 (-88.09%) | Precision@20=0.022518 (-78.87%) | Popularity@20=472.184 (+20.80%) | class=D. TRADE-OFF/LOSS
+dataset=KuaiRec | beta=2.0 | ego=dynamic | Recall@20=0.008818 (-96.22%) | NDCG@20=0.021530 (-90.32%) | Precision@20=0.017057 (-84.00%) | Popularity@20=422.265 (+8.03%) | class=D. TRADE-OFF/LOSS
+dataset=Yahoo | beta=0.02 | ego=-1.0 | Recall@20=0.129930 (+46.54%) | NDCG@20=0.059075 (-19.68%) | Precision@20=0.010176 (-62.39%) | Popularity@20=325.920 (+16.00%) | class=D. TRADE-OFF/LOSS
+dataset=Yahoo | beta=0.02 | ego=dynamic | Recall@20=0.098438 (+11.02%) | NDCG@20=0.043228 (-41.23%) | Precision@20=0.008204 (-69.68%) | Popularity@20=333.478 (+18.69%) | class=D. TRADE-OFF/LOSS
+dataset=Yahoo | beta=0.05 | ego=-1.0 | Recall@20=0.130035 (+46.66%) | NDCG@20=0.059077 (-19.68%) | Precision@20=0.010176 (-62.39%) | Popularity@20=323.638 (+15.19%) | class=D. TRADE-OFF/LOSS
+dataset=Yahoo | beta=0.05 | ego=dynamic | Recall@20=0.098963 (+11.62%) | NDCG@20=0.043333 (-41.08%) | Precision@20=0.008246 (-69.52%) | Popularity@20=332.822 (+18.46%) | class=D. TRADE-OFF/LOSS
+dataset=Yahoo | beta=0.07 | ego=-1.0 | Recall@20=0.129181 (+45.70%) | NDCG@20=0.058775 (-20.09%) | Precision@20=0.010092 (-62.70%) | Popularity@20=322.757 (+14.88%) | class=D. TRADE-OFF/LOSS
+dataset=Yahoo | beta=0.07 | ego=dynamic | Recall@20=0.098963 (+11.62%) | NDCG@20=0.043326 (-41.09%) | Precision@20=0.008246 (-69.52%) | Popularity@20=332.544 (+18.36%) | class=D. TRADE-OFF/LOSS
+dataset=Yahoo | beta=0.15 | ego=-1.0 | Recall@20=0.130310 (+46.97%) | NDCG@20=0.059630 (-18.93%) | Precision@20=0.010218 (-62.23%) | Popularity@20=330.378 (+17.59%) | class=D. TRADE-OFF/LOSS
+dataset=Yahoo | beta=0.15 | ego=dynamic | Recall@20=0.098788 (+11.42%) | NDCG@20=0.043198 (-41.27%) | Precision@20=0.008225 (-69.60%) | Popularity@20=331.091 (+17.84%) | class=D. TRADE-OFF/LOSS

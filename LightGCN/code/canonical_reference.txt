@@ -1,0 +1,15 @@
+Canonical Reference Table:
+| Dataset | Method | Recall@20 | NDCG@20 | Precision@20 | Average Popularity@20 |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Gowalla | Baseline | 0.121115 | 0.101116 | 0.036710 | 253.862 |
+| Gowalla | TSP alone | 0.120943 | 0.101026 | 0.036813 | 250.184 |
+| Gowalla | PPD v3 alone | 0.117965 | 0.097658 | 0.036280 | 210.666 |
+| Gowalla | PPD v4 alone | 0.119465 | 0.098808 | 0.036466 | 211.814 |
+| KuaiRec | Baseline | 0.005553 | 0.005015 | 0.005709 | 1058.105 |
+| KuaiRec | TSP alone | 0.004384 | 0.003556 | 0.004220 | 1038.651 |
+| KuaiRec | PPD v3 alone | 0.006518 | 0.005389 | 0.006418 | 564.687 |
+| KuaiRec | PPD v4 alone | 0.027168 | 0.033133 | 0.032199 | 690.297 |
+| Yahoo | Baseline | 0.140645 | 0.064747 | 0.010869 | 497.359 |
+| Yahoo | TSP alone | 0.140477 | 0.064905 | 0.010953 | 485.765 |
+| Yahoo | PPD v3 alone | 0.142534 | 0.064853 | 0.011120 | 446.400 |
+| Yahoo | PPD v4 alone | 0.139401 | 0.061455 | 0.010911 | 471.384 |

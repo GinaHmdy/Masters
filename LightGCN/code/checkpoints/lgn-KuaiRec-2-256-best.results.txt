@@ -1,0 +1,5 @@
+dataset=KuaiRec
+model=lgn
+best_epoch=-1
+best_valid={}
+best_test={}
