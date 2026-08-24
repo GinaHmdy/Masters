@@ -31,6 +31,38 @@ items (`Procedure.py:255-296`). Higher is better for the first three; lower for 
 The KuaiRec row explains a great deal: 103 relevant items per user out of 10,728 is an
 extraordinarily dense test set, which is why a popularity ranker performs so well there.
 
+## Trivial reference rankers
+
+Source: `LightGCN/code/trivial_baselines.py` -> `results/trivial_baselines.json`. Computed
+directly from `data/*/{train,test}.txt` with the metric definitions of `utils.py:222-266`,
+independently of the model evaluation path. Random is a 3-seed mean.
+
+| Dataset | Method | Recall@20 | NDCG@20 | Precision@20 | AvgPop@20 |
+|---|---|---|---|---|---|
+| Gowalla | MostPopular | 0.040822 | 0.031229 | 0.013635 | 683.99 |
+| Gowalla | Random | 0.000486 | 0.000327 | 0.000174 | **15.75** |
+| Yahoo | MostPopular | 0.090639 | 0.039015 | 0.007491 | 1083.70 |
+| Yahoo | Random | 0.022102 | 0.010000 | 0.002119 | **86.45** |
+| KuaiRec | MostPopular | **0.123342** | **0.313162** | **0.266525** | 1948.98 |
+| KuaiRec | Random | 0.001838 | 0.009792 | 0.009764 | **86.86** |
+| Coat | MostPopular | 0.095386 | 0.051185 | 0.019039 | 38.37 |
+| Coat | Random | 0.055013 | 0.029549 | 0.013523 | **11.68** |
+
+**Two things this settles.**
+
+1. **KuaiRec.** MostPopular beats every model in the thesis there by ~9x Recall and ~15x NDCG.
+   No result on KuaiRec can be reported without this row present.
+2. **AvgPop@20 is not a safe objective on its own.** Random has the *lowest* AvgPop@20 on every
+   dataset — 15.75 on Gowalla against PPD v4's 139.86 and PPD v6's 141.11 — while being useless
+   at ranking. A metric that a random recommender wins outright cannot be optimised in isolation;
+   it is only meaningful jointly with the accuracy metrics, which is precisely what the Pareto
+   framing is for. This is the strongest available argument for reporting all four together
+   rather than celebrating an AvgPop reduction.
+
+*Discrepancy noted:* Coat MostPopular NDCG@20 is 0.051185 here against 0.051301 quoted earlier in
+this file; the difference is tie-breaking order among equal-degree items. The value produced by
+`trivial_baselines.py` is canonical because it is reproducible from a committed script.
+
 ## Popularity composition (measured, not assumed)
 
 Source: `LightGCN/code/measure_popularity_composition.py` -> `results/popularity_composition.json`.

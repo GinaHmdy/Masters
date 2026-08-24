@@ -18,6 +18,7 @@ can be followed without reconstructing it from git.
 | 2026-08-24 | Step A | **Attribution corrected.** Confirmed from the literature that PPD v1-v4 is a *published method* (arXiv:2510.12959), DAP is published (Chen et al. 2024), DCD is DICE (WWW 2021), and TSP is inherited. README, contribution guide and this document updated. See Part 3. |
 | 2026-08-24 | Step A | Framing adopted: **popularity is not always bias** (Part 2.5). Benign popularity = item quality; harmful popularity = exposure amplification. |
 | 2026-08-24 | Step B | **Measured** the benign/harmful split using the random-exposure splits, rather than asserting it (`measure_popularity_composition.py`, Part 2.6). Earned share: KuaiRec 26.9%, Yahoo 27.8%, Coat 3.7%, Gowalla unmeasurable. Predictions confirmed on KuaiRec and Yahoo; **the Coat prediction was wrong** and has been corrected in every document rather than quietly dropped. |
+| 2026-08-24 | Step F | Added `trivial_baselines.py` (MostPopular + Random on all four datasets). MostPopular reproduces the audit's values exactly. **Random has the lowest AvgPop@20 on every dataset** (15.75 on Gowalla vs the best model's 141.11) — so AvgPop@20 cannot be optimised in isolation (Part 2.8). |
 | 2026-08-24 | Step B | **Negative result:** per-item quality cannot be estimated from the training log. Structural proxies are collinear with degree (rho 0.98); model affinity `aff_i` predicts quality no better than degree while correlating with it at rho 0.95. The residual decomposition degenerates to raw popularity, so the planned v7 mechanism was abandoned before it was written (Part 2.7). |
 
 ---
@@ -273,9 +274,43 @@ a per-item correction inside the loss. Less glamorous. Actually usable.
 > of degree, the decomposition failed."* It was. Because the gate existed, this cost an hour
 > instead of a month. Write the falsification test before you write the feature.
 
+### 2.8 The scoreboard has a hole in it, and a random recommender finds it
+
+Run the dumbest possible baselines — recommend the 20 most popular items to everyone, and
+recommend 20 items at random — and score them on the same four metrics
+(`LightGCN/code/trivial_baselines.py`):
+
+| Dataset | Method | Recall@20 | NDCG@20 | Precision@20 | AvgPop@20 |
+|---|---|---|---|---|---|
+| Gowalla | MostPopular | 0.040822 | 0.031229 | 0.013635 | 683.99 |
+| Gowalla | **Random** | 0.000486 | 0.000327 | 0.000174 | **15.75** |
+| KuaiRec | MostPopular | **0.123342** | **0.313162** | **0.266525** | 1948.98 |
+| KuaiRec | **Random** | 0.001838 | 0.009792 | 0.009764 | **86.86** |
+| Coat | MostPopular | 0.095386 | 0.051185 | 0.019039 | 38.37 |
+| Coat | **Random** | 0.055013 | 0.029549 | 0.013523 | **11.68** |
+
+Look at the AvgPop@20 column. **Random wins it on every single dataset, by a mile.** 15.75 on
+Gowalla, where the best debiaser in this thesis manages 141.11 and the previous best prior-art
+method manages 139.86.
+
+Of course it does — recommending noise recommends unpopular things. But it means:
+
+> **Average Popularity@20 is a metric that a random number generator wins outright.**
+
+So an "85% popularity reduction" is not, by itself, an achievement. It is only meaningful *held
+against accuracy*, which is exactly why the goal names all four metrics together and why the
+selection criterion is a 4-dimensional Pareto hypervolume rather than popularity alone. If you
+ever find yourself proud of an AvgPop number, check where Random sits first.
+
+And the MostPopular row is the other half of the lesson: on KuaiRec it beats every model in this
+thesis by roughly 9x on Recall and 15x on NDCG. That single row reframes an entire chapter — see
+Part 5.3.
+
 **One consequence for measurement.** AvgPop@20 punishes a recommender for surfacing a genuinely
-excellent popular item. It stays, because it is named in the goal — but on its own it is the
-wrong scoreboard, and it needs a companion that counts only the *unearned* popularity.
+excellent popular item, *and* rewards it for recommending noise. It stays, because it is named in
+the goal — but on its own it is the wrong scoreboard, and it needs companions: accuracy on the
+long tail, catalogue coverage, and — where an unbiased split exists — the *unearned* share of the
+popularity being recommended.
 
 ---
 
