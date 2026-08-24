@@ -1,0 +1,52 @@
+{
+  "dataset": "Coat",
+  "params": {
+    "astd_alpha_base": 0.1,
+    "astd_topo_gate_init": 0.6,
+    "astd_topo_pop_damping": 0.05,
+    "astd_neg_hard_ratio": 0.1,
+    "astd_neg_matched_ratio": 0.4,
+    "astd_neg_uniform_ratio": 0.5,
+    "astd_temperature_acc": 0.2,
+    "astd_temperature_deb": 0.2,
+    "astd_fuse_lambda_max": 0.3,
+    "astd_tail_phi": 1.5,
+    "astd_lambda_acc": 1.0,
+    "astd_lambda_deb": 0.3,
+    "astd_lambda_final": 1.0,
+    "astd_lambda_ind": 0.05,
+    "astd_inference_pop_penalty": 0.0
+  },
+  "seeds": {
+    "2024": {
+      "recall@20": 0.12158789,
+      "ndcg@20": 0.06483461,
+      "precision@20": 0.02206406,
+      "avgpop@20": 26.503793
+    },
+    "2025": {
+      "recall@20": 0.112455,
+      "ndcg@20": 0.0628533,
+      "precision@20": 0.02153025,
+      "avgpop@20": 25.645517
+    },
+    "2026": {
+      "recall@20": 0.11001345,
+      "ndcg@20": 0.06197674,
+      "precision@20": 0.02064057,
+      "avgpop@20": 24.662069
+    }
+  },
+  "mean_metrics": {
+    "recall@20": 0.11468544666666668,
+    "ndcg@20": 0.06322155,
+    "precision@20": 0.021411626666666666,
+    "avgpop@20": 25.603793
+  },
+  "std_metrics": {
+    "recall@20": 0.004981504764495254,
+    "ndcg@20": 0.0011954249679786118,
+    "precision@20": 0.0005871595844591333,
+    "avgpop@20": 0.7524592977590228
+  }
+}

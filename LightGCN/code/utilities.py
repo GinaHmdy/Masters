@@ -731,3 +731,117 @@ def project_and_remove(embeddings, d_pops, beta=1.0):
 
     return debiased_embeddings
 
+
+# ==========================================
+# PPD v6 / ASTD-PD Pareto & Evaluation Utils
+# ==========================================
+
+def is_pareto_dominant(candidate_metrics, baseline_metrics, eps_acc=1e-4, eps_pop=0.1):
+    """
+    Evaluates whether candidate strictly dominates baseline across:
+    Recall@20 (higher), NDCG@20 (higher), Precision@20 (higher), AvgPop@20 (lower).
+    """
+    def _get(m, key):
+        for k in [key, key.lower(), key.replace("@20", ""), key.replace("@", "")]:
+            if k in m:
+                return float(m[k])
+        # Handle cases like "recall" list or float
+        return 0.0
+
+    c_rec = _get(candidate_metrics, "recall@20")
+    b_rec = _get(baseline_metrics, "recall@20")
+
+    c_ndcg = _get(candidate_metrics, "ndcg@20")
+    b_ndcg = _get(baseline_metrics, "ndcg@20")
+
+    c_prec = _get(candidate_metrics, "precision@20")
+    b_prec = _get(baseline_metrics, "precision@20")
+
+    c_pop = _get(candidate_metrics, "avgpop@20")
+    b_pop = _get(baseline_metrics, "avgpop@20")
+
+    dominates = (
+        c_rec >= (b_rec + eps_acc) and
+        c_ndcg >= (b_ndcg + eps_acc) and
+        c_prec >= (b_prec + eps_acc) and
+        c_pop <= (b_pop - eps_pop)
+    )
+    
+    details = {
+        "recall_gain": c_rec - b_rec,
+        "ndcg_gain": c_ndcg - b_ndcg,
+        "precision_gain": c_prec - b_prec,
+        "pop_reduction": b_pop - c_pop,
+        "dominates": dominates
+    }
+    return dominates, details
+
+
+def compute_pareto_hypervolume(metrics, ref_point=None, max_pop_ref=1000.0):
+    """
+    Computes 4D Pareto hypervolume for normalized objectives:
+    [Recall, NDCG, Precision, Inverted_AvgPop] with reference point [0, 0, 0, 0].
+    """
+    if ref_point is None:
+        ref_point = [0.0, 0.0, 0.0, 0.0]
+
+    def _get(m, key):
+        for k in [key, key.lower(), key.replace("@20", ""), key.replace("@", "")]:
+            if k in m:
+                v = m[k]
+                if isinstance(v, (list, np.ndarray)):
+                    return float(v[3]) if len(v) > 3 else float(v[-1])
+                return float(v)
+        return 0.0
+
+    rec = _get(metrics, "recall@20")
+    ndcg = _get(metrics, "ndcg@20")
+    prec = _get(metrics, "precision@20")
+    pop = _get(metrics, "avgpop@20")
+
+    # Invert and normalize popularity to [0, 1]
+    inv_pop = max(0.0, 1.0 / (1.0 + pop / max_pop_ref))
+
+    p1 = max(0.0, rec - ref_point[0])
+    p2 = max(0.0, ndcg - ref_point[1])
+    p3 = max(0.0, prec - ref_point[2])
+    p4 = max(0.0, inv_pop - ref_point[3])
+
+    hv = p1 * p2 * p3 * p4
+    return float(hv)
+
+
+def format_pareto_report(dataset_name, candidate_name, candidate_metrics, baselines_dict):
+    """
+    Generates a Markdown report table comparing candidate to baselines.
+    """
+    def _extract_tuple(m):
+        def _get(k):
+            for key in [k, k.lower(), k.replace("@20", ""), k.replace("@", "")]:
+                if key in m:
+                    v = m[key]
+                    if isinstance(v, (list, np.ndarray)):
+                        return float(v[3]) if len(v) > 3 else float(v[-1])
+                    return float(v)
+            return 0.0
+        return _get("recall@20"), _get("ndcg@20"), _get("precision@20"), _get("avgpop@20")
+
+    c_rec, c_ndcg, c_prec, c_pop = _extract_tuple(candidate_metrics)
+
+    lines = []
+    lines.append(f"\n### Pareto Evaluation Report: {dataset_name}\n")
+    lines.append("| Method | Recall@20 | NDCG@20 | Precision@20 | AvgPop@20 | Dominates? |")
+    lines.append("| :--- | :--- | :--- | :--- | :--- | :--- |")
+
+    lines.append(f"| **{candidate_name} (Ours)** | **{c_rec:.6f}** | **{c_ndcg:.6f}** | **{c_prec:.6f}** | **{c_pop:.2f}** | - |")
+
+    for base_name, base_metrics in baselines_dict.items():
+        b_rec, b_ndcg, b_prec, b_pop = _extract_tuple(base_metrics)
+        dom, _ = is_pareto_dominant(candidate_metrics, base_metrics)
+        dom_str = "✅ YES" if dom else "❌ NO"
+        lines.append(f"| {base_name} | {b_rec:.6f} | {b_ndcg:.6f} | {b_prec:.6f} | {b_pop:.2f} | {dom_str} |")
+
+    lines.append("")
+    return "\n".join(lines)
+
+

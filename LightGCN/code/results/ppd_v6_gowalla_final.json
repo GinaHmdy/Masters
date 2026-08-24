@@ -1,0 +1,52 @@
+{
+  "dataset": "Gowalla",
+  "params": {
+    "astd_alpha_base": 0.4,
+    "astd_topo_gate_init": 0.4,
+    "astd_topo_pop_damping": 0.05,
+    "astd_neg_hard_ratio": 0.15,
+    "astd_neg_matched_ratio": 0.4,
+    "astd_neg_uniform_ratio": 0.45,
+    "astd_temperature_acc": 0.2,
+    "astd_temperature_deb": 0.2,
+    "astd_fuse_lambda_max": 0.35,
+    "astd_tail_phi": 1.5,
+    "astd_lambda_acc": 1.0,
+    "astd_lambda_deb": 0.3,
+    "astd_lambda_final": 1.0,
+    "astd_lambda_ind": 0.05,
+    "astd_inference_pop_penalty": 0.0
+  },
+  "seeds": {
+    "2024": {
+      "recall@20": 0.14325611,
+      "ndcg@20": 0.12196706,
+      "precision@20": 0.04365664,
+      "avgpop@20": 142.620715
+    },
+    "2025": {
+      "recall@20": 0.14183834,
+      "ndcg@20": 0.12065607,
+      "precision@20": 0.0431978,
+      "avgpop@20": 140.07667
+    },
+    "2026": {
+      "recall@20": 0.14341981,
+      "ndcg@20": 0.12139007,
+      "precision@20": 0.04356454,
+      "avgpop@20": 140.620897
+    }
+  },
+  "mean_metrics": {
+    "recall@20": 0.14283808666666667,
+    "ndcg@20": 0.12133773333333335,
+    "precision@20": 0.04347299333333334,
+    "avgpop@20": 141.106094
+  },
+  "std_metrics": {
+    "recall@20": 0.000710079559220105,
+    "ndcg@20": 0.0005364873655134431,
+    "precision@20": 0.00019819036393214174,
+    "avgpop@20": 1.0938017300873044
+  }
+}

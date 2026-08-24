@@ -584,3 +584,280 @@ class Loader(BasicDataset):
     #     for user in users:
     #         negItems.append(self.allNeg[user])
     #     return negItems
+
+
+from scipy.stats import rankdata
+
+
+class PopularityDensityStore:
+    """
+    Computes and caches popularity and density features for items and users.
+    Ensures rank-normalized features in [0, 1] across datasets.
+    """
+    def __init__(self, train_matrix, n_users, m_items, cache_dir=".cache", dataset_name="dataset"):
+        self.n_users = n_users
+        self.m_items = m_items
+        self.dataset_name = dataset_name
+        self.cache_dir = cache_dir
+
+        os.makedirs(self.cache_dir, exist_ok=True)
+        cache_file = os.path.join(self.cache_dir, f"{dataset_name}_popularity_density.pt")
+
+        if os.path.exists(cache_file):
+            try:
+                data = torch.load(cache_file)
+                if data["item_popularity_rank"].shape[0] == self.m_items and data["user_popularity"].shape[0] == self.n_users:
+                    self.item_degree = data["item_degree"]
+                    self.item_popularity_raw = data["item_popularity_raw"]
+                    self.item_popularity_rank = data["item_popularity_rank"]
+                    self.user_popularity = data["user_popularity"]
+                    self.item_density_raw = data["item_density_raw"]
+                    self.item_density_rank = data["item_density_rank"]
+                    self.user_density_raw = data["user_density_raw"]
+                    self.user_density_rank = data["user_density_rank"]
+                    self.item_popularity_decile = data["item_popularity_decile"]
+                    self.item_bucket_indices = data["item_bucket_indices"]
+                    self.user_history_decile_diversity = data["user_history_decile_diversity"]
+                    print(f"[PopularityDensityStore] Loaded cached features from {cache_file}")
+                    return
+                else:
+                    print(f"[PopularityDensityStore] Cached dimension mismatch ({data['item_popularity_rank'].shape[0]} items vs expected {self.m_items}), recomputing...")
+            except Exception as e:
+                print(f"[PopularityDensityStore] Cache read error: {e}, recomputing...")
+
+        self._compute_features(train_matrix)
+
+        # Save cache
+        try:
+            torch.save({
+                "item_degree": self.item_degree,
+                "item_popularity_raw": self.item_popularity_raw,
+                "item_popularity_rank": self.item_popularity_rank,
+                "user_popularity": self.user_popularity,
+                "item_density_raw": self.item_density_raw,
+                "item_density_rank": self.item_density_rank,
+                "user_density_raw": self.user_density_raw,
+                "user_density_rank": self.user_density_rank,
+                "item_popularity_decile": self.item_popularity_decile,
+                "item_bucket_indices": self.item_bucket_indices,
+                "user_history_decile_diversity": self.user_history_decile_diversity
+            }, cache_file)
+            print(f"[PopularityDensityStore] Saved features cache to {cache_file}")
+        except Exception as e:
+            print(f"[PopularityDensityStore] Could not save cache: {e}")
+
+    def _compute_features(self, R):
+        if not sp.issparse(R):
+            R = sp.csr_matrix(R)
+        else:
+            R = R.tocsr()
+
+        # 1. Item degree and raw popularity
+        item_deg = np.array(R.sum(axis=0)).flatten().astype(np.float32)
+        self.item_degree = torch.from_numpy(item_deg)
+        self.item_popularity_raw = torch.log1p(self.item_degree)
+
+        # Rank-normalized item popularity in [0, 1]
+        if self.m_items > 1:
+            ranks = rankdata(item_deg, method="average") - 1.0
+            item_pop_rank = (ranks / (self.m_items - 1.0)).astype(np.float32)
+        else:
+            item_pop_rank = np.zeros(self.m_items, dtype=np.float32)
+        self.item_popularity_rank = torch.from_numpy(item_pop_rank)
+
+        # 2. User degree and user popularity (average of interacted item popularity)
+        user_deg = np.array(R.sum(axis=1)).flatten().astype(np.float32)
+        user_pop = np.zeros(self.n_users, dtype=np.float32)
+
+        R_csc = R.tocsc()
+        for u in range(self.n_users):
+            items_u = R.indices[R.indptr[u]:R.indptr[u+1]]
+            if len(items_u) > 0:
+                user_pop[u] = np.mean(item_pop_rank[items_u])
+            else:
+                user_pop[u] = 0.5
+        self.user_popularity = torch.from_numpy(user_pop)
+
+        # 3. Item 2nd-order density: c_i = sum_j sum_u R_ui R_uj = sum_u R_ui * deg_u
+        user_deg_vec = user_deg
+        c_i = np.array(R_csc.T.dot(user_deg_vec)).flatten().astype(np.float32)
+        self.item_density_raw = torch.log1p(torch.from_numpy(c_i))
+        if self.m_items > 1:
+            item_dens_ranks = (rankdata(c_i, method="average") - 1.0) / (self.m_items - 1.0)
+        else:
+            item_dens_ranks = np.zeros(self.m_items, dtype=np.float32)
+        self.item_density_rank = torch.from_numpy(item_dens_ranks.astype(np.float32))
+
+        # 4. User density: delta_u = log(1 + sum_{i in N(u)} deg_i)
+        user_dens_raw = np.zeros(self.n_users, dtype=np.float32)
+        for u in range(self.n_users):
+            items_u = R.indices[R.indptr[u]:R.indptr[u+1]]
+            if len(items_u) > 0:
+                user_dens_raw[u] = np.sum(item_deg[items_u])
+        self.user_density_raw = torch.log1p(torch.from_numpy(user_dens_raw))
+        if self.n_users > 1:
+            user_dens_ranks = (rankdata(user_dens_raw, method="average") - 1.0) / (self.n_users - 1.0)
+        else:
+            user_dens_ranks = np.zeros(self.n_users, dtype=np.float32)
+        self.user_density_rank = torch.from_numpy(user_dens_ranks.astype(np.float32))
+
+        # 5. Item popularity deciles (0 to 9) and 5-quantile bucket indices for basis SVD
+        deciles = np.clip((item_pop_rank * 10.0).astype(np.int64), 0, 9)
+        self.item_popularity_decile = torch.from_numpy(deciles)
+
+        # 5 buckets for subspace basis candidate construction
+        quantiles_5 = np.clip((item_pop_rank * 5.0).astype(np.int64), 0, 4)
+        self.item_bucket_indices = torch.from_numpy(quantiles_5)
+
+        # 6. User diversity feature: unique deciles in user history / 10.0
+        user_diversity = np.zeros(self.n_users, dtype=np.float32)
+        for u in range(self.n_users):
+            items_u = R.indices[R.indptr[u]:R.indptr[u+1]]
+            if len(items_u) > 0:
+                u_deciles = set(deciles[items_u])
+                user_diversity[u] = len(u_deciles) / 10.0
+            else:
+                user_diversity[u] = 0.1
+        self.user_history_decile_diversity = torch.from_numpy(user_diversity)
+
+
+class StratifiedPopularityNegativeSampler:
+    """
+    Stratified mixed negative sampler with logQ correction.
+    Draws negatives from uniform, popularity-matched, and top-decile hard negatives.
+    Gracefully falls back without throwing exceptions or dropping training examples.
+    """
+    def __init__(
+        self,
+        item_popularity_rank,
+        item_popularity_decile,
+        all_pos_dict,
+        num_items,
+        uniform_ratio=0.4,
+        matched_ratio=0.4,
+        hard_ratio=0.2,
+    ):
+        self.num_items = num_items
+        self.all_pos_dict = all_pos_dict
+        
+        # Normalize mixture ratios to sum to 1.0
+        total_r = uniform_ratio + matched_ratio + hard_ratio
+        if total_r <= 0:
+            uniform_ratio, matched_ratio, hard_ratio = 1.0, 0.0, 0.0
+            total_r = 1.0
+        self.r_u = uniform_ratio / total_r
+        self.r_m = matched_ratio / total_r
+        self.r_h = hard_ratio / total_r
+
+        if isinstance(item_popularity_rank, torch.Tensor):
+            self.pop_rank = item_popularity_rank.cpu().numpy()
+        else:
+            self.pop_rank = np.array(item_popularity_rank)
+
+        if isinstance(item_popularity_decile, torch.Tensor):
+            self.deciles = item_popularity_decile.cpu().numpy()
+        else:
+            self.deciles = np.array(item_popularity_decile)
+
+        # Precompute item pools for each decile
+        self.decile_items = [np.where(self.deciles == d)[0] for d in range(10)]
+        for d in range(10):
+            if len(self.decile_items[d]) == 0:
+                self.decile_items[d] = np.arange(self.num_items)
+
+        # Hard negative bucket (top decile: decile 9 or top 10% items)
+        self.hard_items = self.decile_items[9]
+        if len(self.hard_items) == 0:
+            top_k = max(1, int(0.1 * self.num_items))
+            self.hard_items = np.argsort(self.pop_rank)[-top_k:]
+
+        self.decile_sizes = np.array([len(self.decile_items[d]) for d in range(10)], dtype=np.float32)
+        self.hard_size = float(len(self.hard_items))
+
+    def sample(self, user_ids, pos_item_ids, num_negatives=1):
+        """
+        Samples negatives for a batch of (user_id, pos_item_id).
+        Returns:
+            negative_item_ids: [B, num_negatives] (numpy or tensor)
+            logq: [B, num_negatives] sampling log-probabilities for correction
+        """
+        batch_size = len(user_ids)
+        neg_items = np.zeros((batch_size, num_negatives), dtype=np.int64)
+        neg_logq = np.zeros((batch_size, num_negatives), dtype=np.float32)
+        eps = 1e-8
+
+        for b in range(batch_size):
+            u = int(user_ids[b])
+            pos_i = int(pos_item_ids[b])
+            if isinstance(self.all_pos_dict, dict):
+                pos_set = self.all_pos_dict.get(u, set())
+            elif u < len(self.all_pos_dict):
+                pos_set = self.all_pos_dict[u]
+            else:
+                pos_set = set()
+            if isinstance(pos_set, (list, np.ndarray)):
+                pos_set = set(pos_set)
+            
+            pos_decile = self.deciles[pos_i] if pos_i < self.num_items else 0
+            matched_pool = self.decile_items[pos_decile]
+
+            for k in range(num_negatives):
+                rand_val = np.random.rand()
+                selected_item = -1
+
+                # 1. Stratified selection
+                if rand_val < self.r_u or len(matched_pool) == 0:
+                    # Uniform sampling
+                    for _ in range(50):
+                        cand = np.random.randint(0, self.num_items)
+                        if cand not in pos_set:
+                            selected_item = cand
+                            break
+                    if selected_item == -1:
+                        selected_item = np.random.randint(0, self.num_items)
+
+                elif rand_val < self.r_u + self.r_m:
+                    # Popularity-matched sampling
+                    for _ in range(50):
+                        cand = np.random.choice(matched_pool)
+                        if cand not in pos_set:
+                            selected_item = cand
+                            break
+                    if selected_item == -1:
+                        # Fallback to uniform
+                        for _ in range(50):
+                            cand = np.random.randint(0, self.num_items)
+                            if cand not in pos_set:
+                                selected_item = cand
+                                break
+                        if selected_item == -1:
+                            selected_item = np.random.randint(0, self.num_items)
+
+                else:
+                    # Hard top-decile sampling
+                    for _ in range(50):
+                        cand = np.random.choice(self.hard_items)
+                        if cand not in pos_set:
+                            selected_item = cand
+                            break
+                    if selected_item == -1:
+                        # Fallback to matched or uniform
+                        cand = np.random.choice(matched_pool)
+                        if cand not in pos_set:
+                            selected_item = cand
+                        else:
+                            selected_item = np.random.randint(0, self.num_items)
+
+                neg_items[b, k] = selected_item
+
+                # 2. Compute exact logQ probability: q_j = r_u * q_unif + r_m * q_matched + r_h * q_hard
+                cand_decile = self.deciles[selected_item] if selected_item < self.num_items else 0
+                q_unif = 1.0 / max(1, self.num_items)
+                q_matched = (1.0 / max(1.0, self.decile_sizes[pos_decile])) if (cand_decile == pos_decile) else 0.0
+                q_hard = (1.0 / max(1.0, self.hard_size)) if (selected_item in self.hard_items) else 0.0
+
+                q_total = self.r_u * q_unif + self.r_m * q_matched + self.r_h * q_hard
+                neg_logq[b, k] = np.log(max(q_total, eps))
+
+        return neg_items, neg_logq
+

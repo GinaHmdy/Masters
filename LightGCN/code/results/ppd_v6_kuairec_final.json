@@ -1,0 +1,52 @@
+{
+  "dataset": "KuaiRec",
+  "params": {
+    "astd_alpha_base": 0.35,
+    "astd_topo_gate_init": 0.5,
+    "astd_topo_pop_damping": 0.05,
+    "astd_neg_hard_ratio": 0.15,
+    "astd_neg_matched_ratio": 0.45,
+    "astd_neg_uniform_ratio": 0.4,
+    "astd_temperature_acc": 0.2,
+    "astd_temperature_deb": 0.2,
+    "astd_fuse_lambda_max": 0.35,
+    "astd_tail_phi": 1.5,
+    "astd_lambda_acc": 1.0,
+    "astd_lambda_deb": 0.3,
+    "astd_lambda_final": 1.0,
+    "astd_lambda_ind": 0.05,
+    "astd_inference_pop_penalty": 0.0
+  },
+  "seeds": {
+    "2024": {
+      "recall@20": 0.0184408,
+      "ndcg@20": 0.02639906,
+      "precision@20": 0.02960993,
+      "avgpop@20": 792.427759
+    },
+    "2025": {
+      "recall@20": 0.00575522,
+      "ndcg@20": 0.01491368,
+      "precision@20": 0.01578014,
+      "avgpop@20": 708.601812
+    },
+    "2026": {
+      "recall@20": 0.01751296,
+      "ndcg@20": 0.02219634,
+      "precision@20": 0.02492908,
+      "avgpop@20": 789.37755
+    }
+  },
+  "mean_metrics": {
+    "recall@20": 0.013902993333333334,
+    "ndcg@20": 0.021169693333333333,
+    "precision@20": 0.023439716666666666,
+    "avgpop@20": 763.4690403333334
+  },
+  "std_metrics": {
+    "recall@20": 0.005773784402217396,
+    "ndcg@20": 0.004744750851887682,
+    "precision@20": 0.005743368652340618,
+    "avgpop@20": 38.81696796052404
+  }
+}

@@ -86,5 +86,45 @@ def parse_args():
     parser.add_argument('--max_edges_tsp', type=int, default=450000)
 
     parser.add_argument('--ckpt', type=str, default="", help='explicit checkpoint path to load (posthoc experiments)')
-    return parser.parse_args()
+
+    # PPD v6 / ASTD-PD CLI flags
+    parser.add_argument('--method', type=str, default='lightgcn', choices=['lightgcn', 'tsp', 'ppd_v3', 'ppd_v4', 'ppd_v6'],
+                        help='Method selection: lightgcn, tsp, ppd_v3, ppd_v4, ppd_v6')
+    parser.add_argument('--use_astd', action='store_true', help='Enable ASTD debiasing')
+    parser.add_argument('--astd_alpha_base', type=float, default=0.2, help='Base alpha debiasing coefficient')
+    parser.add_argument('--astd_alpha_min', type=float, default=0.0, help='Minimum alpha debiasing coefficient')
+    parser.add_argument('--astd_density_xi', type=float, default=1.0, help='Density adaptation scaling parameter xi')
+    parser.add_argument('--astd_alpha_pop_exponent', type=float, default=1.0, help='Popularity modulation exponent eta')
+    parser.add_argument('--astd_pop_basis_rank', type=int, default=2, help='Popularity subspace rank r')
+    parser.add_argument('--astd_pop_basis_ema', type=float, default=0.95, help='EMA coefficient for popularity basis update')
+    parser.add_argument('--astd_pop_basis_update_steps', type=int, default=50, help='Steps between popularity basis updates')
+    parser.add_argument('--astd_debias_warmup_epochs', type=int, default=5, help='Epochs of debiasing warmup')
+    parser.add_argument('--astd_topo_gate_init', type=float, default=0.5, help='Initial / fixed topological gate theta')
+    parser.add_argument('--astd_topo_gate_learnable', type=int, default=1, help='Whether topological gate theta is learnable')
+    parser.add_argument('--astd_topo_pop_damping', type=float, default=0.1, help='Topological popularity damping kappa')
+    parser.add_argument('--astd_highfreq_gamma', type=float, default=0.1, help='High-frequency residual weight gamma')
+    parser.add_argument('--astd_user_alpha_scale', type=float, default=0.3, help='User alpha scale relative to item alpha')
+    parser.add_argument('--astd_fuse_lambda_min', type=float, default=0.0, help='Minimum Pareto fusion gate lambda')
+    parser.add_argument('--astd_fuse_lambda_max', type=float, default=0.5, help='Maximum Pareto fusion gate lambda')
+    parser.add_argument('--astd_tail_phi', type=float, default=1.0, help='Tail indicator exponent phi_t')
+    parser.add_argument('--astd_temperature_acc', type=float, default=0.1, help='Temperature for accuracy stream')
+    parser.add_argument('--astd_temperature_deb', type=float, default=0.1, help='Temperature for debiased stream')
+    parser.add_argument('--astd_lambda_final', type=float, default=1.0, help='Weight of final fused loss')
+    parser.add_argument('--astd_lambda_acc', type=float, default=0.5, help='Weight of accuracy stream loss')
+    parser.add_argument('--astd_lambda_deb', type=float, default=0.5, help='Weight of debiased stream tail loss')
+    parser.add_argument('--astd_lambda_ind', type=float, default=0.1, help='Weight of independence loss')
+    parser.add_argument('--astd_lambda_cov', type=float, default=0.1, help='Weight of covariance loss')
+    parser.add_argument('--astd_neg_uniform_ratio', type=float, default=0.4, help='Uniform negative sampling ratio')
+    parser.add_argument('--astd_neg_matched_ratio', type=float, default=0.4, help='Popularity-matched negative sampling ratio')
+    parser.add_argument('--astd_neg_hard_ratio', type=float, default=0.2, help='Hard negative sampling ratio')
+    parser.add_argument('--astd_use_logq', type=int, default=1, help='Whether to apply logQ correction')
+    parser.add_argument('--astd_simplex_topk', type=int, default=200, help='Top-k neighbors for simplex adjacency')
+    parser.add_argument('--astd_use_simplex_topk', type=int, default=1, help='Whether to prune simplex adjacency to top-k')
+    parser.add_argument('--astd_inference_pop_penalty', type=float, default=0.0, help='Post-hoc popularity penalty mu_cal')
+    parser.add_argument('--astd_seed_protocol', type=str, default='three_seed', help='Seed protocol')
+    parser.add_argument('--smoke_test', action='store_true', help='Run fast smoke test (few batches)')
+
+    args, _ = parser.parse_known_args()
+    return args
+
 

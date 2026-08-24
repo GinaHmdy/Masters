@@ -18,6 +18,7 @@ from tqdm import tqdm
 import model
 import multiprocessing
 from sklearn.metrics import roc_auc_score
+from collections import defaultdict
 
 
 CORES = multiprocessing.cpu_count() // 2
@@ -165,6 +166,135 @@ def BPR_train_original(dataset, recommend_model, loss_class, epoch, neg_k=1, w=N
     time_info = timer.dict()
     timer.zero()
     return f"loss{aver_loss:.3f}-{time_info}"
+
+
+def train_ppd_v6(dataset, recommend_model, optimizer, epoch, neg_sampler=None, w=None):
+    """
+    PPD v6 / ASTD-PD training procedure with stratified negative sampling and multi-objective loss.
+    """
+    Recmodel = recommend_model
+    Recmodel.train()
+
+    all_users = dataset.trainUser
+    all_pos = dataset.trainItem
+
+    perm = np.random.permutation(len(all_users))
+    users = all_users[perm]
+    pos = all_pos[perm]
+
+    if neg_sampler is None:
+        from dataloader import StratifiedPopularityNegativeSampler
+        neg_sampler = StratifiedPopularityNegativeSampler(
+            Recmodel.pop_store.item_popularity_rank,
+            Recmodel.pop_store.item_popularity_decile,
+            dataset.allPos,
+            dataset.m_items,
+            uniform_ratio=world.config.get('astd_neg_uniform_ratio', 0.4),
+            matched_ratio=world.config.get('astd_neg_matched_ratio', 0.4),
+            hard_ratio=world.config.get('astd_neg_hard_ratio', 0.2),
+        )
+
+    batch_size = world.config.get('bpr_batch_size', 2048)
+    if world.config.get('smoke_test', False):
+        users = users[:min(len(users), batch_size * 2)]
+        pos = pos[:min(len(pos), batch_size * 2)]
+
+    total_loss = 0.0
+    loss_metrics = defaultdict(float)
+    total_samples = len(users)
+
+    for i in range(0, total_samples, batch_size):
+        b_users = users[i:i+batch_size]
+        b_pos = pos[i:i+batch_size]
+
+        b_neg, b_logq = neg_sampler.sample(b_users, b_pos, num_negatives=1)
+
+        b_users_t = torch.tensor(b_users, dtype=torch.long, device=world.device)
+        b_pos_t = torch.tensor(b_pos, dtype=torch.long, device=world.device)
+        b_neg_t = torch.tensor(b_neg, dtype=torch.long, device=world.device)
+        b_logq_t = torch.tensor(b_logq, dtype=torch.float32, device=world.device)
+
+        optimizer.zero_grad()
+        loss, loss_dict = Recmodel.compute_loss(b_users_t, b_pos_t, b_neg_t, b_logq_t, epoch=epoch)
+        loss.backward()
+        optimizer.step()
+
+        Recmodel.train_step_count += 1
+        if Recmodel.train_step_count % max(1, Recmodel.pop_basis_update_steps) == 0:
+            Recmodel.update_popularity_basis()
+
+        cur_batch_len = len(b_users)
+        total_loss += loss.item() * cur_batch_len
+        for k, v in loss_dict.items():
+            loss_metrics[k] += v * cur_batch_len
+
+    n = max(1, total_samples)
+    avg_loss = total_loss / n
+    summary = (
+        f"loss={avg_loss:.4f} [Final={loss_metrics['loss_final']/n:.4f}, "
+        f"Acc={loss_metrics['loss_acc']/n:.4f}, DebTail={loss_metrics['loss_deb_tail']/n:.4f}, "
+        f"Ind={loss_metrics['loss_ind']/n:.4f}, Reg={loss_metrics['loss_reg']/n:.4f}, "
+        f"Alpha={loss_metrics['mean_alpha']/n:.4f}, Theta={loss_metrics['mean_theta']/n:.4f}, "
+        f"MeanLambda={loss_metrics['mean_lambda_fuse']/n:.4f}]"
+    )
+
+    if w and world.tensorboard:
+        w.add_scalar('PPDv6/TotalLoss', avg_loss, epoch)
+        w.add_scalar('PPDv6/FinalLoss', loss_metrics['loss_final']/n, epoch)
+        w.add_scalar('PPDv6/AccLoss', loss_metrics['loss_acc']/n, epoch)
+        w.add_scalar('PPDv6/DebLoss', loss_metrics['loss_deb_tail']/n, epoch)
+        w.add_scalar('PPDv6/IndLoss', loss_metrics['loss_ind']/n, epoch)
+        w.add_scalar('PPDv6/MeanLambda', loss_metrics['mean_lambda_fuse']/n, epoch)
+        w.add_scalar('PPDv6/MeanAlpha', loss_metrics['mean_alpha']/n, epoch)
+        w.add_scalar('PPDv6/MeanTheta', loss_metrics['mean_theta']/n, epoch)
+
+    return summary
+
+
+@torch.no_grad()
+def calculate_average_popularity(model, dataset, topk=20, posthoc=0, all_updated_embeddings=None, weight_1=None, weight_2=None, num_cluster=None):
+    """
+    Computes Average Popularity@K across all evaluated users.
+    """
+    model.eval()
+    item_counts = np.array(dataset.UserItemNet.sum(axis=0)).squeeze()
+
+    num_users = dataset.n_users
+    batch_size = 512
+    all_recs = []
+
+    for i in range(0, num_users, batch_size):
+        end = min(i + batch_size, num_users)
+        batch_users = np.arange(i, end)
+        batch_users_gpu = torch.Tensor(batch_users).long().to(world.device)
+
+        if world.config.get('use_lgbm_ranker', False):
+            if not hasattr(model, 'lgbm_model') or model.lgbm_model is None:
+                all_users, all_items = get_eval_embeddings(model, posthoc, all_updated_embeddings, weight_1, weight_2, num_cluster)
+                model.lgbm_model = train_lgbm_ranker(dataset, model, all_users, all_items)
+            all_users, all_items = get_eval_embeddings(model, posthoc, all_updated_embeddings, weight_1, weight_2, num_cluster)
+            u_emb = all_users[batch_users_gpu].detach().cpu().numpy()
+            all_items_emb = all_items.detach().cpu().numpy()
+            preds = predict_lgbm(model.lgbm_model, u_emb, all_items_emb)
+            rating = torch.tensor(preds, dtype=torch.float32, device=world.device)
+        else:
+            if posthoc == 0:
+                rating = model.getUsersRating(batch_users_gpu)
+            elif posthoc == 1:
+                rating = model.getUsersRatingPostHoc(all_updated_embeddings, batch_users_gpu)
+            else: # DAP
+                rating = model.getUsersRatingDAP(batch_users_gpu, weight_1, weight_2, num_cluster)
+
+        train_items = dataset.getUserPosItems(batch_users)
+        for row_idx, items in enumerate(train_items):
+            rating[row_idx, items] = -1e9
+        _, top_items = torch.topk(rating, topk, dim=1)
+        all_recs.append(top_items.cpu().numpy())
+
+    all_recs = np.concatenate(all_recs, axis=0)
+    avg_pop = np.mean(item_counts[all_recs])
+    return float(avg_pop)
+
     
     
 def test_one_batch(X):

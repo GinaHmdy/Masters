@@ -1,0 +1,42 @@
+{
+  "best_params": {
+    "astd_alpha_base": 0.15,
+    "astd_topo_gate_init": 0.6,
+    "astd_topo_pop_damping": 0.05,
+    "astd_neg_hard_ratio": 0.1,
+    "astd_neg_matched_ratio": 0.4
+  },
+  "best_val_hypervolume": 0.00532899,
+  "seeds": {
+    "2024": {
+      "recall@20": 0.13818982,
+      "ndcg@20": 0.06339181,
+      "precision@20": 0.01095258,
+      "avgpop@20": 504.397904
+    },
+    "2025": {
+      "recall@20": 0.13855085,
+      "ndcg@20": 0.06265341,
+      "precision@20": 0.01086865,
+      "avgpop@20": 535.900097
+    },
+    "2026": {
+      "recall@20": 0.13864576,
+      "ndcg@20": 0.0618975,
+      "precision@20": 0.0107008,
+      "avgpop@20": 520.532196
+    }
+  },
+  "mean_metrics": {
+    "recall@20": 0.13846214333333334,
+    "ndcg@20": 0.06264757333333333,
+    "precision@20": 0.010840676666666667,
+    "avgpop@20": 520.2767323333333
+  },
+  "std_metrics": {
+    "recall@20": 0.00019642127419288932,
+    "ndcg@20": 0.0006100634633835715,
+    "precision@20": 0.00010467464714798694,
+    "avgpop@20": 12.861985000148097
+  }
+}
