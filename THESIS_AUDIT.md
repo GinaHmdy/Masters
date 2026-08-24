@@ -294,11 +294,32 @@ It also means finding **J** is more serious than stated: AvgPop@20 is not merely
 is *mis-specified* as a sole objective, because it penalises recommending a genuinely excellent
 popular item.
 
-**Remediation:** decompose observed degree into a component predicted by the collaborative
-affinity signal (benign) and a residual (harmful), and drive alpha, `t_i` and `loss_cov` from
-the residual rather than from raw popularity. Report a harmful-popularity metric beside
-AvgPop@20. TIDE's temporal quality/conformity split is the canonical method but requires
-timestamps, which `data/*/train.txt` does not have.
+**Measured, 2026-08-24** (`measure_popularity_composition.py`, `results/popularity_composition.json`).
+Using the random-exposure splits that Coat and Yahoo!R3 ship and KuaiRec's fully observed test
+matrix, the earned share of popularity is: **KuaiRec 26.9% (rho +0.74), Yahoo 27.8% (rho +0.43),
+Coat 3.7% (rho +0.17)**; Gowalla ships no unbiased split and is reported unmeasurable.
+
+Prediction vs outcome: **KuaiRec confirmed** (earned popularity, every model loses to
+MostPopular), **Yahoo confirmed** (earned popularity, v6 loses accuracy under validation
+selection), **Coat contradicted** — its popularity is 96% amplified, so debiasing should have
+helped and did not. Coat's failure is therefore *not* a popularity-composition effect and remains
+open; the leading hypothesis is capacity (281 test users, 300 items, four embedding tables vs
+two).
+
+**Remediation attempted and REJECTED.** Decomposing degree into a quality-predicted component and
+a residual requires a per-item quality estimate. Three were tested against the Coat and KuaiRec
+ground truth and all failed: structural proxies are collinear with degree (the 2nd-order density
+term at rho = 0.98, making its apparent R^2 = 0.81-0.99 degree explaining degree), and the model
+affinity `aff_i` (`utilities.py:103-111`) predicts true quality no better than raw degree
+(+0.70 vs +0.71 on KuaiRec) while correlating with degree at rho = 0.95. In every case the
+residual correlated with log degree at +0.89 to +0.98 — the decomposition collapses to raw
+popularity and is a no-op. Root cause: the training log contains no counterfactual, so
+exposure-free quality is not recoverable from it. This is why TIDE requires timestamps and why
+these datasets were built with random-exposure splits.
+
+**Revised remediation:** use the measured composition as a *per-dataset diagnostic* that sets
+debiasing strength, not as a per-item correction. Report a harmful-popularity companion to
+AvgPop@20 only on datasets where an unbiased split exists.
 
 #### J. Only one fairness metric
 AvgPop@20 is the only fairness quantity in the codebase — grep for

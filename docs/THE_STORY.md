@@ -16,7 +16,9 @@ can be followed without reconstructing it from git.
 | 2026-08-24 | Audit | Independent audit of the contribution's integrity (`THESIS_AUDIT.md`) and a re-derivation of every number from `results/*.json` (`RESULTS_CANONICAL.md`). Established that the Gowalla result is real and the dense-dataset claims were not. |
 | 2026-08-24 | Commit `3e3d60c` | PPD v6 / ASTD-PD committed. It had existed only as uncommitted working-tree state — the central contribution was untracked. |
 | 2026-08-24 | Step A | **Attribution corrected.** Confirmed from the literature that PPD v1-v4 is a *published method* (arXiv:2510.12959), DAP is published (Chen et al. 2024), DCD is DICE (WWW 2021), and TSP is inherited. README, contribution guide and this document updated. See Part 3. |
-| 2026-08-24 | Step A | Framing adopted: **popularity is not always bias** (Part 2.5). Benign popularity = item quality; harmful popularity = exposure amplification. This became the spine of the thesis argument and it retrodicts every dataset result. |
+| 2026-08-24 | Step A | Framing adopted: **popularity is not always bias** (Part 2.5). Benign popularity = item quality; harmful popularity = exposure amplification. |
+| 2026-08-24 | Step B | **Measured** the benign/harmful split using the random-exposure splits, rather than asserting it (`measure_popularity_composition.py`, Part 2.6). Earned share: KuaiRec 26.9%, Yahoo 27.8%, Coat 3.7%, Gowalla unmeasurable. Predictions confirmed on KuaiRec and Yahoo; **the Coat prediction was wrong** and has been corrected in every document rather than quietly dropped. |
+| 2026-08-24 | Step B | **Negative result:** per-item quality cannot be estimated from the training log. Structural proxies are collinear with degree (rho 0.98); model affinity `aff_i` predicts quality no better than degree while correlating with it at rho 0.95. The residual decomposition degenerates to raw popularity, so the planned v7 mechanism was abandoned before it was written (Part 2.7). |
 
 ---
 
@@ -195,23 +197,85 @@ A method that can't tell them apart can only **slide along** the curve from §2.
 the goal actually requires — and it is why the honest answer to "why didn't v6 win everywhere?"
 is not "it needs more tuning".
 
-**The framing makes predictions, and they come true.** Before reading Part 5, note what this
-theory says should happen on each dataset:
+### 2.6 Don't assume the split — measure it
 
-| Dataset | What kind of popularity does it have? | Prediction |
+Here is where it would be easy to write a nice story and move on. We didn't, and the measurement
+changed the story.
+
+**How you can actually measure it.** Three of the four datasets ship a special test set collected
+under **random exposure**: Coat and Yahoo!R3 asked users to rate items *chosen for them at
+random*, and KuaiRec's test matrix is *fully observed* — every user, every item. That removes the
+exposure confound completely. If an item is shown to a random sample of people, the fraction who
+like it **is** its quality.
+
+So: regress training popularity on that measured quality. Whatever the fit explains is earned;
+the rest is amplification. `LightGCN/code/measure_popularity_composition.py` does exactly this.
+
+| Dataset | How much of popularity is *earned* | correlation (quality, degree) | Verdict |
+|---|---|---|---|
+| **KuaiRec** | **26.9%** | **+0.74** | popularity substantially earned |
+| **Yahoo** | **27.8%** | **+0.43** | popularity substantially earned |
+| **Coat** | **3.7%** | **+0.17** | popularity almost entirely amplified |
+| Gowalla | *no random-exposure split exists* | — | unmeasurable — so we don't guess |
+
+**Now the predictions, and the honest scorecard.** Where popularity is earned, removing it should
+cost accuracy. Where it is amplified, removing it should help.
+
+| Dataset | Predicted | What actually happened | |
+|---|---|---|---|
+| KuaiRec | debiasing costs accuracy | every model — ours included — loses to plain most-popular | ✅ **confirmed** |
+| Yahoo | debiasing costs accuracy | v6 loses Recall, NDCG and Precision to LightGCN | ✅ **confirmed** |
+| Coat | debiasing has room to help | v6 loses *every* accuracy metric | ❌ **wrong** |
+| Gowalla | unmeasurable | v6 wins 3/4 | — untestable |
+
+**Two out of three, and the miss is the useful part.** The two results that looked like the
+method failing — KuaiRec and Yahoo — turn out to be explained by a property of the *data*,
+measured without reference to any model. That is a much stronger thing to say in a viva than "we
+need more tuning."
+
+Coat is genuinely not explained. Its popularity is 97% amplification, so debiasing *should* have
+helped, and it didn't. So we say so, and we look elsewhere: Coat has 281 test users and 300
+items, and v6 carries four embedding tables where LightGCN carries two. That smells like a model
+too big for the dataset, not a popularity effect. It stays on the open-questions list rather than
+being quietly folded into a story that happens to be convenient.
+
+> **This is the part to copy.** A framework that explains *everything* usually explains nothing —
+> it has just been fitted to the results after the fact. One that makes four predictions, gets
+> three right and names the fourth as unexplained is doing real work. Write down the prediction
+> **before** you look.
+
+### 2.7 The thing we tried to build, and couldn't
+
+The obvious next move: if popularity splits into earned and amplified, estimate that split *per
+item* and remove only the amplified part. That was the plan. It does not work, and the reason is
+worth more than the mechanism would have been.
+
+We tried three ways to estimate item quality **from the training log alone**:
+
+| Attempt | Idea | Result |
 |---|---|---|
-| Gowalla | sparse, long-tailed, strong feedback loop → mostly **harmful** | debiasing should help |
-| Coat | tiny (300 items), mildly biased → little **harmful** bias to remove | uniform removal should *hurt* accuracy |
-| KuaiRec | fully-observed dense matrix, ~103 relevant items per user → mostly **benign** | debiasing should cost accuracy badly |
-| Yahoo | moderate | should be roughly a wash |
+| Structural proxies | attention share (`1/deg_u` of consumers), explorer mix, 2nd-order density | The density term correlates with degree at **0.98** — it is degree wearing a hat. The apparent R² of 0.81–0.99 was degree explaining degree. On KuaiRec the "most harmful" items came out with degree **1**. Nonsense. |
+| Model affinity | `aff_i = ê_i · mean_u(ê_u)` — how much the trained model's users like item *i* | Predicts true quality **no better than raw degree** (+0.70 vs +0.71 on KuaiRec), while correlating with degree at **0.95**. The embedding had simply *learned* popularity — which is a neat demonstration of the very bias we're removing, and useless as a fix. |
 
-Every one of those predictions holds (Part 5). The dense-dataset "failures" are not failures of
-the code. **They are evidence that the framing is right** — which is a considerably better thing
-to have in a thesis than a method that won everywhere for reasons you can't explain.
+In every case the "harmful residual" ended up correlated with degree at +0.89 to +0.98 — meaning
+the whole decomposition collapsed back into plain popularity, doing nothing.
+
+**Why it was always going to fail.** The training log records what people did *given what they
+were shown*. It contains no counterfactual — nothing about what they would have done had they
+been shown something else. You cannot recover exposure-free quality from exposure-contaminated
+data by rearranging it. That is precisely why Coat, Yahoo!R3 and KuaiRec were *built* with
+random-exposure splits, and why TIDE reaches for timestamps instead.
+
+So the split becomes a **diagnostic that tells you how hard to debias each dataset**, rather than
+a per-item correction inside the loss. Less glamorous. Actually usable.
+
+> **Lesson.** We had a gate written down in advance: *"if the residual is just a monotone function
+> of degree, the decomposition failed."* It was. Because the gate existed, this cost an hour
+> instead of a month. Write the falsification test before you write the feature.
 
 **One consequence for measurement.** AvgPop@20 punishes a recommender for surfacing a genuinely
 excellent popular item. It stays, because it is named in the goal — but on its own it is the
-wrong scoreboard, and it needs a companion metric that counts only the *unearned* popularity.
+wrong scoreboard, and it needs a companion that counts only the *unearned* popularity.
 
 ---
 

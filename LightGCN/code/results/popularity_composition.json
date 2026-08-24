@@ -1,0 +1,34 @@
+{
+  "relevance_threshold": 4,
+  "measurements": [
+    {
+      "dataset": "Coat",
+      "unbiased_source": "test.ascii",
+      "items_scored": 300,
+      "earned_r2": 0.03721387707300439,
+      "spearman_quality_degree": 0.1696683670391284
+    },
+    {
+      "dataset": "KuaiRec",
+      "unbiased_source": "test.txt",
+      "items_scored": 3247,
+      "earned_r2": 0.2688169527208992,
+      "spearman_quality_degree": 0.7407161286089107
+    },
+    {
+      "dataset": "Yahoo",
+      "unbiased_source": "test.txt",
+      "items_scored": 942,
+      "earned_r2": 0.27778003778146765,
+      "spearman_quality_degree": 0.43340092668499974
+    },
+    {
+      "dataset": "Gowalla",
+      "unbiased_source": null,
+      "items_scored": 0,
+      "earned_r2": null,
+      "spearman_quality_degree": null,
+      "note": "no random-exposure split ships with Gowalla; the composition cannot be measured and is not guessed"
+    }
+  ]
+}

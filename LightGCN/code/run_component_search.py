@@ -1,6 +1,7 @@
 # run_component_search.py
 import subprocess
 import os
+import json
 import re
 import sys
 
@@ -10,17 +11,31 @@ checkpoints_dir = os.path.join(code_dir, "checkpoints")
 
 commit_hash = subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], cwd=code_dir).decode("utf-8").strip()
 
+# ---------------------------------------------------------------------------
+# Baselines are read from results/*.json (3-seed means, current protocol).
+# They are NOT hardcoded: the superseded values (Gowalla 0.121115 etc.) came
+# from checkpoints/canonical/, which is a weaker LightGCN than the one the
+# current protocol trains. Comparing against those inflated every margin.
+# ---------------------------------------------------------------------------
+def _load_baseline(dataset):
+    path = os.path.join(code_dir, "results", "baselines_%s.json" % dataset.lower())
+    with open(path) as f:
+        blob = json.load(f)
+    lgn = blob["LightGCN"]["mean"]
+    return {
+        "baseline_recall": float(lgn["recall@20"]),
+        "baseline_ndcg": float(lgn["ndcg@20"]),
+        "baseline_prec": float(lgn["precision@20"]),
+        "baseline_pop": float(lgn["avgpop@20"]),
+    }
+
 datasets_config = {
     "Gowalla": {
         "layer": "3",
         "recdim": "64",
         "beta": "0.2",
-        "baseline_recall": 0.121115,
-        "baseline_ndcg": 0.101116,
-        "baseline_prec": 0.036710,
-        "baseline_pop": 253.862280,
         "checkpoints": {
-            "lgn": os.path.join(checkpoints_dir, "canonical/lgn-Gowalla-3-64.pth.tar"),
+            "lgn": os.path.join(checkpoints_dir, "lgn-Gowalla-3-64-best.pth.tar"),
             "dap": os.path.join(checkpoints_dir, "dap-Gowalla-3-64.pth.tar"),
             "dap-sgl": os.path.join(checkpoints_dir, "dap-Gowalla-3-64-sgl.pth.tar")
         }
@@ -29,12 +44,8 @@ datasets_config = {
         "layer": "2",
         "recdim": "256",
         "beta": "2.0",
-        "baseline_recall": 0.005553,
-        "baseline_ndcg": 0.005015,
-        "baseline_prec": 0.005709,
-        "baseline_pop": 1058.105442,
         "checkpoints": {
-            "lgn": os.path.join(checkpoints_dir, "canonical/lgn-KuaiRec-2-256.pth.tar"),
+            "lgn": os.path.join(checkpoints_dir, "lgn-KuaiRec-2-256-best.pth.tar"),
             "dap": os.path.join(checkpoints_dir, "dap-KuaiRec-2-256.pth.tar"),
             "dap-sgl": os.path.join(checkpoints_dir, "dap-KuaiRec-2-256-sgl.pth.tar")
         }
@@ -43,17 +54,15 @@ datasets_config = {
         "layer": "2",
         "recdim": "256",
         "beta": "0.07",
-        "baseline_recall": 0.140645,
-        "baseline_ndcg": 0.064747,
-        "baseline_prec": 0.010869,
-        "baseline_pop": 497.358973,
         "checkpoints": {
-            "lgn": os.path.join(checkpoints_dir, "canonical/lgn-Yahoo-2-256.pth.tar"),
+            "lgn": os.path.join(checkpoints_dir, "lgn-Yahoo-2-256-best.pth.tar"),
             "dap": os.path.join(checkpoints_dir, "dap-Yahoo-2-256.pth.tar"),
             "dap-sgl": os.path.join(checkpoints_dir, "dap-Yahoo-2-256-sgl.pth.tar")
         }
     }
 }
+for _ds in datasets_config:
+    datasets_config[_ds].update(_load_baseline(_ds))
 
 def classify_run(rec, ndcg, prec, pop, ref):
     # Objective 1: Dominant (Accuracy >= baseline, Popularity < baseline)

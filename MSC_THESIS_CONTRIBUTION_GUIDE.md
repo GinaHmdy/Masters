@@ -78,17 +78,62 @@ two apart can only **slide along** the accuracy/popularity trade-off. A method t
 apart **moves the frontier**. That is exactly the gap between what the current implementation
 does and what the stated goal requires.
 
-**It also predicts the results before you read them:**
+### 2.0.1 The split is measured, not assumed
 
-| Dataset | Popularity composition | Prediction | Observed |
+Coat, Yahoo!R3 and KuaiRec all ship a test split collected under (near-)uniform exposure — Coat
+and Yahoo by asking users to rate randomly sampled items, KuaiRec by being a fully observed
+user-item matrix. Under uniform exposure an item's positive rate estimates its **quality** with
+no exposure confound. Regressing training degree on that quality gives the earned share
+directly. `LightGCN/code/measure_popularity_composition.py` does this; output in
+`results/popularity_composition.json`.
+
+| Dataset | Unbiased source | Items | Degree variance explained by quality | Spearman(quality, degree) | Reading |
+|---|---|---|---|---|---|
+| **KuaiRec** | fully observed test matrix | 3,247 | **26.9%** | **+0.74** | popularity is substantially **earned** |
+| **Yahoo** | R3 random-exposure test | 942 | **27.8%** | **+0.43** | popularity is substantially **earned** |
+| **Coat** | uniform-exposure test | 300 | **3.7%** | **+0.17** | popularity is almost entirely **amplified** |
+| Gowalla | *none ships* | — | **unmeasurable** | — | not guessed |
+
+**Prediction, and what actually happened.** Where popularity is earned, removing it must cost
+accuracy; where it is amplified, removing it has room to help.
+
+| Dataset | Earned share | Predicted | Observed | Verdict |
+|---|---|---|---|---|
+| KuaiRec | 26.9% (rho +0.74) | debiasing costs accuracy | every model, ASTD-PD included, loses to MostPopular (0.0139 vs 0.1233) | **confirmed** |
+| Yahoo | 27.8% (rho +0.43) | debiasing costs accuracy | ASTD-PD loses Recall/NDCG/Precision to LightGCN under validation selection | **confirmed** |
+| Coat | 3.7% (rho +0.17) | debiasing has room to help | ASTD-PD loses *every* accuracy metric by ~2 sigma | **contradicted** |
+| Gowalla | unmeasurable | — | ASTD-PD wins 3/4 | untestable |
+
+**Two of the three testable predictions hold, and the third is informative.** The KuaiRec and
+Yahoo results — the two that looked like failures of the method — are explained by a property of
+the *data*, measured independently of any model. Coat is not: with only 3.7% of its popularity
+earned, debiasing should have helped there and did not. That points the Coat failure at a
+different cause (281 test users, a 300-item catalogue, and a model carrying four embedding
+tables where the baseline carries two), and it is reported as an open question rather than
+folded into the popularity story.
+
+### 2.0.2 What could not be built, and why it matters
+
+The obvious next step is to *use* the split inside the model: estimate each item's earned
+popularity, and remove only the amplified residual. **This was attempted and it does not work
+from the training log.** Three candidate estimators were tested against the Coat and KuaiRec
+ground truth:
+
+| Estimator | Computable from | Spearman with true quality | Verdict |
 |---|---|---|---|
-| Gowalla | sparse, long-tailed; exposure amplification dominates -> mostly **harmful** | debiasing helps | ASTD-PD wins 3/4 |
-| Coat | mildly biased, 300 items -> little harmful bias to remove | uniform removal costs accuracy | ASTD-PD loses **every** accuracy metric |
-| KuaiRec | fully-observed dense matrix, ~103 relevant items/user -> largely **benign** | debiasing must cost accuracy | every model loses to MostPopular |
-| Yahoo | R3, moderate | marginal either way | all margins sub-sigma |
+| raw training degree | the log | +0.71 (KuaiRec) / +0.17 (Coat) | the baseline to beat |
+| structural proxies (attention share, explorer mix, 2nd-order density) | the log | worse than degree; the density term is collinear with degree at rho = 0.98, so its apparent R^2 = 0.81-0.99 is degree explaining degree | **fails** |
+| model affinity `aff_i = e_i . mean_u(e_u)` (`utilities.py:103-111`) | a trained LightGCN | +0.70 (KuaiRec) / +0.15 (Coat) — *no better than degree*, while correlating with degree at rho = **0.95** | **fails** |
 
-The negative results on the dense datasets are therefore not failures of the implementation.
-They are **evidence for the framing**, and they are reported as such.
+The residual `log(1+deg) - fit` degenerates to a monotone function of degree in every case
+(corr +0.89 to +0.98), making the decomposition a no-op.
+
+**This is itself a finding worth stating.** Quality and exposure cannot be separated from an
+exposure-contaminated log, because the log contains no counterfactual. It is exactly why TIDE
+needs timestamps and why Coat, Yahoo!R3 and KuaiRec were built with random-exposure splits in
+the first place. The practical consequence for this thesis: the benign/harmful split is usable
+as a *diagnostic that decides how hard to debias each dataset*, not as a per-item correction
+inside the loss.
 
 **Consequence for the metric.** AvgPop@20 alone penalises a recommender for surfacing a
 genuinely excellent popular item. It is retained because it is named in the thesis goal, but it

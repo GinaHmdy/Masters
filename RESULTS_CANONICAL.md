@@ -31,6 +31,37 @@ items (`Procedure.py:255-296`). Higher is better for the first three; lower for 
 The KuaiRec row explains a great deal: 103 relevant items per user out of 10,728 is an
 extraordinarily dense test set, which is why a popularity ranker performs so well there.
 
+## Popularity composition (measured, not assumed)
+
+Source: `LightGCN/code/measure_popularity_composition.py` -> `results/popularity_composition.json`.
+Coat and Yahoo!R3 ship random-exposure test splits; KuaiRec's test split is a fully observed
+matrix. Under uniform exposure an item's positive rate estimates its quality free of exposure
+confound, so regressing `log(1+train degree)` on that quality separates the earned component of
+popularity from the amplified one.
+
+| Dataset | Unbiased source | Items scored | Degree variance explained by quality ("earned") | Spearman(quality, degree) |
+|---|---|---|---|---|
+| KuaiRec | fully observed test matrix | 3,247 | 26.9% | +0.7407 |
+| Yahoo | R3 random-exposure test | 942 | 27.8% | +0.4334 |
+| Coat | uniform-exposure test | 300 | 3.7% | +0.1697 |
+| Gowalla | none ships | — | **unmeasurable** | — |
+
+Relevance threshold: rating >= 4. Gowalla is reported as unmeasurable rather than estimated.
+
+**Reading.** Where popularity is substantially earned (KuaiRec, Yahoo), minimising AvgPop@20 is
+minimising genuine signal, and debiasing must cost accuracy — which is what those tables show.
+Coat is the exception in both directions: its popularity is almost entirely amplified, yet
+debiasing does not help there, so Coat's outcome is **not** explained by popularity composition.
+
+**Estimators that were tested and rejected** (they cannot recover per-item quality from the
+training log, so no per-item correction is reportable):
+
+| Estimator | Spearman with true quality (KuaiRec / Coat) | Spearman with log degree | Verdict |
+|---|---|---|---|
+| raw training degree | +0.71 / +0.17 | 1.00 | reference |
+| structural proxies (attention share, explorer mix, 2nd-order density) | worse than degree | density rho = 0.98 | collinear with degree; rejected |
+| model affinity `aff_i` (`utilities.py:103-111`) | +0.70 / +0.15 | **+0.95** | no better than degree; rejected |
+
 ---
 
 ## Gowalla (sparse)
