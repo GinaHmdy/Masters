@@ -6,6 +6,20 @@ No prior knowledge assumed. Read it top to bottom.*
 
 ---
 
+## Changelog
+
+One line per step, newest last. This is the record of *what we decided and why*, so the sequence
+can be followed without reconstructing it from git.
+
+| Date | Step | What happened |
+|---|---|---|
+| 2026-08-24 | Audit | Independent audit of the contribution's integrity (`THESIS_AUDIT.md`) and a re-derivation of every number from `results/*.json` (`RESULTS_CANONICAL.md`). Established that the Gowalla result is real and the dense-dataset claims were not. |
+| 2026-08-24 | Commit `3e3d60c` | PPD v6 / ASTD-PD committed. It had existed only as uncommitted working-tree state — the central contribution was untracked. |
+| 2026-08-24 | Step A | **Attribution corrected.** Confirmed from the literature that PPD v1-v4 is a *published method* (arXiv:2510.12959), DAP is published (Chen et al. 2024), DCD is DICE (WWW 2021), and TSP is inherited. README, contribution guide and this document updated. See Part 3. |
+| 2026-08-24 | Step A | Framing adopted: **popularity is not always bias** (Part 2.5). Benign popularity = item quality; harmful popularity = exposure amplification. This became the spine of the thesis argument and it retrodicts every dataset result. |
+
+---
+
 ## Part 1 — The problem
 
 ### 1.1 What a recommender system actually is
@@ -143,6 +157,62 @@ better on both axes at once — as impossible.
 
 **Beating that trade-off is the thesis's target.**
 
+### 2.5 The key idea: popularity is not always bias
+
+Read §2.4 again and notice the phrase doing all the work: *popular items are popular partly
+because they are genuinely good.* That word **partly** is the whole thesis.
+
+Popularity has two sources, and they are completely different things:
+
+- **Benign popularity — it's actually good.** A million people watched it because a million
+  people genuinely wanted to. Here, popularity *is* signal. Removing it is vandalism.
+- **Harmful popularity — it was just shown more.** It appeared on the front page, so it got
+  clicked, so the algorithm showed it more, so it got clicked more. Nothing about the item
+  earned this. This is the feedback loop, and this is what a debiaser should remove.
+
+```
+        observed popularity  =  benign (quality)  +  harmful (exposure amplification)
+                                 ^^^^^^^^^^^^^^^      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                 keep this            remove this
+```
+
+This is not our invention — it is a known result. Zhao et al., *Popularity Bias Is Not Always
+Evil: Disentangling Benign and Harmful Bias for Recommendation* (IEEE TKDE 2022,
+[arXiv:2109.07946](https://arxiv.org/abs/2109.07946)) separates item *quality* from *conformity*.
+PDA (Zhang et al., SIGIR 2021) goes further and deliberately *uses* popularity instead of
+deleting it.
+
+**Now here is why it explains everything in Part 5.** Every method in this repository — PPD
+v1-v4, DAP, and PPD v6 — removes popularity *uniformly*. It does not know which kind it is
+removing. And:
+
+- removing **benign** popularity costs accuracy roughly one-for-one — you are deleting real
+  information;
+- removing **harmful** popularity is almost free — you are deleting an artifact.
+
+A method that can't tell them apart can only **slide along** the curve from §2.4. A method that
+*can* tell them apart **moves the curve**. That is the difference between what we built and what
+the goal actually requires — and it is why the honest answer to "why didn't v6 win everywhere?"
+is not "it needs more tuning".
+
+**The framing makes predictions, and they come true.** Before reading Part 5, note what this
+theory says should happen on each dataset:
+
+| Dataset | What kind of popularity does it have? | Prediction |
+|---|---|---|
+| Gowalla | sparse, long-tailed, strong feedback loop → mostly **harmful** | debiasing should help |
+| Coat | tiny (300 items), mildly biased → little **harmful** bias to remove | uniform removal should *hurt* accuracy |
+| KuaiRec | fully-observed dense matrix, ~103 relevant items per user → mostly **benign** | debiasing should cost accuracy badly |
+| Yahoo | moderate | should be roughly a wash |
+
+Every one of those predictions holds (Part 5). The dense-dataset "failures" are not failures of
+the code. **They are evidence that the framing is right** — which is a considerably better thing
+to have in a thesis than a method that won everywhere for reasons you can't explain.
+
+**One consequence for measurement.** AvgPop@20 punishes a recommender for surfacing a genuinely
+excellent popular item. It stays, because it is named in the goal — but on its own it is the
+wrong scoreboard, and it needs a companion metric that counts only the *unearned* popularity.
+
 ---
 
 ## Part 3 — What already existed when this work started
@@ -150,11 +220,24 @@ better on both axes at once — as impossible.
 This matters, and thesis write-ups often blur it. Three components were **already in the
 codebase**, written by a previous author, before this work began:
 
-| Component | What it does | Author |
+| Component | What it does | Origin |
 |---|---|---|
-| **TSP** (Topological Simplex Propagation) | smooths embeddings over a higher-order structure | inherited |
-| **PPD v1–v4** (Popularity/Preference Debiasing) | removes a "popularity direction" from embeddings | inherited |
-| **DAP** (Degree-Aware Propagation) | clusters nodes and subtracts high/low-degree anchors | inherited |
+| **TSP** (Topological Simplex Propagation) | smooths embeddings over a higher-order structure | inherited from the prior author (present at commit `d3cad59`) |
+| **PPD v1–v4** (Post-hoc Popularity Debiasing) | removes a "popularity direction" from embeddings | **published**: Islam, Wang & Zheleva, *Post-hoc Popularity Bias Correction in GNN-based Collaborative Filtering*, [arXiv:2510.12959](https://arxiv.org/abs/2510.12959) (Oct 2025) |
+| **DAP** (Degree-Aware Propagation) | clusters nodes and subtracts high/low-degree anchors | **published**: Chen et al. 2024 — and itself a baseline *in* the PPD paper |
+| **DCD** (`run_dcd_sweep.py`) | splits interest from conformity into two embeddings | **published**: DICE, Zheng et al., WWW 2021 |
+
+This was checked properly rather than assumed. "PPD" in this repository is not a house name for
+a house method — it is a real published algorithm, and `utilities.project_and_remove` implements
+that paper's debiasing step. The paper even uses the same three evaluation datasets (Coat,
+KuaiRec, Yahoo! R3). The same group has since published PPD's successor, **DPAA**
+([arXiv:2605.11145](https://arxiv.org/abs/2605.11145), May 2026).
+
+**Why finding this out is good news, not bad.** If PPD and DAP were merely earlier code from the
+same lab, then "beating PPD" would look uncomfortably like beating your own ablation. Because
+they are published methods with published numbers, beating them is ordinary, legitimate baseline
+comparison — which is exactly the shape a thesis wants. The one thing that would have been fatal
+is claiming to have invented them, which the README did until this was corrected.
 
 So the job was not "invent debiasing". It was: **here are three existing methods — build
 something that beats all of them, on all four metrics, on sparse and dense data.** That is a
@@ -448,8 +531,12 @@ claim it deliberately rather than have an examiner discover it in the logs.
 4. **A difference without an error bar is not a result.**
 5. **Run the dumbest baseline first.** (KuaiRec)
 6. **Instrument your mechanisms — verify they're switched on.** (θ, α, λ)
-7. **Say what you inherited.** Nothing is lost by attributing prior work, and everything is
-   lost by not.
+7. **Say what you inherited — and check whether it was published.** Nothing is lost by
+   attributing prior work, and everything is lost by not. In this project the check mattered
+   more than expected: the components assumed to be "the lab's earlier code" turned out to be
+   *published papers* (PPD = arXiv:2510.12959, DAP = Chen et al. 2024, DCD = DICE, WWW 2021).
+   Ten minutes of searching changed the framing of the whole thesis — and changed it in the
+   candidate's favour. Do that search **before** writing the contributions section, not after.
 
 ---
 

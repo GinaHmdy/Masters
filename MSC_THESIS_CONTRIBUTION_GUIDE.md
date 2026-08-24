@@ -1,6 +1,16 @@
 # MSc Thesis Contribution & Research Guide
 ## Adaptive Spectral-Topological Debiasing with Pareto Dual-Stream Fusion (ASTD-PD)
 
+> **Attribution notice.** TSP, DAP and **PPD variants 1-4 are prior art, not contributions of
+> this thesis.** PPD v1-v4 is the published method of Islam, Wang & Zheleva,
+> *Post-hoc Popularity Bias Correction in GNN-based Collaborative Filtering*
+> ([arXiv:2510.12959](https://arxiv.org/abs/2510.12959), Oct 2025); DAP is Chen et al. 2024, itself
+> a baseline in that paper; TSP was inherited from the group's prior author (present in the
+> repository at initial commit `d3cad59`). **The contributions of this thesis are PPD v5, PPD v6 /
+> ASTD-PD, validation-hypervolume model selection, and the multi-seed benchmarking layer.** In the
+> phase arc below, Phases II-IV describe *baselines that were reproduced and evaluated*; Phase V
+> is the contribution. See `README.md` § Prior Art and Attribution.
+
 ---
 
 ## 1. Executive Abstract
@@ -14,13 +24,75 @@ This thesis resolves this longstanding dilemma by introducing **PPD v6 / ASTD-PD
 2. A **Debiased Stream ($E^D$)** that projects embeddings onto an **orthonormal, low-rank spectral popularity subspace ($C^{(l)}$)** updated via detached QR singular vector estimation and adaptively subtracts popularity components scaled by global graph density;
 3. A **Personalized Pareto Fusion Layer ($\lambda_u$)** that dynamically balances mainstream accuracy and long-tail exploration for each user individually.
 
-Across extensive 3-seed benchmarks on four diverse datasets (**Yahoo**, **Gowalla**, **KuaiRec**, **Coat**), ASTD-PD establishes an **absolute 4-dimensional Pareto win**: it simultaneously achieves higher **Recall@20**, higher **NDCG@20**, higher **Precision@20**, and lower **Average Popularity@20** than `LightGCN`, `TSP`, `PPD v3`, and `PPD v4`. It reduces recommendation popularity by **30% to 40%** while gaining up to **+12% accuracy on sparse graphs** and achieving a **$32.8\times$ accuracy breakthrough on skewed distributions**.
+Across 3-seed benchmarks on four datasets (**Gowalla**, **Yahoo**, **KuaiRec**, **Coat**), the
+measured outcome is as follows. **On Gowalla (sparse), ASTD-PD achieves a 4-dimensional Pareto win
+over `LightGCN`, `TSP` and `PPD v3`** — simultaneously higher Recall@20 (+1.6%), NDCG@20 (+4.7%)
+and Precision@20, with a 34% lower Average Popularity@20 than LightGCN — at margins 3-12x the
+3-seed standard deviation. It misses a clean sweep against `PPD v4` on one metric only: AvgPop@20
+141.11 vs 139.86 (0.9%), while beating v4 on Recall@20 by +12%.
+
+**On the dense datasets the goal is not met under validation-only selection**, and this is
+reported as a finding rather than omitted. On KuaiRec every model in this study — including
+ASTD-PD — loses to a non-personalized MostPopular ranker (Recall@20 0.1233 vs 0.0139), because on
+a fully-observed, heavily skewed catalogue with ~103 relevant items per user, popularity is
+genuinely predictive. On Coat, ASTD-PD loses each accuracy metric by roughly 2 sigma. Both are
+consistent with the thesis's central hypothesis: **popularity is not always bias** (see §2.0), and
+uniform popularity removal is only beneficial where popularity is largely exposure-driven.
+
+*Numbers superseded by this revision:* the previously stated "absolute 4-dimensional Pareto win
+across four datasets", the "30-40% popularity reduction", and the "$32.8\times$ accuracy
+breakthrough" have been withdrawn. The Yahoo win rested on a test-set-selected configuration
+(`refine_yahoo_ppd_v6.py:170-176`); the KuaiRec multiple was measured against a collapsed training
+run (`lgn-KuaiRec-2-256-best`, Recall@5 = exactly 0.0). All current figures live in
+`RESULTS_CANONICAL.md`.
 
 ---
 
 ## 2. Teaching the Problem: Why Do Graph Recommenders Fail?
 
 Imagine you are teaching a new machine learning student. Here is why standard recommender systems struggle and why our problem is scientifically challenging.
+
+### 2.0 The Framing Assumption: Popularity Is Not Always Bias
+
+Every result in this thesis depends on one distinction, so it is stated before the mathematics.
+
+An item can be popular for two very different reasons:
+
+- **Benign popularity** — it is *genuinely good*, and many people independently want it. Here
+  popularity is legitimate collaborative signal.
+- **Harmful popularity** — it was *shown more*, so it was clicked more, so it was shown more
+  still. This is exposure amplification (also called conformity), and it is what a debiaser
+  should remove.
+
+This distinction is established in the literature. Zhao, Chen, Zhou, He, Cao, Zhang & Wu,
+*Popularity Bias Is Not Always Evil: Disentangling Benign and Harmful Bias for Recommendation*
+(IEEE TKDE 2022, [arXiv:2109.07946](https://arxiv.org/abs/2109.07946)) separate item *quality*
+from *conformity* using temporal signal; PDA (Zhang et al., SIGIR 2021,
+[arXiv:2105.06067](https://arxiv.org/abs/2105.06067)) deliberately *leverages* popularity rather
+than deleting it.
+
+**Why this matters for every method evaluated here.** PPD v1-v4, DAP and PPD v6 all remove
+popularity *uniformly*. Removing benign popularity destroys real signal and costs accuracy
+roughly one-for-one; removing harmful popularity is close to free. A method that cannot tell the
+two apart can only **slide along** the accuracy/popularity trade-off. A method that can tell them
+apart **moves the frontier**. That is exactly the gap between what the current implementation
+does and what the stated goal requires.
+
+**It also predicts the results before you read them:**
+
+| Dataset | Popularity composition | Prediction | Observed |
+|---|---|---|---|
+| Gowalla | sparse, long-tailed; exposure amplification dominates -> mostly **harmful** | debiasing helps | ASTD-PD wins 3/4 |
+| Coat | mildly biased, 300 items -> little harmful bias to remove | uniform removal costs accuracy | ASTD-PD loses **every** accuracy metric |
+| KuaiRec | fully-observed dense matrix, ~103 relevant items/user -> largely **benign** | debiasing must cost accuracy | every model loses to MostPopular |
+| Yahoo | R3, moderate | marginal either way | all margins sub-sigma |
+
+The negative results on the dense datasets are therefore not failures of the implementation.
+They are **evidence for the framing**, and they are reported as such.
+
+**Consequence for the metric.** AvgPop@20 alone penalises a recommender for surfacing a
+genuinely excellent popular item. It is retained because it is named in the thesis goal, but it
+is reported alongside a harmful-popularity metric so that the two effects can be separated.
 
 ### 2.1 How Graph Collaborative Filtering (LightGCN) Works
 In collaborative filtering, we have a bipartite graph $G = (\mathcal{U}, \mathcal{I}, \mathcal{E})$ where users $\mathcal{U}$ connect to items $\mathcal{I}$ they interacted with. LightGCN performs linear message passing:
@@ -63,12 +135,14 @@ To understand why this is a complete MSc contribution, look at the systematic ev
     - LightGCN on Gowalla, KuaiRec, Yahoo, Coat
     - Observed severe popularity bias and hub dominance.
               |
-  [Phase II: Topological Simplex Propagation (TSP)]
-    - Introduced simplicial complexes (co-occurrence triangles / higher-order cliques).
-    - Finding: Boosted accuracy, but inadvertently amplified hub popularity.
+  [Phase II: Topological Simplex Propagation (TSP)]  <- INHERITED BASELINE
+    - Reproduced and evaluated the inherited TSP implementation.
+    - Finding: at --k_tsp 1 (every script) no triangles are built, so this is
+      kNN-Laplacian smoothing, not higher-order topology. Effect ~0.0% on all metrics.
               |
-  [Phase III: Popularity Preference Centroid (PPD v3 & PPD v4)]
-    - Introduced post-hoc calibration (v3) and in-propagation bias subtraction (v4).
+  [Phase III: PPD v3 & PPD v4]                       <- PUBLISHED PRIOR ART
+    - Reproduced and evaluated post-hoc projection (v3) and in-propagation
+      subtraction (v4) from Islam, Wang & Zheleva (arXiv:2510.12959).
     - Finding: Cut popularity bias, but caused severe accuracy/recall degradation.
               |
   [Phase IV: Hybrid Exploration (DAP + SGL + Hodge-Laplacian TSP)]

@@ -3,6 +3,25 @@
 **Scope.** Independent audit of the contribution's integrity and validity, measured against
 the work's own stated goal. Every claim below cites a file:line or a re-runnable command.
 
+## Remediation ledger
+
+Findings are struck from §3 only when closed by a commit or a re-run. Status as of 2026-08-24:
+
+| # | Item | Status | Closed by |
+|---|---|---|---|
+| 5.1 | Commit the v6 code | **CLOSED** | `3e3d60c` — code, tests, `results/*.json` and `.results.txt` now tracked. The ~773 MB of `.pth.tar` binaries were deliberately excluded; if they are needed for reproduction they should go to a release asset or DVC, not to git history. |
+| 5.2 | Correct the attribution | **CLOSED** | `README.md` § Prior Art and Attribution; `MSC_THESIS_CONTRIBUTION_GUIDE.md` attribution notice + Phase-arc labels; `docs/THE_STORY.md` Part 3. **Upgraded from the audit's original finding:** PPD is not merely inherited, it is a *published method* — Islam, Wang & Zheleva, arXiv:2510.12959 (Oct 2025). DAP is Chen et al. 2024 (a baseline in that same paper) and DCD is DICE (WWW 2021). This strengthens the thesis rather than weakening it: the baselines are external, not self-ablations. |
+| — | Framing: popularity is not always bias | **NEW, ADOPTED** | `MSC_THESIS_CONTRIBUTION_GUIDE.md` §2.0, `docs/THE_STORY.md` §2.5. See finding **O** below. |
+| 5.3 | MostPopular + Random in the harness | open | |
+| 5.4 | Re-run Gowalla targeting the AvgPop gap | open | |
+| 5.5 | Mechanism-isolation ablation | open | |
+| 5.6 | Fix/remove dead flags | open | |
+| 5.7 | Re-select hyperparameters on validation | open | |
+| 5.8 | Fix or drop collapsed baselines | open | |
+| 5.9 | Gini / coverage / APLT; AvgPop over test users | open | |
+| 5.10 | Evaluate on unbiased splits | open — note the Coat and KuaiRec `test.txt` files are *byte-identical* to their `unbiased_valid/test.txt`, so the default test split is already the unbiased one. Only the *validation* split differs (`KuaiRec/biased-valid/`). Finding N is narrower than stated. | |
+| 5.11 | 5 seeds + paired significance test | open | |
+
 **Stated goal.** Build a new pipeline that outperforms standalone **LightGCN**, **TSP** and
 **PPD** on *all four* metrics simultaneously — Recall@20, NDCG@20, Precision@20, Average
 Popularity@20 — on **both sparse and dense** datasets.
@@ -23,8 +42,14 @@ Popularity@20 — on **both sparse and dense** datasets.
    from the tail-weighted loss and the `(1 - p_i)^phi` inference reweighting — simple
    degree-based reweightings — plus a changed training recipe. See §3.D.
 
-3. **Attribution must be corrected.** TSP, DAP and PPD variants 1-4 were inherited from a
-   prior author, not created in this work. The README currently claims otherwise. See §2.
+3. **Attribution must be corrected.** ~~TSP, DAP and PPD variants 1-4 were inherited from a
+   prior author, not created in this work. The README currently claims otherwise.~~
+   **CLOSED 2026-08-24, and the finding was stronger than first stated:** PPD v1-4 and DAP are
+   not merely inherited, they are **published methods** (PPD = Islam, Wang & Zheleva,
+   arXiv:2510.12959, Oct 2025; DAP = Chen et al. 2024, a baseline *within* that paper; DCD =
+   DICE, WWW 2021). Corrected in `README.md`, `MSC_THESIS_CONTRIBUTION_GUIDE.md` and
+   `docs/THE_STORY.md`. Net effect on the thesis is **positive**: the baselines are external
+   published work, so beating them is standard comparison rather than self-ablation. See §2.
 
 **The constructive read.** Finding 2 is not fatal to the thesis; it is a better thesis. "I
 built an elaborate spectral-topological debiaser, instrumented it, and found that the simple
@@ -246,6 +271,34 @@ since then are void.
 README's own numbers: Yahoo "DAP+TSP+PPD v4" and "Upgraded LightGCN+TSP+PPD v4" are both
 0.140542 / 0.064849 / 0.011225 — identical to 6 dp. Same on KuaiRec (0.040994 twice). Those
 "hybrid" rows are plain PPD v4.
+
+#### O. The whole framework treats all popularity as bias (NEW — 2026-08-24)
+Every debiasing mechanism in the repository removes popularity *uniformly*, and PPD v6 removes
+**more** the **more popular** an item is: `alpha_node` is modulated by
+`rho = p^eta / (p^eta + 0.5^eta)` (`model.py:895-897`), and `t_i = (1 - p_i)^phi`
+(`model.py:977-980`) boosts every tail item regardless of merit.
+
+But popularity decomposes into a **benign** part (item quality — genuine collaborative signal)
+and a **harmful** part (exposure amplification / conformity). See Zhao et al., IEEE TKDE 2022,
+arXiv:2109.07946, and PDA, Zhang et al., SIGIR 2021, arXiv:2105.06067.
+
+Removing benign popularity costs accuracy ~1:1; removing harmful popularity is close to free.
+So a uniform remover can only *slide along* the accuracy/popularity trade-off, never move it —
+which is precisely the observed behaviour, and precisely what the stated goal forbids.
+
+**This finding subsumes several others.** It gives a single causal explanation for the Coat
+failure (mild bias, little harmful component, so uniform removal is pure loss), the KuaiRec
+failure (fully-observed dense matrix, popularity largely benign, so minimising AvgPop is
+minimising signal), and the Gowalla success (sparse, strong feedback loop, mostly harmful).
+It also means finding **J** is more serious than stated: AvgPop@20 is not merely incomplete, it
+is *mis-specified* as a sole objective, because it penalises recommending a genuinely excellent
+popular item.
+
+**Remediation:** decompose observed degree into a component predicted by the collaborative
+affinity signal (benign) and a residual (harmful), and drive alpha, `t_i` and `loss_cov` from
+the residual rather than from raw popularity. Report a harmful-popularity metric beside
+AvgPop@20. TIDE's temporal quality/conformity split is the canonical method but requires
+timestamps, which `data/*/train.txt` does not have.
 
 #### J. Only one fairness metric
 AvgPop@20 is the only fairness quantity in the codebase — grep for
