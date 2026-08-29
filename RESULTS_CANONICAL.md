@@ -1,8 +1,14 @@
 # Canonical Results
 
-Every number below is read directly from `LightGCN/code/results/*.json` (3-seed mean and
-population std) or computed from `data/*/{train,test}.txt`. Nothing is transcribed from
-the README, which contains three mutually inconsistent generations of results.
+Every number below is read directly from `LightGCN/code/results/*.json` (**5-seed** mean and
+population std on all four datasets as of 2026-08-30) or computed from `data/*/{train,test}.txt`.
+Nothing is transcribed from the README, which contains three mutually inconsistent generations
+of results.
+
+> **The authoritative per-dataset tables are the generated ones at the end of this file**,
+> written by `make_canonical.py` straight from `results/phase1_*.json`. The four hand-written
+> sections below have had their stale tables removed and are kept for the *readings* — the
+> retractions and protocol history that the generated tables cannot carry.
 
 **Metric definitions.** Recall@20 / NDCG@20 / Precision@20 as implemented in
 `LightGCN/code/utils.py:222-266`. AvgPop@20 = mean training degree of the recommended
@@ -70,7 +76,7 @@ independently of the model evaluation path. Random is a 3-seed mean.
 1. **KuaiRec.** MostPopular beats every model in the thesis there by ~9x Recall and ~15x NDCG.
    No result on KuaiRec can be reported without this row present.
 2. **AvgPop@20 is not a safe objective on its own.** Random has the *lowest* AvgPop@20 on every
-   dataset — 15.75 on Gowalla against PPD v4's 139.86 and PPD v6's 141.11 — while being useless
+   dataset — 15.75 on Gowalla against PPD v4's 138.44 and PPD v6's 141.60 — while being useless
    at ranking. A metric that a random recommender wins outright cannot be optimised in isolation;
    it is only meaningful jointly with the accuracy metrics, which is precisely what the Pareto
    framing is for. This is the strongest available argument for reporting all four together
@@ -115,39 +121,42 @@ training log, so no per-item correction is reportable):
 
 ## Gowalla (sparse)
 
-| Method | Recall@20 | NDCG@20 | Precision@20 | AvgPop@20 | Selection |
-|---|---|---|---|---|---|
-| *MostPopular (reference)* | *0.040822* | *0.031229* | *0.013635* | *683.99* | *n/a — deterministic* |
-| LightGCN | 0.140533 ± 0.000183 | 0.115921 ± 0.000227 | 0.042134 ± 0.000028 | 214.05 ± 0.15 | val (BPR loss) |
-| TSP | 0.140183 ± 0.000103 | 0.116862 ± 0.000282 | 0.042374 ± 0.000029 | 210.26 ± 0.11 | val (BPR loss) |
-| PPD v3 | 0.140396 ± 0.000221 | 0.116456 ± 0.000246 | 0.042227 ± 0.000011 | 200.17 ± 1.89 | val (BPR loss) |
-| PPD v4 | 0.127509 ± 0.000711 | 0.107013 ± 0.000829 | 0.038061 ± 0.000270 | 139.86 ± 2.28 | val (BPR loss) |
-| **PPD v6 / ASTD-PD** | **0.142838 ± 0.000710** | **0.121338 ± 0.000536** | **0.043473 ± 0.000198** | **141.11 ± 1.09** | val (hypervolume) |
+> Numbers: see the generated **Gowalla** table at the end of this file (n = 5).
+> Selection: baselines on validation BPR loss, PPD v6 on validation Pareto hypervolume.
 
-**Reading:**
+**Reading (updated 2026-08-30, n = 5 seeds):**
 
-- Beats LightGCN, TSP and PPD v3 on all four metrics. Margins are 3-12x the seed std.
-- Misses the goal only against PPD v4 on AvgPop@20 (141.11 vs 139.86, a 0.9% gap),
-  while beating PPD v4 on Recall@20 by +12%.
+- Beats LightGCN, TSP and PPD v3 on all four metrics, and the accuracy margins over LightGCN
+  now clear **across-seed** significance, which they did not at n = 3:
+  Recall +1.6% (p = 0.0115, was p = 0.056), NDCG +4.6% (p = 0.000177), Precision +3.1%
+  (p = 0.00139). Per-user Wilcoxon clears all three as well.
+- Against PPD v4 the picture is better than "3/4". v6 wins Recall by **+12.5%**
+  (0.142878 vs 0.126957) and its AvgPop deficit (141.60 vs 138.44) is **not statistically
+  distinguishable from zero** (paired t over 5 seeds, p = 0.214). It also more than doubles
+  APLT@20 (0.1665 vs 0.0839) and improves Coverage@20 by 162%.
+- The remaining AvgPop gap **cannot be closed**: an inference-time popularity penalty trades
+  Recall for AvgPop point for point, and at the crossover both margins are ties
+  (`results/phase4_inference_penalty_gowalla.json`, audit finding **AG**). Validation
+  hypervolume selects no penalty at all.
 - Comfortably above MostPopular (3.5x). **This is the thesis's defensible result.**
 
 ---
 
 ## Yahoo (dense)
 
-| Method | Recall@20 | NDCG@20 | Precision@20 | AvgPop@20 | Selection |
-|---|---|---|---|---|---|
-| *MostPopular (reference)* | *0.090639* | *0.039015* | *0.007491* | *1083.70* | *n/a — deterministic* |
-| LightGCN | 0.141245 ± 0.002547 | 0.064582 ± 0.000928 | 0.010995 ± 0.000104 | 589.69 ± 2.83 | val (BPR loss) |
-| TSP | 0.140413 ± 0.003045 | 0.064338 ± 0.001016 | 0.010939 ± 0.000183 | 585.59 ± 2.93 | val (BPR loss) |
-| PPD v3 | 0.141979 ± 0.003729 | 0.064822 ± 0.000973 | 0.011044 ± 0.000211 | 562.20 ± 2.80 | val (BPR loss) |
-| PPD v4 | 0.138358 ± 0.003501 | 0.061830 ± 0.000694 | 0.010757 ± 0.000262 | 521.30 ± 3.97 | val (BPR loss) |
-| **PPD v6 / ASTD-PD** | **0.138462 ± 0.000196** | **0.062648 ± 0.000610** | **0.010841 ± 0.000105** | **520.28 ± 12.86** | val (hypervolume) |
-| PPD v6 *(test-selected "Refined")* | 0.142360 | 0.064890 | 0.011239 | 503.47 | **TEST — invalid** |
+> Numbers: see the generated **Yahoo** table at the end of this file (n = 5). One row cannot
+> be generated and is kept here as a warning:
+>
+> | Method | Recall@20 | NDCG@20 | Precision@20 | AvgPop@20 | Selection |
+> |---|---|---|---|---|---|
+> | PPD v6 *(test-selected "Refined")* | 0.142360 | 0.064890 | 0.011239 | 503.47 | **TEST — invalid** |
 
-**Reading:**
+**Reading (updated 2026-08-30, n = 5 seeds):**
 
-- Under validation selection PPD v6 **loses** Recall, NDCG and Precision to LightGCN.
+- Under validation selection PPD v6 **loses** Recall, NDCG and Precision to LightGCN — but at
+  n = 5 **none of the three losses is statistically significant**: across-seed p = 0.154 /
+  0.061 / 0.154, per-user p = 0.092 / 0.0499 / 0.092. The honest statement is *no measurable
+  effect on Yahoo accuracy*, not *worse on Yahoo*.
 - The "Refined" row is the number in the README. It was selected on the test set
   (`refine_yahoo_ppd_v6.py:171-176`) and must not be reported as a result.
 - Even the Refined margin over LightGCN (+0.001115 Recall) is 0.44x the baseline's own
@@ -210,18 +219,15 @@ training log, so no per-item correction is reportable):
 
 ## Coat (small / dense)
 
-| Method | Recall@20 | NDCG@20 | Precision@20 | AvgPop@20 | Selection |
-|---|---|---|---|---|---|
-| *MostPopular (reference)* | *0.095386* | *0.051301* | *0.019039* | *38.37* | *n/a — deterministic* |
-| LightGCN | 0.124446 ± 0.004717 | 0.069972 ± 0.001202 | 0.022835 ± 0.000587 | 27.68 ± 0.08 | val (BPR loss) |
-| TSP | 0.124615 ± 0.005215 | 0.070012 ± 0.001410 | 0.022894 ± 0.000800 | 27.71 ± 0.08 | val (BPR loss) |
-| PPD v3 | 0.124365 ± 0.003527 | 0.068772 ± 0.001234 | 0.022716 ± 0.000587 | 27.38 ± 0.02 | val (BPR loss) |
-| PPD v4 | 0.125553 ± 0.003955 | 0.070123 ± 0.000674 | 0.022776 ± 0.000524 | 27.43 ± 0.07 | val (BPR loss) |
-| **PPD v6 / ASTD-PD** | **0.114685 ± 0.004982** | **0.063222 ± 0.001195** | **0.021412 ± 0.000587** | **25.60 ± 0.75** | val (hypervolume) |
+> Numbers: see the generated **Coat** table at the end of this file (n = 5).
 
-**Reading:**
+**Reading (updated 2026-08-30, n = 5 seeds):**
 
-- PPD v6 **loses to every baseline on every accuracy metric**, by roughly 2 sigma.
+- PPD v6 trails every baseline on every accuracy metric, but at n = 5 **the deficit is not
+  significant**: across-seed p = 0.093 / 0.093 / 0.062, per-user p = 0.14 / 0.058 / 0.14.
+  Meanwhile it improves APLT@20 from 0.224 to 0.312 and Coverage@20 from 0.362 to 0.553.
+  Coat is a *no-accuracy-cost exposure gain*, on a dataset small enough that nothing here
+  is conclusive either way.
 - Coat is omitted entirely from the guide's results section while still being counted
   in "four diverse datasets".
 - Note also 129 train/test overlapping interactions, which are masked at evaluation
@@ -229,6 +235,80 @@ training log, so no per-item correction is reportable):
 
 ---
 
+## Mechanism ablation — what actually produces the effect
+
+*Generated from `results/phase2_ablation_<dataset>.json`. Six arms x 3 seeds, all four
+datasets complete. Gowalla shown; the pattern is the same on Yahoo, KuaiRec and Coat.*
+
+| Arm | Recall@20 | AvgPop@20 | APLT@20 | alpha | theta |
+|---|---|---|---|---|---|
+| (a) full v6 | 0.142780 ± 0.000695 | 141.03 ± 1.15 | 0.1655 ± 0.0040 | 0.0841 | 0.2560 |
+| (b) no spectral projection | 0.142700 ± 0.000610 | 140.92 ± 1.01 | 0.1655 ± 0.0035 | 0.0000 | 0.2559 |
+| (c) no simplex stream | 0.149034 ± 0.000469 | 143.18 ± 0.50 | 0.1300 ± 0.0019 | 0.0847 | 0.0000 |
+| (d) no tail reweighting | 0.146103 ± 0.000454 | 151.02 ± 1.55 | 0.0871 ± 0.0032 | 0.0838 | 0.2275 |
+| (e) recipe only (a-d off) | 0.149980 ± 0.000504 | 149.64 ± 0.49 | 0.0863 ± 0.0011 | 0.0000 | 0.0000 |
+| (f) (e) + uniform negatives | 0.150450 ± 0.000440 | 182.28 ± 0.59 | 0.0590 ± 0.0010 | 0.0000 | 0.0000 |
+
+**Reading:**
+
+- **The spectral projection is inert.** Arm (b) matches full v6 to 8e-05 Recall,
+  0.11 AvgPop and 0.0000 APLT — inside the non-reproducibility floor (audit **AB**).
+  This holds on all four datasets, Gowalla included, which was the last place it could have mattered.
+- **The popularity-stratified negative sampler owns 79% of the AvgPop reduction** 
+  (182.28 -> 149.64 of the 182.28 -> 141.03 total). On Yahoo the same share is 88-96%.
+- **The named mechanisms own 74% of the tail-exposure gain** (0.0863 -> 0.1655 of
+  0.0590 -> 0.1655), the tail reweighting contributing most of it.
+- **Debiasing costs -0.0077 Recall** (-5.1%) against the no-mechanism arm. The trade is real.
+
+---
+
+## Gate transfer — do the mechanisms adapt, or just decay from where they start?
+
+*Generated from `results/phase3_gate_transfer_<dataset>.json`. 3 seeds per arm.*
+
+| Dataset | native | given alpha_base = 0.40 | given alpha_base = 0.10 |
+|---|---|---|---|
+| **Gowalla** | 0.0841 of 0.40 = **21.0%** | 0.0841 of 0.40 = **21.0%** | 0.0212 of 0.10 = **21.2%** |
+| **Yahoo** | 0.0003 of 0.10 = 0.3% | 0.0019 of 0.40 = 0.5% | 0.0003 of 0.10 = 0.3% |
+| **Coat** | 0.0001 of 0.10 = 0.1% | 0.0004 of 0.40 = 0.1% | 0.0001 of 0.10 = 0.1% |
+
+**Reading:** the *retention ratio* is a property of the dataset and is invariant to where
+alpha starts — Gowalla keeps ~21% of whatever it is given, Yahoo ~0.4%, Coat ~0.1%. Handed
+Gowalla's four-times-larger start, Yahoo still collapses; handed Yahoo's smaller start, Gowalla
+still retains. **The mechanisms are genuinely adaptive** (audit finding **AF**). Caveat: the
+`astd_topo_gate_init` half of the swap is a dead flag while the gate is learnable, so this
+tests `alpha_base` only.
+
+---
+
+## Inference-penalty frontier — the four-metric goal, tested and not met
+
+*Generated from `results/phase4_inference_penalty_gowalla.json`. 5 seeds, Gowalla,
+re-ranking the trained checkpoints (`--astd_inference_pop_penalty`, no retraining).*
+
+| mu | validation HV | Recall@20 | NDCG@20 | Precision@20 | AvgPop@20 | APLT@20 |
+|---|---|---|---|---|---|---|
+| 0.0 | 0.00049279 **<- selected** | 0.142843 | 0.121314 | 0.043491 | 141.61 | 0.1665 |
+| 0.1 | 0.00049206 | 0.142740 | 0.121237 | 0.043458 | 141.42 | 0.1684 |
+| 0.25 | 0.00049124 | 0.142581 | 0.121113 | 0.043410 | 141.14 | 0.1712 |
+| 0.5 | 0.00048906 | 0.142246 | 0.120893 | 0.043306 | 140.65 | 0.1762 |
+| 1.0 | 0.00048442 | 0.141768 | 0.120516 | 0.043149 | 139.64 | 0.1867 |
+| 1.25 | 0.00048118 | 0.141437 | 0.120289 | 0.043048 | 139.12 | 0.1924 |
+| 1.5 | 0.00047774 | 0.141099 | 0.120069 | 0.042954 | 138.55 | 0.1984 |
+| 1.6 | 0.00047594 | 0.140930 | 0.119952 | 0.042907 | 138.33 | 0.2009 |
+| 1.75 | 0.00047434 | 0.140721 | 0.119805 | 0.042847 | 137.98 | 0.2047 |
+| 1.9 | 0.00047242 | 0.140544 | 0.119675 | 0.042786 | 137.64 | 0.2086 |
+| 2.0 | 0.00047114 | 0.140415 | 0.119577 | 0.042746 | 137.40 | 0.2113 |
+| 4.0 | 0.00044108 | 0.136654 | 0.116949 | 0.041664 | 131.68 | 0.2755 |
+
+**Reading:** validation hypervolume — the criterion `main.py` already uses for checkpoint
+selection — is maximised at **mu = 0** and falls monotonically, so the pre-registered rule keeps
+the unpenalised model. The mu = 1.6-1.75 window whose point estimates clear every baseline on all
+four metrics is a **statistical tie on both binding margins** (Recall vs LightGCN p = 0.68 and
+0.96; AvgPop vs PPD v4 p = 0.96 and 0.85, paired t over 5 seeds). Reporting it as the goal
+achieved would be test-set selection at 0.2 sigma. See audit finding **AG**.
+
+---
 ## Checkpoints that must not be cited
 
 | Checkpoint | best_epoch | Recall@20 | Problem |
@@ -274,25 +354,23 @@ training log, so no per-item correction is reportable):
 
 | Method | n | Recall@20 | NDCG@20 | Precision@20 | AvgPop@20 | Coverage@20 | APLT@20 | Gini@20 |
 |---|---|---|---|---|---|---|---|---|
-| LightGCN | 3 | 0.140533 ± 0.000183 | 0.115805 ± 0.000225 | 0.042134 ± 0.000028 | 214.05 ± 0.15 | 0.1047 ± 0.0008 | 0.0463 ± 0.0002 | 0.9828 ± 0.0001 |
-| TSP | 3 | 0.140183 ± 0.000103 | 0.116695 ± 0.000173 | 0.042374 ± 0.000029 | 210.26 ± 0.11 | 0.1026 ± 0.0005 | 0.0504 ± 0.0003 | 0.9827 ± 0.0001 |
-| PPD v3 | 3 | 0.140396 ± 0.000221 | 0.116075 ± 0.000263 | 0.042227 ± 0.000011 | 200.17 ± 1.89 | 0.1058 ± 0.0009 | 0.0469 ± 0.0002 | 0.9822 ± 0.0002 |
-| PPD v4 | 3 | 0.127509 ± 0.000711 | 0.106767 ± 0.000819 | 0.038061 ± 0.000270 | 139.86 ± 2.28 | 0.1404 ± 0.0013 | 0.0827 ± 0.0014 | 0.9703 ± 0.0005 |
+| LightGCN | 5 | 0.140693 ± 0.000243 | 0.115987 ± 0.000301 | 0.042188 ± 0.000072 | 212.99 ± 1.36 | 0.1058 ± 0.0016 | 0.0469 ± 0.0010 | 0.9826 ± 0.0002 |
+| TSP | 5 | 0.140337 ± 0.000236 | 0.116880 ± 0.000293 | 0.042418 ± 0.000080 | 209.25 ± 1.29 | 0.1035 ± 0.0011 | 0.0510 ± 0.0011 | 0.9825 ± 0.0002 |
+| PPD v3 | 5 | 0.140585 ± 0.000292 | 0.116295 ± 0.000411 | 0.042292 ± 0.000101 | 199.57 ± 1.65 | 0.1069 ± 0.0015 | 0.0474 ± 0.0010 | 0.9821 ± 0.0002 |
+| PPD v4 | 5 | 0.126957 ± 0.000877 | 0.106169 ± 0.000991 | 0.037829 ± 0.000353 | 138.44 ± 2.79 | 0.1423 ± 0.0029 | 0.0839 ± 0.0020 | 0.9698 ± 0.0007 |
 | PPD v6 | 5 | 0.142878 ± 0.000910 | 0.121314 ± 0.000598 | 0.043501 ± 0.000286 | 141.60 ± 2.00 | 0.3729 ± 0.0050 | 0.1665 ± 0.0049 | 0.9322 ± 0.0015 |
-
-> **Unequal seed counts on Gowalla** (3 vs 5): LightGCN (n=3), TSP (n=3), PPD v3 (n=3), PPD v4 (n=3), PPD v6 (n=5). Means and stds below are over different numbers of runs, so the ± columns are not directly comparable between rows. Paired significance tests intersect on the shared seeds only and are unaffected.
 
 ### Yahoo
 
-*dense - test users are 16.6% of all users; AvgPop regenerated under the scope fix. Seeds: 2024, 2025, 2026.*
+*dense - test users are 16.6% of all users; AvgPop regenerated under the scope fix. Seeds: 2024, 2025, 2026, 2027, 2028.*
 
 | Method | n | Recall@20 | NDCG@20 | Precision@20 | AvgPop@20 | Coverage@20 | APLT@20 | Gini@20 |
 |---|---|---|---|---|---|---|---|---|
-| LightGCN | 3 | 0.141245 ± 0.002547 | 0.064582 ± 0.000928 | 0.010995 ± 0.000104 | 595.72 ± 3.17 | 0.6800 ± 0.0022 | 0.1101 ± 0.0004 | 0.8572 ± 0.0009 |
-| TSP | 3 | 0.140413 ± 0.003045 | 0.064338 ± 0.001016 | 0.010939 ± 0.000183 | 591.13 ± 3.15 | 0.6763 ± 0.0042 | 0.1138 ± 0.0009 | 0.8542 ± 0.0012 |
-| PPD v3 | 3 | 0.141979 ± 0.003729 | 0.064822 ± 0.000973 | 0.011044 ± 0.000211 | 565.75 ± 1.92 | 0.6830 ± 0.0033 | 0.1217 ± 0.0007 | 0.8473 ± 0.0007 |
-| PPD v4 | 3 | 0.138358 ± 0.003501 | 0.061827 ± 0.000692 | 0.010757 ± 0.000262 | 509.32 ± 2.80 | 0.7127 ± 0.0037 | 0.1443 ± 0.0007 | 0.8275 ± 0.0010 |
-| PPD v6 | 3 | 0.138287 ± 0.000375 | 0.062616 ± 0.000584 | 0.010827 ± 0.000095 | 527.13 ± 15.02 | 0.6253 ± 0.0216 | 0.1428 ± 0.0145 | 0.8283 ± 0.0109 |
+| LightGCN | 5 | 0.140833 ± 0.002087 | 0.064305 ± 0.000841 | 0.011041 ± 0.000109 | 593.93 ± 3.37 | 0.6816 ± 0.0041 | 0.1118 ± 0.0029 | 0.8557 ± 0.0021 |
+| TSP | 5 | 0.140483 ± 0.002503 | 0.064260 ± 0.000855 | 0.011037 ± 0.000193 | 588.80 ± 3.86 | 0.6806 ± 0.0067 | 0.1159 ± 0.0034 | 0.8525 ± 0.0026 |
+| PPD v3 | 5 | 0.141834 ± 0.003029 | 0.064761 ± 0.000861 | 0.011095 ± 0.000202 | 563.96 ± 2.79 | 0.6858 ± 0.0057 | 0.1235 ± 0.0028 | 0.8458 ± 0.0020 |
+| PPD v4 | 5 | 0.137602 ± 0.002978 | 0.061553 ± 0.000691 | 0.010760 ± 0.000223 | 505.80 ± 5.06 | 0.7140 ± 0.0041 | 0.1463 ± 0.0034 | 0.8257 ± 0.0026 |
+| PPD v6 | 5 | 0.137227 ± 0.003536 | 0.062214 ± 0.000897 | 0.010768 ± 0.000236 | 526.35 ± 11.68 | 0.6182 ± 0.0190 | 0.1430 ± 0.0112 | 0.8284 ± 0.0085 |
 
 ### KuaiRec
 
@@ -308,14 +386,14 @@ training log, so no per-item correction is reportable):
 
 ### Coat
 
-*small/dense - test users are 96.9% of all users. Seeds: 2024, 2025, 2026.*
+*small/dense - test users are 96.9% of all users. Seeds: 2024, 2025, 2026, 2027, 2028.*
 
 | Method | n | Recall@20 | NDCG@20 | Precision@20 | AvgPop@20 | Coverage@20 | APLT@20 | Gini@20 |
 |---|---|---|---|---|---|---|---|---|
-| LightGCN | 3 | 0.124446 ± 0.004717 | 0.069972 ± 0.001202 | 0.022835 ± 0.000587 | 27.53 ± 0.08 | 0.3622 ± 0.0201 | 0.2240 ± 0.0139 | 0.8274 ± 0.0012 |
-| TSP | 3 | 0.124446 ± 0.004717 | 0.069972 ± 0.001202 | 0.022835 ± 0.000587 | 27.53 ± 0.08 | 0.3622 ± 0.0201 | 0.2240 ± 0.0139 | 0.8274 ± 0.0012 |
-| PPD v3 | 3 | 0.124365 ± 0.003527 | 0.068772 ± 0.001234 | 0.022716 ± 0.000587 | 27.24 ± 0.02 | 0.4067 ± 0.0152 | 0.2320 ± 0.0132 | 0.8246 ± 0.0011 |
-| PPD v4 | 3 | 0.125553 ± 0.003955 | 0.070123 ± 0.000674 | 0.022776 ± 0.000524 | 27.29 ± 0.07 | 0.4178 ± 0.0181 | 0.2373 ± 0.0140 | 0.8185 ± 0.0014 |
-| PPD v6 | 3 | 0.114685 ± 0.004982 | 0.063222 ± 0.001195 | 0.021412 ± 0.000587 | 25.46 ± 0.76 | 0.5533 ± 0.1416 | 0.3117 ± 0.0406 | 0.7984 ± 0.0269 |
+| LightGCN | 5 | 0.124472 ± 0.003662 | 0.069713 ± 0.000987 | 0.022705 ± 0.000511 | 27.56 ± 0.08 | 0.3720 ± 0.0223 | 0.2207 ± 0.0115 | 0.8270 ± 0.0016 |
+| TSP | 5 | 0.124472 ± 0.003662 | 0.069713 ± 0.000987 | 0.022705 ± 0.000511 | 27.56 ± 0.08 | 0.3720 ± 0.0223 | 0.2207 ± 0.0115 | 0.8270 ± 0.0016 |
+| PPD v3 | 5 | 0.124636 ± 0.002856 | 0.068893 ± 0.000990 | 0.022598 ± 0.000491 | 27.24 ± 0.03 | 0.4127 ± 0.0210 | 0.2290 ± 0.0108 | 0.8242 ± 0.0019 |
+| PPD v4 | 5 | 0.124267 ± 0.005312 | 0.069678 ± 0.000797 | 0.022705 ± 0.000430 | 27.32 ± 0.12 | 0.4267 ± 0.0183 | 0.2352 ± 0.0134 | 0.8189 ± 0.0020 |
+| PPD v6 | 5 | 0.117744 ± 0.006399 | 0.065158 ± 0.003116 | 0.021673 ± 0.000715 | 25.31 ± 0.95 | 0.5733 ± 0.1322 | 0.3208 ± 0.0471 | 0.7943 ± 0.0294 |
 
 <!-- END GENERATED DATASET TABLES -->

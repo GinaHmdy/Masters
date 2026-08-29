@@ -1,5 +1,37 @@
 # Continuing the experiments on the dual-RTX-3090 machine
 
+> ## COMPLETE — 2026-08-30
+>
+> Everything below was executed on the 2x RTX 3090 machine and the queue is finished. What
+> actually ran, and what it cost:
+>
+> | Stage | Work | Wall clock |
+> |---|---|---|
+> | A | Gowalla LightGCN seeds 2027/2028 + 8 post-hoc evals | ~2 h |
+> | B | Gowalla ablation, 6 arms x 3 seeds (16 trainings) | ~3.9 h, 6 workers |
+> | C | Gowalla gate transfer, 3 seed shards (3 trainings) | ~1 h, overlapped with B |
+> | — | Yahoo + Coat extended to 5 seeds (8 trainings) | ~1 h |
+> | — | Phase 4 inference-penalty sweep, 12 mu x 5 seeds (no training) | ~25 min |
+>
+> **Calibration note for anyone repeating this:** the per-run estimate below (~27 min) was
+> too optimistic. A single Gowalla v6 run takes **~1 h alone** on a 3090 and ~2.75 h with six
+> workers sharing two cards — the workload is memory-bandwidth bound and does not scale with
+> the 3090's extra FLOPs. Aggregate throughput was ~27 min/unit, i.e. **2.3x the 3060's
+> sequential rate**, which is the number that mattered.
+>
+> **Environment gotcha:** the `gMasters` env was missing `lightgbm` (imported by
+> `Procedure.py`), `toponetx` (imported by `run_thesis.py`) and `cppimport` (the C++ negative
+> sampler). Nothing runs without the first two. `pip install lightgbm toponetx cppimport
+> pybind11` before anything else.
+>
+> **Results:** audit findings **AE** (ablation), **AF** (gate transfer), **AG** (penalty
+> frontier), and ledger items 5.4, 5.5, 5.11 all closed. Canonical numbers in
+> `RESULTS_CANONICAL.md`.
+
+---
+
+# Original plan (kept for the record)
+
 Everything except the Gowalla work is finished. What remains is **21 PPD v6 training runs plus 2
 LightGCN runs**, all on Gowalla — the one dataset that is expensive here (~1.05 h/run on an RTX
 3060 Laptop, ≈23 h total).
@@ -129,13 +161,17 @@ Then on this machine, extract and regenerate:
 
 With Gowalla done, every open experimental question closes:
 
-- **Finding Y** — does Gowalla keep its gates under Yahoo's smaller initialization? The
-  `yahoo_init` transfer arm decides it. This is the one that determines whether "the mechanisms
-  adapt to the data" is a result or a hypothesis.
-- **Finding AA** — does Gowalla's arm (f) show the Yahoo pattern (sampler owns AvgPop, mechanisms
-  own APLT)? This decides whether the contribution's fairness claim rests on the named mechanisms.
-- **Item 5.11** — Gowalla at 5 seeds decides whether the headline Recall@20 margin clears
-  across-seed significance (currently p=0.056 at n=3).
+- **Finding Y** — does Gowalla keep its gates under Yahoo's smaller initialization?
+  **ANSWERED: yes.** Gowalla retains 21.2% of alpha from Yahoo's 0.10 start against 21.0% from
+  its own 0.40 — the retention ratio is a property of the dataset, invariant to the start.
+  Yahoo retains ~0.4% either way. The mechanisms *are* adaptive (finding **AF**).
+- **Finding AA** — does Gowalla's arm (f) show the Yahoo pattern? **ANSWERED: yes.** The sampler
+  owns 79% of the AvgPop reduction; the named mechanisms own 74% of the APLT gain. The fairness
+  claim rests on the sampler for popularity and on the mechanisms for exposure (finding **AE**).
+- **Item 5.11** — Gowalla at 5 seeds. **ANSWERED: it clears.** Recall@20 moved from p=0.056
+  (n=3) to **p=0.0115** (n=5), so all three accuracy metrics are now significant across seeds.
+- **Item 5.4**, added to the queue afterwards — can the AvgPop gap be closed? **ANSWERED: no.**
+  The inference penalty trades Recall for AvgPop point for point (finding **AG**).
 
 Nothing else is outstanding. Phases 1 and 2 are complete on Coat, Yahoo and KuaiRec.
 

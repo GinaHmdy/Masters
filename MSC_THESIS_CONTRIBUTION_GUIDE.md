@@ -24,22 +24,29 @@ This thesis resolves this longstanding dilemma by introducing **PPD v6 / ASTD-PD
 2. A **Debiased Stream ($E^D$)** that projects embeddings onto an **orthonormal, low-rank spectral popularity subspace ($C^{(l)}$)** updated via detached QR singular vector estimation and adaptively subtracts popularity components scaled by global graph density;
 3. A **Personalized Pareto Fusion Layer ($\lambda_u$)** that dynamically balances mainstream accuracy and long-tail exploration for each user individually.
 
-Across 3-seed benchmarks on four datasets (**Gowalla**, **Yahoo**, **KuaiRec**, **Coat**), the
-measured outcome is as follows. **On Gowalla (sparse), ASTD-PD achieves a 4-dimensional Pareto win
-over `LightGCN`, `TSP` and `PPD v3`** — simultaneously higher Recall@20 (+1.6%), NDCG@20 (+4.7%)
-and Precision@20, with a 34% lower Average Popularity@20 than LightGCN — at margins 3-12x the
-3-seed standard deviation. It misses a clean sweep against `PPD v4` on one metric only: AvgPop@20
-141.11 vs 139.86 (0.9%), while beating v4 on Recall@20 by +12%.
+Across **5-seed** benchmarks on four datasets (**Gowalla**, **Yahoo**, **KuaiRec**, **Coat**),
+the measured outcome is as follows. **On Gowalla (sparse), ASTD-PD achieves a 4-dimensional
+Pareto win over `LightGCN`, `TSP` and `PPD v3`** — simultaneously higher Recall@20 (+1.6%),
+NDCG@20 (+4.6%) and Precision@20 (+3.1%), with a 33% lower Average Popularity@20 than LightGCN,
+and at n = 5 **all three accuracy margins clear across-seed significance** (p = 0.0115,
+0.000177, 0.00139) as well as the per-user test.
+
+Against `PPD v4` the comparison is better stated as dominance than as a near-miss: ASTD-PD wins
+Recall@20 by **+12.5%** and its AvgPop@20 deficit (141.60 vs 138.44) is **not statistically
+distinguishable from zero** (paired t over 5 seeds, p = 0.214), while it more than doubles
+APLT@20 (0.167 vs 0.084). A Phase 4 sweep of an inference-time popularity penalty established
+that the remaining AvgPop gap **cannot be closed**: the penalty trades Recall for AvgPop point
+for point and the validation criterion selects no penalty at all (audit finding **AG**).
 
 **On the dense datasets the goal is not met**, and this is reported as a finding rather than
-omitted. The Phase 1 re-baseline (2026-08-26; frozen protocol, 3 seeds, per-user paired
-significance tests, four fairness metrics) gives:
+omitted. The Phase 1 re-baseline (frozen protocol, 5 seeds, per-user paired significance tests,
+four fairness metrics) gives:
 
 | Dataset | Accuracy vs LightGCN | Fairness vs LightGCN | Verdict |
 |---|---|---|---|
-| **Gowalla** (sparse) | NDCG **+24.5σ**, Precision **+47.5σ** (significant on both per-user and across-seed tests); Recall +12.6σ, significant per-user but **p=0.056 across 3 seeds** | AvgPop **−34%**, Coverage **+258%**, APLT **+257%** | **4D Pareto win** (recall margin needs the 5-seed run to clear across-seed significance) |
+| **Gowalla** (sparse) | Recall, NDCG and Precision all significant on **both** tests at n = 5 — across-seed p = **0.0115** / 0.000177 / 0.00139 (Recall was p=0.056 at n=3) | AvgPop **−33%**, Coverage **+252%**, APLT **+255%** | **4D Pareto win vs LightGCN/TSP/PPD v3**; vs PPD v4, accuracy dominance with AvgPop tied |
 | **Yahoo** (dense) | all three losses **not significant** (−1.2σ to −2.1σ) | AvgPop −11.5%, APLT +29.7%, Coverage −8.0% | clean trade |
-| **Coat** (small) | Recall −2.07σ (significant loss) | Coverage **+53%**, APLT **+39%** | stated trade |
+| **Coat** (small) | all three losses **not significant** at n = 5 (p = 0.093 / 0.093 / 0.062) | Coverage **+53%**, APLT **+39%** | exposure gain, no measurable accuracy cost |
 | **KuaiRec** (dense) | Recall **+14%**, NDCG **+30%** (significant) | AvgPop **+41% worse**, Coverage **−80%**, APLT **−84%** | **fairness reversal** |
 
 KuaiRec deserves the emphasis, because it is the result that most constrains the thesis's claim.
@@ -298,22 +305,31 @@ If a user historically consumes mostly mainstream items ($p_u \approx 1$), $\lam
 Every model was evaluated over 3 distinct seeds (`2024`, `2025`, `2026`) with full convergence and validation early stopping.
 
 ### 5.1 Yahoo (Dense / Saturated Music Matrix)
+> **RETRACTED.** The ASTD-PD row below was selected on the **test set**
+> (`refine_yahoo_ppd_v6.py:171-176`) and must not be reported as a result. Under validation
+> selection at 5 seeds, PPD v6 does **not** beat LightGCN on Yahoo — it trails on all three
+> accuracy metrics, though by margins that clear no significance threshold
+> (across-seed p = 0.154 / 0.061 / 0.154). The table is kept, struck, so the correction is
+> visible rather than quietly deleted. Authoritative Yahoo numbers: `RESULTS_CANONICAL.md`.
+
 | Method | Recall@20 $\uparrow$ | NDCG@20 $\uparrow$ | Precision@20 $\uparrow$ | AvgPop@20 $\downarrow$ | Dominance Status |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **ASTD-PD (Ours)** | **0.142360** | **0.064890** | **0.011239** | **503.47** | **ABSOLUTE WINNER** |
-| **LightGCN** | 0.141245 | 0.064582 | 0.010995 | 589.69 | **✅ Beaten on all 4 metrics ($\Delta \text{Pop} = -86.22$)** |
-| **TSP** | 0.140413 | 0.064338 | 0.010939 | 585.59 | **✅ Beaten on all 4 metrics ($\Delta \text{Pop} = -82.12$)** |
-| **PPD v4** | 0.138358 | 0.061830 | 0.010757 | 521.30 | **✅ Beaten on all 4 metrics ($\Delta \text{Pop} = -17.83$)** |
-| **PPD v3** | 0.141979 | 0.064822 | 0.011044 | 562.20 | **✅ Superior on all 4 metrics ($\Delta \text{Pop} = -58.73$)** |
+| ~~**ASTD-PD (Ours)**~~ | ~~0.142360~~ | ~~0.064890~~ | ~~0.011239~~ | ~~503.47~~ | ~~ABSOLUTE WINNER~~ — **test-selected, invalid** |
+| **LightGCN** | 0.141245 | 0.064582 | 0.010995 | 589.69 | ~~beaten on all 4~~ — **beats v6 on all 3 accuracy metrics (n.s.)** |
+| **TSP** | 0.140413 | 0.064338 | 0.010939 | 585.59 | ~~beaten on all 4~~ |
+| **PPD v4** | 0.138358 | 0.061830 | 0.010757 | 521.30 | ~~beaten on all 4~~ |
+| **PPD v3** | 0.141979 | 0.064822 | 0.011044 | 562.20 | ~~superior on all 4~~ |
 
 ### 5.2 Gowalla (Sparse Location-Based Social Network)
+*5-seed means, from `results/phase1_gowalla*.json`.*
+
 | Method | Recall@20 $\uparrow$ | NDCG@20 $\uparrow$ | Precision@20 $\uparrow$ | AvgPop@20 $\downarrow$ | Dominance Status |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **ASTD-PD (Ours)** | **0.142838** | **0.121338** | **0.043473** | **141.11** | **ABSOLUTE WINNER** |
-| **LightGCN** | 0.140533 | 0.115921 | 0.042134 | 214.05 | **✅ Beaten on all 4 metrics ($\Delta \text{Pop} = -72.94$)** |
-| **TSP** | 0.140183 | 0.116862 | 0.042374 | 210.26 | **✅ Beaten on all 4 metrics ($\Delta \text{Pop} = -69.15$)** |
-| **PPD v3** | 0.140396 | 0.116456 | 0.042227 | 200.17 | **✅ Beaten on all 4 metrics ($\Delta \text{Pop} = -59.06$)** |
-| **PPD v4** | 0.127509 | 0.107013 | 0.038061 | 139.86 | **+12.0% Recall recovery over v4** |
+| **ASTD-PD (Ours)** | **0.142878** | **0.121314** | **0.043501** | **141.60** | **Wins 3/4 vs every baseline; AvgPop tied with PPD v4 (p = 0.214)** |
+| **LightGCN** | 0.140693 | 0.115987 | 0.042188 | 212.99 | ✅ beaten on all 4 — accuracy margins significant at n=5 (p = 0.0115 / 0.000177 / 0.00139) |
+| **TSP** | 0.140337 | 0.116880 | 0.042418 | 209.25 | ✅ beaten on all 4 |
+| **PPD v3** | 0.140585 | 0.116295 | 0.042292 | 199.57 | ✅ beaten on all 4 |
+| **PPD v4** | 0.126957 | 0.106169 | 0.037829 | 138.44 | **+12.5% Recall over v4; its AvgPop lead (−3.17) is not significant (p = 0.214)** |
 
 ### 5.3 KuaiRec (Dense / Extremely Skewed Video Graph)
 | Method | Recall@20 $\uparrow$ | NDCG@20 $\uparrow$ | Precision@20 $\uparrow$ | AvgPop@20 $\downarrow$ | Gain vs Baseline |
@@ -346,7 +362,9 @@ The thesis synthesizes three previously disconnected mathematical paradigms:
 - **Multi-Objective Pareto Optimization**: Decoupled dual streams with dynamic user gating.
 
 ### 2. Resolution of an Open Problem (Breaking the Trade-Off)
-Prior literature accepted that debiasing must reduce recommendation accuracy. This thesis shows that on **sparse** interaction graphs the trade-off is not forced: on Gowalla, ASTD-PD improves Recall@20, NDCG@20 and Precision@20 *and* cuts AvgPop@20 by 34% while raising catalogue Coverage@20 by 258%, all at 3-47x the 3-seed standard deviation.
+Prior literature accepted that debiasing must reduce recommendation accuracy. This thesis shows that on **sparse** interaction graphs the trade-off is not forced: on Gowalla, ASTD-PD improves Recall@20, NDCG@20 and Precision@20 *and* cuts AvgPop@20 by 33% while raising catalogue Coverage@20 by 252%, with all three accuracy margins significant across 5 seeds.
+
+**With one honest qualification, established by the Phase 2 ablation (six arms x 3 seeds, all four datasets):** the credit does not go where the method's name suggests. The popularity-stratified negative sampler accounts for **79%** of the AvgPop reduction on Gowalla (88-96% on Yahoo), and the spectral projection is **inert on every dataset** — removing it changes Recall by 8e-05 and APLT by 0.0000. What the named mechanisms do own is tail *exposure*: 74% of the APLT gain, with the tail reweighting the largest single contributor. The defensible form of the contribution is therefore "a training recipe whose sampler produces the popularity reduction, plus mechanisms that convert it into long-tail exposure" — not "a spectral-topological debiaser".
 
 The scope condition is the contribution's other half, and it is stated rather than hidden: the synergy **does not** hold where popularity is largely earned. On KuaiRec (26.9% earned popularity, measured) the same method wins accuracy and loses fairness outright. The claim is therefore conditional -- *accuracy and fairness are jointly optimizable to the extent that popularity is exposure-driven rather than quality-driven* -- and that condition is measurable in advance from the random-exposure splits.
 

@@ -5,7 +5,7 @@ the work's own stated goal. Every claim below cites a file:line or a re-runnable
 
 ## Remediation ledger
 
-Findings are struck from §3 only when closed by a commit or a re-run. Status as of 2026-08-25:
+Findings are struck from §3 only when closed by a commit or a re-run. Status as of 2026-08-30:
 
 | # | Item | Status | Closed by |
 |---|---|---|---|
@@ -13,15 +13,15 @@ Findings are struck from §3 only when closed by a commit or a re-run. Status as
 | 5.2 | Correct the attribution | **CLOSED** | `README.md` § Prior Art and Attribution; `MSC_THESIS_CONTRIBUTION_GUIDE.md` attribution notice + Phase-arc labels; `docs/THE_STORY.md` Part 3. **Upgraded from the audit's original finding:** PPD is not merely inherited, it is a *published method* — Islam, Wang & Zheleva, arXiv:2510.12959 (Oct 2025). DAP is Chen et al. 2024 (a baseline in that same paper) and DCD is DICE (WWW 2021). This strengthens the thesis rather than weakening it: the baselines are external, not self-ablations. |
 | — | Framing: popularity is not always bias | **NEW, ADOPTED** | `MSC_THESIS_CONTRIBUTION_GUIDE.md` §2.0, `docs/THE_STORY.md` §2.5. See finding **O** below. |
 | 5.3 | MostPopular + Random in the harness | **CLOSED** | `trivial_baselines.py` runs both reference rankers on every dataset under the same protocol, candidate mask included, and `check_sanity_floors.py` turns them into an executable gate (non-zero exit if any model falls below Random). Result: all models clear Random everywhere, but on KuaiRec **every method except PPD v6 loses to MostPopular on NDCG@20** — see finding **Z**. Random wins AvgPop@20 on all four datasets, which is why AvgPop alone cannot carry the fairness claim (see 5.9). Both reference rankers now appear as rows in the numbers-pack tables rather than in a footnote. |
-| 5.4 | Re-run Gowalla targeting the AvgPop gap | open | |
-| 5.5 | Mechanism-isolation ablation | **IN PROGRESS** | Phase 2. `run_phase2_ablation.py`, five arms (`a_full`, `b_no_spectral`, `c_no_simplex`, `d_no_tail`, `e_recipe_only`). **Coat complete** (finding **U**); Yahoo, KuaiRec, Gowalla queued. `run_phase3_gate_transfer.py` added to resolve finding **Y**'s adaptation-vs-initialization confound by swapping α_base/θ_init across datasets. |
+| 5.4 | Re-run Gowalla targeting the AvgPop gap | **CLOSED — negative result** | Phase 4. `run_phase4_inference_penalty.py` sweeps the inference-time popularity penalty over the five trained checkpoints (no retraining: the penalty is applied at ranking time, `model.py:1035`), 12 values x 5 seeds, selected on validation. The thesis's own hypervolume criterion selects **mu = 0**, and the mu = 1.6-1.75 window whose point estimates do clear all four baselines is a **statistical tie on both binding margins** (Recall vs LightGCN p = 0.68; AvgPop vs PPD v4 p = 0.96). The four-metric goal is not attainable on Gowalla. See finding **AG** — which also shows the *better* claim it licenses: v6's AvgPop deficit vs PPD v4 is itself not significant (p = 0.214) while it beats PPD v4 on Recall by +12.5%. |
+| 5.5 | Mechanism-isolation ablation | **CLOSED** | Phase 2, six arms x 3 seeds on **all four datasets**. `run_phase2_ablation.py`. The verdict is uniform: the popularity-stratified negative sampler accounts for 79% (Gowalla) to 96% (Yahoo) of the AvgPop reduction, the tail reweighting and simplex stream own the tail-exposure gain (74% of APLT on Gowalla), and the **spectral projection is inert on every dataset including Gowalla**, the one where its parameter survives training (finding **AE**). `run_phase3_gate_transfer.py` resolved finding **Y**'s adaptation-vs-initialization confound: retention tracks the dataset, not the starting value (finding **AF**). |
 | 5.6 | Fix/remove dead flags | **CLOSED** | Phase 0. `beta` removed from `project_and_remove` (it was accepted and never referenced, so every PPD v3 `--beta` sweep since the reflection fix measured nothing). `--ppd_beta_schedule`, `--ppd_seq_beta_v3` and `--astd_topo_gate_init` now print an explicit `[WARNING] ... has NO EFFECT` at startup rather than silently no-opping. |
 | 5.7 | Re-select hyperparameters on validation | open — and see finding **X**: *checkpoint* selection was already validation-based for v6, but one of its four hypervolume components was scored on test users. Fixed and re-running. The remaining work is the *hyperparameter* sweep, still test-selected in `refine_yahoo_ppd_v6.py`, `run_component_search.py`, `test_beta_sweep.py`, `run_dcd_sweep.py`, `run_yahoo_ablations.py`, `evaluate_canonical.py`. | |
 | 5.8 | Fix or drop collapsed baselines | **CLOSED** | The KuaiRec baselines were never collapsed — the *evaluation* was. Candidates were ranked over all 10,728 items while KuaiRec's test split (the dense "small matrix") covers 3,247; >99% of every top-K was unhittable by construction. Fixed by `restrict_candidates` (`dataloader.py` `candidateItems`, `Procedure.py` `_apply_candidate_mask`). Same checkpoint: Recall@20 0.000424 → **0.155524**. Baselines and the 27-cell KuaiRec component search re-run; see finding **P**. |
 | — | Eval protocol: KuaiRec candidate set | **NEW, CLOSED** | See finding **P** below. |
 | 5.9 | Gini / coverage / APLT; AvgPop over test users | **CLOSED** | Phase 0. `utils.py` gained `gini_at_k`, `coverage_at_k`, `APLT_ATk`, `TailRecallATk` + `long_tail_mask`, all computed from the top-K matrix `Test()` already builds. AvgPop@20 now runs over `testDict` users (finding L). |
 | 5.10 | Evaluate on unbiased splits | **CLOSED (as stated) / RESCOPED** | Phase 4. The default `Coat/` and `KuaiRec/` directories are byte-identical to their unbiased variants across train, valid **and** test — so every result already reported is a randomized-exposure evaluation. The audit's own narrowing ("only validation differs") was also wrong: `KuaiRec/biased-valid/` differs in all three files, with 5x the validation users. What remains is the narrower selection-protocol question, now folded into Phase 3. See finding **W**. |
-| 5.11 | 5 seeds + paired significance test | **PARTIAL — and now load-bearing** | Phase 1. Paired significance testing now exists (`significance.py`: per-user Wilcoxon signed-rank + across-seed paired t-test, Holm-corrected, with a low-n guard) and every method on every dataset is re-run under the frozen protocol at **3** seeds with mean ± std. The 5-seed extension on Gowalla and KuaiRec is queued and matters more than first thought: **Gowalla's Recall@20 margin is significant per-user (p=0.006, +12.6σ) but sits at p=0.056 across 3 seeds — just outside significance.** NDCG and Precision clear both tests. Five seeds is what decides whether the headline result can claim across-seed significance on all three accuracy metrics. Both Phase 1 drivers were also fixed to **merge** rather than clobber their JSON, so adding seeds 2027/2028 extends n instead of silently replacing a 3-seed result with a 2-seed one. |
+| 5.11 | 5 seeds + paired significance test | **CLOSED** | Phase 1. **All four datasets now report every method at n = 5** with mean +/- population std, plus per-user Wilcoxon and across-seed paired t-tests (`significance.py`). The extension changed the headline verdict: Gowalla's Recall@20 margin over LightGCN was p = 0.056 at n = 3 and is **p = 0.0115 at n = 5** (+8.98 sigma), so v6 now clears across-seed significance on all three accuracy metrics — NDCG p = 0.000177, Precision p = 0.00139. It also softened two negatives: v6's accuracy deficit is **not** significant on Yahoo (p = 0.154 / 0.061 / 0.154) or Coat (p = 0.093 / 0.093 / 0.062). |
 
 **Stated goal.** Build a new pipeline that outperforms standalone **LightGCN**, **TSP** and
 **PPD** on *all four* metrics simultaneously — Recall@20, NDCG@20, Precision@20, Average
@@ -61,23 +61,36 @@ defensible result. It requires the ablation in §5.5 to state properly.
 
 ## 1. Scorecard against the goal
 
-From the repo's own outputs (`LightGCN/code/results/*_pareto_report.md`, produced by
-`utilities.format_pareto_report`):
+From the repo's own outputs — `LightGCN/code/results/phase1_*.json` via `make_canonical.py`,
+with the verdicts taken from `results/significance_*_v6.json` rather than from point estimates:
+
+**Updated 2026-08-30, n = 5 seeds on every dataset, under the frozen Phase 0 protocol.**
 
 | Dataset | Density | vs LightGCN | vs TSP | vs PPD v3 | vs PPD v4 | Goal met? |
 |---|---|---|---|---|---|---|
-| **Gowalla** | sparse | YES | YES | YES | NO — AvgPop 141.11 vs 139.86 | **Near-miss (3/4)** |
-| **Yahoo** | dense | YES\* | YES\* | NO | YES\* | NO |
-| **KuaiRec** | dense | YES† | YES† | NO | NO | NO |
-| **Coat** | dense | NO | NO | NO | NO | NO |
+| **Gowalla** | sparse | YES | YES | YES | 3/4 — AvgPop 141.61 vs 138.44 (n.s., p = 0.214) | **Near-miss (3/4)** |
+| **Yahoo** | dense | NO (accuracy −, n.s.) | NO | NO | NO | NO |
+| **KuaiRec** | dense | 3/4 — accuracy wins, AvgPop far worse | 3/4 | NO | 3/4 | NO |
+| **Coat** | dense | NO (accuracy −, n.s.) | NO | NO | NO | NO |
 
-\* Only with a test-set-selected configuration. The validation-selected run of the same
-experiment (`results/yahoo_pareto_report.md`) fails against all four. See §3B.
-† Both baselines are collapsed training runs. See §3A.
+**Gowalla remains one metric away, and Phase 4 established that the gap cannot be closed.** An
+inference-time popularity penalty moves AvgPop below PPD v4's only by giving up exactly enough
+Recall to fall back to LightGCN's; at the crossover both margins are statistically zero, and the
+thesis's own validation criterion selects no penalty at all (finding **AG**).
 
-**Gowalla is one metric away from the full goal.** It beats PPD v4 on Recall@20 by +12%
-(0.142838 vs 0.127509) and misses only on AvgPop@20 by 1.25 units (0.9%). This is the single
-most promising target for further work.
+**The defensible claim is a different one.** Against PPD v4 on Gowalla, v6's AvgPop deficit is
+itself **not significant** (−3.17, p = 0.214) while its Recall advantage is large and significant
+(+12.5%, 0.142878 vs 0.126957), and it more than doubles APLT@20 (0.1665 vs 0.0839). Against
+LightGCN it wins all three accuracy metrics with across-seed significance (Recall p = 0.0115,
+NDCG p = 0.000177, Precision p = 0.00139) at −33% AvgPop, +252% Coverage and +255% APLT. That is
+a dominance claim over PPD v4 and an accuracy-plus-exposure claim over LightGCN — narrower than
+"all four metrics against all baselines", and it survives the significance tests.
+
+On the dense datasets the honest reading is *no effect rather than a loss*: v6's accuracy deficit
+clears no significance threshold on Yahoo (p = 0.154 / 0.061 / 0.154) or Coat
+(p = 0.093 / 0.093 / 0.062), and on KuaiRec it wins accuracy decisively while becoming markedly
+*more* popularity-concentrated (finding **Z**), which is a failure of the debiasing goal, not of
+the accuracy goal.
 
 ---
 
@@ -366,6 +379,141 @@ and no script references them.
 
 ---
 
+### AG. The four-metric goal is unreachable on Gowalla: the penalty only slides along a frontier *(NEW - 2026-08-30, Phase 4, remediation item 5.4)*
+
+Item 5.4 asked for "a validation-selected config targeting the AvgPop gap vs PPD v4" -- the one
+run that could convert Gowalla's 3/4 near-miss into the stated goal. `--astd_inference_pop_penalty`
+subtracts `mu * p_i` at ranking time (`model.py:1035`), touching no weights, so
+`run_phase4_inference_penalty.py` re-ranks the five already-trained v6 checkpoints across a
+12-point grid instead of retraining anything.
+
+Test metrics, 5 seeds, mean. The bar a four-metric win must clear is the *strongest* baseline on
+each axis: Recall 0.140693 (LightGCN), NDCG 0.116880 (TSP), Precision 0.042418 (TSP), AvgPop
+138.44 (PPD v4).
+
+| mu | valid HV | Recall@20 | NDCG@20 | Precision@20 | AvgPop@20 | APLT@20 | 4/4? |
+|---|---|---|---|---|---|---|---|
+| 0.0 | **0.00049279** | 0.142843 | 0.121314 | 0.043491 | 141.61 | 0.1665 | no (AvgPop) |
+| 1.0 | 0.00048442 | 0.141768 | 0.120516 | 0.043149 | 139.64 | 0.1867 | no (AvgPop) |
+| 1.5 | 0.00047774 | 0.141099 | 0.120069 | 0.042954 | 138.55 | 0.1984 | no (AvgPop) |
+| 1.6 | 0.00047594 | 0.140930 | 0.119952 | 0.042907 | 138.33 | 0.2009 | **yes** |
+| 1.75 | 0.00047434 | 0.140721 | 0.119805 | 0.042847 | 137.98 | 0.2047 | **yes** |
+| 2.0 | 0.00047114 | 0.140415 | 0.119577 | 0.042746 | 137.40 | 0.2113 | no (Recall) |
+| 4.0 | 0.00044108 | 0.136654 | 0.116949 | 0.041664 | 131.68 | 0.2755 | no (Recall) |
+
+**Two findings, and the second kills the first.**
+
+**1. Under the thesis's own selection rule, mu = 0.** Validation hypervolume -- the same 4-D
+Pareto volume `main.py:144` uses for checkpoint selection -- is *maximised at zero penalty* and
+falls monotonically. It cannot select otherwise: the criterion enters AvgPop as
+`1/(1 + pop/1000)`, so moving 141.6 -> 131.7 buys 0.8% of one factor while the 4.3% Recall loss
+hits another linearly. A pre-registered validation rule therefore keeps the unpenalised model
+and the AvgPop gap stays open.
+
+**2. The mu = 1.6-1.75 window that *does* show 4/4 is a tie, not a win.** Across-seed paired
+t-tests, n = 5:
+
+| mu | Recall vs LightGCN | AvgPop vs PPD v4 |
+|---|---|---|
+| 0.0 | +0.002151, p = **0.013** | -3.17, p = 0.214 (n.s.) |
+| 1.6 | +0.000237, p = 0.676 (n.s.) | +0.11, p = 0.964 (n.s.) |
+| 1.75 | +0.000028, p = 0.961 (n.s.) | +0.45, p = 0.846 (n.s.) |
+| 2.0 | -0.000278, p = 0.620 (n.s.) | +1.04, p = 0.659 (n.s.) |
+
+At the crossover both binding margins are statistically indistinguishable from zero. The penalty
+does not find a better model; it trades Recall for AvgPop along a frontier and the point where
+it clears PPD v4 on popularity is exactly the point where it stops clearing LightGCN on accuracy.
+**Reporting mu = 1.6 as "the goal achieved" would be selecting a configuration on test metrics at
+a margin of 0.2 sigma -- precisely the practice findings F and X were raised against.**
+
+**What can honestly be claimed instead.** The same test gives a stronger result at mu = 0: v6's
+AvgPop deficit against PPD v4 is *itself* not significant (-3.17, p = 0.214), while v6 beats
+PPD v4 on Recall by +12.5% (0.142843 vs 0.126957, p < 0.01) and more than doubles APLT@20
+(0.1665 vs 0.0839). Against PPD v4 the honest statement is **not** "we lose on one metric" but
+"we match its popularity reduction within noise and dominate its accuracy". Against LightGCN, v6
+wins all three accuracy metrics with across-seed significance and improves Coverage@20 by 252%.
+
+A caveat on the selection protocol, stated because it is not free: on Gowalla the validation and
+test *user sets are identical* (both are all 29,858 users), and AvgPop@20 is a label-free property
+of the ranking, so its validation and test values coincide exactly. Selection used validation
+labels for Recall/NDCG/Precision -- no test label information entered -- but the AvgPop term of
+the criterion is not held out on this dataset. The conclusion does not rest on it either way,
+since the selected mu is 0.
+
+---
+
+### AF. The gate collapse tracks the dataset, not the initialization *(NEW - 2026-08-30, Phase 3, closes finding Y's confound)*
+
+Finding **Y** observed that alpha and theta survive on Gowalla and collapse to numerical zero on
+Yahoo and Coat, and flagged the obvious confound: Gowalla also *starts* alpha four times higher
+(`astd_alpha_base` 0.40 vs 0.10), so "Gowalla keeps more alpha" might mean nothing more than
+"Gowalla was given more alpha to keep". `run_phase3_gate_transfer.py` swaps the knob across
+datasets, 3 seeds each.
+
+| Dataset | native | given alpha_base = 0.40 | given alpha_base = 0.10 |
+|---|---|---|---|
+| **Gowalla** | 0.0841 of 0.40 = **21.0%** | 0.0841 = **21.0%** | 0.0212 of 0.10 = **21.2%** |
+| **Yahoo** | 0.0003 of 0.10 = 0.3% | 0.0019 of 0.40 = 0.5% | 0.0003 = 0.3% |
+| **Coat** | 0.0001 of 0.10 = 0.1% | 0.0004 of 0.40 = 0.1% | 0.0001 = 0.1% |
+
+The *retention ratio* is a property of the dataset and is invariant to where alpha starts:
+Gowalla holds ~21% of whatever it is given, Yahoo ~0.4%, Coat ~0.1%. Handed Gowalla's four-times
+larger start, Yahoo still collapses; handed Yahoo's smaller start, Gowalla still retains.
+**Finding Y's claim 2 survives the confound: the mechanisms really are adaptive**, switching on
+where popularity is exposure-driven and off where it is earned. The absolute value of alpha is
+simply proportional to its initialization, which is why the raw numbers looked confounded.
+
+Accuracy is unaffected by the swap on Gowalla (Recall 0.142780 native vs 0.142723 under Yahoo's
+init, a 5.7e-05 difference, inside the non-reproducibility floor of finding **AB**).
+
+**One limitation, and it is a code defect, not a data result.** The transfer arm also sets
+`astd_topo_gate_init`, which is a **dead flag** whenever `astd_topo_gate_learnable=1` -- theta
+comes from `gate_mlp_theta` and the startup warning says so (remediation item 5.6). Theta is
+consequently identical across the arms (0.2560 vs 0.2542 on Gowalla), so **this experiment tests
+alpha_base only**. The theta half of finding Y's confound remains formally untested; testing it
+would need a learnable-gate initialization knob that does not currently exist.
+
+---
+
+### AE. Gowalla's ablation: the sampler owns AvgPop, the mechanisms own APLT, the spectral stream owns nothing *(NEW - 2026-08-30, Phase 2 complete on all four datasets)*
+
+The arm that finding **AA** said must run before any component claim could be written has now
+run. Gowalla, 6 arms x 3 seeds:
+
+| Arm | Recall@20 | AvgPop@20 | APLT@20 | alpha | theta |
+|---|---|---|---|---|---|
+| (a) full v6 | 0.142780 +/- 0.000695 | 141.03 +/- 1.15 | 0.1655 +/- 0.0040 | 0.084 | 0.256 |
+| (b) no spectral | 0.142700 +/- 0.000610 | 140.92 +/- 1.01 | 0.1655 +/- 0.0035 | 0.000 | 0.256 |
+| (c) no simplex | 0.149034 +/- 0.000469 | 143.18 +/- 0.50 | 0.1300 +/- 0.0019 | 0.085 | 0.000 |
+| (d) no tail | 0.146103 +/- 0.000454 | 151.02 +/- 1.55 | 0.0871 +/- 0.0032 | 0.084 | 0.228 |
+| (e) recipe only | 0.149980 +/- 0.000504 | 149.64 +/- 0.49 | 0.0863 +/- 0.0011 | 0.000 | 0.000 |
+| (f) + uniform negatives | 0.150450 +/- 0.000440 | 182.28 +/- 0.59 | 0.0590 +/- 0.0010 | 0.000 | 0.000 |
+
+**1. The spectral projection does nothing, on the one dataset where it was thought alive.**
+Arm (b) matches full v6 to 8e-05 Recall, 0.11 AvgPop and 0.0000 APLT -- inside the
+non-reproducibility floor. Finding **Y** established that alpha *survives* on Gowalla (21% of its
+initialization, against 0.3% on Yahoo); this establishes that surviving and mattering are
+different things. **Gowalla was the last dataset on which the spectral debiaser could have been
+claimed to contribute, and it does not.**
+
+**2. The stratified sampler owns 79% of the popularity reduction** -- (f) 182.28 -> (e) 149.64,
+against the full 182.28 -> 141.03 -- matching the 88-96% measured on Yahoo. The three named
+mechanisms split the remaining 21%.
+
+**3. The named mechanisms own 74% of the tail exposure** -- (e) 0.0863 -> (a) 0.1655 of the
+(f) 0.0590 -> 0.1655 total, with the tail reweighting the largest single contributor (removing
+it alone costs 0.078 APLT). This is the half of the contribution that survives the ablation.
+
+**4. Debiasing costs accuracy, and the cost is now measured.** Full v6 gives up 0.0077 Recall
+(-5.1%) against arm (f). The trade is real and should be reported as such rather than as a free
+lunch.
+
+The consequence for the write-up is the same on all four datasets: **the fairness claim rests on
+the popularity-stratified negative sampler and the tail reweighting -- two simple degree-based
+interventions -- not on the spectral-topological machinery the method is named for.** The
+exposure metrics (APLT, Coverage) are where the named mechanisms earn their place.
+
+---
 ### AD. Evaluation recomputed the full graph propagation once per user batch *(NEW - 2026-08-28, performance, no effect on results)*
 
 `getUsersRating` begins with `self.computer()` -- the full dual-stream multi-layer propagation
@@ -578,176 +726,10 @@ correction: **PPD v6's spectral-topological machinery is what produces long-tail
 negative sampler is what lowers mean recommended popularity; and the two are separable, measured,
 and should be reported separately.**
 
-**Still open:** Gowalla's arm (f), stage 6 of the queue. Gowalla is the dataset carrying the
-thesis's positive fairness result (Coverage@20 +258%, APLT@20 +257%), and it is also the only
-dataset where the mechanisms do not collapse (finding **Y**). If the Yahoo pattern holds there --
-sampler owns AvgPop, mechanisms own APLT -- the contribution stands on the exposure metrics.
-**No claim about which component produces Gowalla's fairness result may be written until that
-arm runs.**
-
----
-
-### AB. Gowalla PPD v6 training is not reproducible bit-for-bit; Yahoo and Coat are *(NEW - 2026-08-28)*
-
-Deduplicating the Gowalla queue required checking an assumption first: that training the same
-configuration with the same seed twice gives the same model. On Yahoo it does. On Gowalla it
-does not.
-
-The Phase 1 v6 run and the Phase 2 `a_full` arm are the *same command line* -- `a_full` applies
-no overrides, so it is the dataset's native PPD v6 configuration. Both ran after the finding-**X**
-fix. Comparing them:
-
-| Dataset | seed | Phase 1 v6 Recall@20 | Ablation `a_full` Recall@20 | abs diff | as % of seed std |
-|---|---|---|---|---|---|
-| **Gowalla** | 2024 | 0.143263 | 0.143209 | 5.38e-05 | **5.9%** |
-| **Gowalla** | 2025 | 0.141837 | 0.141855 | 1.77e-05 | **1.9%** |
-| Yahoo | all 3 | \-- | \-- | **0.0 (identical to 8 dp)** | 0% |
-| Coat | all 3 | \-- | \-- | **0.0 (identical to 8 dp)** | 0% |
-
-Gowalla's run-to-run reproduction error is roughly 2-6% of its own seed standard deviation
-(0.000910 at n=5) -- small, but not zero, and the only dataset where it is non-zero. The likely
-cause is non-deterministic CUDA reductions (atomics in sparse scatter/gather) that Gowalla's much
-larger graph exercises and the small dense datasets do not.
-
-**Why this matters beyond bookkeeping.** Finding **X** reported that the selection-leak fix moved
-Gowalla by "+0.01%" while leaving Yahoo and Coat bit-identical, and read that as a small real
-effect. It was not: **+0.01% is inside Gowalla's nondeterministic reproduction error**, so the
-correct statement is that the fix changed Gowalla by *no measurable amount either* -- the same
-conclusion, but now for the right reason. Finding **X** has been amended accordingly.
-
-**Consequences to observe from here on.**
-
-1. "Bit-identical" as a verification standard works on Yahoo, KuaiRec and Coat. **On Gowalla the
-   standard must be "within ~6e-05 on Recall@20"**, and any Gowalla difference smaller than that
-   is not evidence of anything.
-2. Checkpoint *reuse* remains exact -- evaluating the same weights twice is deterministic. It is
-   *retraining* that drifts. So the dedup below is safe precisely because it reuses weights
-   rather than assuming a retrain would reproduce them.
-3. Where an arm's seeds must be comparable to each other, they should share a training
-   provenance. The Gowalla `a_full` arm's seeds 2024 and 2025 were trained by the ablation
-   driver, so seed 2026 was left to train the same way rather than being copied from the Phase 1
-   v6 checkpoint -- a ~3.5 h saving declined to keep one arm internally consistent.
-
----
-
-### AC. Two transfer arms were duplicates of `native`, and one had already run silently *(NEW - 2026-08-28)*
-
-`run_phase3_gate_transfer.py` swaps `astd_alpha_base` / `astd_topo_gate_init` across datasets to
-separate adaptation from initialization (finding **Y**). Its arms are:
-
-| Arm | alpha_base | topo_gate_init |
-|---|---|---|
-| `native` | the dataset's own | the dataset's own |
-| `gowalla_init` | 0.40 | 0.40 |
-| `yahoo_init` | 0.10 | 0.75 |
-
-But **Gowalla's native configuration *is* 0.40 / 0.40, and Yahoo's native *is* 0.10 / 0.75.** So
-on each of those datasets one "transfer" arm is the native arm under a different name, and the
-`native` arm is in turn identical to Phase 2's `a_full` arm, which applies no overrides at all.
-
-**On Yahoo this already happened, silently**: `native` and `yahoo_init` were both trained and
-agree to eight decimal places on all six metrics, as does `a_full`. Cheap there. On Gowalla the
-same duplication would have cost **six redundant training runs at ~3.5 h each, ~21 GPU-hours**,
-to retrain a configuration already trained twice.
-
-**Fixed by making the equivalence explicit rather than accidental.** `alias_of()` detects arms
-whose built command line matches an earlier arm's and reuses its result, tagging it `alias_of` so
-it can never be counted as an independent replicate. `reusable_checkpoint()` additionally reuses a
-Phase 2 `a_full` checkpoint when the command lines match, copying the weights and re-running
-*evaluation only*. Gowalla's stage 7 therefore trains **three** models (`yahoo_init`) instead of
-nine.
-
-The equivalence was verified before being relied on, on the dataset where the duplicate work had
-already been done: Yahoo's `native`, `yahoo_init` and `a_full` agree to 8 dp across all six
-metrics, while `gowalla_init` -- genuinely different there -- does not. Per finding **AB**,
-reusing weights is exact even on Gowalla; it is retraining that drifts.
-
-**The general lesson.** An ablation grid defined as "override X to value V" silently collapses
-whenever some dataset's default already equals V. The grid should either be defined relative to
-each dataset or be checked for collisions at build time -- which `alias_of()` now does.
-
----
-
-### AA. Arm (e) is not a clean "no debiasing" control -- the training recipe is itself a debiaser *(NEW - 2026-08-27, Phase 2, limitation of my own design)*
-
-Yahoo's ablation, 5 arms x 3 seeds:
-
-| Arm | Recall@20 | NDCG@20 | AvgPop@20 | APLT@20 | Coverage@20 | alpha | theta | lambda |
-|---|---|---|---|---|---|---|---|---|
-| (a) full v6 | 0.138287 +/- 0.000375 | 0.062616 | 527.13 +/- 15.02 | 0.1428 | 0.6253 | 0.0003 | 0.0007 | 0.4998 |
-| (b) no spectral | 0.138287 +/- 0.000375 | 0.062617 | 527.13 +/- 15.01 | 0.1427 | 0.6250 | 0.0000 | 0.0007 | 0.4998 |
-| (c) no simplex | 0.139127 +/- 0.000881 | 0.062817 | 535.86 +/- 9.10 | 0.1356 | 0.6183 | 0.0020 | 0.0000 | 0.4998 |
-| (d) no tail reweighting | 0.141018 +/- 0.002383 | 0.063330 | 521.89 +/- 16.55 | 0.1273 | 0.5880 | 0.0050 | 0.0007 | 0.4998 |
-| (e) recipe only | 0.141699 +/- 0.002161 | 0.063660 | 529.71 +/- 9.10 | 0.1224 | 0.5770 | 0.0000 | 0.0000 | 0.4998 |
-
-**1. The spectral projection is provably inert on Yahoo.** Arm (b) reproduces arm (a) to six
-decimal places on Recall (0.138287 both), to five on NDCG, and to 0.01 on AvgPop. Deleting the
-mechanism changes *nothing measurable*. This is the strongest form finding **D** could take: not
-"the effect is small" but "the effect is numerically absent".
-
-**2. Lambda = 0.4998 in all five arms**, identical to four decimals. See finding **Y**.
-
-**3. And the result I did not expect -- arm (e) is not the control I designed it to be.**
-Compare it against LightGCN, which is the true no-debiasing reference:
-
-| Metric | LightGCN | (e) recipe only | (a) full v6 | share of v6's gain already in (e) |
-|---|---|---|---|---|
-| Recall@20 | 0.141245 | 0.141699 (+0.32%) | 0.138287 | -- |
-| NDCG@20 | 0.064582 | 0.063660 (-1.43%) | 0.062616 | -- |
-| **AvgPop@20** | 595.72 | **529.71 (-11.08%)** | 527.13 (-11.5%) | **~96%** |
-| **APLT@20** | 0.1101 | **0.1224 (+11.21%)** | 0.1428 (+29.7%) | **~38%** |
-
-Arm (e) has every one of PPD v6's three debiasing mechanisms disabled, and it *still* delivers
-**96% of v6's entire AvgPop reduction** and over a third of its APLT gain, at accuracy
-indistinguishable from LightGCN.
-
-The reason is a design error in the ablation, and it is mine. Arm (e) still trains through
-`StratifiedPopularityNegativeSampler`, which draws negatives by popularity decile
-(`--astd_neg_uniform_ratio / matched_ratio / hard_ratio`). **A popularity-stratified negative
-sampler is a debiasing mechanism.** So "recipe only" is really "recipe, including an implicit
-fourth debiaser, with the three explicit ones off".
-
-**What this means for the thesis, stated plainly.** Finding **E** asked whether v6's gains come
-from the debiasing or from the changed training recipe. The answer on Yahoo is that **most of the
-popularity reduction comes from the sampler, not from the spectral-topological machinery the
-contribution is named after**. That is a more interesting result than the one currently written
-down, but it is also a smaller claim, and it must be reported as such.
-
-**Arm (f) has now run on KuaiRec, and it confirms the diagnosis.** Arm (f) is arm (e) plus
-uniform negative sampling -- every debiasing influence, explicit or implicit, switched off:
-
-| Arm | what is on | Recall@20 | AvgPop@20 | APLT@20 | Coverage@20 |
-|---|---|---|---|---|---|
-| (f) no sampler | nothing | 0.178034 | **1708.67** | **0.0016** | 0.0138 |
-| (e) recipe only | stratified sampler only | 0.178799 | 1627.87 | 0.0059 | 0.0293 |
-| (a) full v6 | sampler + all three mechanisms | 0.177440 | 1616.60 | 0.0102 | 0.0319 |
-
-Decomposing the (f) -> (a) journey:
-
-| Contribution | AvgPop@20 | share | APLT@20 | share |
-|---|---|---|---|---|
-| **stratified negative sampler** alone, (f)->(e) | **-80.80** | **88%** | **+0.0043** | **50%** |
-| all three named mechanisms, (e)->(a) | -11.27 | 12% | +0.0043 | 50% |
-| total | -92.07 | 100% | +0.0086 | 100% |
-
-**On KuaiRec the negative sampler delivers 88% of the popularity reduction and half the
-long-tail gain.** The spectral projection, the simplex stream and the tail reweighting --
-the three mechanisms the contribution is named after -- account for the remaining 12%. This
-reproduces the Yahoo pattern (~96% from the recipe) on a second dataset and with the sampler
-now properly isolated, so it is no longer an inference from a confounded control.
-
-**And the bigger point, which the decomposition makes unavoidable:** every single arm is far
-worse than plain LightGCN on fairness. LightGCN's KuaiRec AvgPop@20 is **1148.79** and its
-APLT@20 is **0.0631**; the *best* v6 arm reaches 1616.60 (+41%) and 0.0102 (-84%). So the
-internal ranking of mechanisms is a comparison between degrees of failure. **No configuration of
-PPD v6 improves on the baseline's fairness on KuaiRec** -- the regression is a property of the
-whole approach on this dataset, not of any one component that could be tuned out.
-
-**What is still needed:** arm (f) on Coat and Yahoo (queued) to confirm the 88-96% sampler share
-across all four datasets, and on Gowalla, where it matters most -- Gowalla is the dataset whose
-fairness result the thesis actually claims. **Until Gowalla's arm (f) runs, the claim "PPD v6's
-mechanisms produce its Gowalla popularity reduction" is unsupported**, because on both datasets
-measured so far the sampler does the overwhelming majority of that work.
+**Resolved 2026-08-30.** Gowalla's arm (f) has now run, and the Yahoo pattern holds: the
+sampler owns 79% of the AvgPop reduction, the named mechanisms own 74% of the APLT gain, and the
+spectral stream contributes nothing. The contribution stands on the exposure metrics. Full
+numbers in finding **AE**.
 
 ---
 
@@ -1322,10 +1304,13 @@ Ordered by value per GPU-hour.
    nothing, removes the most serious exposure.
 3. **Add MostPopular + Random to the harness** and report them on every dataset. Hours of
    work; `test_pop_baseline.py` is most of it already.
-4. **Re-run Gowalla with a validation-selected config** targeting the AvgPop gap vs PPD v4.
-   This is the one run that could convert a 3/4 near-miss into the stated goal.
-5. **Run the mechanism-isolation ablation.** This is now the single most valuable
-   experiment, because §3.D says the mechanisms are inert. Five runs per dataset:
+4. ~~**Re-run Gowalla with a validation-selected config** targeting the AvgPop gap vs PPD v4.~~
+   **DONE — negative.** The gap does not close: the penalty trades Recall for AvgPop point for
+   point, and validation selects no penalty (finding **AG**).
+5. ~~**Run the mechanism-isolation ablation.**~~ **DONE on all four datasets, six arms x 3
+   seeds** (findings **U**, **AA**, **AE**). The prediction below held: (b) matches (a)
+   everywhere, and the tail reweighting plus the negative sampler carry the effect. Five runs
+   per dataset:
    (a) full v6; (b) v6 with `astd_alpha_base=0` (no spectral projection);
    (c) v6 with the simplex stream removed; (d) v6 with `astd_tail_phi=0` and the
    `tail_weights` term disabled (no tail reweighting); (e) LightGCN + sampled-softmax/logQ/
@@ -1336,10 +1321,14 @@ Ordered by value per GPU-hour.
    (§3.D2), `--beta` for PPD v3, `--ppd_beta_schedule`, `--ppd_seq_beta_v3` (§3.H). Sweeping
    over dead knobs wasted two thirds of the Yahoo sweep.
 7. **Re-select all hyperparameters on validation**; re-run Yahoo and report that number.
+   **Still open** — the remaining test-selected sweeps are listed in ledger row 5.7. Phase 4
+   built the validation-selection machinery (`run_phase4_inference_penalty.py` selects on the
+   `[Valid]` block only), so the pattern to follow now exists.
 8. ~~**Fix or drop** the collapsed `lgn-KuaiRec-2-256` baseline~~ — **DONE**: it was never collapsed, the eval was (finding **P**). `*-Gowalla-2-256` still to check.
 9. **Add Gini / coverage / APLT**; recompute AvgPop over test users only (finding L).
 10. **Evaluate on** `Coat/unbiased_valid` and `KuaiRec/unbiased-valid`.
-11. **5 seeds + paired significance test.**
+11. ~~**5 seeds + paired significance test.**~~ **DONE on all four datasets.** It changed the
+    headline: Gowalla's Recall margin moved from p = 0.056 (n=3) to p = 0.0115 (n=5).
 
 ---
 
@@ -1348,9 +1337,24 @@ Ordered by value per GPU-hour.
 - The contribution is **PPD v6 / ASTD-PD**: a dual-stream GCN that separates an accuracy
   stream from a debiased stream, removes popularity via a detached low-rank spectral subspace
   rather than a hand-crafted vector, and fuses them with a per-user gate.
-- **The defensible claim is Gowalla**: +1.6% Recall@20, +4.7% NDCG@20, -34% AvgPop@20 over
-  LightGCN, all several sigma above the 3-seed spread, on a backbone that beats MostPopular
-  3.4x. It beats TSP and PPD v3 on all four metrics.
+- **The defensible claim is Gowalla**, and at n = 5 seeds it now clears across-seed
+  significance on all three accuracy metrics: +1.6% Recall@20 (p = 0.0115), +4.6% NDCG@20
+  (p = 0.000177), +3.1% Precision@20 (p = 0.00139) over LightGCN, at -33% AvgPop@20, +252%
+  Coverage@20 and +255% APLT@20, on a backbone that beats MostPopular 3.4x. It beats TSP and
+  PPD v3 on all four metrics, and against PPD v4 it wins Recall by +12.5% while its AvgPop
+  deficit is not statistically distinguishable from zero (p = 0.214).
+- **Say plainly that the four-metric goal was tested and not met, and that you tested it
+  properly.** Phase 4 swept the inference-time popularity penalty over 12 values x 5 seeds.
+  A window exists where the point estimates clear every baseline on all four metrics -- and
+  reporting it would have been test-set selection at 0.2 sigma. Both binding margins are ties.
+  Volunteering this is worth more than the claim would have been.
+- **Own the ablation result, on all four datasets.** "The popularity-stratified negative
+  sampler accounts for 79-96% of the AvgPop reduction, and the spectral projection I named the
+  method after is inert everywhere -- including on Gowalla, the one dataset where its parameter
+  survives training. What the named mechanisms do own is tail *exposure*: 74% of the APLT gain."
+- **The mechanisms are adaptive, and that part held up.** Swapping the initialization across
+  datasets shows retention is a property of the data, not the starting value: Gowalla keeps
+  ~21% of whatever alpha it is given, Yahoo ~0.4%, Coat ~0.1% (finding **AF**).
 - **Be first to raise the negative results.** Dense datasets do not meet the goal; on KuaiRec
   every model including yours loses to most-popular, because on a dense skewed catalogue
   popularity is genuinely predictive. Framing this as a finding about *when debiasing is

@@ -387,6 +387,58 @@ def table5():
                    "theta_start", "theta_final", "lambda_final", "recall@20"], rows)
 
 
+def table6():
+    """Inference-penalty frontier: the four-metric goal, tested against its own bar."""
+    d = load("phase4_inference_penalty_gowalla.json")
+    if not d:
+        return
+    base = load("phase1_gowalla.json") or {}
+    bar = {}
+    for k in ("recall@20", "ndcg@20", "precision@20"):
+        vals = [m["mean"][k] for m in base.values() if k in m.get("mean", {})]
+        if vals:
+            bar[k] = max(vals)
+    pops = [m["mean"]["avgpop@20"] for m in base.values() if "avgpop@20" in m.get("mean", {})]
+    if pops:
+        bar["avgpop@20"] = min(pops)
+
+    md = ["# Table 6 - Inference-penalty frontier (Gowalla)", "",
+          "`--astd_inference_pop_penalty mu` subtracts `mu * p_i` at ranking time, so this sweep",
+          "re-ranks the five trained checkpoints rather than retraining anything. **mu is selected",
+          "on validation**, by the same 4-D Pareto hypervolume `main.py` uses for checkpoint",
+          "selection; the test columns are reported, never used to choose.", ""]
+    if bar:
+        md += ["The bar a four-metric win must clear is the *strongest baseline on each axis*: "
+               + ", ".join(f"{k} {v:.6f}" if k != "avgpop@20" else f"{k} {v:.2f}"
+                           for k, v in bar.items()) + ".", ""]
+    md += ["| mu | validation HV | Recall@20 | NDCG@20 | Precision@20 | AvgPop@20 | APLT@20 | clears all four? |",
+           "|---|---|---|---|---|---|---|---|"]
+    rows = []
+    best_mu = max(d.values(), key=lambda v: v["valid_mean"]["hypervolume"])["mu"]
+    for key in sorted(d, key=lambda k: d[k]["mu"]):
+        v = d[key]; m = v["mean"]; hv = v["valid_mean"]["hypervolume"]
+        clears = all([m["recall@20"] > bar.get("recall@20", 9e9),
+                      m["ndcg@20"] > bar.get("ndcg@20", 9e9),
+                      m["precision@20"] > bar.get("precision@20", 9e9),
+                      m["avgpop@20"] < bar.get("avgpop@20", -1)]) if bar else False
+        sel = " **<- selected**" if v["mu"] == best_mu else ""
+        md.append(f"| {v['mu']} | {hv:.8f}{sel} | {m['recall@20']:.6f} | {m['ndcg@20']:.6f} | "
+                  f"{m['precision@20']:.6f} | {m['avgpop@20']:.2f} | {m['aplt@20']:.4f} | "
+                  f"{'yes' if clears else 'no'} |")
+        rows.append([v["mu"], hv, m["recall@20"], m["ndcg@20"], m["precision@20"],
+                     m["avgpop@20"], m["aplt@20"], int(clears)])
+    md += ["",
+           "> **The window that clears all four is a tie, not a win.** Across-seed paired t-tests",
+           "> at the crossover: Recall vs LightGCN p = 0.68 (mu=1.6) and 0.96 (mu=1.75); AvgPop vs",
+           "> PPD v4 p = 0.96 and 0.85. Validation hypervolume selects mu = 0 regardless. Quoting a",
+           "> row from that window as the goal achieved would be test-set selection at 0.2 sigma.",
+           "> See `THESIS_AUDIT.md` finding **AG**.", ""]
+    write("table6_penalty_frontier.md", md)
+    write_csv("table6_penalty_frontier.csv",
+              ["mu", "valid_hypervolume", "recall@20", "ndcg@20", "precision@20",
+               "avgpop@20", "aplt@20", "clears_all_four"], rows)
+
+
 def readme():
     write("README.md", [
         "# Numbers pack", "",
@@ -398,12 +450,14 @@ def readme():
         "| `table2_significance.{md,csv}` | Paired tests, PPD v6 vs LightGCN |",
         "| `table3_ablation.{md,csv}` | Mechanism-isolation arms (a)-(e) |",
         "| `table4_gates.{md,csv}` | Learned gates vs configured starts (finding Y) |",
-        "| `table5_gate_transfer.{md,csv}` | Gate transfer: adaptation vs initialization (findings Y, AC) |",
+        "| `table5_gate_transfer.{md,csv}` | Gate transfer: adaptation vs initialization (findings Y, AC, AF) |",
+        "| `table6_penalty_frontier.{md,csv}` | Inference-penalty frontier; the four-metric goal tested (finding AG) |",
         "",
         "## Caveats that must travel with these numbers", "",
-        "1. **Three seeds.** The across-seed test has almost no power at n=3. Quote sigma",
-        "   (effect size in baseline seed stds) alongside any p-value, and never quote an",
-        "   extreme p-value from three near-constant differences as strong evidence.",
+        "1. **Five seeds on all four datasets** (2024-2028) as of 2026-08-30; the ablation and",
+        "   gate-transfer arms remain at 3. The across-seed test still has limited power, so quote",
+        "   sigma (effect size in baseline seed stds) alongside any p-value, and never quote an",
+        "   extreme p-value from a handful of near-constant differences as strong evidence.",
         "2. **Test-user coverage varies enormously**: Gowalla 100%, Coat 96.9%, KuaiRec 19.6%,",
         "   Yahoo 16.6%. Yahoo and KuaiRec results describe a minority of each user base.",
         "3. **AvgPop@20 cannot carry the fairness claim alone** -- a Random ranker wins it on",
@@ -414,15 +468,22 @@ def readme():
         "   Pareto improvement, and the only one whose test users are the entire user base --",
         "   which is why neither protocol fix moved it. On KuaiRec v6 wins accuracy and loses",
         "   fairness outright (AvgPop +41%, Coverage -80%); that is a finding, not an omission.",
+        "6. **The credit does not go to the named mechanisms.** The negative sampler accounts for",
+        "   79% (Gowalla) to 96% (Yahoo) of the AvgPop reduction and the spectral projection is",
+        "   inert on every dataset; the named mechanisms own tail exposure (74% of the APLT gain",
+        "   on Gowalla). Any sentence attributing the popularity reduction to the spectral or",
+        "   simplex streams is contradicted by table 3.",
+        "7. **The four-metric goal is not met anywhere, and on Gowalla it is unreachable** rather",
+        "   than merely unreached -- see table 6.",
         "",
-        "See `THESIS_AUDIT.md` findings **L, P, S, T, U, V, W, X, Y** for the full provenance.",
+        "See `THESIS_AUDIT.md` findings **L, P, S, T, U, V, W, X, Y, AA, AE, AF, AG** for the full provenance.",
     ])
 
 
 def main():
     os.makedirs(OUT, exist_ok=True)
     print(f"writing numbers pack -> {OUT}")
-    table1(); table2(); table3(); table4(); table5(); readme()
+    table1(); table2(); table3(); table4(); table5(); table6(); readme()
     print("done")
 
 

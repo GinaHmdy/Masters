@@ -8,6 +8,18 @@ across datasets, holding everything else at the dataset's tuned configuration.
 Read the **% kept** columns, not the absolute values: if the collapse tracked the
 starting value, a larger start would retain proportionally more.
 
+## Gowalla
+
+*Native configuration: alpha_base=0.4, topo_gate_init=0.4*
+
+| Arm | alpha start | alpha final | % kept | theta start | theta final | % kept | lambda | Recall@20 |
+|---|---|---|---|---|---|---|---|---|
+| native | 0.40 | 0.0841 | 21.0% | 0.40 | 0.2560 | 64.0% | 0.3201 | 0.142780 |
+| gowalla_init *(= native)* | 0.40 | 0.0841 | 21.0% | 0.40 | 0.2560 | 64.0% | 0.3201 | 0.142780 |
+| yahoo_init | 0.10 | 0.0212 | 21.2% | 0.75 | 0.2542 | 33.9% | 0.3198 | 0.142723 |
+
+> Arms marked *(= X)* are the **same configuration** as arm X on this dataset -- the override happens to equal the dataset's own value -- so they reuse its result and are **not independent replicates**. See `THESIS_AUDIT.md` finding **AC**.
+
 ## Yahoo
 
 *Native configuration: alpha_base=0.1, topo_gate_init=0.75*
