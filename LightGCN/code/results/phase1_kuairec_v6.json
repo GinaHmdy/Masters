@@ -1,0 +1,93 @@
+{
+  "PPD v6": {
+    "seeds": {
+      "2024": {
+        "precision@20": 0.36478723,
+        "recall@20": 0.17766196,
+        "ndcg@20": 0.39601012,
+        "gini@20": 0.99676455,
+        "coverage@20": 0.03420955,
+        "aplt@20": 0.00836879,
+        "tail_recall@20": 0.00054159,
+        "avgpop@20": 1609.945851
+      },
+      "2025": {
+        "precision@20": 0.36687943,
+        "recall@20": 0.17820138,
+        "ndcg@20": 0.39906474,
+        "gini@20": 0.99735088,
+        "coverage@20": 0.02815063,
+        "aplt@20": 0.01180851,
+        "tail_recall@20": 0.00125427,
+        "avgpop@20": 1642.085035
+      },
+      "2026": {
+        "precision@20": 0.36117021,
+        "recall@20": 0.17648132,
+        "ndcg@20": 0.39270896,
+        "gini@20": 0.99668759,
+        "coverage@20": 0.03337062,
+        "aplt@20": 0.01046099,
+        "tail_recall@20": 0.00085739,
+        "avgpop@20": 1597.653617
+      },
+      "2027": {
+        "precision@20": 0.35914894,
+        "recall@20": 0.17575985,
+        "ndcg@20": 0.38932124,
+        "gini@20": 0.99667448,
+        "coverage@20": 0.03411633,
+        "aplt@20": 0.01046099,
+        "tail_recall@20": 0.00105749,
+        "avgpop@20": 1594.630319
+      },
+      "2028": {
+        "precision@20": 0.36180851,
+        "recall@20": 0.17740094,
+        "ndcg@20": 0.39289049,
+        "gini@20": 0.99653513,
+        "coverage@20": 0.0352349,
+        "aplt@20": 0.01283688,
+        "tail_recall@20": 0.00151072,
+        "avgpop@20": 1588.54344
+      }
+    },
+    "mean": {
+      "aplt@20": 0.010787231999999999,
+      "avgpop@20": 1606.5716524,
+      "coverage@20": 0.033016406,
+      "gini@20": 0.9968025260000001,
+      "ndcg@20": 0.39399911,
+      "precision@20": 0.362758864,
+      "recall@20": 0.17710109000000002,
+      "tail_recall@20": 0.001044292
+    },
+    "std": {
+      "aplt@20": 0.0015037150707284943,
+      "avgpop@20": 19.07736250633904,
+      "coverage@20": 0.002504251771628404,
+      "gini@20": 0.0002839862563294341,
+      "ndcg@20": 0.0033009320374948574,
+      "precision@20": 0.0027405064617008258,
+      "recall@20": 0.0008715690281325987,
+      "tail_recall@20": 0.000331500131306158
+    },
+    "params": {
+      "astd_alpha_base": 0.35,
+      "astd_topo_gate_init": 0.5,
+      "astd_topo_pop_damping": 0.05,
+      "astd_neg_hard_ratio": 0.15,
+      "astd_neg_matched_ratio": 0.45,
+      "astd_neg_uniform_ratio": 0.4,
+      "astd_temperature_acc": 0.2,
+      "astd_temperature_deb": 0.2,
+      "astd_fuse_lambda_max": 0.35,
+      "astd_tail_phi": 1.5,
+      "astd_lambda_acc": 1.0,
+      "astd_lambda_deb": 0.3,
+      "astd_lambda_final": 1.0,
+      "astd_lambda_ind": 0.05,
+      "astd_inference_pop_penalty": 0.0
+    }
+  }
+}

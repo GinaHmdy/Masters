@@ -70,3 +70,11 @@ LighGcn/*.npy
 LighGcn/*.so
 LighGcn/.rendered
 LighGcn/lightgcn-env
+
+# Trained weights: results/*.json is the evidence, not the binaries (audit ledger 5.1).
+*.pth.tar
+LightGCN/code/.cache/
+LightGCN/code/*.log
+LightGCN/code/sources/*.so
+LightGCN/code/sources/*.so.lock
+.claude/

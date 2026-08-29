@@ -128,3 +128,29 @@ BPR[sample time][16.9=16.60+0.45]
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | beta = 1.0 | 0.001248 (-98.65%) | 0.002970 (-98.61%) | 0.003121 (-98.16%) | 415.617 (-65.84%) | D. TRADE-OFF/LOSS |
 | beta = 2.0 | 0.002630 (-97.16%) | 0.009048 (-95.75%) | 0.008298 (-95.11%) | 440.762 (-63.77%) | D. TRADE-OFF/LOSS |
+
+
+## Master Thesis Experiments - Phase V (Canonical & Consolidated Pipeline)
+
+### Gowalla Seed-Variance Robustness (3 Seeds)
+| Config | Metric | Seed 2021 | Seed 2022 | Seed 2023 | Mean ± Std | Reference Baseline |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| ego_uniform | Recall@20 | 0.149334 | 0.145398 | 0.147154 | 0.147295 ± 0.001610 | 0.121115 (+21.62%) |
+|             | NDCG@20 | 0.122958 | 0.120391 | 0.120680 | 0.121343 ± 0.001148 | 0.101116 (+20.00%) |
+|             | AvgPop@20 | 119.888 | 142.433 | 141.107 | 134.476 ± 10.330 | 253.862 (-47.03%) |
+| ego_0.6 | Recall@20 | 0.126205 | 0.133444 | 0.135720 | 0.131790 ± 0.004057 | 0.121115 (+8.81%) |
+|         | NDCG@20 | 0.100057 | 0.107050 | 0.108037 | 0.105048 ± 0.003552 | 0.101116 (+3.89%) |
+|         | AvgPop@20 | 87.601 | 101.850 | 101.036 | 96.829 ± 6.533 | 253.862 (-61.86%) |
+
+### Yahoo Ablation Results (Classification against Canonical PPD v3 alone)
+| Ablation | Recall@20 (Delta) | NDCG@20 (Delta) | Precision@20 (Delta) | Average Popularity@20 (Delta) | Classification |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Ablation 1: DAP + SGL + standard --tsp + PPD v4 | 0.049082 (-64.89%) | 0.024030 (-62.12%) | 0.004133 (-62.19%) | 114.510 (-81.43%) | D. TRADE-OFF/LOSS |
+| Ablation 2: DAP + SGL + --tsp_hodge + PPD v4 (last layer only) | 0.049208 (-64.80%) | 0.023940 (-62.26%) | 0.004133 (-62.19%) | 114.302 (-81.46%) | D. TRADE-OFF/LOSS |
+| Ablation 3: DAP + --tsp_hodge + PPD v4 (SGL disabled) | 0.085687 (-38.70%) | 0.038977 (-38.56%) | 0.007533 (-31.10%) | 121.678 (-80.27%) | D. TRADE-OFF/LOSS |
+
+### KuaiRec Converged Model Results (Classification against Canonical PPD v3 alone)
+| Beta | Recall@20 (Delta) | NDCG@20 (Delta) | Precision@20 (Delta) | Average Popularity@20 (Delta) | Classification |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| beta = 1.0 | 0.000816 (-99.12%) | 0.002248 (-98.94%) | 0.002305 (-98.64%) | 347.350 (-71.45%) | D. TRADE-OFF/LOSS |
+| beta = 2.0 | 0.000758 (-99.18%) | 0.002117 (-99.01%) | 0.002128 (-98.75%) | 344.293 (-71.70%) | D. TRADE-OFF/LOSS |

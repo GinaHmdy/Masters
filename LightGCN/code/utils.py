@@ -107,6 +107,22 @@ def set_seed(seed):
         torch.cuda.manual_seed_all(seed)
     torch.manual_seed(seed)
 
+def checkpoint_tag():
+    """Per-worker suffix for the shared default checkpoint filename.
+
+    `getFileName()` depends only on model/dataset/layers/dim, so every arm and every seed of a
+    dataset writes to the SAME file (e.g. ppd_v6-Gowalla-3-64.pth.tar). The experiment drivers
+    then copy that file to a seed-specific name. That is fine sequentially and fatal in
+    parallel: two concurrent runs overwrite each other's checkpoint, and the second writer's
+    weights get copied under the first's name. The mtime guard in the drivers cannot catch it,
+    because the clobbered file is *newer*, not older.
+
+    Set THESIS_CKPT_TAG to a unique value per concurrent worker (the parallel launcher does this)
+    to give each one a private default checkpoint. Unset, behaviour is exactly as before.
+    """
+    return os.environ.get("THESIS_CKPT_TAG", "")
+
+
 def getFileName():
     if world.model_name == 'mf':
         file = f"mf-{world.dataset}-{world.config['latent_dim_rec']}.pth.tar"
@@ -118,6 +134,9 @@ def getFileName():
         file = f"ppd_v6-{world.dataset}-{world.config['lightGCN_n_layers']}-{world.config['latent_dim_rec']}.pth.tar"
     else:
         file = f"{world.model_name}-{world.dataset}-{world.config['lightGCN_n_layers']}-{world.config['latent_dim_rec']}.pth.tar"
+    tag = checkpoint_tag()
+    if tag:
+        file = file.replace(".pth.tar", f"-{tag}.pth.tar")
     return os.path.join(world.FILE_PATH, file)
 
 def minibatch(*tensors, **kwargs):
@@ -264,6 +283,127 @@ def NDCGatK_r(test_data,r,k):
     ndcg = dcg/idcg
     ndcg[np.isnan(ndcg)] = 0.
     return np.sum(ndcg)
+
+# ---------------------------------------------------------------------------
+# Fairness / exposure metrics
+#
+# AvgPop@20 was the only fairness quantity in this codebase, and it is gameable:
+# a Random recommender wins it outright on every dataset, because moving mass from
+# the #1 item to the #50 item lowers it without exposing the tail at all. These four
+# are computed from the same top-K matrix the accuracy metrics use, so they are free.
+# ---------------------------------------------------------------------------
+
+LONG_TAIL_HEAD_FRACTION = 0.2  # top 20% of items by train degree = "short head"
+
+
+def long_tail_mask(item_degree, head_fraction=LONG_TAIL_HEAD_FRACTION):
+    """
+    Boolean mask over the catalogue, True for long-tail items.
+
+    Short head = the `head_fraction` most-interacted items in the TRAINING graph
+    (Abdollahpouri et al.'s definition). Ties are broken by the sort, so an item on
+    the boundary lands deterministically.
+    """
+    item_degree = np.asarray(item_degree).reshape(-1)
+    n_items = item_degree.shape[0]
+    n_head = max(1, int(round(head_fraction * n_items)))
+    head_idx = np.argsort(-item_degree, kind="stable")[:n_head]
+    mask = np.ones(n_items, dtype=bool)
+    mask[head_idx] = False
+    return mask
+
+
+def gini_at_k(rec_counts):
+    """
+    Gini coefficient of the item recommendation-frequency distribution.
+
+    0.0 = every item recommended equally often, 1.0 = all exposure on one item.
+    Computed over the WHOLE catalogue (items never recommended count as zeros),
+    otherwise a model that ignores most of the catalogue scores misleadingly well.
+    """
+    x = np.asarray(rec_counts, dtype=np.float64).reshape(-1)
+    total = x.sum()
+    if total <= 0:
+        return 0.0
+    x = np.sort(x)
+    n = x.shape[0]
+    idx = np.arange(1, n + 1)
+    return float((2.0 * np.sum(idx * x)) / (n * total) - (n + 1.0) / n)
+
+
+def coverage_at_k(rec_counts):
+    """Fraction of the catalogue that appears in at least one user's top-K."""
+    x = np.asarray(rec_counts).reshape(-1)
+    return float((x > 0).sum() / x.shape[0]) if x.shape[0] else 0.0
+
+
+def APLT_ATk(sorted_items, tail_mask, k):
+    """
+    Average Percentage of Long-Tail items. Summed over users (divided by user count
+    by the caller, matching RecallPrecisionHR_ATk's convention).
+    """
+    topk = np.asarray(sorted_items)[:, :k]
+    return float(tail_mask[topk].sum() / k)
+
+
+def TailRecallATk(test_data, sorted_items, k, tail_mask):
+    """
+    Recall@k restricted to long-tail relevant items: of the tail items a user actually
+    wanted, how many surfaced. This is the metric AvgPop@20 pretends to be -- unlike
+    AvgPop it cannot be improved by shuffling exposure among head items, and unlike
+    APLT it only rewards tail items the user genuinely wanted.
+
+    Users whose ground truth contains no tail item are skipped entirely (they cannot
+    contribute signal). Returns (summed_recall, n_users_counted); the caller divides.
+    """
+    pred = np.asarray(sorted_items)[:, :k]
+    total, n_valid = 0.0, 0
+    for i, items in enumerate(test_data):
+        items = np.asarray(items, dtype=np.int64)
+        if items.size == 0:
+            continue
+        tail_truth = items[tail_mask[items]]
+        if tail_truth.size == 0:
+            continue
+        n_valid += 1
+        hits = np.intersect1d(pred[i], tail_truth, assume_unique=False).size
+        total += hits / tail_truth.size
+    return float(total), n_valid
+
+
+def per_user_metrics_ATk(test_data, sorted_items, k, tail_mask=None):
+    """
+    Per-user Recall@k / NDCG@k / Precision@k as vectors, not sums.
+
+    The aggregate helpers above return sums for speed, which is fine for reporting a mean
+    but makes a PAIRED significance test impossible -- you cannot pair two methods user by
+    user if you only kept the totals. These vectors are what `significance.py` consumes.
+    """
+    pred = np.asarray(sorted_items)[:, :k]
+    n = len(test_data)
+    recall = np.zeros(n); ndcg = np.zeros(n); prec = np.zeros(n)
+    aplt = np.zeros(n)
+    discount = 1.0 / np.log2(np.arange(2, k + 2))
+    for i, items in enumerate(test_data):
+        items = np.asarray(items, dtype=np.int64)
+        if items.size == 0:
+            continue
+        truth = set(items.tolist())
+        hits = np.array([1.0 if it in truth else 0.0 for it in pred[i]])
+        n_hit = hits.sum()
+        recall[i] = n_hit / items.size
+        prec[i] = n_hit / k
+        dcg = float((hits * discount).sum())
+        ideal_n = min(k, items.size)
+        idcg = float(discount[:ideal_n].sum())
+        ndcg[i] = dcg / idcg if idcg > 0 else 0.0
+        if tail_mask is not None:
+            aplt[i] = float(tail_mask[pred[i]].sum()) / k
+    out = {"recall": recall, "ndcg": ndcg, "precision": prec}
+    if tail_mask is not None:
+        out["aplt"] = aplt
+    return out
+
 
 def AUC(all_item_scores, dataset, test_data):
     """

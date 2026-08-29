@@ -127,7 +127,10 @@ try:
 
             # Validation evaluation
             val_results = Procedure.Valid(dataset, Recmodel, epoch, w, multicore=world.config["multicore"])
-            val_pop = Procedure.calculate_average_popularity(Recmodel, dataset, topk=20)
+            # split="valid" is load-bearing: this value feeds the early-stopping
+            # hypervolume, so scoring it over test users would select checkpoints against
+            # the population being reported on. See Procedure.calculate_average_popularity.
+            val_pop = Procedure.calculate_average_popularity(Recmodel, dataset, topk=20, split="valid")
             val_rec = val_results['recall'][3] if len(val_results['recall']) > 3 else val_results['recall'][-1]
             val_ndcg = val_results['ndcg'][3] if len(val_results['ndcg']) > 3 else val_results['ndcg'][-1]
             val_prec = val_results['precision'][3] if len(val_results['precision']) > 3 else val_results['precision'][-1]

@@ -107,6 +107,11 @@ def parse_args():
     parser.add_argument('--astd_fuse_lambda_min', type=float, default=0.0, help='Minimum Pareto fusion gate lambda')
     parser.add_argument('--astd_fuse_lambda_max', type=float, default=0.5, help='Maximum Pareto fusion gate lambda')
     parser.add_argument('--astd_tail_phi', type=float, default=1.0, help='Tail indicator exponent phi_t')
+    parser.add_argument('--astd_tail_reweight', type=int, default=1,
+                        help='Enable tail reweighting (inference t_i and the training tail_weights). '
+                             '0 disables BOTH -- required for the mechanism-isolation ablation. '
+                             'Note --astd_tail_phi 0 does NOT disable it: (1-p)^0 = 1, which makes '
+                             'the term uniform rather than absent.')
     parser.add_argument('--astd_temperature_acc', type=float, default=0.1, help='Temperature for accuracy stream')
     parser.add_argument('--astd_temperature_deb', type=float, default=0.1, help='Temperature for debiased stream')
     parser.add_argument('--astd_lambda_final', type=float, default=1.0, help='Weight of final fused loss')
@@ -122,6 +127,15 @@ def parse_args():
     parser.add_argument('--astd_use_simplex_topk', type=int, default=1, help='Whether to prune simplex adjacency to top-k')
     parser.add_argument('--astd_inference_pop_penalty', type=float, default=0.0, help='Post-hoc popularity penalty mu_cal')
     parser.add_argument('--astd_seed_protocol', type=str, default='three_seed', help='Seed protocol')
+    parser.add_argument('--dump_per_user', type=str, default='',
+                        help='Path to write per-user Recall/NDCG/Precision vectors (.npz). '
+                             'Required for paired significance testing.')
+    parser.add_argument('--select_on', type=str, default='val', choices=['val', 'test'],
+                        help='Which split sweep drivers should select configurations on. '
+                             'Default val. Selecting on test invalidates the result.')
+    parser.add_argument('--restrict_candidates', type=int, default=None,
+                        help='Restrict eval candidates to the test-split item universe. '
+                             'Default: on for KuaiRec, off elsewhere. 1=force on, 0=force off.')
     parser.add_argument('--smoke_test', action='store_true', help='Run fast smoke test (few batches)')
 
     args, _ = parser.parse_known_args()

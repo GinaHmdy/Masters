@@ -121,9 +121,9 @@ def parse_output_metrics(stdout_text):
     """
     prec_20, rec_20, ndcg_20, pop_20 = 0.0, 0.0, 0.0, 0.0
 
-    precision_match = re.search(r"'precision':\s*array\(\[(.*?)\]\)", stdout_text)
-    recall_match = re.search(r"'recall':\s*array\(\[(.*?)\]\)", stdout_text)
-    ndcg_match = re.search(r"'ndcg':\s*array\(\[(.*?)\]\)", stdout_text)
+    precision_match = re.search(r"'precision':\s*array\(\[(.*?)\]\)", stdout_text, re.S)
+    recall_match = re.search(r"'recall':\s*array\(\[(.*?)\]\)", stdout_text, re.S)
+    ndcg_match = re.search(r"'ndcg':\s*array\(\[(.*?)\]\)", stdout_text, re.S)
     pop_match = re.search(r"Final Test Average Popularity@20:\s*([\d\.]+)", stdout_text)
 
     if precision_match:

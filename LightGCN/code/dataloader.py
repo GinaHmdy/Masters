@@ -355,6 +355,402 @@ class Loader(BasicDataset):
     def validDict(self):
         return self.__validDict
 
+    def _candidate_universe(self, split):
+        """
+        Items a given split is actually able to score, or None for no restriction.
+
+        KuaiRec's splits are drawn from the dense fully-observed "small matrix", which
+        covers only ~30% of the catalogue. Ranking over all m_items lets the model spend
+        its top-K on items that appear nowhere in the evaluated split and therefore can
+        never be a hit, which drives every metric below random. Restricting the candidate
+        set to the evaluated universe is the standard KuaiRec protocol. Other datasets
+        cover >94% of the catalogue and are left unrestricted so their published numbers
+        stay comparable.
+
+        The universe is derived PER SPLIT: using the test universe while selecting on
+        validation would leak which items are testable into model selection.
+        """
+        cache = getattr(self, "_candidate_cache", None)
+        if cache is None:
+            cache = self._candidate_cache = {}
+        if split in cache:
+            return cache[split]
+        if not world.config.get("restrict_candidates", False):
+            cache[split] = None
+            return None
+        source = {"test": self.__testDict, "valid": self.__validDict}[split]
+        universe = set()
+        for items in source.values():
+            universe.update(items)
+        idx = np.array(sorted(universe), dtype=np.int64)
+        print(f"[eval] candidate set restricted to {len(idx)} / {self.m_items} items "
+              f"({split}-split universe)")
+        cache[split] = idx
+        return idx
+
+    @property
+    def candidateItems(self):
+        """Candidate universe for the TEST split. See _candidate_universe."""
+        return self._candidate_universe("test")
+
+    @property
+    def validCandidateItems(self):
+        """Candidate universe for the VALIDATION split. See _candidate_universe."""
+        return self._candidate_universe("valid")
+
+    @property
+    def allPos(self):
+        raise NotImplementedError
+
+    def getUserItemFeedback(self, users, items):
+        raise NotImplementedError
+
+    def getUserPosItems(self, users):
+        raise NotImplementedError
+
+    def getUserNegItems(self, users):
+        """
+        not necessary for large dataset
+        it's stupid to return all neg items in super large dataset
+        """
+        raise NotImplementedError
+
+
+    def getSparseGraph(self, variant="lgn"):
+        """
+        build a graph in torch.sparse.IntTensor.
+        Details in NGCF's matrix form
+        A = 
+            |I,   R|
+            |R^T, I|
+        """
+        raise NotImplementedError
+
+class LastFM(BasicDataset):
+    """
+    Dataset type for pytorch \n
+    Incldue graph information
+    LastFM dataset
+    """
+    def __init__(self, path="../../data/lastfm"):
+        # train or test
+        cprint("loading [last fm]")
+        self.mode_dict = {'train':0, "test":1}
+        self.mode    = self.mode_dict['train']
+        # self.n_users = 1892
+        # self.m_items = 4489
+        trainData = pd.read_table(join(path, 'data1.txt'), header=None)
+        # print(trainData.head())
+        testData  = pd.read_table(join(path, 'test1.txt'), header=None)
+        # print(testData.head())
+        trustNet  = pd.read_table(join(path, 'trustnetwork.txt'), header=None).to_numpy()
+        # print(trustNet[:5])
+        trustNet -= 1
+        trainData-= 1
+        testData -= 1
+        self.trustNet  = trustNet
+        self.trainData = trainData
+        self.testData  = testData
+        self.trainUser = np.array(trainData[:][0])
+        self.trainUniqueUsers = np.unique(self.trainUser)
+        self.trainItem = np.array(trainData[:][1])
+        # self.trainDataSize = len(self.trainUser)
+        self.testUser  = np.array(testData[:][0])
+        self.testUniqueUsers = np.unique(self.testUser)
+        self.testItem  = np.array(testData[:][1])
+        self.Graph = None
+        print(f"LastFm Sparsity : {(len(self.trainUser) + len(self.testUser))/self.n_users/self.m_items}")
+
+        # (users,users)
+        self.socialNet    = csr_matrix((np.ones(len(trustNet)), (trustNet[:,0], trustNet[:,1]) ), shape=(self.n_users,self.n_users))
+        # (users,items), bipartite graph
+        self.UserItemNet  = csr_matrix((np.ones(len(self.trainUser)), (self.trainUser, self.trainItem) ), shape=(self.n_users,self.m_items))
+
+        # pre-calculate
+        self._allPos = self.getUserPosItems(list(range(self.n_users)))
+        self.allNeg = []
+        allItems    = set(range(self.m_items))
+        for i in range(self.n_users):
+            pos = set(self._allPos[i])
+            neg = allItems - pos
+            self.allNeg.append(np.array(list(neg)))
+        self.__testDict = self.__build_test()
+
+    @property
+    def n_users(self):
+        return 1892
+
+    @property
+    def m_items(self):
+        return 4489
+
+    @property
+    def trainDataSize(self):
+        return len(self.trainUser)
+
+    @property
+    def testDict(self):
+        return self.__testDict
+
+    @property
+    def allPos(self):
+        return self._allPos
+
+    def getSparseGraph(self, variant="lgn"):
+        if self.Graph is None:
+            user_dim = torch.LongTensor(self.trainUser)
+            item_dim = torch.LongTensor(self.trainItem)
+
+            first_sub = torch.stack([user_dim, item_dim + self.n_users])
+            second_sub = torch.stack([item_dim+self.n_users, user_dim])
+            index = torch.cat([first_sub, second_sub], dim=1)
+            data = torch.ones(index.size(-1)).int()
+            self.Graph = torch.sparse.IntTensor(index, data, torch.Size([self.n_users+self.m_items, self.n_users+self.m_items]))
+            dense = self.Graph.to_dense()
+            D = torch.sum(dense, dim=1).float()
+            D[D==0.] = 1.
+            D_sqrt = torch.sqrt(D).unsqueeze(dim=0)
+            dense = dense/D_sqrt
+            dense = dense/D_sqrt.t()
+            index = dense.nonzero()
+            data  = dense[dense >= 1e-9]
+            assert len(index) == len(data)
+            self.Graph = torch.sparse.FloatTensor(index.t(), data, torch.Size([self.n_users+self.m_items, self.n_users+self.m_items]))
+            self.Graph = self.Graph.coalesce().to(world.device)
+        return self.Graph
+
+    def __build_test(self):
+        """
+        return:
+            dict: {user: [items]}
+        """
+        test_data = {}
+        for i, item in enumerate(self.testItem):
+            user = self.testUser[i]
+            if test_data.get(user):
+                test_data[user].append(item)
+            else:
+                test_data[user] = [item]
+        return test_data
+
+    def getUserItemFeedback(self, users, items):
+        """
+        users:
+            shape [-1]
+        items:
+            shape [-1]
+        return:
+            feedback [-1]
+        """
+        # print(self.UserItemNet[users, items])
+        return np.array(self.UserItemNet[users, items]).astype('uint8').reshape((-1, ))
+
+    def getUserPosItems(self, users):
+        posItems = []
+        for user in users:
+            posItems.append(self.UserItemNet[user].nonzero()[1])
+        return posItems
+
+    def getUserNegItems(self, users):
+        negItems = []
+        for user in users:
+            negItems.append(self.allNeg[user])
+        return negItems
+
+
+
+    def __getitem__(self, index):
+        user = self.trainUniqueUsers[index]
+        # return user_id and the positive items of the user
+        return user
+
+    def switch2test(self):
+        """
+        change dataset mode to offer test data to dataloader
+        """
+        self.mode = self.mode_dict['test']
+
+    def __len__(self):
+        return len(self.trainUniqueUsers)
+
+class Loader(BasicDataset):
+    """
+    Dataset type for pytorch \n
+    Incldue graph information
+    gowalla dataset
+    """
+
+    def __init__(self,config = world.config,path="../../data/Gowalla"):
+        # train or test or valid
+        cprint(f'loading [{path}]')
+        self.split = config['A_split']
+        self.folds = config['A_n_fold']
+        self.mode_dict = {'train': 0, "test": 1, "valid": 2}
+        self.mode = self.mode_dict['train']
+        self.n_user = 0
+        self.m_item = 0
+        train_file = path + '/train.txt'
+        test_file = path + '/test.txt'
+        valid_file = path + '/valid.txt'
+        self.path = path
+        trainUniqueUsers, trainItem, trainUser = [], [], []
+        testUniqueUsers, testItem, testUser = [], [], []
+        validUniqueUsers, validItem, validUser = [], [], []
+        self.traindataSize = 0
+        self.testDataSize = 0
+        self.validDataSize = 0
+
+        with open(train_file) as f:
+            for l in f.readlines():
+                if len(l) > 0:
+                    l = l.strip('\n').split(' ')
+                    items = [int(i) for i in l[1:]]
+                    uid = int(l[0])
+                    trainUniqueUsers.append(uid)
+                    trainUser.extend([uid] * len(items))
+                    trainItem.extend(items)
+                    self.m_item = max(self.m_item, max(items))
+                    self.n_user = max(self.n_user, uid)
+                    self.traindataSize += len(items)
+        self.trainUniqueUsers = np.array(trainUniqueUsers)
+        self.trainUser = np.array(trainUser)
+        self.trainItem = np.array(trainItem)
+
+        with open(test_file) as f:
+            for l in f.readlines():
+                if len(l) > 0:
+                    l = l.strip('\n').split(' ')
+                    items = [int(i) for i in l[1:]]
+                    uid = int(l[0])
+                    testUniqueUsers.append(uid)
+                    testUser.extend([uid] * len(items))
+                    testItem.extend(items)
+                    self.m_item = max(self.m_item, max(items))
+                    self.n_user = max(self.n_user, uid)
+                    self.testDataSize += len(items)
+
+        with open(valid_file) as f:
+            for l in f.readlines():
+                if len(l) > 0:
+                    l = l.strip().split(' ')
+                    if len(l)<=1:
+                        continue
+                    items = [int(i) for i in l[1:]]
+                    uid = int(l[0])
+                    validUniqueUsers.append(uid)
+                    validUser.extend([uid] * len(items))
+                    validItem.extend(items)
+                    self.m_item = max(self.m_item, max(items))
+                    self.n_user = max(self.n_user, uid)
+                    self.validDataSize += len(items)
+
+        self.m_item += 1
+        self.n_user += 1
+        self.testUniqueUsers = np.array(testUniqueUsers)
+        self.testUser = np.array(testUser)
+        self.testItem = np.array(testItem)
+        self.validUniqueUsers = np.array(validUniqueUsers)
+        self.validUser = np.array(validUser)
+        self.validItem = np.array(validItem)
+
+        self.Graph = None
+        print(f"{self.trainDataSize} interactions for training")
+        print(f"{self.testDataSize} interactions for testing")
+        print(f"{self.validDataSize} interactions for validation")
+        print(f"{world.dataset} Sparsity : {(self.trainDataSize + self.testDataSize + self.validDataSize) / self.n_users / self.m_items}")
+
+        if config.get('denoise_edges', False):
+            print("[Denoising] Running IsolationForest to denoise user-item interactions...")
+            u_degrees = np.bincount(self.trainUser, minlength=self.n_user)
+            i_degrees = np.bincount(self.trainItem, minlength=self.m_item)
+            features = np.column_stack((u_degrees[self.trainUser], i_degrees[self.trainItem]))
+            
+            from sklearn.ensemble import IsolationForest
+            iso = IsolationForest(n_estimators=100, contamination=0.05, random_state=42, n_jobs=-1)
+            preds = iso.fit_predict(features)
+            keep_mask = (preds == 1)
+            pruned_count = len(keep_mask) - keep_mask.sum()
+            print(f"[Denoising] Pruned {pruned_count} anomalous interactions out of {len(self.trainUser)} ({pruned_count/len(self.trainUser)*100:.2f}%)")
+            
+            self.trainUser = self.trainUser[keep_mask]
+            self.trainItem = self.trainItem[keep_mask]
+            self.traindataSize = len(self.trainUser)
+
+        # (users,items), bipartite graph
+        self.UserItemNet = csr_matrix((np.ones(len(self.trainUser)), (self.trainUser, self.trainItem)),
+                                      shape=(self.n_user, self.m_item))
+        self.users_D = np.array(self.UserItemNet.sum(axis=1)).squeeze()
+        self.users_D[self.users_D == 0.] = 1
+        self.items_D = np.array(self.UserItemNet.sum(axis=0)).squeeze()
+        self.items_D[self.items_D == 0.] = 1.
+        # pre-calculate
+        self._allPos = self.getUserPosItems(list(range(self.n_user)))
+        self.__testDict = self.__build_test()
+        self.__validDict = self.__build_valid()
+        print(f"{world.dataset} is ready to go")
+
+    @property
+    def n_users(self):
+        return self.n_user
+
+    @property
+    def m_items(self):
+        return self.m_item
+
+    @property
+    def trainDataSize(self):
+        return self.traindataSize
+
+    @property
+    def testDict(self):
+        return self.__testDict
+
+    @property
+    def validDict(self):
+        return self.__validDict
+
+    def _candidate_universe(self, split):
+        """
+        Items a given split is actually able to score, or None for no restriction.
+
+        KuaiRec's splits come from the dense fully-observed "small matrix", covering only
+        ~30% of the catalogue. Ranking over all m_items lets the model spend its top-K on
+        items that appear nowhere in the evaluated split and therefore can never be a hit,
+        which drives every metric below random. Restricting candidates to the evaluated
+        universe is the standard KuaiRec protocol. Other datasets cover >94% of the
+        catalogue and stay unrestricted so their published numbers remain comparable.
+
+        The universe is derived PER SPLIT: reusing the test universe while selecting on
+        validation would leak which items are testable into model selection.
+        """
+        cache = getattr(self, "_candidate_cache", None)
+        if cache is None:
+            cache = self._candidate_cache = {}
+        if split in cache:
+            return cache[split]
+        if not world.config.get("restrict_candidates", False):
+            cache[split] = None
+            return None
+        source = self.__testDict if split == "test" else self.__validDict
+        universe = set()
+        for items in source.values():
+            universe.update(items)
+        idx = np.array(sorted(universe), dtype=np.int64)
+        print(f"[eval] candidate set restricted to {len(idx)} / {self.m_items} items "
+              f"({split}-split universe)")
+        cache[split] = idx
+        return idx
+
+    @property
+    def candidateItems(self):
+        """Candidate universe for the TEST split. See _candidate_universe."""
+        return self._candidate_universe("test")
+
+    @property
+    def validCandidateItems(self):
+        """Candidate universe for the VALIDATION split. See _candidate_universe."""
+        return self._candidate_universe("valid")
+
     @property
     def allPos(self):
         return self._allPos

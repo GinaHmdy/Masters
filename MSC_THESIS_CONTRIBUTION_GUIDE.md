@@ -31,20 +31,44 @@ and Precision@20, with a 34% lower Average Popularity@20 than LightGCN — at ma
 3-seed standard deviation. It misses a clean sweep against `PPD v4` on one metric only: AvgPop@20
 141.11 vs 139.86 (0.9%), while beating v4 on Recall@20 by +12%.
 
-**On the dense datasets the goal is not met under validation-only selection**, and this is
-reported as a finding rather than omitted. On KuaiRec every model in this study — including
-ASTD-PD — loses to a non-personalized MostPopular ranker (Recall@20 0.1233 vs 0.0139), because on
-a fully-observed, heavily skewed catalogue with ~103 relevant items per user, popularity is
-genuinely predictive. On Coat, ASTD-PD loses each accuracy metric by roughly 2 sigma. Both are
-consistent with the thesis's central hypothesis: **popularity is not always bias** (see §2.0), and
-uniform popularity removal is only beneficial where popularity is largely exposure-driven.
+**On the dense datasets the goal is not met**, and this is reported as a finding rather than
+omitted. The Phase 1 re-baseline (2026-08-26; frozen protocol, 3 seeds, per-user paired
+significance tests, four fairness metrics) gives:
+
+| Dataset | Accuracy vs LightGCN | Fairness vs LightGCN | Verdict |
+|---|---|---|---|
+| **Gowalla** (sparse) | NDCG **+24.5σ**, Precision **+47.5σ** (significant on both per-user and across-seed tests); Recall +12.6σ, significant per-user but **p=0.056 across 3 seeds** | AvgPop **−34%**, Coverage **+258%**, APLT **+257%** | **4D Pareto win** (recall margin needs the 5-seed run to clear across-seed significance) |
+| **Yahoo** (dense) | all three losses **not significant** (−1.2σ to −2.1σ) | AvgPop −11.5%, APLT +29.7%, Coverage −8.0% | clean trade |
+| **Coat** (small) | Recall −2.07σ (significant loss) | Coverage **+53%**, APLT **+39%** | stated trade |
+| **KuaiRec** (dense) | Recall **+14%**, NDCG **+30%** (significant) | AvgPop **+41% worse**, Coverage **−80%**, APLT **−84%** | **fairness reversal** |
+
+KuaiRec deserves the emphasis, because it is the result that most constrains the thesis's claim.
+There ASTD-PD wins accuracy decisively and *loses fairness decisively* — it ends up 41% more
+popularity-concentrated than the baseline it is designed to debias, recommending 3.2% of the
+catalogue. This is consistent with the central hypothesis rather than a refutation of it:
+KuaiRec's popularity is **26.9% earned** (measured, §2.0), so a gate trained on a hypervolume
+that rewards accuracy correctly learns that riding popularity maximises its objective. **Uniform
+popularity removal helps only where popularity is largely exposure-driven** — and on KuaiRec it
+is not.
+
+Note also that on Gowalla ASTD-PD's one remaining loss to `PPD v4` (AvgPop@20, 0.9%) is
+accompanied by wins on Coverage@20 (0.374 vs 0.140, 2.7×), APLT@20 (0.165 vs 0.083, 2×) and
+Gini@20, alongside +12% Recall. Since a Random ranker attains the best AvgPop@20 on every
+dataset, AvgPop@20 alone cannot adjudicate fairness; on the metrics that measure tail *exposure*
+rather than mean head-ness, ASTD-PD dominates v4.
 
 *Numbers superseded by this revision:* the previously stated "absolute 4-dimensional Pareto win
 across four datasets", the "30-40% popularity reduction", and the "$32.8\times$ accuracy
 breakthrough" have been withdrawn. The Yahoo win rested on a test-set-selected configuration
-(`refine_yahoo_ppd_v6.py:170-176`); the KuaiRec multiple was measured against a collapsed training
-run (`lgn-KuaiRec-2-256-best`, Recall@5 = exactly 0.0). All current figures live in
-`RESULTS_CANONICAL.md`.
+(`refine_yahoo_ppd_v6.py:170-176`); the KuaiRec multiple was measured against a denominator that
+an evaluation bug had driven to near-zero — **not**, as first diagnosed, against a collapsed
+training run. `lgn-KuaiRec-2-256-best` is healthy (Recall@20 = 0.155524); eval had been ranking
+over the full 10,728-item catalogue while KuaiRec's test split covers 3,247. See `THESIS_AUDIT.md`
+finding **P**. All current figures live in
+`RESULTS_CANONICAL.md`. *(Revision 2026-08-26: the KuaiRec MostPopular comparison previously
+quoted here — "every model loses to MostPopular, 0.1233 vs 0.0139" — used the pre-fix
+denominator and has been removed; post-fix, ASTD-PD reaches 0.177441 against MostPopular's
+0.123342.)*
 
 ---
 
@@ -99,10 +123,10 @@ accuracy; where it is amplified, removing it has room to help.
 
 | Dataset | Earned share | Predicted | Observed | Verdict |
 |---|---|---|---|---|
-| KuaiRec | 26.9% (rho +0.74) | debiasing costs accuracy | every model, ASTD-PD included, loses to MostPopular (0.0139 vs 0.1233) | **confirmed** |
+| KuaiRec | 26.9% (rho +0.74) | debiasing costs accuracy | **every method except ASTD-PD loses to MostPopular on NDCG@20** (0.3132 vs LightGCN 0.3048); ASTD-PD wins only by running at 82.9% of MostPopular's own AvgPop, and its Coverage@20 falls 80% | **confirmed** |
 | Yahoo | 27.8% (rho +0.43) | debiasing costs accuracy | ASTD-PD loses Recall/NDCG/Precision to LightGCN under validation selection | **confirmed** |
-| Coat | 3.7% (rho +0.17) | debiasing has room to help | ASTD-PD loses *every* accuracy metric by ~2 sigma | **contradicted** |
-| Gowalla | unmeasurable | — | ASTD-PD wins 3/4 | untestable |
+| Coat | 3.7% (rho +0.17) | debiasing has room to help | ASTD-PD loses every accuracy metric by ~2σ, but gains Coverage@20 +53% and APLT@20 +39% — a trade, not a rout | **partly contradicted** |
+| Gowalla | unmeasurable | — | ASTD-PD wins Recall/NDCG/Precision *and* Coverage/APLT/Gini; loses only AvgPop@20 to PPD v4 by 0.9% | untestable (no random-exposure split exists for Gowalla) |
 
 **Two of the three testable predictions hold, and the third is informative.** The KuaiRec and
 Yahoo results — the two that looked like failures of the method — are explained by a property of
@@ -199,7 +223,10 @@ To understand why this is a complete MSc contribution, look at the systematic ev
     - Introduced Popularity-Damped Simplex Topology (S^kappa).
     - Integrated Detached Low-Rank QR Popularity Subspace Basis (C^(l)).
     - Built Personalized User-Level Pareto Fusion Gate (lambda_u).
-    - OUTCOME: Strict 4D Pareto Dominance across all benchmarks simultaneously!
+    - OUTCOME: 4D Pareto win on Gowalla (sparse) vs LightGCN/TSP/PPD v3, at 3-47 sigma.
+    - OUTCOME: NOT achieved on the dense datasets. Yahoo is a trade (fairness up, accuracy
+              down but not significantly); Coat is a trade; KuaiRec is an accuracy win with a
+              fairness REVERSAL. Reported, not omitted -- see THESIS_AUDIT.md findings T, U, V.
 ```
 
 ---
@@ -291,11 +318,20 @@ Every model was evaluated over 3 distinct seeds (`2024`, `2025`, `2026`) with fu
 ### 5.3 KuaiRec (Dense / Extremely Skewed Video Graph)
 | Method | Recall@20 $\uparrow$ | NDCG@20 $\uparrow$ | Precision@20 $\uparrow$ | AvgPop@20 $\downarrow$ | Gain vs Baseline |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **ASTD-PD (Ours)** | **0.013903** | **0.021170** | **0.023440** | **763.47** | **ABSOLUTE WINNER** |
-| **LightGCN** | 0.000424 | 0.000245 | 0.000260 | 905.25 | **$32.8\times$ Recall improvement** |
-| **TSP** | 0.000372 | 0.000214 | 0.000225 | 897.95 | **$37.4\times$ Recall improvement** |
-| **PPD v3** | 0.005990 | 0.005540 | 0.004988 | 364.56 | **+132% Recall / +282% NDCG** |
-| **PPD v4** | 0.005462 | 0.004948 | 0.005154 | 486.81 | **+154% Recall / +327% NDCG** |
+> **Corrected 2026-08-25** (eval candidates restricted to the KuaiRec test-split universe;
+> the $32.8\times$ / $37.4\times$ "gains" below were artifacts of ranking over the full catalogue).
+
+> **Superseded again 2026-08-26.** The AvgPop column below was scoped to *all* users while
+> accuracy was scoped to *test* users (19.6% overlap). Corrected values are in
+> `RESULTS_CANONICAL.md` and reverse the fairness conclusion: ASTD-PD's KuaiRec AvgPop@20 is
+> **1616.56, i.e. 41% WORSE than LightGCN's 1148.79**, at Coverage@20 0.0319 vs 0.1582. See
+> `THESIS_AUDIT.md` findings **L**, **V** and **Z**.
+
+| **ASTD-PD (Ours)** | **0.177384** | **0.396496** | **0.365071** | ~~967.43~~ **1616.56** | **+14.1% Recall / +30.1% NDCG / AvgPop +41% WORSE** |
+| **LightGCN** | 0.155524 | 0.304831 | 0.274125 | ~~1024.97~~ **1148.79** | baseline (loses to MostPopular on NDCG) |
+| **TSP** | 0.155190 | 0.302951 | 0.272861 | ~~1016.43~~ **1139.84** | -0.2% Recall (no effect) |
+| **PPD v3** | 0.065414 | 0.119512 | 0.099598 | ~~461.89~~ **392.20** | **-57.9% Recall — degenerate, loses to MostPopular on all three** |
+| **PPD v4** | 0.155984 | 0.303910 | 0.273404 | **1158.82** | ~~accuracy-neutral at -33.2% AvgPop~~ **RETRACTED — see finding T**; accuracy tied (p=0.645), AvgPop **+0.9% worse** |
 
 ---
 
@@ -310,7 +346,9 @@ The thesis synthesizes three previously disconnected mathematical paradigms:
 - **Multi-Objective Pareto Optimization**: Decoupled dual streams with dynamic user gating.
 
 ### 2. Resolution of an Open Problem (Breaking the Trade-Off)
-Prior literature accepted that debiasing must reduce recommendation accuracy. This thesis proves mathematically and empirically that accuracy and fairness can be optimized **synergistically**, establishing Pareto dominance over the state-of-the-art across all four standard evaluation metrics.
+Prior literature accepted that debiasing must reduce recommendation accuracy. This thesis shows that on **sparse** interaction graphs the trade-off is not forced: on Gowalla, ASTD-PD improves Recall@20, NDCG@20 and Precision@20 *and* cuts AvgPop@20 by 34% while raising catalogue Coverage@20 by 258%, all at 3-47x the 3-seed standard deviation.
+
+The scope condition is the contribution's other half, and it is stated rather than hidden: the synergy **does not** hold where popularity is largely earned. On KuaiRec (26.9% earned popularity, measured) the same method wins accuracy and loses fairness outright. The claim is therefore conditional -- *accuracy and fairness are jointly optimizable to the extent that popularity is exposure-driven rather than quality-driven* -- and that condition is measurable in advance from the random-exposure splits.
 
 ### 3. Generalization Across Graph Topologies
 The model was validated on:
@@ -335,10 +373,12 @@ All implementations were engineered into a clean, backward-compatible, modular P
 | Question | Short Expert Answer |
 | :--- | :--- |
 | **"What is the main innovation?"** | Decoupling graph collaborative filtering into dual accuracy and debiased streams, filtered by an orthonormal spectral popularity subspace and unified via personalized Pareto fusion. |
-| **"Why does LightGCN fail on KuaiRec?"** | Severe popularity skew causes representation collapse during multi-hop convolutions; embeddings collapse into popular centroids, yielding near-zero recall ($0.0004$). ASTD-PD prevents this, achieving $0.0139$ ($32.8\times$ gain). |
+| **"Why does LightGCN fail on KuaiRec?"** | **It does not.** This question rested on a Recall@20 of $0.0004$ that was an evaluation-protocol artifact — candidates were ranked over all 10,728 items while the KuaiRec test split covers 3,247, so >99% of every top-K was unhittable. The same checkpoint scores $0.1555$ under the corrected protocol and beats MostPopular. There is no representation collapse to explain. ~~The honest KuaiRec story is PPD v4: accuracy tied at $-33.2\%$ AvgPop.~~ **RETRACTED 2026-08-25 (audit finding T).** The -33.2% AvgPop was an artifact of a second protocol bug: AvgPop ran over ALL users while accuracy ran over TEST users. Measured on test users, PPD v4's KuaiRec AvgPop is **+0.9% (worse than LightGCN)**, not -33.2%. It was suppressing popular items for the ~80% of users no accuracy metric evaluates. On test users PPD v4 is a near-no-op on KuaiRec. The genuine KuaiRec fairness result is **PPD v3**: APLT 0.063 -> 0.582 (9.2x tail exposure) at a large, honest accuracy cost. See `THESIS_AUDIT.md` findings **P** and **T**. |
 | **"Why did PPD v4 lose recall on Yahoo?"** | Single-stream in-propagation subtraction removed global popularity indiscriminately from all nodes, destroying delicate collaborative clusters for low-degree users. |
 | **"How does ASTD-PD avoid collapse?"** | The accuracy stream is anchored ($\lambda_{\text{acc}}=1.0$) with high-frequency residuals ($h_v$), while the debiasing stream is filtered by a detached QR basis and selectively injected via $(1-p_i)^{\phi_t}$. |
-| **"What is the final outcome?"** | Strict 4D Pareto dominance over LightGCN, TSP, PPD v3, and PPD v4 simultaneously across Recall, NDCG, Precision, and Average Popularity. |
+| **"What is the final outcome?"** | A 4D Pareto win on Gowalla over LightGCN, TSP and PPD v3 (Recall +12.5σ, NDCG +24.5σ, Precision +47.5σ, AvgPop −34%, Coverage +258%). Against PPD v4 it wins Recall by +12% and wins Coverage/APLT/Gini, losing only AvgPop@20 by 0.9% — a metric a Random ranker wins outright. On the dense datasets the win does not hold, and the reason is measurable: where popularity is earned, debiasing costs accuracy or fails outright. |
+| **"Where does your method fail, and why?"** | KuaiRec. ASTD-PD gains +14% Recall there but its AvgPop@20 is **41% worse** than LightGCN's at 3.2% catalogue coverage. KuaiRec's popularity is 26.9% earned, so a gate optimizing a hypervolume containing accuracy correctly learns to ride popularity. The method did what the data told it to; the error would be expecting a debiaser to help where popularity is signal. |
+| **"Are your three mechanisms actually doing the work?"** | Partly not, and I measured it rather than assuming it. The spectral strength α converges to ~0.0001 and the fusion gate λ sits at 0.2973 ± 0.0001 across **every ablation arm, including the arms that delete the streams it fuses** — so λ is a constant, not a personalized gate. What does work is the accuracy-for-exposure trade: removing all debiasing (arm e) gives the best accuracy and the worst tail exposure. See THESIS_AUDIT.md finding **U**. |
 
 ---
 *Created as part of the MSc Thesis Research Suite (2026).*

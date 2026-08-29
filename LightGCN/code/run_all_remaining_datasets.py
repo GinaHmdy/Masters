@@ -27,86 +27,7 @@ os.makedirs(RESULTS_DIR, exist_ok=True)
 CHECKPOINTS_DIR = os.path.join(code_dir, "checkpoints")
 os.makedirs(CHECKPOINTS_DIR, exist_ok=True)
 
-DATASET_CONFIGS = {
-    "Coat": {
-        "layer": 2,
-        "recdim": 64,
-        "epochs": 50,
-        "bpr_batch": 512,
-        "lr": 0.001,
-        "beta_ppd": 0.20,
-        "tsp_flags": ["--tsp", "--alpha_tsp", "0.1", "--theta_tsp", "0.60", "--top_m_tsp", "15", "--k_tsp", "1"],
-        "ppd_v6_params": {
-            "astd_alpha_base": 0.10,
-            "astd_topo_gate_init": 0.60,
-            "astd_topo_pop_damping": 0.05,
-            "astd_neg_hard_ratio": 0.10,
-            "astd_neg_matched_ratio": 0.40,
-            "astd_neg_uniform_ratio": 0.50,
-            "astd_temperature_acc": 0.20,
-            "astd_temperature_deb": 0.20,
-            "astd_fuse_lambda_max": 0.30,
-            "astd_tail_phi": 1.5,
-            "astd_lambda_acc": 1.0,
-            "astd_lambda_deb": 0.3,
-            "astd_lambda_final": 1.0,
-            "astd_lambda_ind": 0.05,
-            "astd_inference_pop_penalty": 0.0
-        }
-    },
-    "Gowalla": {
-        "layer": 3,
-        "recdim": 64,
-        "epochs": 100,
-        "bpr_batch": 2048,
-        "lr": 0.001,
-        "beta_ppd": 0.20,
-        "tsp_flags": ["--tsp", "--alpha_tsp", "0.1", "--theta_tsp", "0.90", "--top_m_tsp", "15", "--k_tsp", "1"],
-        "ppd_v6_params": {
-            "astd_alpha_base": 0.40,
-            "astd_topo_gate_init": 0.40,
-            "astd_topo_pop_damping": 0.05,
-            "astd_neg_hard_ratio": 0.15,
-            "astd_neg_matched_ratio": 0.40,
-            "astd_neg_uniform_ratio": 0.45,
-            "astd_temperature_acc": 0.20,
-            "astd_temperature_deb": 0.20,
-            "astd_fuse_lambda_max": 0.35,
-            "astd_tail_phi": 1.5,
-            "astd_lambda_acc": 1.0,
-            "astd_lambda_deb": 0.3,
-            "astd_lambda_final": 1.0,
-            "astd_lambda_ind": 0.05,
-            "astd_inference_pop_penalty": 0.0
-        }
-    },
-    "KuaiRec": {
-        "layer": 2,
-        "recdim": 256,
-        "epochs": 100,
-        "bpr_batch": 2048,
-        "lr": 0.001,
-        "beta_ppd": 2.00,
-        "tsp_flags": ["--tsp", "--alpha_tsp", "0.1", "--theta_tsp", "0.90", "--top_m_tsp", "15", "--k_tsp", "1"],
-        "ppd_v6_params": {
-            "astd_alpha_base": 0.35,
-            "astd_topo_gate_init": 0.50,
-            "astd_topo_pop_damping": 0.05,
-            "astd_neg_hard_ratio": 0.15,
-            "astd_neg_matched_ratio": 0.45,
-            "astd_neg_uniform_ratio": 0.40,
-            "astd_temperature_acc": 0.20,
-            "astd_temperature_deb": 0.20,
-            "astd_fuse_lambda_max": 0.35,
-            "astd_tail_phi": 1.5,
-            "astd_lambda_acc": 1.0,
-            "astd_lambda_deb": 0.3,
-            "astd_lambda_final": 1.0,
-            "astd_lambda_ind": 0.05,
-            "astd_inference_pop_penalty": 0.0
-        }
-    }
-}
+from experiment_configs import DATASET_CONFIGS
 
 
 def parse_metrics_from_output(stdout_text):
@@ -364,10 +285,16 @@ def evaluate_and_report(dataset, baseline_results, ppd_v6_results):
 
 
 def main():
-    datasets = ["Coat", "KuaiRec", "Gowalla"]
+    # Allow regenerating a subset without clobbering the other datasets'
+    # entries in all_datasets_pareto_summary.json.
+    datasets = sys.argv[1:] or ["Coat", "KuaiRec", "Gowalla"]
 
     all_reports = {}
+    summary_file = os.path.join(RESULTS_DIR, "all_datasets_pareto_summary.json")
     summary_data = {}
+    if os.path.exists(summary_file):
+        with open(summary_file) as f:
+            summary_data = json.load(f)
 
     for d in datasets:
         b_res = benchmark_dataset_baselines(d)
@@ -379,7 +306,6 @@ def main():
             "ppd_v6": v6_res
         }
 
-    summary_file = os.path.join(RESULTS_DIR, "all_datasets_pareto_summary.json")
     with open(summary_file, "w") as f:
         json.dump(summary_data, f, indent=2)
 

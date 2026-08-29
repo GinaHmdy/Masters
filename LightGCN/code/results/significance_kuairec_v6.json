@@ -1,0 +1,82 @@
+{
+  "seeds": [
+    "2024",
+    "2025",
+    "2026",
+    "2027",
+    "2028"
+  ],
+  "per_user": {
+    "recall": {
+      "mean_diff": 0.02189580681711769,
+      "n_users": 7050,
+      "n_better": 4468,
+      "n_worse": 946,
+      "n_tied": 1636,
+      "p_value": 0.0,
+      "test": "wilcoxon signed-rank (two-sided)",
+      "p_holm": 0.0
+    },
+    "ndcg": {
+      "mean_diff": 0.08997270541960442,
+      "n_users": 7050,
+      "n_better": 5068,
+      "n_worse": 1950,
+      "n_tied": 32,
+      "p_value": 0.0,
+      "test": "wilcoxon signed-rank (two-sided)",
+      "p_holm": 0.0
+    },
+    "precision": {
+      "mean_diff": 0.08917730496453902,
+      "n_users": 7050,
+      "n_better": 4468,
+      "n_worse": 946,
+      "n_tied": 1636,
+      "p_value": 0.0,
+      "test": "wilcoxon signed-rank (two-sided)",
+      "p_holm": 0.0
+    }
+  },
+  "across_seed": {
+    "recall": {
+      "baseline_mean": 0.15520528400070313,
+      "baseline_std": 0.00042913416753114164,
+      "candidate_mean": 0.17710109081782083,
+      "candidate_std": 0.000871568000831153,
+      "mean_diff": 0.02189580681711769,
+      "n_seeds": 5,
+      "sigma_of_baseline": 51.02321948188556,
+      "p_value": 2.9886186449686334e-07,
+      "test": "paired t-test over seed means",
+      "diff_std_across_seeds": 0.0006544588681905909,
+      "p_holm": 8.9658559349059e-07
+    },
+    "ndcg": {
+      "baseline_mean": 0.3040264049041973,
+      "baseline_std": 0.0012283189800405662,
+      "candidate_mean": 0.3939991103238017,
+      "candidate_std": 0.003300929892718151,
+      "mean_diff": 0.0899727054196044,
+      "n_seeds": 5,
+      "sigma_of_baseline": 73.24864866667858,
+      "p_value": 6.779946722138973e-07,
+      "test": "paired t-test over seed means",
+      "diff_std_across_seeds": 0.0033010565547235034,
+      "p_holm": 8.9658559349059e-07
+    },
+    "precision": {
+      "baseline_mean": 0.27358156028368796,
+      "baseline_std": 0.0010009803554256829,
+      "candidate_mean": 0.3627588652482269,
+      "candidate_std": 0.0027405084932305675,
+      "mean_diff": 0.089177304964539,
+      "n_seeds": 5,
+      "sigma_of_baseline": 89.08996513384614,
+      "p_value": 4.4199550985000574e-07,
+      "test": "paired t-test over seed means",
+      "diff_std_across_seeds": 0.002939662842039565,
+      "p_holm": 8.9658559349059e-07
+    }
+  }
+}

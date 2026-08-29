@@ -79,9 +79,9 @@ for ab in ablations:
         print("[STDERR]", res.stderr)
         
     # Parse metrics
-    precision_match = re.search(r"'precision':\s*array\(\[(.*?)\]\)", output)
-    recall_match = re.search(r"'recall':\s*array\(\[(.*?)\]\)", output)
-    ndcg_match = re.search(r"'ndcg':\s*array\(\[(.*?)\]\)", output)
+    precision_match = re.search(r"'precision':\s*array\(\[(.*?)\]\)", output, re.S)
+    recall_match = re.search(r"'recall':\s*array\(\[(.*?)\]\)", output, re.S)
+    ndcg_match = re.search(r"'ndcg':\s*array\(\[(.*?)\]\)", output, re.S)
     popularity_match = re.search(r"Average Popularity@20:\s*([\d\.]+)", output)
     
     prec_20, rec_20, ndcg_20, pop_20 = 0.0, 0.0, 0.0, 0.0

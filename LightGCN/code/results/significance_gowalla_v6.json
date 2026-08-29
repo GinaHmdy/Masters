@@ -1,0 +1,83 @@
+{
+  "seeds": [
+    "2024",
+    "2025",
+    "2026"
+  ],
+  "per_user": {
+    "recall": {
+      "mean_diff": 0.002303218844619797,
+      "n_users": 89574,
+      "n_better": 13799,
+      "n_worse": 13660,
+      "n_tied": 62115,
+      "p_value": 0.006021262240457129,
+      "test": "wilcoxon signed-rank (two-sided)",
+      "p_holm": 0.006021262240457129
+    },
+    "ndcg": {
+      "mean_diff": 0.005530458941302471,
+      "n_users": 89574,
+      "n_better": 25700,
+      "n_worse": 21866,
+      "n_tied": 42008,
+      "p_value": 7.236475132639003e-65,
+      "test": "wilcoxon signed-rank (two-sided)",
+      "p_holm": 2.1709425397917008e-64
+    },
+    "precision": {
+      "mean_diff": 0.0013357670752673766,
+      "n_users": 89574,
+      "n_better": 13799,
+      "n_worse": 13660,
+      "n_tied": 62115,
+      "p_value": 1.0157404717882713e-09,
+      "test": "wilcoxon signed-rank (two-sided)",
+      "p_holm": 2.0314809435765426e-09
+    }
+  },
+  "across_seed": {
+    "recall": {
+      "baseline_mean": 0.14053304216851967,
+      "baseline_std": 0.00018280420438595245,
+      "candidate_mean": 0.14283626101313943,
+      "candidate_std": 0.0007088706798050778,
+      "mean_diff": 0.0023032188446197774,
+      "n_seeds": 3,
+      "sigma_of_baseline": 12.599375667296018,
+      "p_value": 0.05602007455802076,
+      "test": "paired t-test over seed means",
+      "low_n_warning": "only 3 seeds; p-value is fragile and an extreme value reflects near-constant differences, not strong evidence",
+      "diff_std_across_seeds": 0.0008051748029317838,
+      "p_holm": 0.05602007455802076
+    },
+    "ndcg": {
+      "baseline_mean": 0.11580519169625626,
+      "baseline_std": 0.00022542902679535993,
+      "candidate_mean": 0.12133565063755875,
+      "candidate_std": 0.0005393883737134175,
+      "mean_diff": 0.005530458941302473,
+      "n_seeds": 3,
+      "sigma_of_baseline": 24.533038268948903,
+      "p_value": 0.005216316066229269,
+      "test": "paired t-test over seed means",
+      "low_n_warning": "only 3 seeds; p-value is fragile and an extreme value reflects near-constant differences, not strong evidence",
+      "diff_std_across_seeds": 0.0005671035575025322,
+      "p_holm": 0.015648948198687805
+    },
+    "precision": {
+      "baseline_mean": 0.04213387813428004,
+      "baseline_std": 2.806574472498121e-05,
+      "candidate_mean": 0.043469645209547415,
+      "candidate_std": 0.00020180680093940363,
+      "mean_diff": 0.0013357670752673818,
+      "n_seeds": 3,
+      "sigma_of_baseline": 47.5942145258102,
+      "p_value": 0.013234301616803761,
+      "test": "paired t-test over seed means",
+      "low_n_warning": "only 3 seeds; p-value is fragile and an extreme value reflects near-constant differences, not strong evidence",
+      "diff_std_across_seeds": 0.00021950303576781069,
+      "p_holm": 0.026468603233607522
+    }
+  }
+}

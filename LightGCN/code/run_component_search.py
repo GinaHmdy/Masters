@@ -88,6 +88,16 @@ def classify_run(rec, ndcg, prec, pop, ref):
 
 results_by_dataset = {}
 
+failures = []
+# Allow regenerating a subset of datasets (e.g. after an eval-protocol fix)
+# without re-running the ones whose numbers are already valid.
+_only = [a for a in sys.argv[1:] if not a.startswith("-")]
+if _only:
+    missing = [d for d in _only if d not in datasets_config]
+    if missing:
+        raise SystemExit("unknown dataset(s): %s" % ", ".join(missing))
+    datasets_config = {d: datasets_config[d] for d in _only}
+
 for dataset_name, d_cfg in datasets_config.items():
     print(f"\n==========================================")
     print(f"Starting Component Inclusion Search for {dataset_name}")
@@ -139,13 +149,16 @@ for dataset_name, d_cfg in datasets_config.items():
                 res = subprocess.run(cmd, cwd=code_dir, capture_output=True, text=True)
                 output = res.stdout
                 
-                precision_match = re.search(r"'precision':\s*array\(\[(.*?)\]\)", output)
-                recall_match = re.search(r"'recall':\s*array\(\[(.*?)\]\)", output)
-                ndcg_match = re.search(r"'ndcg':\s*array\(\[(.*?)\]\)", output)
+                precision_match = re.search(r"'precision':\s*array\(\[(.*?)\]\)", output, re.S)
+                recall_match = re.search(r"'recall':\s*array\(\[(.*?)\]\)", output, re.S)
+                ndcg_match = re.search(r"'ndcg':\s*array\(\[(.*?)\]\)", output, re.S)
                 popularity_match = re.search(r"Average Popularity@20:\s*([\d\.]+)", output)
                 
                 if not (precision_match and recall_match and ndcg_match and popularity_match):
-                    print(f"ERROR: Failed to parse outputs for command: {' '.join(cmd)}")
+                    missing = [n for n, m in (("precision", precision_match), ("recall", recall_match),
+                                              ("ndcg", ndcg_match), ("popularity", popularity_match)) if not m]
+                    failures.append((dataset_name, model_key, tsp, ppd, missing, res.returncode))
+                    print(f"ERROR: Failed to parse {missing} (exit={res.returncode}) for: {' '.join(cmd)}")
                     if res.stderr:
                         print("[STDERR]", res.stderr)
                     continue
@@ -170,6 +183,11 @@ for dataset_name, d_cfg in datasets_config.items():
                     "classification": classification,
                     "commit": commit_hash
                 })
+
+if failures:
+    print("\n\n!!!! %d RUN(S) PRODUCED NO ROW - THE TABLES BELOW ARE INCOMPLETE !!!!" % len(failures))
+    for ds, mk, tsp, ppd, missing, rc in failures:
+        print("   MISSING: %s / %s / tsp=%s / ppd=%s  (unparsed: %s, exit=%s)" % (ds, mk, tsp, ppd, ",".join(missing), rc))
 
 print("\n\n==================== COMPONENT INCLUSION SEARCH RESULTS ====================")
 for dataset_name, results in results_by_dataset.items():

@@ -60,8 +60,8 @@ for beta in [0.0, 0.1, 0.5, 1.0, 1.5, 2.0]:
     model.load_state_dict(state_dict, strict=True)
     
     # Project and remove with specific beta
-    user_emb_new = project_and_remove(user_emb_weight, d_pop_u, beta=beta)
-    item_emb_new = project_and_remove(item_emb_weight, d_pop_i, beta=beta)
+    user_emb_new = project_and_remove(user_emb_weight, d_pop_u)
+    item_emb_new = project_and_remove(item_emb_weight, d_pop_i)
     
     with torch.no_grad():
         model.embedding_user.weight.copy_(user_emb_new)

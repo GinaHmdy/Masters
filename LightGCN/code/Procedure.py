@@ -6,6 +6,7 @@ Xiangnan He et al. LightGCN: Simplifying and Powering Graph Convolution Network 
 
 Design training and test process
 '''
+import os
 import world
 import numpy as np
 import torch
@@ -251,21 +252,75 @@ def train_ppd_v6(dataset, recommend_model, optimizer, epoch, neg_sampler=None, w
     return summary
 
 
+# Score assigned to any item that must not be ranked (already seen in train, or
+# outside the evaluated candidate universe). It has to sit below every real score.
+# PPD v6 returns unbounded temperature-scaled logits rather than a sigmoid, so the
+# old -(1<<10) sentinel was not provably safe for it; -1e9 is.
+MASK_SCORE = -1e9
+
+
 @torch.no_grad()
-def calculate_average_popularity(model, dataset, topk=20, posthoc=0, all_updated_embeddings=None, weight_1=None, weight_2=None, num_cluster=None):
+def _apply_candidate_mask(rating, dataset, split="test"):
     """
-    Computes Average Popularity@K across all evaluated users.
+    Zero out items outside the evaluated candidate universe before top-K.
+
+    Without this, a dataset whose split covers only part of the catalogue (KuaiRec)
+    is scored on whether the model happens to guess into the evaluated region rather
+    than on relevance. Returns rating unchanged when the dataset imposes no restriction.
+
+    `split` selects which universe to use. Validation must use its own, or the test
+    universe leaks into model selection.
     """
+    attr = "candidateItems" if split == "test" else "validCandidateItems"
+    cand = getattr(dataset, attr, None)
+    if cand is None:
+        return rating
+    keep = torch.as_tensor(cand, dtype=torch.long, device=rating.device)
+    mask = torch.ones(rating.shape[1], dtype=torch.bool, device=rating.device)
+    mask[keep] = False
+    rating[:, mask] = MASK_SCORE
+    return rating
+
+
+@torch.no_grad()
+def calculate_average_popularity(model, dataset, topk=20, posthoc=0, all_updated_embeddings=None, weight_1=None, weight_2=None, num_cluster=None,
+                                 verbose=False, split="test"):
+    """
+    Computes Average Popularity@K over the users of ``split`` ("test" or "valid").
+
+    Scope matters twice over.
+
+    1. Against accuracy. Accuracy metrics are computed over ``testDict`` users, so measuring
+       popularity over ``range(n_users)`` put the two axes of the reported Pareto trade-off on
+       different user populations (they overlap by only ~17-20% on Yahoo and KuaiRec). Both axes
+       now cover the same users.
+
+    2. Against *selection*. ``main.py`` builds its early-stopping hypervolume from validation
+       recall/ndcg/precision plus this metric. Hardcoding test users here therefore leaked the
+       test user population into checkpoint selection -- three of the four components were
+       validation-derived and the fourth was not. ``split`` exists so the caller states which
+       population it means, and the candidate mask follows it.
+    """
+    if split not in ("test", "valid"):
+        raise ValueError(f"split must be 'test' or 'valid', got {split!r}")
     model.eval()
     item_counts = np.array(dataset.UserItemNet.sum(axis=0)).squeeze()
 
-    num_users = dataset.n_users
+    source = dataset.testDict if split == "test" else getattr(dataset, "validDict", None)
+    if not source:
+        # No validation split on this dataset; fall back rather than crash, but say so.
+        if split == "valid":
+            if verbose:
+                print("[AvgPop] no validDict; falling back to test users")
+            source = dataset.testDict
+    eval_users = np.array(sorted(source.keys()), dtype=np.int64)
+    num_users = len(eval_users)
     batch_size = 512
     all_recs = []
 
     for i in range(0, num_users, batch_size):
         end = min(i + batch_size, num_users)
-        batch_users = np.arange(i, end)
+        batch_users = eval_users[i:end]
         batch_users_gpu = torch.Tensor(batch_users).long().to(world.device)
 
         if world.config.get('use_lgbm_ranker', False):
@@ -287,13 +342,16 @@ def calculate_average_popularity(model, dataset, topk=20, posthoc=0, all_updated
 
         train_items = dataset.getUserPosItems(batch_users)
         for row_idx, items in enumerate(train_items):
-            rating[row_idx, items] = -1e9
+            rating[row_idx, items] = MASK_SCORE
+        rating = _apply_candidate_mask(rating, dataset, split=split)
         _, top_items = torch.topk(rating, topk, dim=1)
         all_recs.append(top_items.cpu().numpy())
 
     all_recs = np.concatenate(all_recs, axis=0)
-    avg_pop = np.mean(item_counts[all_recs])
-    return float(avg_pop)
+    avg_pop = float(np.mean(item_counts[all_recs]))
+    if verbose:
+        print(f"Average Popularity@{topk}: {avg_pop:.6f}")
+    return avg_pop
 
     
     
@@ -371,7 +429,8 @@ def Test(dataset, Recmodel, epoch, w=None, multicore=0, posthoc=0,
             for range_i, items in enumerate(allPos):
                 exclude_index.extend([range_i] * len(items))
                 exclude_items.extend(items)
-            rating[exclude_index, exclude_items] = -(1<<10)
+            rating[exclude_index, exclude_items] = MASK_SCORE
+            rating = _apply_candidate_mask(rating, dataset)
             _, rating_K = torch.topk(rating, k=max_K)
             rating = rating.cpu().numpy()
             # aucs = [ 
@@ -403,6 +462,55 @@ def Test(dataset, Recmodel, epoch, w=None, multicore=0, posthoc=0,
         results['ndcg'] /= float(len(users))
         results['hr'] /= float(len(users))
         # results['auc'] = np.mean(auc_record)
+
+        # ---- fairness / exposure metrics -------------------------------------
+        # Computed from the top-K matrix already accumulated above, so they add no
+        # forward passes. AvgPop@20 alone is gameable (Random wins it on every
+        # dataset); these four say whether the tail is actually being exposed.
+        try:
+            all_topk = torch.cat(rating_list, dim=0).numpy()
+            item_degree = np.asarray(dataset.UserItemNet.sum(axis=0)).reshape(-1)
+            tail_mask = utils.long_tail_mask(item_degree)
+            flat_gt = [g for batch in groundTrue_list for g in batch]
+            for ki, k in enumerate(world.topks):
+                rec_counts = np.bincount(all_topk[:, :k].reshape(-1),
+                                         minlength=item_degree.shape[0])
+                results.setdefault('gini', np.zeros(len(world.topks)))[ki] = utils.gini_at_k(rec_counts)
+                results.setdefault('coverage', np.zeros(len(world.topks)))[ki] = utils.coverage_at_k(rec_counts)
+                results.setdefault('aplt', np.zeros(len(world.topks)))[ki] = (
+                    utils.APLT_ATk(all_topk, tail_mask, k) / float(len(users)))
+                tr_sum, tr_n = utils.TailRecallATk(flat_gt, all_topk, k, tail_mask)
+                results.setdefault('tail_recall', np.zeros(len(world.topks)))[ki] = (
+                    tr_sum / tr_n if tr_n else 0.0)
+        except Exception as exc:
+            # never let a reporting metric take down an evaluation run
+            print(f"[warn] fairness metrics unavailable: {exc}")
+
+        # ---- per-user vectors for paired significance testing -----------------
+        dump_path = world.config.get('dump_per_user', '')
+        if dump_path:
+            try:
+                all_topk = torch.cat(rating_list, dim=0).numpy()
+                flat_gt = [g for batch in groundTrue_list for g in batch]
+                item_degree = np.asarray(dataset.UserItemNet.sum(axis=0)).reshape(-1)
+                tail_mask = utils.long_tail_mask(item_degree)
+                k = max(world.topks)
+                pu = utils.per_user_metrics_ATk(flat_gt, all_topk, k, tail_mask=tail_mask)
+                flat_users = np.concatenate([np.asarray(b) for b in users_list])
+                # guard: the per-user means must reproduce the aggregate metrics, or the
+                # two code paths have diverged and the significance test is meaningless
+                ki = world.topks.index(k)
+                for name, agg_key in (("recall", "recall"), ("ndcg", "ndcg"), ("precision", "precision")):
+                    got, want = float(pu[name].mean()), float(results[agg_key][ki])
+                    if abs(got - want) > 1e-6:
+                        raise AssertionError(
+                            f"per-user {name} mean {got:.8f} != aggregate {want:.8f}")
+                os.makedirs(os.path.dirname(os.path.abspath(dump_path)), exist_ok=True)
+                np.savez_compressed(dump_path, users=flat_users, k=k, **pu)
+                print(f"[per-user] wrote {len(flat_users)} users to {dump_path}")
+            except Exception as exc:
+                print(f"[ERROR] per-user dump failed: {exc}")
+                raise
         if world.tensorboard:
             w.add_scalars(f'Test/Recall@{world.topks}',
                           {str(world.topks[i]): results['recall'][i] for i in range(len(world.topks))}, epoch)
@@ -476,7 +584,8 @@ def Valid(dataset, Recmodel, epoch, w=None, multicore=0, posthoc=0,
             for range_i, items in enumerate(allPos):
                 exclude_index.extend([range_i] * len(items))
                 exclude_items.extend(items)
-            rating[exclude_index, exclude_items] = -(1<<10)
+            rating[exclude_index, exclude_items] = MASK_SCORE
+            rating = _apply_candidate_mask(rating, dataset, split="valid")
             _, rating_K = torch.topk(rating, k=max_K)
             rating = rating.cpu().numpy()
             # aucs = [

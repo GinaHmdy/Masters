@@ -5,6 +5,8 @@ log_dir = "logs"
 
 pattern = re.compile(
     r"\{'precision': array\(\[(.*?)\]\), 'recall': array\(\[(.*?)\]\), 'ndcg': array\(\[(.*?)\]\), 'hr': array\(\[(.*?)\]\)\}"
+    ,
+    re.S,
 )
 
 results = []

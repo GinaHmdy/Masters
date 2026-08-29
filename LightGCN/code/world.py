@@ -80,6 +80,7 @@ config['astd_user_alpha_scale'] = args.astd_user_alpha_scale
 config['astd_fuse_lambda_min'] = args.astd_fuse_lambda_min
 config['astd_fuse_lambda_max'] = args.astd_fuse_lambda_max
 config['astd_tail_phi'] = args.astd_tail_phi
+config['astd_tail_reweight'] = bool(args.astd_tail_reweight)
 config['astd_temperature_acc'] = args.astd_temperature_acc
 config['astd_temperature_deb'] = args.astd_temperature_deb
 config['astd_lambda_final'] = args.astd_lambda_final
@@ -96,6 +97,35 @@ config['astd_use_simplex_topk'] = bool(args.astd_use_simplex_topk)
 config['astd_inference_pop_penalty'] = args.astd_inference_pop_penalty
 config['astd_seed_protocol'] = args.astd_seed_protocol
 config['smoke_test'] = args.smoke_test
+
+# Datasets whose test split covers only part of the item catalogue must be
+# scored against that sub-catalogue; ranking over all items otherwise lets the
+# model spend its top-K on items that can never be a hit. KuaiRec's test split
+# is the dense "small matrix" (~30% of items) and needs this; every other
+# dataset here covers >94% of the catalogue in test and is left unrestricted.
+_RESTRICTED_CANDIDATE_DATASETS = {'KuaiRec', 'KuaiRec_Gen'}
+config['dump_per_user'] = args.dump_per_user
+config['restrict_candidates'] = (
+    bool(args.restrict_candidates)
+    if getattr(args, 'restrict_candidates', None) is not None
+    else args.dataset in _RESTRICTED_CANDIDATE_DATASETS
+)
+
+# Knobs that are parsed and stored but have NO effect on the computation. They are kept
+# so existing command lines keep working, but they must announce themselves -- two thirds
+# of a 108-config Yahoo sweep measured nothing because --astd_topo_gate_init is
+# unreachable while --astd_topo_gate_learnable defaults to 1.
+_DEAD_KNOBS = {
+    'ppd_beta_schedule': 'beta_l is computed in model.py but never applied to the projection',
+    'ppd_seq_beta_v3':   'beta_v3 is computed in model.py but never applied to the projection',
+}
+for _k, _why in _DEAD_KNOBS.items():
+    if config.get(_k) is not None:
+        print(f"[WARNING] --{_k} has NO EFFECT: {_why}. Do not sweep over it.")
+if getattr(args, 'astd_topo_gate_learnable', 1) and \
+        abs(getattr(args, 'astd_topo_gate_init', 0.5) - 0.5) > 1e-12:
+    print("[WARNING] --astd_topo_gate_init is ignored while --astd_topo_gate_learnable=1 "
+          "(theta comes from gate_mlp_theta). Pass --astd_topo_gate_learnable 0 to use it.")
 
 GPU = torch.cuda.is_available()
 device = torch.device('cuda' if GPU else "cpu")

@@ -381,8 +381,8 @@ def compute_pop_bias_scores(root_path, user_interactions, Recmodel,
         user_emb_raw = Recmodel.embedding_user.weight.detach()
         item_emb_raw = Recmodel.embedding_item.weight.detach()
 
-        user_emb_new = project_and_remove(user_emb_raw, d_pop_u, beta=beta)
-        item_emb_new = project_and_remove(item_emb_raw, d_pop_i, beta=beta)
+        user_emb_new = project_and_remove(user_emb_raw, d_pop_u)
+        item_emb_new = project_and_remove(item_emb_raw, d_pop_i)
 
         with torch.no_grad():
             Recmodel.embedding_user.weight.copy_(user_emb_new)
@@ -430,8 +430,8 @@ def compute_pop_bias_scores(root_path, user_interactions, Recmodel,
         )
         print("[PPD] d_pop time:", time.time() - t4)
 
-        user_emb_new = project_and_remove(user_emb_weight, d_pop_u, beta=beta)
-        item_emb_new = project_and_remove(item_emb_weight, d_pop_i, beta=beta)
+        user_emb_new = project_and_remove(user_emb_weight, d_pop_u)
+        item_emb_new = project_and_remove(item_emb_weight, d_pop_i)
 
         all_updated_embeddings = torch.cat([user_emb_new, item_emb_new], dim=0).unsqueeze(1) # Shape (N, 1, D)
         
@@ -704,14 +704,19 @@ def compute_d_pop_all_normalized(emb_u, emb_i, num_users, num_items,
     return d_pop_u, d_pop_i
 
 
-def project_and_remove(embeddings, d_pops, beta=1.0):
+def project_and_remove(embeddings, d_pops):
     """
-    Remove the projection of d_pop from each embedding vector, scaled by beta.
+    Remove the projection of d_pop from each embedding vector.
+
+    NOTE: this used to take a `beta` scaling coefficient. After the reflection-bug fix
+    the orthogonal projection removal has scale exactly 1.0, and `beta` was left accepted
+    but never referenced in the body -- so every sweep over PPD v3's `--beta` since that
+    fix measured nothing. The parameter is removed rather than reinstated: the projection
+    strength is genuinely not tunable here.
 
     Args:
-        embeddings (torch.Tensor): Tensor of shape (N, D), where N is the number of users/items and D is the embedding dim.
-        d_pops (torch.Tensor): Tensor of shape (N, D), the popularity direction vectors per user/item.
-        beta (float): Popularity penalty coefficient.
+        embeddings (torch.Tensor): (N, D) user/item embeddings.
+        d_pops (torch.Tensor): (N, D) popularity direction vectors per user/item.
 
     Returns:
         torch.Tensor: Debiased embeddings of shape (N, D)
@@ -736,10 +741,17 @@ def project_and_remove(embeddings, d_pops, beta=1.0):
 # PPD v6 / ASTD-PD Pareto & Evaluation Utils
 # ==========================================
 
-def is_pareto_dominant(candidate_metrics, baseline_metrics, eps_acc=1e-4, eps_pop=0.1):
+def is_pareto_dominant(candidate_metrics, baseline_metrics, eps_acc=1e-4, eps_pop=0.1,
+                       baseline_std=None, n_sigma=1.0):
     """
     Evaluates whether candidate strictly dominates baseline across:
     Recall@20 (higher), NDCG@20 (higher), Precision@20 (higher), AvgPop@20 (lower).
+
+    The fixed eps_acc=1e-4 default is 25x SMALLER than the Yahoo baseline's own 3-seed
+    std (0.002547), so with it every Yahoo "dominates" verdict sat inside noise. Pass
+    `baseline_std` -- a dict of per-metric seed standard deviations -- to require each
+    margin to clear `n_sigma` times the measured spread instead of a hardcoded epsilon.
+    Where a std is supplied it overrides eps_acc/eps_pop for that metric.
     """
     def _get(m, key):
         for k in [key, key.lower(), key.replace("@20", ""), key.replace("@", "")]:
@@ -760,19 +772,33 @@ def is_pareto_dominant(candidate_metrics, baseline_metrics, eps_acc=1e-4, eps_po
     c_pop = _get(candidate_metrics, "avgpop@20")
     b_pop = _get(baseline_metrics, "avgpop@20")
 
+    std = baseline_std or {}
+
+    def _margin(metric, default_eps):
+        sigma = std.get(metric)
+        return n_sigma * float(sigma) if sigma else default_eps
+
+    m_rec = _margin("recall@20", eps_acc)
+    m_ndcg = _margin("ndcg@20", eps_acc)
+    m_prec = _margin("precision@20", eps_acc)
+    m_pop = _margin("avgpop@20", eps_pop)
+
     dominates = (
-        c_rec >= (b_rec + eps_acc) and
-        c_ndcg >= (b_ndcg + eps_acc) and
-        c_prec >= (b_prec + eps_acc) and
-        c_pop <= (b_pop - eps_pop)
+        c_rec >= (b_rec + m_rec) and
+        c_ndcg >= (b_ndcg + m_ndcg) and
+        c_prec >= (b_prec + m_prec) and
+        c_pop <= (b_pop - m_pop)
     )
-    
+
     details = {
         "recall_gain": c_rec - b_rec,
         "ndcg_gain": c_ndcg - b_ndcg,
         "precision_gain": c_prec - b_prec,
         "pop_reduction": b_pop - c_pop,
-        "dominates": dominates
+        "dominates": dominates,
+        "thresholds": {"recall@20": m_rec, "ndcg@20": m_ndcg,
+                       "precision@20": m_prec, "avgpop@20": m_pop},
+        "threshold_source": "baseline_std" if std else "fixed_eps",
     }
     return dominates, details
 

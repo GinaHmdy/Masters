@@ -1,0 +1,73 @@
+{
+  "PPD v6": {
+    "seeds": {
+      "2024": {
+        "precision@20": 0.02206406,
+        "recall@20": 0.12158789,
+        "ndcg@20": 0.06483461,
+        "gini@20": 0.82508897,
+        "coverage@20": 0.38333333,
+        "aplt@20": 0.26067616,
+        "tail_recall@20": 0.03270841,
+        "avgpop@20": 26.359253
+      },
+      "2025": {
+        "precision@20": 0.02153025,
+        "recall@20": 0.112455,
+        "ndcg@20": 0.0628533,
+        "gini@20": 0.80855872,
+        "coverage@20": 0.54666667,
+        "aplt@20": 0.31441281,
+        "tail_recall@20": 0.03984047,
+        "avgpop@20": 25.503915
+      },
+      "2026": {
+        "precision@20": 0.02064057,
+        "recall@20": 0.11001345,
+        "ndcg@20": 0.06197674,
+        "gini@20": 0.76149703,
+        "coverage@20": 0.73,
+        "aplt@20": 0.35996441,
+        "tail_recall@20": 0.04076536,
+        "avgpop@20": 24.504804
+      }
+    },
+    "mean": {
+      "aplt@20": 0.31168446,
+      "avgpop@20": 25.455990666666665,
+      "coverage@20": 0.5533333333333333,
+      "gini@20": 0.7983815733333334,
+      "ndcg@20": 0.06322155,
+      "precision@20": 0.021411626666666666,
+      "recall@20": 0.11468544666666668,
+      "tail_recall@20": 0.03777141333333334
+    },
+    "std": {
+      "aplt@20": 0.04058014348017596,
+      "avgpop@20": 0.7578336799475781,
+      "coverage@20": 0.1416045628319046,
+      "gini@20": 0.026940235633058012,
+      "ndcg@20": 0.0011954249679786118,
+      "precision@20": 0.0005871595844591333,
+      "recall@20": 0.004981504764495254,
+      "tail_recall@20": 0.0035999405034929247
+    },
+    "params": {
+      "astd_alpha_base": 0.1,
+      "astd_topo_gate_init": 0.6,
+      "astd_topo_pop_damping": 0.05,
+      "astd_neg_hard_ratio": 0.1,
+      "astd_neg_matched_ratio": 0.4,
+      "astd_neg_uniform_ratio": 0.5,
+      "astd_temperature_acc": 0.2,
+      "astd_temperature_deb": 0.2,
+      "astd_fuse_lambda_max": 0.3,
+      "astd_tail_phi": 1.5,
+      "astd_lambda_acc": 1.0,
+      "astd_lambda_deb": 0.3,
+      "astd_lambda_final": 1.0,
+      "astd_lambda_ind": 0.05,
+      "astd_inference_pop_penalty": 0.0
+    }
+  }
+}

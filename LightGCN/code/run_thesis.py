@@ -240,49 +240,11 @@ def apply_TSP(model, theta, top_m, K, beta, alpha, layers, semantic_batch, max_e
     print("[TSP] embedding delta norm:", torch.norm(after - before).item())
     return model
 
-@torch.no_grad()
-def calculate_average_popularity(model, dataset, topk=20, posthoc=0, all_updated_embeddings=None, weight_1=None, weight_2=None, num_cluster=None):
-    model.eval()
-    item_counts = np.array(dataset.UserItemNet.sum(axis=0)).squeeze()
-
-    num_users = dataset.n_users
-    batch_size = 512
-    all_recs = []
-
-    for i in range(0, num_users, batch_size):
-        end = min(i + batch_size, num_users)
-        batch_users = np.arange(i, end)
-        batch_users_gpu = torch.Tensor(batch_users).long().to(world.device)
-
-        if world.config.get('use_lgbm_ranker', False):
-            from Procedure import get_eval_embeddings, predict_lgbm
-            if not hasattr(model, 'lgbm_model') or model.lgbm_model is None:
-                from Procedure import train_lgbm_ranker
-                all_users, all_items = get_eval_embeddings(model, posthoc, all_updated_embeddings, weight_1, weight_2, num_cluster)
-                model.lgbm_model = train_lgbm_ranker(dataset, model, all_users, all_items)
-            all_users, all_items = get_eval_embeddings(model, posthoc, all_updated_embeddings, weight_1, weight_2, num_cluster)
-            u_emb = all_users[batch_users_gpu].detach().cpu().numpy()
-            all_items_emb = all_items.detach().cpu().numpy()
-            preds = predict_lgbm(model.lgbm_model, u_emb, all_items_emb)
-            rating = torch.tensor(preds, dtype=torch.float32, device=world.device)
-        else:
-            if posthoc == 0:
-                rating = model.getUsersRating(batch_users_gpu)
-            elif posthoc == 1:
-                rating = model.getUsersRatingPostHoc(all_updated_embeddings, batch_users_gpu)
-            else: # DAP
-                rating = model.getUsersRatingDAP(batch_users_gpu, weight_1, weight_2, num_cluster)
-
-        train_items = dataset.getUserPosItems(batch_users)
-        for row_idx, items in enumerate(train_items):
-            rating[row_idx, items] = -1e9
-        _, top_items = torch.topk(rating, topk, dim=1)
-        all_recs.append(top_items.cpu().numpy())
-
-    all_recs = np.concatenate(all_recs, axis=0)
-    avg_pop = np.mean(item_counts[all_recs])
-    print(f"Average Popularity@{topk}: {avg_pop:.6f}")
-    return avg_pop
+# Average Popularity@K lives in Procedure.py. This module used to carry a second,
+# near-identical copy that silently shadowed it -- patching only Procedure.py once
+# produced a byte-identical (wrong) AvgPop, which is how the duplication surfaced.
+# Re-exported here so `from run_thesis import calculate_average_popularity` keeps working.
+calculate_average_popularity = Procedure.calculate_average_popularity
 
 # ======================
 # Main
@@ -372,10 +334,35 @@ if __name__ == "__main__":
     )
     print(results)
 
+    # Validation block. run_thesis.py previously had no validation path at all, which is
+    # why every sweep driver ended up ranking configurations on parsed TEST metrics.
+    # Drivers must parse THIS block for selection and touch [Eval] only to report.
+    if getattr(dataset, "validDict", None):
+        val_results = Procedure.Valid(
+            dataset, model, epoch=0, w=None, multicore=0, posthoc=posthoc,
+            all_updated_embeddings=all_updated_embeddings,
+            weight_1=getattr(args, "dap_weight1", None),
+            weight_2=getattr(args, "dap_weight2", None),
+            num_cluster=getattr(args, "dap_num_clusters", None),
+        )
+        print("\n[Valid]")
+        print(val_results)
+        if getattr(args, "fairness", False):
+            print("\n[Valid Average Popularity]")
+            Procedure.calculate_average_popularity(
+                model, dataset, topk=20, verbose=True, split="valid",
+                posthoc=posthoc,
+                all_updated_embeddings=all_updated_embeddings,
+                weight_1=getattr(args, "dap_weight1", None),
+                weight_2=getattr(args, "dap_weight2", None),
+                num_cluster=getattr(args, "dap_num_clusters", None),
+            )
+
     if getattr(args, "fairness", False):
         print("\n[Average Popularity]")
         avg_pop = calculate_average_popularity(
             model, dataset, topk=20,
+            verbose=True,
             posthoc=posthoc,
             all_updated_embeddings=all_updated_embeddings,
             weight_1=getattr(args, "dap_weight1", None),

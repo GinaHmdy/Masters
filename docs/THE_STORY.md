@@ -19,6 +19,14 @@ can be followed without reconstructing it from git.
 | 2026-08-24 | Step A | Framing adopted: **popularity is not always bias** (Part 2.5). Benign popularity = item quality; harmful popularity = exposure amplification. |
 | 2026-08-24 | Step B | **Measured** the benign/harmful split using the random-exposure splits, rather than asserting it (`measure_popularity_composition.py`, Part 2.6). Earned share: KuaiRec 26.9%, Yahoo 27.8%, Coat 3.7%, Gowalla unmeasurable. Predictions confirmed on KuaiRec and Yahoo; **the Coat prediction was wrong** and has been corrected in every document rather than quietly dropped. |
 | 2026-08-24 | Step F | Added `trivial_baselines.py` (MostPopular + Random on all four datasets). MostPopular reproduces the audit's values exactly. **Random has the lowest AvgPop@20 on every dataset** (15.75 on Gowalla vs the best model's 141.11) — so AvgPop@20 cannot be optimised in isolation (Part 2.8). |
+| 2026-08-26 | Phase 1 | **Re-baselined every method on every dataset** under the frozen protocol (3 seeds, mean +/- std, per-user dumps, paired significance tests). Two headline fairness claims died and both had flattered the proposed method; Gowalla's survived unchanged. See Part 5.5. |
+| 2026-08-28 | Engineering | **Found that evaluation re-propagated the whole graph once per user batch** — 299 identical propagations per pass on Gowalla, twice an epoch, for 100 epochs. Caching it in eval mode is bit-identical (verified by exact float equality on all 8 metrics) and cuts a Gowalla run from ~3.5 h to ~1.1 h. No number changes; the remaining Phase 2 work drops from ~56 h to ~18 h. Audit finding **AD**. |
+| 2026-08-27 | Sanity floors | **Made the plan's two reference rankers an executable gate** (`check_sanity_floors.py`). Every model clears Random everywhere. But on KuaiRec, **every method except PPD v6 loses to MostPopular on NDCG@20** — and v6 beats it only by running at **82.9% of MostPopular's own average popularity**. The sharpest available answer to "when is popularity bias actually bias?". Audit finding **Z**. |
+| 2026-08-27 | Verification | **The leak turned out to be inert.** Re-running every affected experiment under the corrected protocol reproduced Yahoo and Coat **bit-identically** and moved Gowalla/KuaiRec by at most 0.35% on one metric — inside the seed noise. Worth reporting precisely because the re-run was actually done: "we found it, fixed it, re-ran, nothing moved" is a claim only available to someone who looked. |
+| 2026-08-27 | Phase 2 | **Finding D corrected twice.** λ does not collapse to its *initialization* — it saturates at its configured *ceiling* on every dataset (Gowalla 0.3500/0.35, Yahoo 0.4998/0.50, Coat 0.2975/0.30), so the "personalized fusion gate" is a hyperparameter in costume. And α/θ are **not** universally inert: on Gowalla, the one dataset where v6 wins, they retain 21% and 57% of their starting values while collapsing to zero everywhere else. Audit finding **Y**. |
+| 2026-08-26 | Self-audit | **Caught a leak I had just introduced.** Phase 0's scope fix restricted AvgPop to test users — correct for reporting, but `main.py` reuses that same function to build the validation hypervolume that picks checkpoints, so v6 selection was partly scored on the test population. Gowalla is provably immune (valid users == test users); Yahoo had Jaccard 0.18. Fixed, verified bit-identical on reporting, and **Phases 1-2 relaunched** rather than patched. Audit finding **X**. |
+| 2026-08-26 | Phase 4 | **Hashed the split files** instead of trusting the directory names. `data/Coat/` and `data/KuaiRec/` are byte-identical to their `unbiased_valid/` variants across train, valid *and* test — so every Coat and KuaiRec result in this thesis was **already** an evaluation on a randomized-exposure test set. The thesis has been entitled to that claim for months and never made it. Audit finding **W**. |
+| 2026-08-26 | Phase 2 | **Mechanism-isolation ablation** started (5 arms). Coat complete: the fusion gate `lambda` sits at 0.2973 +/- 0.0001 across every arm *including the ones that delete the streams it fuses*. Gate collapse confirmed as architecture-invariant, not just hyperparameter-invariant. Audit finding **U**. |
 | 2026-08-24 | Step B | **Negative result:** per-item quality cannot be estimated from the training log. Structural proxies are collinear with degree (rho 0.98); model affinity `aff_i` predicts quality no better than degree while correlating with it at rho 0.95. The residual decomposition degenerates to raw popularity, so the planned v7 mechanism was abandoned before it was written (Part 2.7). |
 
 ---
@@ -525,6 +533,27 @@ meaningful. With them, it isn't.
 
 > **Lesson 4.** A difference without an error bar is not a result.
 
+**Re-measured, 2026-08-26 (Phase 1, frozen protocol, 3 seeds).** With the metric-scope bug fixed
+and fairness metrics added, Yahoo turns out to be v6's *cleanest trade* rather than a plain loss:
+
+| Metric | LightGCN | PPD v6 | Verdict |
+|---|---|---|---|
+| Recall@20 | 0.141245 +/- 0.002547 | 0.138287 +/- 0.000375 | -1.16 sigma, **not significant** (p=0.539) |
+| NDCG@20 | 0.064582 | 0.062616 | -2.12 sigma, **not significant** |
+| Precision@20 | 0.010995 | 0.010827 | -1.61 sigma, **not significant** |
+| AvgPop@20 | 595.72 | **527.13** | **-11.5%** |
+| APLT@20 | 0.1101 | **0.1428** | **+29.7%** |
+| Coverage@20 | **0.6800** | 0.6253 | -8.0% |
+
+So the accuracy loss is real in direction but too small for three seeds to distinguish from
+noise, while the fairness gain is several times the seed spread. This is *not* a Pareto win —
+Coverage moves the wrong way, and "not significant" at n=3 is a statement about statistical
+power, not a proof of equivalence. But it is the one dataset where "fairness improved at no
+*demonstrated* accuracy cost" is defensible exactly as written.
+
+One caveat travels with every Yahoo number in this document: only **16.6%** of Yahoo users
+appear in the test split, so all of it describes a minority of the user base.
+
 ### 5.3 KuaiRec (dense): the most instructive failure
 
 The write-up's headline is a **32.8× improvement** in Recall over LightGCN.
@@ -533,8 +562,15 @@ Whenever you see a number like that, ask one question: *what is the baseline doi
 
 The LightGCN baseline on KuaiRec scores Recall@20 = 0.00074. Its Recall@5 is **exactly
 zero** — in five attempts across 1,410 users it never once got a single item right. That's
-not a baseline. That's a broken training run. Dividing by it produces an impressive ratio and
-tells you nothing.
+not a baseline.
+
+**And it turned out not to be a broken training run either — it was a broken ruler.** Asking
+"what is the baseline doing?" was the right instinct, but the first answer was wrong. The model
+was fine; the *evaluation* ranked over all 10,728 items while KuaiRec's test split covers only
+3,247, so 99.1% of every top-20 consisted of items that could not be scored at all. Restrict the
+candidates to the evaluated universe and the same checkpoint scores **0.155524** — a 210× jump
+from a one-line fix, with no retraining. The tell was that LightGCN sat 19× *below random*: a
+weak model drifts toward random, it does not fall an order of magnitude beneath it.
 
 So here is the check that should have been run on day one. Ignore personalization entirely.
 Rank items by raw popularity. Recommend the same 20 items to everybody:
@@ -544,32 +580,97 @@ Rank items by raw popularity. Recommend the same 20 items to everybody:
 | Gowalla | 0.040822 | 0.142838 ✓ 3.5× better |
 | Yahoo | 0.090639 | 0.142360 ✓ 1.6× better |
 | Coat | 0.095386 | 0.125553 ✓ 1.3× better |
-| **KuaiRec** | **0.123342** | **0.013903 ✗ 9× worse** |
+| **KuaiRec** | **0.123342** | **0.177384 ✓ 1.4× better** *(was 0.013903 ✗ 9× worse before the eval fix)* |
 
-**On KuaiRec, recommending the same 20 popular items to every single user beats every model
-in this thesis by roughly nine times.**
+The MostPopular check was still the right check to run on day one — it just did its job in an
+unexpected way. It did not prove the models were worse than a popularity ranker; it proved the
+measuring instrument was broken, because *every* model failing that badly at once is a property
+of the harness, not of the methods.
 
-That sounds humiliating. It isn't — it's the most scientifically interesting result in the
-project, provided you report it. Look at why it happens: KuaiRec's test set has about **103
-relevant items per user** out of 10,728. It is extraordinarily dense. When a user likes 1% of
-the entire catalogue, popular items really are the best guess, and *popularity is not a bias
-here — it is the signal.*
+The reframing that came out of this still stands, and it survives the correction intact. Look at
+KuaiRec's shape: about **103 relevant items per user** out of 10,728. It is extraordinarily dense.
+When a user likes 1% of the entire catalogue, popular items really are a strong guess, and
+*popularity there is not purely a bias — it carries genuine signal.* MostPopular reaching
+Recall@20 = 0.123 on a dataset where it reaches 0.041 on Gowalla is real, and it is not an artifact.
 
 Which reframes the whole thesis question. Not *"how do we remove popularity bias?"* but:
 
 > **"When is popularity bias actually bias, and when is it information?"**
 
-That's a better question, and this project has the data to answer it.
+And the corrected KuaiRec numbers answer it more sharply than the broken ones ever could. The old
+reading was fatalistic: popularity is the signal here, so debiasing must cost accuracy. That turns
+out to be false. **PPD v4 holds LightGCN's accuracy (0.155985 vs 0.155524) while cutting average
+recommended popularity by 33% (684 vs 1025).** [RETRACTED — see below.] So even on the densest, most popularity-driven
+catalogue in the set, a third of the popularity concentration is *exposure* effect that can be
+removed for free — and the rest is the quality signal that cannot. That is the benign/harmful split
+the thesis argues for, measured rather than assumed.
 
-> **Lesson 5.** Always run the dumbest possible baseline first. If it wins, you've learned
-> something important about your data.
+> **Lesson 5.** Always run the dumbest possible baseline first. If it beats everything at once,
+> suspect your ruler before you believe the result.
 
-### 5.4 Coat (small): no
+### 5.4 Coat (small): a trade, not a rout
 
 PPD v6 loses to every baseline on every accuracy metric by roughly 2 standard deviations.
 Coat is quietly missing from the results section of the project write-up, while still being
 counted in the phrase "four diverse datasets". If a dataset is in your claim, it's in your
 table.
+
+**Re-measured with fairness metrics (2026-08-26), the picture is legible rather than simply
+bad.** The accuracy loss is real and significant (Recall -2.07 sigma, NDCG -5.62 sigma), but it
+buys a large exposure gain: Coverage@20 **0.3622 -> 0.5533 (+53%)** and APLT@20 **0.2240 ->
+0.3117 (+39%)**. That is a stated trade, and a thesis may report a trade. What it may not do is
+report only the half that flatters it — which is what omitting Coat from the results section did.
+
+### 5.5 The Phase 1 scoreboard, and what it cost
+
+Re-running everything under one frozen protocol produced the table the thesis should have had
+from the start — and it was expensive, because two of the three headline fairness numbers did
+not survive it. **Both had flattered the proposed method.**
+
+| Dataset | Accuracy vs LightGCN | Fairness vs LightGCN | Verdict |
+|---|---|---|---|
+| **Gowalla** | NDCG **+24.5σ** and Precision **+47.5σ** significant on both tests; Recall +12.6σ significant per-user but **p=0.056 across seeds — not significant** | AvgPop **−34%**, Coverage **+258%**, APLT **+257%** | **Pareto win, with the recall caveat stated** |
+| **Yahoo** | all three losses **not significant** (-1.2 to -2.1 sigma) | AvgPop -11.5%, APLT +29.7%, Coverage -8.0% | clean trade |
+| **Coat** | Recall -2.07 sigma (significant loss) | Coverage +53%, APLT +39% | stated trade |
+| **KuaiRec** | Recall **+14%**, NDCG **+30%** (significant) | AvgPop **+41% WORSE**, Coverage **-80%**, APLT **-84%** | **fairness reversal** |
+
+The KuaiRec row is the one to sit with. A method whose entire purpose is popularity debiasing
+ends up **41% more popularity-biased than the baseline it debiases**, recommending 3.2% of the
+catalogue — roughly 340 items out of 10,728. It bought its accuracy win by collapsing onto the
+head. The earlier "-5.6% AvgPop, dominant on KuaiRec" was an artifact of measuring AvgPop over
+all users while measuring accuracy over the 19.6% in the test split.
+
+That is a bad result to bury and a strong chapter to lead with, and the reference rankers show
+exactly why. On KuaiRec:
+
+| Ranker | NDCG@20 | AvgPop@20 |
+|---|---|---|
+| **MostPopular** — same 20 items for all 1,410 users | **0.313162** | 1948.98 |
+| LightGCN | 0.304830 | 1148.79 |
+| PPD v4 | 0.303910 | 1158.82 |
+| PPD v3 | 0.119512 | 392.20 |
+| **PPD v6** | **0.395928** | **1616.56** |
+
+**Every method in this study except v6 loses to a ranker with no personalization whatsoever.**
+And v6 beats it by running at **82.9% of MostPopular's own average popularity** — it wins not by
+being less popularity-driven but by being *almost as* popularity-driven while keeping some
+personalization.
+
+On KuaiRec popularity is 26.9% *earned* (Part 2.6, measured not assumed) on a catalogue with ~103
+relevant items per user. Under those conditions the popularity ranker is close to optimal, and a
+debiaser is being asked to throw away the most predictive feature in the data. A gate trained to
+maximise a hypervolume containing accuracy correctly learns that riding popularity is the winning
+move. **The method did what the data told it to.** The failure is not the optimiser's; it is in
+expecting a debiaser to help where popularity is earned.
+
+Note also **PPD v3's row is a degenerate solution, not a favourable trade**: the best AvgPop of
+any method (392.20) bought by losing to MostPopular on *all three* accuracy metrics. Fairness
+metrics that good with accuracy that bad are a warning sign, and the write-up should label it.
+
+Why believe Gowalla, then, when two of its siblings broke? Precisely because Gowalla was
+re-measured *after* both fixes and did not move: its test users are 100% of its users, so the
+metric-scope bug could not touch it. The result that survived the audit is the one that never
+depended on the audit's mistakes.
 
 ---
 
@@ -589,47 +690,134 @@ Across **all 108** Yahoo configurations:
 |---|---|---|
 | θ | the simplex topology stream | **0.0007** (started at 0.48) |
 | α | the spectral popularity removal | **0.0003** |
-| λ | the personalized fusion gate | **0.4998** — exactly its starting value |
+| λ | the personalized fusion gate | **0.4998** — which looked like its starting value, but see 6.2: it is its **ceiling** |
 
 Read that carefully:
 
-- θ ≈ 0 means the **topological stream was switched off** by training. Ingredient 1 of the
-  architecture: inert.
+- θ ≈ 0 means the **topological stream was switched off** by training. Ingredient 1: inert.
 - α ≈ 0 means **almost no popularity was being removed** by the spectral projection.
   Ingredient 2, the QR subspace — the mathematical centrepiece: inert.
-- λ stuck at exactly 0.4998 means the "personalized" gate **never learned anything** — it sat
-  at the 0.5 its sigmoid starts at. Ingredient 4: not personalized at all, just a constant.
+- λ stuck at 0.4998 looked like the "personalized" gate **never learning anything**.
 
-Gradient descent was handed these mechanisms and quietly turned all three off.
+That was the reading from the logs alone. Phase 2's ablation then tested it directly, and
+**two of those three conclusions had to be revised — both times toward something sharper.**
 
-**So what produced the popularity reduction on Gowalla?** The one ingredient that doesn't
-depend on θ or α: **the tail reweighting** — `(1 − popularity)^φ` at scoring time, and extra
-weight on tail items in the loss. Ingredient 3. The simplest thing in the whole design.
+### 6.1 The spectral projection is not "nearly" inert. It is numerically absent.
 
-This is a genuinely valuable finding. Restated for a thesis:
+On Yahoo, arm (b) deletes the spectral projection entirely. Against arm (a), full v6:
 
-> I built a dual-stream architecture with a spectral popularity subspace, a topological
-> routing gate and a personalized fusion gate. I instrumented all three. On dense data all
-> three collapse to zero, and the entire measurable effect comes from simple degree-based
-> tail reweighting.
+| | Recall@20 | NDCG@20 | AvgPop@20 | APLT@20 |
+|---|---|---|---|---|
+| (a) full v6 | 0.138287 | 0.062616 | 527.13 | 0.1428 |
+| (b) no spectral | 0.138287 | 0.062617 | 527.13 | 0.1427 |
 
-That is *more* interesting than "my complicated model won by 0.8%". Negative results about
-your own mechanisms, backed by instrumentation, are real science. The thesis just has to
-claim it deliberately rather than have an examiner discover it in the logs.
+Identical to six decimal places on Recall. Removing the mathematical centrepiece of the
+architecture changes *nothing measurable*. That is the strongest form this finding can take:
+not "the effect is small" but "the effect is not there".
+
+### 6.2 λ was not stuck at its initialization. It saturates at its ceiling.
+
+The "0.4998 = its starting value" reading was a coincidence — Yahoo's `astd_fuse_lambda_max`
+happens to equal its init. Across datasets with *different* ceilings:
+
+| Dataset | λ ceiling (`astd_fuse_lambda_max`) | λ final | % of ceiling |
+|---|---|---|---|
+| Gowalla | 0.35 | 0.3500 | **100.0%** |
+| Yahoo | 0.50 | 0.4998 | **99.96%** |
+| KuaiRec | 0.35 | 0.3500 | **100.0%** |
+| Coat | 0.30 | 0.2975 | **99.2%** |
+
+λ pins itself to whatever ceiling the config file sets, on every dataset, in **every ablation
+arm — including the arms that delete the streams it is supposed to be fusing**. A gate that
+does not move when its inputs are removed is not a gate. `astd_fuse_lambda_max` does not
+*bound* the fusion weight; it **is** the fusion weight. The "personalized Pareto fusion layer"
+is a hyperparameter wearing a costume.
+
+### 6.3 And the mechanisms are alive exactly where the method wins
+
+Finding θ ≈ α ≈ 0 on Yahoo was generalized to "all mechanisms are inert everywhere". That
+generalization was wrong:
+
+| Dataset | α start → final | θ start → final | v6 outcome |
+|---|---|---|---|
+| **Gowalla** | 0.40 → **0.083** (21% kept) | 0.40 → **0.227** (57% kept) | **Pareto win** |
+| Yahoo | 0.10 → 0.0000 | 0.75 → 0.0004 | loss (n.s.) |
+| Coat | 0.10 → 0.0001 | 0.60 → 0.0216 | loss |
+
+On the one dataset where PPD v6 wins, the machinery stays switched on. On the two where it
+loses, gradient descent switches it off. Read optimistically, that is the mechanism-level
+version of this thesis's whole argument: the debiaser activates in proportion to how much of
+the popularity signal is *exposure* rather than *quality*, and Yahoo/KuaiRec have 27.8% / 26.9%
+measured earned popularity while Gowalla is sparse.
+
+Read sceptically — and it must be read sceptically — Gowalla also *starts* α four times higher,
+so this could be decay from a bigger number rather than adaptation. `run_phase3_gate_transfer.py`
+swaps the two knobs across datasets to settle it. **Until that lands, 6.3 is a hypothesis, not
+a result.**
+
+### 6.4 So what *does* produce the popularity reduction? Not what I claimed.
+
+The old answer was "the tail reweighting — the simplest thing in the design". The ablation says
+otherwise. Arm (e) turns off **all three** debiasing mechanisms, and on Yahoo it still delivers:
+
+| Metric | LightGCN | (e) all debiasing OFF | (a) full v6 |
+|---|---|---|---|
+| Recall@20 | 0.141245 | 0.141699 | 0.138287 |
+| **AvgPop@20** | 595.72 | **529.71 (−11.1%)** | 527.13 (−11.5%) |
+| APLT@20 | 0.1101 | 0.1224 (+11.2%) | 0.1428 (+29.7%) |
+
+**Arm (e) reproduces ~96% of v6's entire popularity reduction with every named mechanism
+disabled.** The reason is an error in my own ablation design: arm (e) still trains through a
+**popularity-stratified negative sampler**, which draws negatives by popularity decile. That is
+a debiaser. "No debiasing" was never no debiasing.
+
+So the honest current statement is: *most of the measured popularity reduction on Yahoo comes
+from the negative sampler — a component the contribution is not named after and does not
+claim.* Arm (f), which forces uniform negative sampling, is queued to isolate it. Until it
+runs, **no sentence of the form "mechanism X produces the popularity reduction" is safe**,
+because the sampler is inside every arm including the control.
+
+That is a smaller claim than the one I started with, and a much better-evidenced one.
+
+### 6.5 Why this is a better thesis than the one I set out to write
+
+Restated for a viva:
+
+> I built a dual-stream architecture with a spectral popularity subspace, a topological routing
+> gate and a personalized fusion gate. I instrumented all three and then ablated them. The
+> spectral projection turned out to be numerically absent — deleting it changes results in the
+> sixth decimal place. The fusion gate turned out to be a hyperparameter: it saturates at its
+> configured ceiling on every dataset and in every arm, including arms that delete its own
+> inputs. And when I built a control arm with all three mechanisms disabled, it still reproduced
+> most of the popularity reduction — because the training recipe contains a popularity-stratified
+> negative sampler I had not counted as a mechanism.
+
+Every one of those sentences is a negative result about my own design, and every one is backed
+by a measurement rather than a suspicion. That is worth more than "my complicated model won by
+0.8%", which is what the alternative write-up would have said. The requirement is to claim it
+**deliberately**, in the thesis, rather than have an examiner find it in the logs.
 
 > **Lesson 6.** Instrument your mechanisms and check they're actually running. A model can
 > improve for reasons that have nothing to do with your idea.
 
+> **Lesson 6a.** A control arm is only a control if you can name everything it still does.
+> Mine still had a debiaser in it.
+
 ---
 
-## Part 7 — The seven lessons
+## Part 7 — The lessons
 
 1. **Structure derived from your own model teaches it nothing.** (TSP)
 2. **After deleting a term, hunt down its parameter.** (dead `--beta`)
 3. **Choose on validation. Touch test once.** (Yahoo)
 4. **A difference without an error bar is not a result.**
 5. **Run the dumbest baseline first.** (KuaiRec)
-6. **Instrument your mechanisms — verify they're switched on.** (θ, α, λ)
+6. **Instrument your mechanisms — verify they're switched on**, then *ablate* them to check
+   the instruments. (θ, α, λ: the logs said "nearly zero"; the ablation said "numerically
+   absent", "pinned to a hyperparameter", and "alive on Gowalla" — three sharper claims.)
+6a. **A control arm is only a control if you can name everything it still does.** The
+   "no debiasing" arm still contained a popularity-stratified negative sampler, which accounted
+   for ~96% of the popularity reduction it was supposed to be a baseline against.
 7. **Say what you inherited — and check whether it was published.** Nothing is lost by
    attributing prior work, and everything is lost by not. In this project the check mattered
    more than expected: the components assumed to be "the lab's earlier code" turned out to be
@@ -643,14 +831,44 @@ claim it deliberately rather than have an examiner discover it in the logs.
 
 The clean version of this thesis is smaller and much stronger:
 
+> ### Correction, 2026-08-25
+>
+> Two claims in Part 5 are withdrawn, both killed by protocol bugs rather than by re-tuning,
+> and **both had flattered the proposed method**:
+>
+> 1. *"PPD v4 cuts KuaiRec popularity 33%"* — the AvgPop metric ran over **all** users while
+>    accuracy ran over **test** users (16-20% overlap on the dense datasets). On test users
+>    PPD v4's KuaiRec AvgPop is **+0.9%, i.e. worse**. It had been suppressing popular items
+>    for the ~80% of users nobody was scoring. See audit finding **T**.
+> 2. *"TSP is a weak baseline"* — on Coat TSP builds **zero edges** and does not run at all;
+>    its numbers are byte-identical to LightGCN. See audit finding **S**.
+> 3. *"PPD v6 dominates KuaiRec"* (added 2026-08-26) — same metric-scope bug. Corrected, v6's
+>    KuaiRec AvgPop is **+41% worse** than LightGCN's and its Coverage is **-80%**. It is an
+>    accuracy win and a fairness reversal. See Part 5.5.
+>
+> What this buys the thesis: the Gowalla result was re-measured after both fixes and **did not
+> move**, because Gowalla's test users are 100% of its users. That is now the strongest
+> argument for believing it.
+
 1. **Lead with the question**, not the architecture: *when is popularity bias actually bias?*
 2. **Lead with Gowalla** — a real Pareto improvement, properly measured, with error bars.
 3. **Report KuaiRec as the counter-example** with MostPopular in the table. Dense catalogue,
-   popularity is signal, debiasing correctly costs accuracy.
+   popularity is largely earned signal (26.9% measured), and debiasing there costs accuracy:
+   PPD v3 buys 9.2x tail exposure (APLT 0.063 -> 0.582) for a collapse in Recall. That is the
+   honest KuaiRec trade -- not the retracted PPD v4 "free lunch".
 4. **Report the gate collapse as a finding**, supported by the ablation that isolates tail
-   reweighting from the spectral and topological machinery.
+   reweighting from the spectral and topological machinery. *(Phase 2, in progress. Coat is in:
+   the fusion gate lambda sits at 0.2973 +/- 0.0001 across all five arms — including the arms
+   that delete the streams it is supposed to fuse. A gate that does not move when its inputs are
+   removed is a constant, not a personalized gate. Audit finding **U**.)*
 5. **Redo every hyperparameter choice on validation**, and report what you get.
 6. **Attribute TSP, PPD v1–v4 and DAP** to their original author.
 
-The remaining gap on Gowalla is 1.25 units of Average Popularity. One honestly-selected run
-could close it. That's a good place to be.
+The remaining gap on Gowalla is 1.25 units of Average Popularity against PPD v4 — 0.9%, on the
+one metric a Random ranker wins outright. Phase 1 arguably dissolves it rather than closing it:
+v6 beats v4 on all three accuracy metrics *and* on Coverage@20 (0.374 vs 0.140, **2.7x**),
+APLT@20 (0.165 vs 0.083, **2x**) and Gini@20. The 3/4 near-miss is now an argument about which
+fairness metric deserves to be in the headline, not a deficiency in the method — and that
+argument is winnable because the alternatives were measured rather than asserted. A
+validation-selected sweep (Phase 3) may still close it honestly; if it does not, the near-miss
+gets reported as-is.
