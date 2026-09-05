@@ -1,3 +1,14 @@
+> # SUPERSEDED — do not cite
+>
+> This report was generated before the Phase 0 protocol fixes and the Phase 1 re-baseline.
+> Its numbers predate: the AvgPop test-user scope fix (finding **L**), the KuaiRec candidate-set
+> restriction (finding **P**), the validation-selection fix in checkpoint scoring (finding **X**),
+> the extension to 5 seeds, and the validation-selected hyperparameters (finding **AH**).
+>
+> **Authoritative numbers:** `RESULTS_CANONICAL.md` and `LightGCN/code/results/numbers_pack/`,
+> generated from `results/phase1_*.json`. This file is kept only because the audit's history
+> cites it.
+
 
 ### Pareto Evaluation Report: KuaiRec
 

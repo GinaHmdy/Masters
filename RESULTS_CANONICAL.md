@@ -360,7 +360,7 @@ selection reading the `[Best Valid Results]` block only; each winner retrained a
 |---|---|---|
 | `README.md:284` | Gowalla LightGCN R@20 = 0.085641 | superseded protocol |
 | `run_component_search.py:16` | Gowalla LightGCN R@20 = 0.121115 | superseded protocol |
-| `results/baselines_gowalla.json` | Gowalla LightGCN R@20 = 0.140533 | **current, use this** |
+| `results/baselines_gowalla.json` | Gowalla LightGCN R@20 = 0.140533 | **superseded** — pre-Phase-1, 3 seeds. Use `results/phase1_gowalla.json` (0.140693, 5 seeds) |
 | `run_ppd_v6_experiments.py:99-104` | Coat 0.060000 / 0.032000 / 0.012000 | round-number placeholders, not measured |
 | `run_thesis.py:387-391` | hardcoded `BASELINE_POPULARITY` | stale pass/fail gate |
 

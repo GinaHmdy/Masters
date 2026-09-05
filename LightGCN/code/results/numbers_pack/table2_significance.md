@@ -25,7 +25,8 @@ expressed in baseline seed standard deviations.
 | Coat | ndcg@20 | -0.004555 | 0.0583 | 0.0932 | -4.62 | n.s. |
 | Coat | precision@20 | -0.001032 | 0.143 | 0.0618 | -2.02 | n.s. |
 
-**Caution on n=3.** With three seeds a paired t-test has almost no power, and a
-near-constant difference across seeds inflates the statistic rather than evidencing
-the effect -- which is why Coat precision reports p ~ 1e-30 on a -2.4 sigma difference.
-Read sigma as the evidence and the p-value as a sanity check, never the reverse.
+**Caution on low n.** The across-seed test runs at n = 5, where a paired
+t-test has little power and a near-constant difference across seeds inflates the
+statistic rather than evidencing the effect -- which is why Coat precision once
+reported p ~ 1e-30 on a -2.4 sigma difference. Read sigma as the evidence and the
+p-value as a sanity check, never the reverse.

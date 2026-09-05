@@ -5,14 +5,14 @@
 # driver merges into its results JSON rather than overwriting it. Nothing already completed
 # is recomputed.
 #
-# Completed and preserved as of the 2026-08-27 GPU fault:
-#   - Phase 1: all 4 datasets x 5 methods x 3 seeds (final)
-#   - Phase 2 ablation: Coat (5 arms), Yahoo (5 arms)
-#   - Phase 2 ablation KuaiRec: a_full x3, b_no_spectral x2 cached
-#   - Phase 2 ablation Gowalla: a_full x2 cached
+# STATUS 2026-09-05: this queue is COMPLETE. Every stage below has run on all four datasets
+# and every row of the THESIS_AUDIT.md remediation ledger is closed. The script is kept because
+# it is idempotent -- re-running it recomputes nothing, it only verifies that each stage's
+# checkpoints and results are still present. Phases 4 and 5, added after this file was written,
+# are not in it: see run_phase4_inference_penalty.py and run_phase5_hpo.py / run_phase5_final.py.
 set -u
 cd "$(dirname "$(readlink -f "$0")")"
-PY=/home/mohabmostafa/miniconda3/envs/gMasters/bin/python
+PY="${THESIS_PYTHON:-$(command -v python)}"   # override with THESIS_PYTHON when the env moves
 
 if ! $PY -c "import torch,sys; sys.exit(0 if torch.cuda.is_available() else 1)" 2>/dev/null; then
   echo "ERROR: CUDA is not available. On WSL2 this usually needs 'wsl --shutdown' from Windows,"

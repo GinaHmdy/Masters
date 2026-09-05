@@ -310,7 +310,9 @@ Every model was evaluated over 3 distinct seeds (`2024`, `2025`, `2026`) with fu
 > selection at 5 seeds, PPD v6 does **not** beat LightGCN on Yahoo — it trails on all three
 > accuracy metrics, though by margins that clear no significance threshold
 > (across-seed p = 0.154 / 0.061 / 0.154). The table is kept, struck, so the correction is
-> visible rather than quietly deleted. Authoritative Yahoo numbers: `RESULTS_CANONICAL.md`.
+> visible rather than quietly deleted. The remaining rows are the 3-seed generation, kept as
+> the historical record; **authoritative 5-seed Yahoo numbers are in `RESULTS_CANONICAL.md`**
+> and `results/numbers_pack/table1_main.md`.
 
 | Method | Recall@20 $\uparrow$ | NDCG@20 $\uparrow$ | Precision@20 $\uparrow$ | AvgPop@20 $\downarrow$ | Dominance Status |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -343,11 +345,15 @@ Every model was evaluated over 3 distinct seeds (`2024`, `2025`, `2026`) with fu
 > **1616.56, i.e. 41% WORSE than LightGCN's 1148.79**, at Coverage@20 0.0319 vs 0.1582. See
 > `THESIS_AUDIT.md` findings **L**, **V** and **Z**.
 
-| **ASTD-PD (Ours)** | **0.177384** | **0.396496** | **0.365071** | ~~967.43~~ **1616.56** | **+14.1% Recall / +30.1% NDCG / AvgPop +41% WORSE** |
-| **LightGCN** | 0.155524 | 0.304831 | 0.274125 | ~~1024.97~~ **1148.79** | baseline (loses to MostPopular on NDCG) |
-| **TSP** | 0.155190 | 0.302951 | 0.272861 | ~~1016.43~~ **1139.84** | -0.2% Recall (no effect) |
-| **PPD v3** | 0.065414 | 0.119512 | 0.099598 | ~~461.89~~ **392.20** | **-57.9% Recall — degenerate, loses to MostPopular on all three** |
-| **PPD v4** | 0.155984 | 0.303910 | 0.273404 | **1158.82** | ~~accuracy-neutral at -33.2% AvgPop~~ **RETRACTED — see finding T**; accuracy tied (p=0.645), AvgPop **+0.9% worse** |
+*5-seed means, regenerated from `results/phase1_kuairec*.json`.*
+
+| Method | Recall@20 $\uparrow$ | NDCG@20 $\uparrow$ | Precision@20 $\uparrow$ | AvgPop@20 $\downarrow$ | Reading |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **ASTD-PD (Ours)** | 0.177101 | 0.393999 | 0.362759 | 1606.57 | **+14% Recall / +30% NDCG, but AvgPop +40% WORSE and Coverage −79%** — fairness reversal (finding **V**) |
+| **LightGCN** | 0.155205 | 0.304026 | 0.273582 | 1147.31 | baseline (loses to MostPopular on NDCG, finding **Z**) |
+| **TSP** | 0.154812 | 0.302221 | 0.272220 | 1136.19 | no effect (−0.3% Recall) |
+| **PPD v3** | 0.067179 | 0.121501 | 0.101475 | 399.94 | **degenerate** — loses to MostPopular on all three (finding **Z**) |
+| **PPD v4** | 0.155779 | 0.303060 | 0.273085 | 1158.54 | ~~accuracy-neutral at −33% AvgPop~~ **RETRACTED (finding T)**: accuracy tied, AvgPop +0.9% worse |
 
 ---
 

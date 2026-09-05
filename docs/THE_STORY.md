@@ -301,7 +301,7 @@ recommend 20 items at random — and score them on the same four metrics
 
 Look at the AvgPop@20 column. **Random wins it on every single dataset, by a mile.** 15.75 on
 Gowalla, where the best debiaser in this thesis manages 141.60 and the previous best prior-art
-method manages 139.86.
+method manages 138.44.
 
 Of course it does — recommending noise recommends unpopular things. But it means:
 
@@ -587,10 +587,12 @@ Rank items by raw popularity. Recommend the same 20 items to everybody:
 
 | Dataset | MostPopular Recall@20 | Best model in the thesis |
 |---|---|---|
-| Gowalla | 0.040822 | 0.142838 ✓ 3.5× better |
-| Yahoo | 0.090639 | 0.142360 ✓ 1.6× better |
-| Coat | 0.095386 | 0.125553 ✓ 1.3× better |
-| **KuaiRec** | **0.123342** | **0.177384 ✓ 1.4× better** *(was 0.013903 ✗ 9× worse before the eval fix)* |
+| Gowalla | 0.040822 | **0.142878** (PPD v6) ✓ 3.5× better |
+| Yahoo | 0.090639 | **0.141834** (PPD v3) ✓ 1.6× better |
+| Coat | 0.095386 | **0.124636** (PPD v3) ✓ 1.3× better |
+| KuaiRec | 0.123342 | **0.177101** (PPD v6) ✓ 1.4× better |
+
+*(Best legitimate model per dataset, 5-seed mean, regenerated from `results/phase1_*.json`. The Yahoo row previously quoted 0.142360 — the test-selected "Refined" number, now retracted. KuaiRec read 0.013903, 9× WORSE than MostPopular, before the candidate-mask fix.)*
 
 The MostPopular check was still the right check to run on day one — it just did its job in an
 unexpected way. It did not prove the models were worse than a popularity ranker; it proved the

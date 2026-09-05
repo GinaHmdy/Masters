@@ -124,8 +124,11 @@ def write_csv(name, header, rows):
 
 
 def table1():
+    seeds = sorted({s for ds in DATASETS for m in phase1(ds).values()
+                    for s in m.get("seeds", {})})
     md = ["# Table 1 - Main cross-dataset comparison", "",
-          "3 seeds (2024, 2025, 2026), mean ± population std. Best per column in **bold**.",
+          f"{len(seeds)} seeds ({', '.join(seeds)}), mean ± population std. "
+          "Best per column in **bold**.",
           "Higher is better except AvgPop@20 and Gini@20.", ""]
     csv_rows = []
     for ds in DATASETS:
@@ -244,10 +247,14 @@ def table2():
                       f"{pf(p_as)} | "
                       f"{'--' if sigma is None else f'{sigma:+.2f}'} | {verdict} |")
             rows.append([ds, f"{metric}@20", diff, p_pu, p_as, sigma, verdict.replace("*", "")])
-    md += ["", "**Caution on n=3.** With three seeds a paired t-test has almost no power, and a",
-           "near-constant difference across seeds inflates the statistic rather than evidencing",
-           "the effect -- which is why Coat precision reports p ~ 1e-30 on a -2.4 sigma difference.",
-           "Read sigma as the evidence and the p-value as a sanity check, never the reverse."]
+    ns = sorted({len(d.get("seeds", []) or []) for ds in DATASETS
+                 for d in [load(f"significance_{ds.lower()}_v6.json") or {}] if d})
+    n_txt = "/".join(str(n) for n in ns) if ns else "5"
+    md += ["", f"**Caution on low n.** The across-seed test runs at n = {n_txt}, where a paired",
+           "t-test has little power and a near-constant difference across seeds inflates the",
+           "statistic rather than evidencing the effect -- which is why Coat precision once",
+           "reported p ~ 1e-30 on a -2.4 sigma difference. Read sigma as the evidence and the",
+           "p-value as a sanity check, never the reverse."]
     if warned:
         md += ["", "*(`significance.py` emitted a low-n warning on at least one row above.)*"]
     write("table2_significance.md", md)

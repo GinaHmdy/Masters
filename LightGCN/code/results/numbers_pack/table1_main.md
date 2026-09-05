@@ -1,6 +1,6 @@
 # Table 1 - Main cross-dataset comparison
 
-3 seeds (2024, 2025, 2026), mean ± population std. Best per column in **bold**.
+5 seeds (2024, 2025, 2026, 2027, 2028), mean ± population std. Best per column in **bold**.
 Higher is better except AvgPop@20 and Gini@20.
 
 ## Gowalla
