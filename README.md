@@ -734,6 +734,8 @@ All models are evaluated across **five** independent random seeds (`2024`-`2028`
 
 **Headline, Gowalla:** PPD v6 beats LightGCN on Recall@20, NDCG@20 and Precision@20 with across-seed significance (p = 0.0115 / 0.000177 / 0.00139) at −33% AvgPop@20, +252% Coverage@20 and +255% APLT@20. Against PPD v4 it wins Recall by +12.5% while its AvgPop deficit is not statistically distinguishable from zero (p = 0.214).
 
+**Hyperparameters are validation-selected.** The originals were not — they came from a sweep script that ranked candidates on test metrics — so all four datasets were re-selected over 96 configurations reading validation only, with each winner retrained at 5 seeds. Nothing moved outside seed noise (finding **AH**).
+
 **Two results that qualify it, both measured rather than assumed.** The six-arm ablation shows the popularity-stratified negative sampler accounts for 79% (Gowalla) to 96% (Yahoo) of the AvgPop reduction and the spectral projection is inert everywhere, while the named mechanisms own 74% of the tail-exposure gain. And a 12-point sweep of an inference-time popularity penalty shows the remaining four-metric gap cannot be closed: the penalty trades Recall for AvgPop point for point. Full detail in `RESULTS_CANONICAL.md` and `THESIS_AUDIT.md` findings **AE**-**AG**.
 
 <!-- BEGIN GENERATED V6 TABLES -->

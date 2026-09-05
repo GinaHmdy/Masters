@@ -309,6 +309,40 @@ four metrics is a **statistical tie on both binding margins** (Recall vs LightGC
 achieved would be test-set selection at 0.2 sigma. See audit finding **AG**.
 
 ---
+## Hyperparameter selection — redone on validation (item 5.7)
+
+*Generated from `results/phase5_hpo_*.json` and `results/phase5_final_*.json`. 96 configurations,
+selection reading the `[Best Valid Results]` block only; each winner retrained at 5 seeds.*
+
+| Dataset | configs | incumbent rank | winner's valid-HV gain | changed knobs |
+|---|---|---|---|---|
+| Gowalla | 12 | 5th | +0.39% | alpha 0.40→0.60, damp 0.05→0.10 |
+| Yahoo | 36 | 20th | +0.78% | phi 1.0→1.5, alpha 0.10→0.05, damp 0.10→0.05 |
+| KuaiRec | 12 | 7th | +0.12% | phi 1.5→1.0, alpha 0.35→0.20 |
+| Coat | 36 | 7th | +4.61% | phi 1.5→2.0, alpha 0.10→0.05, damp 0.05→0.10 |
+
+**Reading:**
+
+- **The shipped configuration was never the validation winner on any dataset.** The leak is
+  documented, not inferred: `refine_yahoo_ppd_v6.py`'s `score_fn` sorts by seed-2024 *test*
+  metrics, and Yahoo's own recorded sweep names a different validation winner (0.15/0.05) than
+  the config that shipped (0.10/0.10).
+- **Re-selecting honestly changes nothing.** Retrained at 5 seeds, every winner lands within
+  0.4% of the shipped configuration on test and no conclusion flips on any dataset. The
+  differences that reach paired significance are 0.1-0.4% shifts detected because the seeds
+  are matched, not because the effect is meaningful.
+- **Gowalla's headline slightly strengthens under honest selection**: Recall@20 vs LightGCN
+  moves from p = 0.0115 to **p = 0.00582** (+9.66 sigma), NDCG to 9.21e-05, Precision to
+  0.000827 (`results/significance_gowalla_v6_valsel.json`).
+- **The search independently reproduces the ablation.** Ranked by validation hypervolume the
+  grids sort almost entirely by `astd_tail_phi`; `alpha_base` is flat (Gowalla's 12 configs
+  split into a phi=1.5 block and a phi=1.0 block with alpha interleaved inside each; Coat's
+  top five differ in alpha and agree on HV to seven decimals). The ablation reached "the
+  spectral knob does nothing" by deletion; the HPO landscape reaches it by flatness.
+- The shipped configurations stay in `experiment_configs.py`, so every earlier result keeps
+  its meaning; the re-selected numbers live in `phase5_final_*.json` beside them.
+
+---
 ## Checkpoints that must not be cited
 
 | Checkpoint | best_epoch | Recall@20 | Problem |

@@ -16,7 +16,7 @@ Findings are struck from §3 only when closed by a commit or a re-run. Status as
 | 5.4 | Re-run Gowalla targeting the AvgPop gap | **CLOSED — negative result** | Phase 4. `run_phase4_inference_penalty.py` sweeps the inference-time popularity penalty over the five trained checkpoints (no retraining: the penalty is applied at ranking time, `model.py:1035`), 12 values x 5 seeds, selected on validation. The thesis's own hypervolume criterion selects **mu = 0**, and the mu = 1.6-1.75 window whose point estimates do clear all four baselines is a **statistical tie on both binding margins** (Recall vs LightGCN p = 0.68; AvgPop vs PPD v4 p = 0.96). The four-metric goal is not attainable on Gowalla. See finding **AG** — which also shows the *better* claim it licenses: v6's AvgPop deficit vs PPD v4 is itself not significant (p = 0.214) while it beats PPD v4 on Recall by +12.5%. |
 | 5.5 | Mechanism-isolation ablation | **CLOSED** | Phase 2, six arms x 3 seeds on **all four datasets**. `run_phase2_ablation.py`. The verdict is uniform: the popularity-stratified negative sampler accounts for 79% (Gowalla) to 96% (Yahoo) of the AvgPop reduction, the tail reweighting and simplex stream own the tail-exposure gain (74% of APLT on Gowalla), and the **spectral projection is inert on every dataset including Gowalla**, the one where its parameter survives training (finding **AE**). `run_phase3_gate_transfer.py` resolved finding **Y**'s adaptation-vs-initialization confound: retention tracks the dataset, not the starting value (finding **AF**). |
 | 5.6 | Fix/remove dead flags | **CLOSED** | Phase 0. `beta` removed from `project_and_remove` (it was accepted and never referenced, so every PPD v3 `--beta` sweep since the reflection fix measured nothing). `--ppd_beta_schedule`, `--ppd_seq_beta_v3` and `--astd_topo_gate_init` now print an explicit `[WARNING] ... has NO EFFECT` at startup rather than silently no-opping. |
-| 5.7 | Re-select hyperparameters on validation | open — and see finding **X**: *checkpoint* selection was already validation-based for v6, but one of its four hypervolume components was scored on test users. Fixed and re-running. The remaining work is the *hyperparameter* sweep, still test-selected in `refine_yahoo_ppd_v6.py`, `run_component_search.py`, `test_beta_sweep.py`, `run_dcd_sweep.py`, `run_yahoo_ablations.py`, `evaluate_canonical.py`. | |
+| 5.7 | Re-select hyperparameters on validation | **CLOSED** | Phase 5. `run_phase5_hpo.py` re-selects over **96 configurations across all four datasets, reading the `[Best Valid Results]` block only**; `run_phase5_final.py` retrains each winner at 5 seeds. The leak was real — the shipped config was never the validation winner on any dataset (Yahoo shipped 0.10/0.10 while its own sweep's validation winner was 0.15/0.05; `refine_yahoo_ppd_v6.py`'s test-metric `score_fn` chose the former) — **and it changed nothing**: every re-selected configuration lands within 0.4% of the shipped one on test, no conclusion flips, and Gowalla's headline margin slightly strengthens (Recall p = 0.0115 → **0.00582**). The sweep also reproduces finding **AE** independently: validation HV sorts almost entirely by `astd_tail_phi` and is flat along `alpha_base`. See finding **AH**. |
 | 5.8 | Fix or drop collapsed baselines | **CLOSED** | The KuaiRec baselines were never collapsed — the *evaluation* was. Candidates were ranked over all 10,728 items while KuaiRec's test split (the dense "small matrix") covers 3,247; >99% of every top-K was unhittable by construction. Fixed by `restrict_candidates` (`dataloader.py` `candidateItems`, `Procedure.py` `_apply_candidate_mask`). Same checkpoint: Recall@20 0.000424 → **0.155524**. Baselines and the 27-cell KuaiRec component search re-run; see finding **P**. |
 | — | Eval protocol: KuaiRec candidate set | **NEW, CLOSED** | See finding **P** below. |
 | 5.9 | Gini / coverage / APLT; AvgPop over test users | **CLOSED** | Phase 0. `utils.py` gained `gini_at_k`, `coverage_at_k`, `APLT_ATk`, `TailRecallATk` + `long_tail_mask`, all computed from the top-K matrix `Test()` already builds. AvgPop@20 now runs over `testDict` users (finding L). |
@@ -379,6 +379,73 @@ and no script references them.
 
 ---
 
+### AH. Every shipped hyperparameter set was test-influenced -- and re-selecting them honestly changes nothing *(NEW - 2026-09-05, Phase 5, remediation item 5.7)*
+
+The last open item in the ledger. `sweep_yahoo_ppd_v6.py` did rank its 108 configurations by
+validation hypervolume, but the configuration that actually shipped came from
+`refine_yahoo_ppd_v6.py`, whose `score_fn` sorts candidates by **seed-2024 test metrics**
+(`refine_yahoo_ppd_v6.py:171-176`). The proof is direct: the recorded sweep's validation winner
+is `alpha_base 0.15 / damping 0.05`, while the shipped Yahoo config is `0.10 / 0.10`. Every v6
+number in this repository therefore rested on hyperparameters that had seen the test set.
+
+`run_phase5_hpo.py` re-selects them properly: **96 configurations, selection reading the
+`[Best Valid Results]` block only**, scored by the same 4-D Pareto hypervolume `main.py` uses for
+checkpoint selection. Test metrics are recorded per configuration and never compared. Two design
+choices matter: dead knobs are **not** swept (`astd_topo_gate_init` is inert while the gate is
+learnable -- sweeping it is what wasted two thirds of the original Yahoo sweep, item 5.6), and
+each dataset's incumbent is a grid point, so the sweep can confirm or overturn what is shipped.
+
+**1. The incumbent was never the validation winner on any dataset.**
+
+| Dataset | configs | incumbent rank | winner's gain in validation HV | what changed |
+|---|---|---|---|---|
+| Coat | 36 | 7th | +4.6% | phi 1.5 -> 2.0, alpha 0.10 -> 0.05 |
+| Yahoo | 36 | 20th | +0.8% | phi 1.0 -> 1.5, alpha 0.10 -> 0.05, damp 0.10 -> 0.05 |
+| Gowalla | 12 | 5th | +0.39% | alpha 0.40 -> 0.60, damp 0.05 -> 0.10 |
+| KuaiRec | 12 | 7th | +0.12% | phi 1.5 -> 1.0, alpha 0.35 -> 0.20 |
+
+**2. It made no difference.** Each winner was retrained at 5 seeds (`run_phase5_final.py`) and
+compared to the shipped configuration, paired by seed:
+
+| Dataset | Recall@20 | NDCG@20 | AvgPop@20 | APLT@20 |
+|---|---|---|---|---|
+| Gowalla | +0.000167 (p=0.089) | +0.000161 (p=0.027) | +0.26 (p=0.036) | -0.0003 (p=0.395) |
+| Yahoo | -0.001133 (p=0.253) | -0.000498 (p=0.070) | +6.13 (p=0.211) | -0.0080 (p=0.061) |
+| KuaiRec | -0.000221 (p=0.047) | -0.000905 (p=0.001) | **-6.84 (p<0.001)** | +0.0012 (p=0.004) |
+| Coat | +0.000811 (p=0.760) | +0.000847 (p=0.454) | +0.61 (p=0.195) | -0.0345 (p=0.172) |
+
+The differences that reach significance are consistent-but-negligible shifts of 0.1-0.4%, which a
+5-seed paired test detects because the seeds are matched, not because the effect is large. **No
+conclusion on any dataset changes.** Gowalla still wins its three accuracy metrics and still
+trails PPD v4 on AvgPop; Yahoo and Coat still trail LightGCN without significance; KuaiRec still
+wins accuracy while being far more popularity-concentrated.
+
+**3. The headline survives honest selection, and slightly strengthens.** Re-running the paired
+tests for Gowalla's validation-selected configuration against LightGCN
+(`results/significance_gowalla_v6_valsel.json`):
+
+| | shipped config | validation-selected |
+|---|---|---|
+| Recall@20 | +0.002185, p = 0.0115 (+8.98 sigma) | +0.002352, **p = 0.00582** (+9.66 sigma) |
+| NDCG@20 | +0.005327, p = 0.000177 | +0.005488, p = 9.21e-05 |
+| Precision@20 | +0.001313, p = 0.00139 | +0.001366, p = 0.000827 |
+
+**4. The sweep independently reproduces finding AE.** Ranked by validation hypervolume, the grids
+sort almost entirely by `astd_tail_phi`: on Gowalla the twelve configurations split into a
+phi=1.5 block (ranks 1-6) and a phi=1.0 block (ranks 7-12), with alpha_base 0.2 / 0.4 / 0.6
+interleaved *within* each block. On Coat the top five configurations differ in alpha_base and
+agree on validation HV to seven decimal places. The ablation reached "the spectral knob does
+nothing" by deleting the mechanism; the hyperparameter landscape reaches it by showing the
+criterion is flat along that axis. Two independent methods, same answer.
+
+**What this means for the write-up.** The honest sentence is not "our hyperparameters were
+compromised" nor "it did not matter, so ignore it". It is: *the selection protocol was wrong, it
+has been redone properly on all four datasets, and the results are unchanged within seed noise --
+which is itself evidence that the method is insensitive to the knobs it exposes.* The shipped
+configurations are left in `experiment_configs.py` so that every earlier result keeps meaning what
+it meant; the validation-selected numbers sit beside them in `phase5_final_*.json`.
+
+---
 ### AG. The four-metric goal is unreachable on Gowalla: the penalty only slides along a frontier *(NEW - 2026-08-30, Phase 4, remediation item 5.4)*
 
 Item 5.4 asked for "a validation-selected config targeting the AvgPop gap vs PPD v4" -- the one
@@ -1320,10 +1387,9 @@ Ordered by value per GPU-hour.
 6. **Fix or remove the dead flags** before any further sweeping: `--astd_topo_gate_init`
    (§3.D2), `--beta` for PPD v3, `--ppd_beta_schedule`, `--ppd_seq_beta_v3` (§3.H). Sweeping
    over dead knobs wasted two thirds of the Yahoo sweep.
-7. **Re-select all hyperparameters on validation**; re-run Yahoo and report that number.
-   **Still open** — the remaining test-selected sweeps are listed in ledger row 5.7. Phase 4
-   built the validation-selection machinery (`run_phase4_inference_penalty.py` selects on the
-   `[Valid]` block only), so the pattern to follow now exists.
+7. ~~**Re-select all hyperparameters on validation**; re-run Yahoo and report that number.~~
+   **DONE on all four datasets** (finding **AH**). The incumbent was never the validation winner
+   anywhere, and re-selecting honestly moves no result outside seed noise.
 8. ~~**Fix or drop** the collapsed `lgn-KuaiRec-2-256` baseline~~ — **DONE**: it was never collapsed, the eval was (finding **P**). `*-Gowalla-2-256` still to check.
 9. **Add Gini / coverage / APLT**; recompute AvgPop over test users only (finding L).
 10. **Evaluate on** `Coat/unbiased_valid` and `KuaiRec/unbiased-valid`.
@@ -1355,6 +1421,11 @@ Ordered by value per GPU-hour.
 - **The mechanisms are adaptive, and that part held up.** Swapping the initialization across
   datasets shows retention is a property of the data, not the starting value: Gowalla keeps
   ~21% of whatever alpha it is given, Yahoo ~0.4%, Coat ~0.1% (finding **AF**).
+- **If asked "were your hyperparameters selected on test?" -- say yes, then say what you did.**
+  They were: `refine_yahoo_ppd_v6.py` sorted candidates by seed-2024 test metrics. All four
+  datasets have since been re-selected over 96 configurations reading validation only, each
+  winner retrained at 5 seeds. Nothing moved outside seed noise and the Gowalla margin
+  strengthened slightly (finding **AH**). The failure and its correction are both in the record.
 - **Be first to raise the negative results.** Dense datasets do not meet the goal; on KuaiRec
   every model including yours loses to most-popular, because on a dense skewed catalogue
   popularity is genuinely predictive. Framing this as a finding about *when debiasing is

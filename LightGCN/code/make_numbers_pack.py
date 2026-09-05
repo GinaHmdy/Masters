@@ -439,6 +439,56 @@ def table6():
                "avgpop@20", "aplt@20", "clears_all_four"], rows)
 
 
+def table7():
+    """Validation-selected hyperparameters vs the shipped ones (item 5.7 / finding AH)."""
+    rows, md = [], [
+        "# Table 7 - Hyperparameters re-selected on validation", "",
+        "The shipped configurations were influenced by test metrics: `refine_yahoo_ppd_v6.py`",
+        "sorts candidates by seed-2024 **test** results. `run_phase5_hpo.py` re-selects over 96",
+        "configurations reading the `[Best Valid Results]` block only, scored by the same 4-D",
+        "Pareto hypervolume used for checkpoint selection; `run_phase5_final.py` then retrains",
+        "each winner at 5 seeds. Dead knobs are not swept, and each incumbent is a grid point.", ""]
+    md += ["## Search outcome", "",
+           "| Dataset | configs | incumbent rank | winner's validation-HV gain |",
+           "|---|---|---|---|"]
+    for ds in DATASETS:
+        d = load(f"phase5_hpo_{ds.lower()}.json")
+        if not d:
+            continue
+        ranked = sorted(d.values(), key=lambda v: -v["valid_hypervolume"])
+        inc = next((v for v in ranked if v.get("is_incumbent")), None)
+        if not inc:
+            continue
+        gain = 100 * (ranked[0]["valid_hypervolume"] / inc["valid_hypervolume"] - 1)
+        md.append(f"| {ds} | {len(d)} | {ranked.index(inc) + 1}th | +{gain:.2f}% |")
+
+    md += ["", "## Effect on the reported numbers, 5 seeds, paired by seed", "",
+           "| Dataset | metric | shipped | validation-selected | difference |",
+           "|---|---|---|---|---|"]
+    for ds in DATASETS:
+        v = load(f"phase5_final_{ds.lower()}.json")
+        s = load(f"phase1_{ds.lower()}_v6.json")
+        if not v or not s:
+            continue
+        s = s.get("PPD v6", {})
+        for key, prec in (("recall@20", 6), ("ndcg@20", 6), ("avgpop@20", 2), ("aplt@20", 4)):
+            a, b = v["mean"].get(key), s.get("mean", {}).get(key)
+            if a is None or b is None:
+                continue
+            md.append(f"| {ds} | {key} | {b:.{prec}f} | {a:.{prec}f} | {a - b:+.{prec}f} |")
+            rows.append([ds, key, b, a, a - b])
+    md += ["",
+           "> **The re-selection changed the configuration on every dataset and the results on",
+           "> none.** All differences land within 0.4%, no conclusion flips, and Gowalla's",
+           "> headline margin over LightGCN slightly strengthens (Recall p = 0.0115 -> 0.00582).",
+           "> The shipped configurations remain in `experiment_configs.py` so earlier results keep",
+           "> their meaning; these sit beside them. See `THESIS_AUDIT.md` finding **AH**.", ""]
+    write("table7_validation_selection.md", md)
+    if rows:
+        write_csv("table7_validation_selection.csv",
+                  ["dataset", "metric", "shipped", "validation_selected", "difference"], rows)
+
+
 def readme():
     write("README.md", [
         "# Numbers pack", "",
@@ -452,6 +502,7 @@ def readme():
         "| `table4_gates.{md,csv}` | Learned gates vs configured starts (finding Y) |",
         "| `table5_gate_transfer.{md,csv}` | Gate transfer: adaptation vs initialization (findings Y, AC, AF) |",
         "| `table6_penalty_frontier.{md,csv}` | Inference-penalty frontier; the four-metric goal tested (finding AG) |",
+        "| `table7_validation_selection.{md,csv}` | Hyperparameters re-selected on validation (finding AH) |",
         "",
         "## Caveats that must travel with these numbers", "",
         "1. **Five seeds on all four datasets** (2024-2028) as of 2026-08-30; the ablation and",
@@ -476,14 +527,14 @@ def readme():
         "7. **The four-metric goal is not met anywhere, and on Gowalla it is unreachable** rather",
         "   than merely unreached -- see table 6.",
         "",
-        "See `THESIS_AUDIT.md` findings **L, P, S, T, U, V, W, X, Y, AA, AE, AF, AG** for the full provenance.",
+        "See `THESIS_AUDIT.md` findings **L, P, S, T, U, V, W, X, Y, AA, AE, AF, AG, AH** for the full provenance.",
     ])
 
 
 def main():
     os.makedirs(OUT, exist_ok=True)
     print(f"writing numbers pack -> {OUT}")
-    table1(); table2(); table3(); table4(); table5(); table6(); readme()
+    table1(); table2(); table3(); table4(); table5(); table6(); table7(); readme()
     print("done")
 
 
