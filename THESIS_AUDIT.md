@@ -732,12 +732,14 @@ mechanism changes *nothing measurable*. This is the strongest form finding **D**
 **3. And the result I did not expect -- arm (e) is not the control I designed it to be.**
 Compare it against LightGCN, which is the true no-debiasing reference:
 
-| Metric | LightGCN | (e) recipe only | (a) full v6 | share of v6's gain already in (e) |
+*LightGCN column is the 5-seed Phase 1 baseline; ablation arms are 3-seed (Phase 2).*
+
+| Metric | LightGCN (n=5) | (e) recipe only (n=3) | (a) full v6 (n=3) | share of v6's gain already in (e) |
 |---|---|---|---|---|
-| Recall@20 | 0.141245 | 0.141699 (+0.32%) | 0.138287 | -- |
-| NDCG@20 | 0.064582 | 0.063660 (-1.43%) | 0.062616 | -- |
-| **AvgPop@20** | 595.72 | **529.71 (-11.08%)** | 527.13 (-11.5%) | **~96%** |
-| **APLT@20** | 0.1101 | **0.1224 (+11.21%)** | 0.1428 (+29.7%) | **~38%** |
+| Recall@20 | 0.140833 | 0.141699 (+0.61%) | 0.138287 | -- |
+| NDCG@20 | 0.064305 | 0.063660 (-1.00%) | 0.062616 | -- |
+| **AvgPop@20** | 593.93 | **529.71 (-10.81%)** | 527.13 (-11.2%) | **~96%** |
+| **APLT@20** | 0.1118 | **0.1224 (+9.48%)** | 0.1428 (+27.7%) | **~34%** |
 
 Arm (e) has every one of PPD v6's three debiasing mechanisms disabled, and it *still* delivers
 **96% of v6's entire AvgPop reduction** and over a third of its APLT gain, at accuracy
@@ -812,16 +814,16 @@ where it gets interesting.
 | Ranker | NDCG@20 | AvgPop@20 |
 |---|---|---|
 | **MostPopular** (no personalization at all) | **0.313162** | 1948.98 |
-| LightGCN | 0.304830 | 1148.79 |
-| TSP | 0.302951 | 1139.84 |
-| PPD v4 | 0.303910 | 1158.82 |
-| PPD v3 | 0.119512 | 392.20 |
-| **PPD v6** | **0.395928** | **1616.56** |
+| LightGCN | 0.304026 | 1147.31 |
+| TSP | 0.302221 | 1136.19 |
+| PPD v4 | 0.303060 | 1158.54 |
+| PPD v3 | 0.121501 | 399.94 |
+| **PPD v6** | **0.393999** | **1606.57** |
 
 Every method in the study except PPD v6 **loses to a ranker that shows all 1,410 users the same
 20 items**. PPD v3 loses to it on all three accuracy metrics, not just NDCG.
 
-And the way v6 beats it is the point: v6's AvgPop@20 of 1616.56 is **82.9% of MostPopular's
+And the way v6 beats it is the point: v6's AvgPop@20 of 1606.57 is **82.4% of MostPopular's
 1948.98**. It does not defeat the popularity ranker by being less popularity-driven; it defeats
 it by being *almost as* popularity-driven while retaining some personalization.
 
@@ -831,7 +833,7 @@ Measured earned-popularity share there is **26.9%** (Part 2.6), the catalogue is
 relevant items per user, and under those conditions the popularity ranker is close to optimal.
 A debiaser is being asked to discard the most predictive feature in the dataset.
 
-So v6's KuaiRec "fairness reversal" (finding **V**: AvgPop +41%, Coverage -80%) is better read
+So v6's KuaiRec "fairness reversal" (finding **V**: AvgPop +40%, Coverage -78%) is better read
 as v6 *correctly discovering* that the accuracy half of its objective is maximised by moving
 toward MostPopular. The hypervolume it optimises contains accuracy; the data says popularity buys
 accuracy; the gate does what it was told. **The failure is not in the optimiser, it is in
@@ -842,7 +844,7 @@ expecting a debiaser to help on a catalogue where popularity is earned.**
 1. **MostPopular belongs in every KuaiRec table**, not in a footnote. A KuaiRec table without it
    invites the reader to be impressed by numbers that a one-line baseline beats.
 2. **PPD v3's KuaiRec row needs an explicit health warning.** It loses to MostPopular on all
-   three accuracy metrics while posting the best AvgPop of any method (392.20). That combination
+   three accuracy metrics while posting the best AvgPop of any method (399.94). That combination
    -- trivial-baseline-beating fairness with sub-trivial accuracy -- is what a degenerate
    solution looks like, and it should be labelled as one rather than presented as a favourable
    fairness/accuracy trade.
@@ -1091,6 +1093,9 @@ Finding **D** predicted that all three headline mechanisms of PPD v6 are inert. 
 that directly. Coat, 5 arms x 3 seeds, re-run after finding **X** and reproducing the pre-fix
 numbers **bit-identically**:
 
+*Ablation arms are 3-seed (Phase 2). Current 5-seed Phase 1 Coat baselines are in
+`RESULTS_CANONICAL.md`; do not compare these arm values against them cell by cell.*
+
 | Arm | Recall@20 | AvgPop@20 | APLT@20 | Coverage@20 | alpha | theta | lambda |
 |---|---|---|---|---|---|---|---|
 | (a) full v6 | 0.114685 +/- 0.004982 | 25.46 +/- 0.76 | 0.3117 +/- 0.0406 | 0.5533 +/- 0.1416 | 0.0001 | 0.0216 | 0.2975 |
@@ -1140,17 +1145,17 @@ accuracy loss is *statistically indistinguishable from zero*:
 
 | Metric | LightGCN | PPD v6 | delta | significance |
 |---|---|---|---|---|
-| Recall@20 | 0.141245 +/- 0.002547 | 0.138287 +/- 0.000375 | -2.1% | -1.16 sigma, p=0.539 **n.s.** |
-| NDCG@20 | 0.064582 +/- 0.000928 | 0.062616 +/- 0.000584 | -3.0% | -2.12 sigma, p=0.539 **n.s.** |
-| Precision@20 | 0.010995 | 0.010827 | -1.5% | -1.61 sigma, p=0.539 **n.s.** |
-| AvgPop@20 | 595.72 +/- 3.17 | **527.13 +/- 15.02** | **-11.5%** | |
-| APLT@20 | 0.1101 +/- 0.0004 | **0.1428 +/- 0.0145** | **+29.7%** | |
-| Gini@20 | 0.8572 | **0.8283** | better | |
-| Coverage@20 | **0.6800 +/- 0.0022** | 0.6253 +/- 0.0216 | **-8.0%** | |
+| Recall@20 | 0.140833 +/- 0.002087 | 0.137227 +/- 0.003536 | -2.6% | -1.73 sigma, p=0.154 **n.s.** |
+| NDCG@20 | 0.064305 +/- 0.000841 | 0.062214 +/- 0.000897 | -3.3% | -2.48 sigma, p=0.0609 **n.s.** |
+| Precision@20 | 0.011041 | 0.010768 | -2.5% | -2.50 sigma, p=0.154 **n.s.** |
+| AvgPop@20 | 593.93 +/- 3.37 | **526.35 +/- 11.68** | **-11.4%** | |
+| APLT@20 | 0.1118 +/- 0.0029 | **0.1430 +/- 0.0112** | **+27.8%** | |
+| Gini@20 | 0.8557 | **0.8284** | better | |
+| Coverage@20 | **0.6816 +/- 0.0041** | 0.6182 +/- 0.0190 | **-9.3%** | |
 
-Read honestly, Yahoo is v6's cleanest *trade*: a measurable fairness gain (-11.5% AvgPop, +30%
-APLT, lower Gini) bought with an accuracy cost that three seeds cannot distinguish from noise.
-It is not a Pareto win -- Coverage moves the wrong way, and "not significant" at n=3 is a
+Read honestly, Yahoo is v6's cleanest *trade*: a measurable fairness gain (-11.4% AvgPop, +28%
+APLT, lower Gini) bought with an accuracy cost that five seeds cannot distinguish from noise.
+It is not a Pareto win -- Coverage moves the wrong way, and "not significant" at n=5 is a
 statement about power, not a demonstration of equivalence. But it is the one dataset where the
 claim "fairness improved at no *demonstrated* accuracy cost" is defensible as written.
 
@@ -1222,12 +1227,12 @@ AvgPop@20 is computed over test users (finding L, fixed in Phase 0), that win di
 
 | Method | AvgPop@20 over ALL users (old) | over TEST users (correct) | change |
 |---|---|---|---|
-| LightGCN | 1024.97 | 1148.79 | +12.1% |
-| TSP | 1016.43 | 1139.84 | +12.1% |
-| PPD v3 | 461.89 | 392.20 | -15.1% |
-| **PPD v4** | **684.22** | **1158.82** | **+69.4%** |
+| LightGCN | 1024.97 | 1147.31 | +12.0% |
+| TSP | 1016.43 | 1136.19 | +11.8% |
+| PPD v3 | 461.89 | 399.94 | -13.4% |
+| **PPD v4** | **684.22** | **1158.54** | **+69.3%** |
 
-vs LightGCN: PPD v4 was **-33.2%**, it is actually **+0.9%** -- marginally *worse* than the baseline.
+vs LightGCN: PPD v4 was **-33.2%**, it is actually **+1.0%** -- marginally *worse* than the baseline.
 
 **The mechanism, and why it is the most instructive bug in the audit.** Every method's AvgPop
 rose when the population narrowed, because KuaiRec's test users are its heavy users. But
@@ -1237,8 +1242,8 @@ The old metric paid it for exactly the users whose recommendations no accuracy n
 checked. That is not debiasing; it is arbitrage against a mis-specified objective.
 
 **Status of PPD v4 on KuaiRec, corrected:** accuracy statistically tied with LightGCN
-(Recall +0.000461, p = 0.645 across seeds), AvgPop marginally worse, Coverage 0.1608 vs 0.1582
-and APLT 0.0740 vs 0.0631. A near-no-op with a small tail-exposure gain -- not a Pareto win.
+(Recall +0.000574, p = 0.065 across seeds), AvgPop marginally worse, Coverage 0.1564 vs 0.1531
+and APLT 0.0706 vs 0.0607. A near-no-op with a small tail-exposure gain -- not a Pareto win.
 
 **Where a real fairness result does survive:** PPD v3 on KuaiRec cuts AvgPop 66% and lifts APLT
 from 0.063 to **0.582** (9.2x), at a catastrophic accuracy cost (Recall -0.090, p = 0.0037).

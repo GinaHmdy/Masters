@@ -496,6 +496,22 @@ def table7():
                   ["dataset", "metric", "shipped", "validation_selected", "difference"], rows)
 
 
+def _kuairec_reversal():
+    """Caveat 5 quotes the KuaiRec fairness reversal. Compute it from phase1 rather than
+    hardcoding: these figures were stale by a full percentage point once before, because an
+    earlier generation's values (1616.56 / 1148.79) outlived the run that produced them."""
+    d = phase1("KuaiRec")
+    try:
+        def mu(m, k):
+            s = d[m]["seeds"]
+            return sum(v[k] for v in s.values()) / len(s)
+        pop = (mu("PPD v6", "avgpop@20") / mu("LightGCN", "avgpop@20") - 1) * 100
+        cov = (mu("PPD v6", "coverage@20") / mu("LightGCN", "coverage@20") - 1) * 100
+        return f"AvgPop {pop:+.0f}%, Coverage {cov:+.0f}%"
+    except (KeyError, ZeroDivisionError, TypeError):
+        return "AvgPop and Coverage both far worse -- see table 1"
+
+
 def readme():
     write("README.md", [
         "# Numbers pack", "",
@@ -525,7 +541,7 @@ def readme():
         "5. **The headline result is Gowalla.** It is the only dataset where PPD v6 achieves a",
         "   Pareto improvement, and the only one whose test users are the entire user base --",
         "   which is why neither protocol fix moved it. On KuaiRec v6 wins accuracy and loses",
-        "   fairness outright (AvgPop +41%, Coverage -80%); that is a finding, not an omission.",
+        f"   fairness outright ({_kuairec_reversal()}); that is a finding, not an omission.",
         "6. **The credit does not go to the named mechanisms.** The negative sampler accounts for",
         "   79% (Gowalla) to 96% (Yahoo) of the AvgPop reduction and the spectral projection is",
         "   inert on every dataset; the named mechanisms own tail exposure (74% of the APLT gain",

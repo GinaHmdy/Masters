@@ -133,7 +133,7 @@ training log, so no per-item correction is reportable):
 - Against PPD v4 the picture is better than "3/4". v6 wins Recall by **+12.5%**
   (0.142878 vs 0.126957) and its AvgPop deficit (141.60 vs 138.44) is **not statistically
   distinguishable from zero** (paired t over 5 seeds, p = 0.214). It also more than doubles
-  APLT@20 (0.1665 vs 0.0839) and improves Coverage@20 by 162%.
+  APLT@20 (0.1665 vs 0.0839) and improves Coverage@20 by 162% (0.3729 vs 0.1423, 2.6x).
 - The remaining AvgPop gap **cannot be closed**: an inference-time popularity penalty trades
   Recall for AvgPop point for point, and at the crossover both margins are ties
   (`results/phase4_inference_penalty_gowalla.json`, audit finding **AG**). Validation
@@ -203,17 +203,17 @@ training log, so no per-item correction is reportable):
   LightGCN (0.155985 vs 0.155524) at **-33% AvgPop** (684.22 vs 1024.97).~~ **RETRACTED
   2026-08-25 (finding T).** The -33% was a *second* protocol bug: AvgPop ran over all users while
   accuracy ran over test users, and the two overlap by 19.6% on KuaiRec. Scoped correctly, PPD
-  v4's KuaiRec AvgPop is **1158.82 vs LightGCN's 1148.79 — 0.9% worse.** It had been suppressing
+  v4's KuaiRec AvgPop is **1158.54 vs LightGCN's 1147.31 — 1.0% worse.** It had been suppressing
   popular items for the ~80% of users no accuracy metric evaluates.
 - ~~PPD v6 dominates on real numbers (+14.1% Recall, +30.1% NDCG, -5.6% AvgPop vs LightGCN).~~
   **RETRACTED 2026-08-26 (finding V).** Same scope bug. The accuracy gains are real and
-  significant; the fairness claim reverses. Corrected: AvgPop **1616.56 vs 1148.79 (+41% worse)**,
-  Coverage@20 **0.0319 vs 0.1582 (-80%)**, APLT@20 0.0102 vs 0.0631 (-84%). PPD v6 wins accuracy
+  significant; the fairness claim reverses. Corrected: AvgPop **1606.57 vs 1147.31 (+40% worse)**,
+  Coverage@20 **0.0330 vs 0.1531 (-78%)**, APLT@20 0.0108 vs 0.0607 (-82%). PPD v6 wins accuracy
   on KuaiRec by collapsing onto the popular head.
 - **The AvgPop-scoped table above is superseded in full.** Use the generated tables further down
   this file, which are scoped to test users throughout.
 - **PPD v3's low AvgPop here is degeneracy, not fairness**: it loses to MostPopular on all three
-  accuracy metrics (finding **Z**), so its 392.20 AvgPop is what a broken ranker looks like.
+  accuracy metrics (finding **Z**), so its 399.94 AvgPop is what a broken ranker looks like.
 
 ---
 
@@ -225,7 +225,8 @@ training log, so no per-item correction is reportable):
 
 - PPD v6 trails every baseline on every accuracy metric, but at n = 5 **the deficit is not
   significant**: across-seed p = 0.093 / 0.093 / 0.062, per-user p = 0.14 / 0.058 / 0.14.
-  Meanwhile it improves APLT@20 from 0.224 to 0.312 and Coverage@20 from 0.362 to 0.553.
+  Meanwhile it improves APLT@20 from 0.2207 to 0.3208 (+45%) and Coverage@20 from 0.3720 to
+  0.5733 (+54%).
   Coat is a *no-accuracy-cost exposure gain*, on a dataset small enough that nothing here
   is conclusive either way.
 - Coat is omitted entirely from the guide's results section while still being counted
