@@ -1,0 +1,286 @@
+[0;30;43mCpp extension not loaded[0m
+[0;30;43muse NORMAL distribution initilizer[0m
+loading adjacency matrix
+successfully loaded...
+/home/mohab/Workspace/99-temp/Masters/thesis/third_party/LightGCN-PyTorch/code/dataloader.py:330: UserWarning: torch.sparse.SparseTensor(indices, values, shape, *, device=) is deprecated.  Please use torch.sparse_coo_tensor(indices, values, shape, dtype=, device=). (Triggered internally at /__w/pytorch/pytorch/torch/csrc/utils/tensor_new.cpp:653.)
+  return torch.sparse.FloatTensor(index, data, torch.Size(coo.shape))
+don't split the matrix
+lgn is already to go(dropout:0)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.0,weight2=0.0, num_cluster:1
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 1/72 {'alpha1': 0.0, 'alpha2': 0.0, 'cluster_num': 1} -> R@20 0.18961 N@20 0.13041 AvgPop 149.20 (201.0s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.0,weight2=0.0, num_cluster:10
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 2/72 {'alpha1': 0.0, 'alpha2': 0.0, 'cluster_num': 10} -> R@20 0.18961 N@20 0.13041 AvgPop 149.20 (82.8s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.0,weight2=0.0, num_cluster:30
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 3/72 {'alpha1': 0.0, 'alpha2': 0.0, 'cluster_num': 30} -> R@20 0.18961 N@20 0.13041 AvgPop 149.20 (68.8s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.0,weight2=0.0, num_cluster:70
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 4/72 {'alpha1': 0.0, 'alpha2': 0.0, 'cluster_num': 70} -> R@20 0.18961 N@20 0.13041 AvgPop 149.20 (68.2s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.0,weight2=0.1, num_cluster:1
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 5/72 {'alpha1': 0.0, 'alpha2': 0.1, 'cluster_num': 1} -> R@20 0.18969 N@20 0.13050 AvgPop 148.17 (1043.8s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.0,weight2=0.1, num_cluster:10
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 6/72 {'alpha1': 0.0, 'alpha2': 0.1, 'cluster_num': 10} -> R@20 0.18997 N@20 0.13078 AvgPop 146.30 (1180.6s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.0,weight2=0.1, num_cluster:30
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 7/72 {'alpha1': 0.0, 'alpha2': 0.1, 'cluster_num': 30} -> R@20 0.19028 N@20 0.13100 AvgPop 146.90 (1249.7s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.0,weight2=0.1, num_cluster:70
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 8/72 {'alpha1': 0.0, 'alpha2': 0.1, 'cluster_num': 70} -> R@20 0.19048 N@20 0.13112 AvgPop 147.91 (1287.1s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.0,weight2=0.5, num_cluster:1
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 9/72 {'alpha1': 0.0, 'alpha2': 0.5, 'cluster_num': 1} -> R@20 0.18947 N@20 0.13054 AvgPop 144.36 (1378.5s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.0,weight2=0.5, num_cluster:10
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 10/72 {'alpha1': 0.0, 'alpha2': 0.5, 'cluster_num': 10} -> R@20 0.19058 N@20 0.13176 AvgPop 135.46 (1264.5s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.0,weight2=0.5, num_cluster:30
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 11/72 {'alpha1': 0.0, 'alpha2': 0.5, 'cluster_num': 30} -> R@20 0.19090 N@20 0.13252 AvgPop 138.15 (1209.1s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.0,weight2=0.5, num_cluster:70
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 12/72 {'alpha1': 0.0, 'alpha2': 0.5, 'cluster_num': 70} -> R@20 0.19195 N@20 0.13308 AvgPop 142.41 (1146.8s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.1,weight2=0.0, num_cluster:1
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 13/72 {'alpha1': 0.1, 'alpha2': 0.0, 'cluster_num': 1} -> R@20 0.18965 N@20 0.13048 AvgPop 147.02 (1346.9s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.1,weight2=0.0, num_cluster:10
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 14/72 {'alpha1': 0.1, 'alpha2': 0.0, 'cluster_num': 10} -> R@20 0.18993 N@20 0.13074 AvgPop 146.15 (1367.6s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.1,weight2=0.0, num_cluster:30
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 15/72 {'alpha1': 0.1, 'alpha2': 0.0, 'cluster_num': 30} -> R@20 0.19031 N@20 0.13101 AvgPop 147.05 (1212.6s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.1,weight2=0.0, num_cluster:70
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 16/72 {'alpha1': 0.1, 'alpha2': 0.0, 'cluster_num': 70} -> R@20 0.19061 N@20 0.13116 AvgPop 147.76 (536.0s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.1,weight2=0.1, num_cluster:1
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 17/72 {'alpha1': 0.1, 'alpha2': 0.1, 'cluster_num': 1} -> R@20 0.18955 N@20 0.13049 AvgPop 146.08 (806.3s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.1,weight2=0.1, num_cluster:10
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 18/72 {'alpha1': 0.1, 'alpha2': 0.1, 'cluster_num': 10} -> R@20 0.19011 N@20 0.13116 AvgPop 143.28 (554.7s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.1,weight2=0.1, num_cluster:30
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 19/72 {'alpha1': 0.1, 'alpha2': 0.1, 'cluster_num': 30} -> R@20 0.19087 N@20 0.13155 AvgPop 145.03 (141.8s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.1,weight2=0.1, num_cluster:70
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 20/72 {'alpha1': 0.1, 'alpha2': 0.1, 'cluster_num': 70} -> R@20 0.19129 N@20 0.13185 AvgPop 146.44 (123.9s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.1,weight2=0.5, num_cluster:1
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 21/72 {'alpha1': 0.1, 'alpha2': 0.5, 'cluster_num': 1} -> R@20 0.18967 N@20 0.13069 AvgPop 142.38 (249.4s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.1,weight2=0.5, num_cluster:10
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 22/72 {'alpha1': 0.1, 'alpha2': 0.5, 'cluster_num': 10} -> R@20 0.19041 N@20 0.13176 AvgPop 132.34 (159.4s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.1,weight2=0.5, num_cluster:30
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 23/72 {'alpha1': 0.1, 'alpha2': 0.5, 'cluster_num': 30} -> R@20 0.19097 N@20 0.13269 AvgPop 135.95 (130.7s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.1,weight2=0.5, num_cluster:70
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 24/72 {'alpha1': 0.1, 'alpha2': 0.5, 'cluster_num': 70} -> R@20 0.19176 N@20 0.13320 AvgPop 140.60 (121.9s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.3,weight2=0.0, num_cluster:1
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 25/72 {'alpha1': 0.3, 'alpha2': 0.0, 'cluster_num': 1} -> R@20 0.18961 N@20 0.13059 AvgPop 143.05 (246.0s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.3,weight2=0.0, num_cluster:10
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 26/72 {'alpha1': 0.3, 'alpha2': 0.0, 'cluster_num': 10} -> R@20 0.19051 N@20 0.13151 AvgPop 140.14 (156.9s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.3,weight2=0.0, num_cluster:30
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 27/72 {'alpha1': 0.3, 'alpha2': 0.0, 'cluster_num': 30} -> R@20 0.19105 N@20 0.13197 AvgPop 142.90 (128.2s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.3,weight2=0.0, num_cluster:70
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 28/72 {'alpha1': 0.3, 'alpha2': 0.0, 'cluster_num': 70} -> R@20 0.19189 N@20 0.13233 AvgPop 144.70 (120.1s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.3,weight2=0.1, num_cluster:1
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 29/72 {'alpha1': 0.3, 'alpha2': 0.1, 'cluster_num': 1} -> R@20 0.18957 N@20 0.13061 AvgPop 142.19 (243.2s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.3,weight2=0.1, num_cluster:10
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 30/72 {'alpha1': 0.3, 'alpha2': 0.1, 'cluster_num': 10} -> R@20 0.19095 N@20 0.13176 AvgPop 137.02 (163.5s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.3,weight2=0.1, num_cluster:30
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 31/72 {'alpha1': 0.3, 'alpha2': 0.1, 'cluster_num': 30} -> R@20 0.19133 N@20 0.13236 AvgPop 140.73 (128.7s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.3,weight2=0.1, num_cluster:70
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 32/72 {'alpha1': 0.3, 'alpha2': 0.1, 'cluster_num': 70} -> R@20 0.19198 N@20 0.13271 AvgPop 143.56 (851.4s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.3,weight2=0.5, num_cluster:1
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 33/72 {'alpha1': 0.3, 'alpha2': 0.5, 'cluster_num': 1} -> R@20 0.18977 N@20 0.13073 AvgPop 138.82 (1326.2s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.3,weight2=0.5, num_cluster:10
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 34/72 {'alpha1': 0.3, 'alpha2': 0.5, 'cluster_num': 10} -> R@20 0.18946 N@20 0.13159 AvgPop 127.19 (1007.6s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.3,weight2=0.5, num_cluster:30
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 35/72 {'alpha1': 0.3, 'alpha2': 0.5, 'cluster_num': 30} -> R@20 0.18952 N@20 0.13220 AvgPop 132.22 (676.4s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.3,weight2=0.5, num_cluster:70
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 36/72 {'alpha1': 0.3, 'alpha2': 0.5, 'cluster_num': 70} -> R@20 0.19096 N@20 0.13288 AvgPop 137.82 (558.6s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.5,weight2=0.0, num_cluster:1
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 37/72 {'alpha1': 0.5, 'alpha2': 0.0, 'cluster_num': 1} -> R@20 0.18950 N@20 0.13064 AvgPop 139.64 (519.5s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.5,weight2=0.0, num_cluster:10
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 38/72 {'alpha1': 0.5, 'alpha2': 0.0, 'cluster_num': 10} -> R@20 0.19089 N@20 0.13182 AvgPop 134.68 (262.6s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.5,weight2=0.0, num_cluster:30
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[0;30;43mGCN debiasing at 3-layer[0m
+[dap Gowalla s2025] 39/72 {'alpha1': 0.5, 'alpha2': 0.0, 'cluster_num': 30} -> R@20 0.19106 N@20 0.13245 AvgPop 139.09 (259.7s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.5,weight2=0.0, num_cluster:70
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m

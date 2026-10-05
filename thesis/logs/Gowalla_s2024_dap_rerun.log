@@ -1,0 +1,180 @@
+[0;30;43mCpp extension not loaded[0m
+[0;30;43muse NORMAL distribution initilizer[0m
+loading adjacency matrix
+successfully loaded...
+/home/mohab/Workspace/99-temp/Masters/thesis/third_party/LightGCN-PyTorch/code/dataloader.py:330: UserWarning: torch.sparse.SparseTensor(indices, values, shape, *, device=) is deprecated.  Please use torch.sparse_coo_tensor(indices, values, shape, dtype=, device=). (Triggered internally at /__w/pytorch/pytorch/torch/csrc/utils/tensor_new.cpp:653.)
+  return torch.sparse.FloatTensor(index, data, torch.Size(coo.shape))
+don't split the matrix
+lgn is already to go(dropout:0)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 17/72 {'alpha1': 0.1, 'alpha2': 0.1, 'cluster_num': 1} -> R@20 0.19103 N@20 0.13144 AvgPop 146.34 (18.7s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 18/72 {'alpha1': 0.1, 'alpha2': 0.1, 'cluster_num': 10} -> R@20 0.19180 N@20 0.13194 AvgPop 143.53 (91.5s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 19/72 {'alpha1': 0.1, 'alpha2': 0.1, 'cluster_num': 30} -> R@20 0.19230 N@20 0.13252 AvgPop 145.17 (170.5s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 20/72 {'alpha1': 0.1, 'alpha2': 0.1, 'cluster_num': 70} -> R@20 0.19307 N@20 0.13278 AvgPop 147.19 (275.8s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 21/72 {'alpha1': 0.1, 'alpha2': 0.5, 'cluster_num': 1} -> R@20 0.19114 N@20 0.13148 AvgPop 142.72 (21.8s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 22/72 {'alpha1': 0.1, 'alpha2': 0.5, 'cluster_num': 10} -> R@20 0.19231 N@20 0.13313 AvgPop 132.74 (90.3s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 23/72 {'alpha1': 0.1, 'alpha2': 0.5, 'cluster_num': 30} -> R@20 0.19337 N@20 0.13426 AvgPop 136.27 (172.1s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 24/72 {'alpha1': 0.1, 'alpha2': 0.5, 'cluster_num': 70} -> R@20 0.19414 N@20 0.13461 AvgPop 142.63 (274.5s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 25/72 {'alpha1': 0.3, 'alpha2': 0.0, 'cluster_num': 1} -> R@20 0.19126 N@20 0.13143 AvgPop 143.52 (21.7s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 26/72 {'alpha1': 0.3, 'alpha2': 0.0, 'cluster_num': 10} -> R@20 0.19202 N@20 0.13240 AvgPop 140.44 (87.6s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 27/72 {'alpha1': 0.3, 'alpha2': 0.0, 'cluster_num': 30} -> R@20 0.19297 N@20 0.13310 AvgPop 143.17 (172.7s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 28/72 {'alpha1': 0.3, 'alpha2': 0.0, 'cluster_num': 70} -> R@20 0.19377 N@20 0.13340 AvgPop 145.93 (272.5s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 29/72 {'alpha1': 0.3, 'alpha2': 0.1, 'cluster_num': 1} -> R@20 0.19115 N@20 0.13146 AvgPop 142.63 (21.4s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 30/72 {'alpha1': 0.3, 'alpha2': 0.1, 'cluster_num': 10} -> R@20 0.19228 N@20 0.13274 AvgPop 137.54 (89.8s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 31/72 {'alpha1': 0.3, 'alpha2': 0.1, 'cluster_num': 30} -> R@20 0.19314 N@20 0.13348 AvgPop 141.01 (172.0s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 32/72 {'alpha1': 0.3, 'alpha2': 0.1, 'cluster_num': 70} -> R@20 0.19386 N@20 0.13395 AvgPop 144.61 (225.7s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 33/72 {'alpha1': 0.3, 'alpha2': 0.5, 'cluster_num': 1} -> R@20 0.19104 N@20 0.13148 AvgPop 139.14 (16.2s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 34/72 {'alpha1': 0.3, 'alpha2': 0.5, 'cluster_num': 10} -> R@20 0.19151 N@20 0.13304 AvgPop 126.36 (64.9s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 35/72 {'alpha1': 0.3, 'alpha2': 0.5, 'cluster_num': 30} -> R@20 0.19224 N@20 0.13386 AvgPop 132.45 (126.5s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 36/72 {'alpha1': 0.3, 'alpha2': 0.5, 'cluster_num': 70} -> R@20 0.19338 N@20 0.13443 AvgPop 139.82 (199.1s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 37/72 {'alpha1': 0.5, 'alpha2': 0.0, 'cluster_num': 1} -> R@20 0.19128 N@20 0.13151 AvgPop 140.18 (15.6s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 38/72 {'alpha1': 0.5, 'alpha2': 0.0, 'cluster_num': 10} -> R@20 0.19208 N@20 0.13275 AvgPop 135.32 (64.4s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 39/72 {'alpha1': 0.5, 'alpha2': 0.0, 'cluster_num': 30} -> R@20 0.19295 N@20 0.13367 AvgPop 139.62 (123.8s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 40/72 {'alpha1': 0.5, 'alpha2': 0.0, 'cluster_num': 70} -> R@20 0.19378 N@20 0.13403 AvgPop 143.48 (198.9s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 41/72 {'alpha1': 0.5, 'alpha2': 0.1, 'cluster_num': 1} -> R@20 0.19132 N@20 0.13158 AvgPop 139.30 (16.2s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 42/72 {'alpha1': 0.5, 'alpha2': 0.1, 'cluster_num': 10} -> R@20 0.19247 N@20 0.13302 AvgPop 132.56 (64.7s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 43/72 {'alpha1': 0.5, 'alpha2': 0.1, 'cluster_num': 30} -> R@20 0.19278 N@20 0.13380 AvgPop 136.53 (122.9s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 44/72 {'alpha1': 0.5, 'alpha2': 0.1, 'cluster_num': 70} -> R@20 0.19373 N@20 0.13422 AvgPop 142.34 (118.5s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 45/72 {'alpha1': 0.5, 'alpha2': 0.5, 'cluster_num': 1} -> R@20 0.19122 N@20 0.13164 AvgPop 135.96 (10.0s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 46/72 {'alpha1': 0.5, 'alpha2': 0.5, 'cluster_num': 10} -> R@20 0.19094 N@20 0.13277 AvgPop 123.02 (40.8s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 47/72 {'alpha1': 0.5, 'alpha2': 0.5, 'cluster_num': 30} -> R@20 0.19158 N@20 0.13356 AvgPop 129.02 (75.0s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 48/72 {'alpha1': 0.5, 'alpha2': 0.5, 'cluster_num': 70} -> R@20 0.19178 N@20 0.13370 AvgPop 137.11 (122.5s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 49/72 {'alpha1': 1.0, 'alpha2': 0.0, 'cluster_num': 1} -> R@20 0.19096 N@20 0.13136 AvgPop 133.14 (11.0s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 50/72 {'alpha1': 1.0, 'alpha2': 0.0, 'cluster_num': 10} -> R@20 0.19097 N@20 0.13255 AvgPop 123.64 (39.9s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 51/72 {'alpha1': 1.0, 'alpha2': 0.0, 'cluster_num': 30} -> R@20 0.19140 N@20 0.13328 AvgPop 130.99 (76.5s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 52/72 {'alpha1': 1.0, 'alpha2': 0.0, 'cluster_num': 70} -> R@20 0.19209 N@20 0.13372 AvgPop 137.44 (118.7s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 53/72 {'alpha1': 1.0, 'alpha2': 0.1, 'cluster_num': 1} -> R@20 0.19097 N@20 0.13144 AvgPop 132.37 (11.0s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 54/72 {'alpha1': 1.0, 'alpha2': 0.1, 'cluster_num': 10} -> R@20 0.19062 N@20 0.13237 AvgPop 119.66 (40.2s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 55/72 {'alpha1': 1.0, 'alpha2': 0.1, 'cluster_num': 30} -> R@20 0.19045 N@20 0.13295 AvgPop 128.20 (74.4s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 56/72 {'alpha1': 1.0, 'alpha2': 0.1, 'cluster_num': 70} -> R@20 0.19075 N@20 0.13312 AvgPop 135.61 (129.9s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 57/72 {'alpha1': 1.0, 'alpha2': 0.5, 'cluster_num': 1} -> R@20 0.19103 N@20 0.13152 AvgPop 129.50 (10.6s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 58/72 {'alpha1': 1.0, 'alpha2': 0.5, 'cluster_num': 10} -> R@20 0.18935 N@20 0.13198 AvgPop 115.16 (39.4s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 59/72 {'alpha1': 1.0, 'alpha2': 0.5, 'cluster_num': 30} -> R@20 0.18796 N@20 0.13171 AvgPop 121.31 (67.4s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 60/72 {'alpha1': 1.0, 'alpha2': 0.5, 'cluster_num': 70} -> R@20 0.18577 N@20 0.13048 AvgPop 130.55 (102.0s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 61/72 {'alpha1': 2.0, 'alpha2': 0.0, 'cluster_num': 1} -> R@20 0.19030 N@20 0.13094 AvgPop 124.59 (9.9s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 62/72 {'alpha1': 2.0, 'alpha2': 0.0, 'cluster_num': 10} -> R@20 0.18669 N@20 0.12985 AvgPop 101.04 (35.7s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 63/72 {'alpha1': 2.0, 'alpha2': 0.0, 'cluster_num': 30} -> R@20 0.18326 N@20 0.12915 AvgPop 110.93 (61.9s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 64/72 {'alpha1': 2.0, 'alpha2': 0.0, 'cluster_num': 70} -> R@20 0.17726 N@20 0.12519 AvgPop 122.22 (105.0s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 65/72 {'alpha1': 2.0, 'alpha2': 0.1, 'cluster_num': 1} -> R@20 0.19037 N@20 0.13096 AvgPop 123.96 (10.5s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 66/72 {'alpha1': 2.0, 'alpha2': 0.1, 'cluster_num': 10} -> R@20 0.18598 N@20 0.12975 AvgPop 104.63 (34.9s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 67/72 {'alpha1': 2.0, 'alpha2': 0.1, 'cluster_num': 30} -> R@20 0.18218 N@20 0.12818 AvgPop 107.25 (66.2s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 68/72 {'alpha1': 2.0, 'alpha2': 0.1, 'cluster_num': 70} -> R@20 0.17595 N@20 0.12455 AvgPop 120.72 (109.3s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 69/72 {'alpha1': 2.0, 'alpha2': 0.5, 'cluster_num': 1} -> R@20 0.18996 N@20 0.13081 AvgPop 121.38 (10.4s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 70/72 {'alpha1': 2.0, 'alpha2': 0.5, 'cluster_num': 10} -> R@20 0.18602 N@20 0.12961 AvgPop 101.67 (35.6s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 71/72 {'alpha1': 2.0, 'alpha2': 0.5, 'cluster_num': 30} -> R@20 0.17773 N@20 0.12550 AvgPop 105.61 (61.9s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] 72/72 {'alpha1': 2.0, 'alpha2': 0.5, 'cluster_num': 70} -> R@20 0.16882 N@20 0.12012 AvgPop 117.67 (105.6s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+[dap Gowalla s2024] selected {'alpha1': 0.1, 'alpha2': 0.5, 'cluster_num': 70} | valid R@20 0.19414 | test R@20 0.16636 N@20 0.13973 AvgPop@20 142.63 -> /home/mohab/Workspace/99-temp/Masters/thesis/runs/Gowalla/seed2024/dap_selected.json
+[baselines] wall time 5042.5s

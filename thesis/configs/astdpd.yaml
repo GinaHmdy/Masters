@@ -1,0 +1,89 @@
+# ASTD-PD per-dataset configuration.
+#
+# Model hyperparameters = the validation-selected configuration of the old harness
+# (LightGCN/code/experiment_configs.py, PPD_V6_VALIDATION_SELECTED, chosen on validation
+# hypervolume over 96 configurations by run_phase5_hpo.py and reported at 5 seeds in
+# results/phase5_final_<dataset>.json), applied on top of the shipped DATASET_CONFIGS values.
+# Keys left out fall back to src/astdpd/model.py:DEFAULTS (the old argparse defaults).
+# "shipped:" comments record the DATASET_CONFIGS value wherever the selection changed it.
+# astd_topo_gate_init is omitted everywhere: it is inert while the gate is learnable
+# (shipped values: Yahoo 0.75, Coat 0.60, Gowalla 0.40, KuaiRec 0.50).
+#
+# Training protocol (old main.py): Adam, early stopping on the validation Pareto hypervolume
+# Recall@20 * NDCG@20 * Precision@20 * 1/(1 + AvgPop@20/1000), patience 20 epochs, the first
+# min(10, epochs // 2) epochs always overwrite the best checkpoint.
+
+defaults:
+  lr: 0.001
+  decay: 1.0e-4
+  patience: 20
+
+Coat:
+  n_layers: 2
+  latent_dim: 64
+  epochs: 50
+  batch_size: 512
+  model:
+    alpha_base: 0.05          # shipped: 0.10
+    topo_pop_damping: 0.1     # shipped: 0.05
+    tail_phi: 2.0             # shipped: 1.5
+    fuse_lambda_max: 0.3
+    temperature_acc: 0.2
+    temperature_deb: 0.2
+    lambda_final: 1.0
+    lambda_acc: 1.0
+    lambda_deb: 0.3
+    lambda_ind: 0.05
+    inference_pop_penalty: 0.0
+  sampler: {uniform_ratio: 0.50, matched_ratio: 0.40, hard_ratio: 0.10}
+
+Gowalla:
+  n_layers: 3
+  latent_dim: 64
+  epochs: 100
+  batch_size: 2048
+  model:
+    alpha_base: 0.6           # shipped: 0.40
+    topo_pop_damping: 0.1     # shipped: 0.05
+    tail_phi: 1.5
+    fuse_lambda_max: 0.35
+    temperature_acc: 0.2
+    temperature_deb: 0.2
+    lambda_final: 1.0
+    lambda_acc: 1.0
+    lambda_deb: 0.3
+    lambda_ind: 0.05
+    inference_pop_penalty: 0.0
+  sampler: {uniform_ratio: 0.45, matched_ratio: 0.40, hard_ratio: 0.15}
+
+KuaiRec:
+  n_layers: 2
+  latent_dim: 256
+  epochs: 100
+  batch_size: 2048
+  model:
+    alpha_base: 0.2           # shipped: 0.35
+    topo_pop_damping: 0.05
+    tail_phi: 1.0             # shipped: 1.5
+    fuse_lambda_max: 0.35
+    temperature_acc: 0.2
+    temperature_deb: 0.2
+    lambda_final: 1.0
+    lambda_acc: 1.0
+    lambda_deb: 0.3
+    lambda_ind: 0.05
+    inference_pop_penalty: 0.0
+  sampler: {uniform_ratio: 0.40, matched_ratio: 0.45, hard_ratio: 0.15}
+
+Yahoo:
+  n_layers: 2
+  latent_dim: 256
+  epochs: 100
+  batch_size: 2048
+  model:
+    alpha_base: 0.05          # shipped: 0.10
+    topo_pop_damping: 0.05    # shipped: 0.1
+    tail_phi: 1.5             # shipped: 1.0
+    fuse_lambda_max: 0.5
+    highfreq_gamma: 0.1
+  sampler: {uniform_ratio: 0.50, matched_ratio: 0.40, hard_ratio: 0.10}

@@ -1,0 +1,266 @@
+[0;30;43mCpp extension not loaded[0m
+[0;30;43muse NORMAL distribution initilizer[0m
+loading adjacency matrix
+successfully loaded...
+/home/mohab/Workspace/99-temp/Masters/thesis/third_party/LightGCN-PyTorch/code/dataloader.py:330: UserWarning: torch.sparse.SparseTensor(indices, values, shape, *, device=) is deprecated.  Please use torch.sparse_coo_tensor(indices, values, shape, dtype=, device=). (Triggered internally at /__w/pytorch/pytorch/torch/csrc/utils/tensor_new.cpp:653.)
+  return torch.sparse.FloatTensor(index, data, torch.Size(coo.shape))
+don't split the matrix
+lgn is already to go(dropout:0)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704) and dimension 3
+/home/mohab/Workspace/99-temp/Masters/thesis/third_party/TSP/utils.py:21: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(indices, values, shape).coalesce().to(device)
+[tsp Gowalla s2027] 1/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.001, 'L': 2} -> R@20 0.14032 N@20 0.08868 AvgPop 30.25 (170.5s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704) and dimension 3
+[tsp Gowalla s2027] 2/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.001, 'L': 3} -> R@20 0.14031 N@20 0.08868 AvgPop 30.25 (9.9s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704) and dimension 3
+[tsp Gowalla s2027] 3/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.001, 'L': 4} -> R@20 0.14030 N@20 0.08867 AvgPop 30.25 (9.2s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704) and dimension 3
+[tsp Gowalla s2027] 4/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.005, 'L': 2} -> R@20 0.14031 N@20 0.08868 AvgPop 30.25 (9.2s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704) and dimension 3
+[tsp Gowalla s2027] 5/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.005, 'L': 3} -> R@20 0.14025 N@20 0.08867 AvgPop 30.25 (9.5s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704) and dimension 3
+[tsp Gowalla s2027] 6/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.005, 'L': 4} -> R@20 0.14025 N@20 0.08868 AvgPop 30.25 (10.1s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704) and dimension 3
+[tsp Gowalla s2027] 7/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.01, 'L': 2} -> R@20 0.14025 N@20 0.08868 AvgPop 30.25 (10.2s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704) and dimension 3
+[tsp Gowalla s2027] 8/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.01, 'L': 3} -> R@20 0.14032 N@20 0.08869 AvgPop 30.26 (10.6s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704) and dimension 3
+[tsp Gowalla s2027] 9/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.01, 'L': 4} -> R@20 0.14034 N@20 0.08869 AvgPop 30.26 (10.3s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704) and dimension 3
+[tsp Gowalla s2027] 10/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.05, 'L': 2} -> R@20 0.14030 N@20 0.08873 AvgPop 30.30 (16.8s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704) and dimension 3
+[tsp Gowalla s2027] 11/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.05, 'L': 3} -> R@20 0.14036 N@20 0.08873 AvgPop 30.33 (9.7s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704) and dimension 3
+[tsp Gowalla s2027] 12/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.05, 'L': 4} -> R@20 0.14035 N@20 0.08873 AvgPop 30.36 (9.1s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704) and dimension 3
+[tsp Gowalla s2027] 13/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.1, 'L': 2} -> R@20 0.14039 N@20 0.08874 AvgPop 30.37 (9.5s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704) and dimension 3
+[tsp Gowalla s2027] 14/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.1, 'L': 3} -> R@20 0.14071 N@20 0.08886 AvgPop 30.41 (9.6s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704) and dimension 3
+[tsp Gowalla s2027] 15/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.1, 'L': 4} -> R@20 0.14076 N@20 0.08890 AvgPop 30.47 (9.6s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704) and dimension 3
+[tsp Gowalla s2027] 16/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.5, 'L': 2} -> R@20 0.14070 N@20 0.08900 AvgPop 30.82 (9.1s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704) and dimension 3
+[tsp Gowalla s2027] 17/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.5, 'L': 3} -> R@20 0.14077 N@20 0.08904 AvgPop 31.06 (9.1s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704) and dimension 3
+[tsp Gowalla s2027] 18/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.5, 'L': 4} -> R@20 0.14057 N@20 0.08900 AvgPop 31.26 (9.4s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704) and dimension 3
+[tsp Gowalla s2027] 19/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 1.0, 'L': 2} -> R@20 0.14067 N@20 0.08908 AvgPop 31.39 (9.5s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704) and dimension 3
+[tsp Gowalla s2027] 20/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 1.0, 'L': 3} -> R@20 0.14074 N@20 0.08912 AvgPop 31.62 (16.1s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704) and dimension 3
+[tsp Gowalla s2027] 21/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 1.0, 'L': 4} -> R@20 0.14076 N@20 0.08907 AvgPop 31.78 (9.0s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266) and dimension 4
+[tsp Gowalla s2027] 22/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.001, 'L': 2} -> R@20 0.14024 N@20 0.08879 AvgPop 30.38 (212.8s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266) and dimension 4
+[tsp Gowalla s2027] 23/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.001, 'L': 3} -> R@20 0.14023 N@20 0.08879 AvgPop 30.38 (9.6s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266) and dimension 4
+[tsp Gowalla s2027] 24/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.001, 'L': 4} -> R@20 0.14020 N@20 0.08878 AvgPop 30.38 (9.7s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266) and dimension 4
+[tsp Gowalla s2027] 25/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.005, 'L': 2} -> R@20 0.14014 N@20 0.08876 AvgPop 30.39 (9.1s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266) and dimension 4
+[tsp Gowalla s2027] 26/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.005, 'L': 3} -> R@20 0.14014 N@20 0.08877 AvgPop 30.39 (9.4s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266) and dimension 4
+[tsp Gowalla s2027] 27/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.005, 'L': 4} -> R@20 0.14011 N@20 0.08877 AvgPop 30.40 (9.6s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266) and dimension 4
+[tsp Gowalla s2027] 28/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.01, 'L': 2} -> R@20 0.14011 N@20 0.08877 AvgPop 30.40 (15.9s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266) and dimension 4
+[tsp Gowalla s2027] 29/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.01, 'L': 3} -> R@20 0.14020 N@20 0.08879 AvgPop 30.40 (10.2s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266) and dimension 4
+[tsp Gowalla s2027] 30/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.01, 'L': 4} -> R@20 0.14017 N@20 0.08877 AvgPop 30.41 (10.0s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266) and dimension 4
+[tsp Gowalla s2027] 31/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.05, 'L': 2} -> R@20 0.14033 N@20 0.08878 AvgPop 30.44 (9.9s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266) and dimension 4
+[tsp Gowalla s2027] 32/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.05, 'L': 3} -> R@20 0.14038 N@20 0.08883 AvgPop 30.47 (9.8s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266) and dimension 4
+[tsp Gowalla s2027] 33/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.05, 'L': 4} -> R@20 0.14037 N@20 0.08885 AvgPop 30.51 (9.9s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266) and dimension 4
+[tsp Gowalla s2027] 34/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.1, 'L': 2} -> R@20 0.14037 N@20 0.08885 AvgPop 30.51 (9.7s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266) and dimension 4
+[tsp Gowalla s2027] 35/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.1, 'L': 3} -> R@20 0.14054 N@20 0.08890 AvgPop 30.57 (9.7s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266) and dimension 4
+[tsp Gowalla s2027] 36/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.1, 'L': 4} -> R@20 0.14065 N@20 0.08896 AvgPop 30.61 (9.9s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266) and dimension 4
+[tsp Gowalla s2027] 37/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.5, 'L': 2} -> R@20 0.14051 N@20 0.08899 AvgPop 31.03 (9.6s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266) and dimension 4
+[tsp Gowalla s2027] 38/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.5, 'L': 3} -> R@20 0.14054 N@20 0.08903 AvgPop 31.28 (10.0s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266) and dimension 4
+[tsp Gowalla s2027] 39/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.5, 'L': 4} -> R@20 0.14045 N@20 0.08915 AvgPop 31.44 (9.9s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266) and dimension 4
+[tsp Gowalla s2027] 40/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 1.0, 'L': 2} -> R@20 0.14069 N@20 0.08916 AvgPop 31.58 (17.3s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266) and dimension 4
+[tsp Gowalla s2027] 41/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 1.0, 'L': 3} -> R@20 0.14086 N@20 0.08905 AvgPop 31.76 (9.2s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266) and dimension 4
+[tsp Gowalla s2027] 42/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 1.0, 'L': 4} -> R@20 0.14052 N@20 0.08894 AvgPop 31.87 (9.3s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780) and dimension 5
+[tsp Gowalla s2027] 43/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.001, 'L': 2} -> R@20 0.14046 N@20 0.08900 AvgPop 30.55 (239.1s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780) and dimension 5
+[tsp Gowalla s2027] 44/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.001, 'L': 3} -> R@20 0.14045 N@20 0.08900 AvgPop 30.55 (13.5s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780) and dimension 5
+[tsp Gowalla s2027] 45/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.001, 'L': 4} -> R@20 0.14044 N@20 0.08899 AvgPop 30.55 (10.0s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780) and dimension 5
+[tsp Gowalla s2027] 46/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.005, 'L': 2} -> R@20 0.14042 N@20 0.08899 AvgPop 30.56 (9.5s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780) and dimension 5
+[tsp Gowalla s2027] 47/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.005, 'L': 3} -> R@20 0.14044 N@20 0.08900 AvgPop 30.56 (9.5s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780) and dimension 5
+[tsp Gowalla s2027] 48/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.005, 'L': 4} -> R@20 0.14048 N@20 0.08901 AvgPop 30.56 (9.5s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780) and dimension 5
+[tsp Gowalla s2027] 49/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.01, 'L': 2} -> R@20 0.14048 N@20 0.08901 AvgPop 30.56 (9.3s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780) and dimension 5
+[tsp Gowalla s2027] 50/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.01, 'L': 3} -> R@20 0.14048 N@20 0.08900 AvgPop 30.57 (9.4s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780) and dimension 5
+[tsp Gowalla s2027] 51/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.01, 'L': 4} -> R@20 0.14051 N@20 0.08901 AvgPop 30.57 (10.0s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780) and dimension 5
+[tsp Gowalla s2027] 52/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.05, 'L': 2} -> R@20 0.14059 N@20 0.08901 AvgPop 30.61 (10.1s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780) and dimension 5
+[tsp Gowalla s2027] 53/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.05, 'L': 3} -> R@20 0.14062 N@20 0.08903 AvgPop 30.63 (10.4s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780) and dimension 5
+[tsp Gowalla s2027] 54/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.05, 'L': 4} -> R@20 0.14068 N@20 0.08903 AvgPop 30.67 (10.2s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780) and dimension 5
+[tsp Gowalla s2027] 55/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.1, 'L': 2} -> R@20 0.14067 N@20 0.08903 AvgPop 30.67 (10.0s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780) and dimension 5
+[tsp Gowalla s2027] 56/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.1, 'L': 3} -> R@20 0.14080 N@20 0.08912 AvgPop 30.72 (18.2s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780) and dimension 5
+[tsp Gowalla s2027] 57/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.1, 'L': 4} -> R@20 0.14083 N@20 0.08915 AvgPop 30.79 (9.6s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780) and dimension 5
+[tsp Gowalla s2027] 58/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.5, 'L': 2} -> R@20 0.14077 N@20 0.08915 AvgPop 31.19 (9.4s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780) and dimension 5
+[tsp Gowalla s2027] 59/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.5, 'L': 3} -> R@20 0.14050 N@20 0.08915 AvgPop 31.40 (9.3s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780) and dimension 5
+[tsp Gowalla s2027] 60/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.5, 'L': 4} -> R@20 0.14065 N@20 0.08914 AvgPop 31.54 (9.4s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780) and dimension 5
+[tsp Gowalla s2027] 61/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 1.0, 'L': 2} -> R@20 0.14086 N@20 0.08909 AvgPop 31.68 (9.6s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780) and dimension 5
+[tsp Gowalla s2027] 62/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 1.0, 'L': 3} -> R@20 0.14050 N@20 0.08895 AvgPop 31.82 (9.5s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780) and dimension 5
+[tsp Gowalla s2027] 63/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 1.0, 'L': 4} -> R@20 0.14046 N@20 0.08893 AvgPop 31.91 (9.5s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780, 30773) and dimension 6
+[tsp Gowalla s2027] 64/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.001, 'L': 2} -> R@20 0.14081 N@20 0.08911 AvgPop 30.70 (230.0s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780, 30773) and dimension 6
+[tsp Gowalla s2027] 65/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.001, 'L': 3} -> R@20 0.14084 N@20 0.08912 AvgPop 30.70 (9.5s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780, 30773) and dimension 6
+[tsp Gowalla s2027] 66/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.001, 'L': 4} -> R@20 0.14083 N@20 0.08912 AvgPop 30.70 (9.7s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780, 30773) and dimension 6
+[tsp Gowalla s2027] 67/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.005, 'L': 2} -> R@20 0.14079 N@20 0.08911 AvgPop 30.70 (9.4s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780, 30773) and dimension 6
+[tsp Gowalla s2027] 68/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.005, 'L': 3} -> R@20 0.14084 N@20 0.08913 AvgPop 30.70 (9.2s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780, 30773) and dimension 6
+[tsp Gowalla s2027] 69/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.005, 'L': 4} -> R@20 0.14083 N@20 0.08913 AvgPop 30.70 (9.2s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780, 30773) and dimension 6
+[tsp Gowalla s2027] 70/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.01, 'L': 2} -> R@20 0.14083 N@20 0.08913 AvgPop 30.70 (9.3s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780, 30773) and dimension 6
+[tsp Gowalla s2027] 71/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.01, 'L': 3} -> R@20 0.14080 N@20 0.08912 AvgPop 30.71 (9.9s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780, 30773) and dimension 6
+[tsp Gowalla s2027] 72/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.01, 'L': 4} -> R@20 0.14084 N@20 0.08913 AvgPop 30.72 (9.9s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780, 30773) and dimension 6
+[tsp Gowalla s2027] 73/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.05, 'L': 2} -> R@20 0.14087 N@20 0.08917 AvgPop 30.75 (9.8s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780, 30773) and dimension 6
+[tsp Gowalla s2027] 74/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.05, 'L': 3} -> R@20 0.14080 N@20 0.08920 AvgPop 30.78 (9.8s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780, 30773) and dimension 6
+[tsp Gowalla s2027] 75/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.05, 'L': 4} -> R@20 0.14084 N@20 0.08921 AvgPop 30.82 (18.1s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780, 30773) and dimension 6
+[tsp Gowalla s2027] 76/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.1, 'L': 2} -> R@20 0.14083 N@20 0.08920 AvgPop 30.83 (9.4s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780, 30773) and dimension 6
+[tsp Gowalla s2027] 77/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.1, 'L': 3} -> R@20 0.14067 N@20 0.08917 AvgPop 30.88 (9.6s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780, 30773) and dimension 6
+[tsp Gowalla s2027] 78/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.1, 'L': 4} -> R@20 0.14056 N@20 0.08908 AvgPop 30.95 (9.6s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780, 30773) and dimension 6
+[tsp Gowalla s2027] 79/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.5, 'L': 2} -> R@20 0.14063 N@20 0.08910 AvgPop 31.31 (9.8s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780, 30773) and dimension 6
+[tsp Gowalla s2027] 80/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.5, 'L': 3} -> R@20 0.14068 N@20 0.08913 AvgPop 31.50 (10.0s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780, 30773) and dimension 6
+[tsp Gowalla s2027] 81/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.5, 'L': 4} -> R@20 0.14070 N@20 0.08910 AvgPop 31.63 (10.3s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780, 30773) and dimension 6
+[tsp Gowalla s2027] 82/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 1.0, 'L': 2} -> R@20 0.14062 N@20 0.08907 AvgPop 31.73 (9.8s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780, 30773) and dimension 6
+[tsp Gowalla s2027] 83/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 1.0, 'L': 3} -> R@20 0.14043 N@20 0.08895 AvgPop 31.87 (9.8s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780, 30773) and dimension 6
+[tsp Gowalla s2027] 84/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 1.0, 'L': 4} -> R@20 0.14048 N@20 0.08893 AvgPop 31.94 (10.0s)
+[tsp] semantic graph: 70839 nodes, 526373 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (70839, 526373, 612080, 412704, 213266, 89780, 30773) and dimension 6
+[tsp Gowalla s2027] selected {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.05, 'L': 2} | valid R@20 0.14087 | test R@20 0.10595 N@20 0.07264 AvgPop@20 30.75 -> /home/mohab/Workspace/99-temp/Masters/thesis/runs/Gowalla/seed2027/tsp_selected.json
+[baselines] wall time 1694.9s

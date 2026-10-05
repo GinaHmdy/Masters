@@ -1,0 +1,29 @@
+[0;30;43mCpp extension not loaded[0m
+[0;30;43muse NORMAL distribution initilizer[0m
+loading adjacency matrix
+successfully loaded...
+/home/mohab/Workspace/99-temp/Masters/thesis/third_party/LightGCN-PyTorch/code/dataloader.py:330: UserWarning: torch.sparse.SparseTensor(indices, values, shape, *, device=) is deprecated.  Please use torch.sparse_coo_tensor(indices, values, shape, dtype=, device=). (Triggered internally at /__w/pytorch/pytorch/torch/csrc/utils/tensor_new.cpp:653.)
+  return torch.sparse.FloatTensor(index, data, torch.Size(coo.shape))
+don't split the matrix
+lgn is already to go(dropout:0)
+[Coat s2028] epoch 5 loss0.678-|Sample:0.05| epoch_time=0.2s valid R@20=0.0906
+[Coat s2028] epoch 10 loss0.649-|Sample:0.04| epoch_time=0.1s valid R@20=0.1006
+[Coat s2028] epoch 15 loss0.578-|Sample:0.05| epoch_time=0.1s valid R@20=0.1049
+[Coat s2028] epoch 20 loss0.477-|Sample:0.04| epoch_time=0.1s valid R@20=0.1028
+[Coat s2028] epoch 25 loss0.409-|Sample:0.04| epoch_time=0.1s valid R@20=0.0989
+[Coat s2028] epoch 30 loss0.382-|Sample:0.04| epoch_time=0.1s valid R@20=0.0982
+[Coat s2028] epoch 35 loss0.357-|Sample:0.04| epoch_time=0.1s valid R@20=0.0978
+[Coat s2028] epoch 40 loss0.338-|Sample:0.04| epoch_time=0.1s valid R@20=0.0941
+[Coat s2028] epoch 45 loss0.337-|Sample:0.04| epoch_time=0.1s valid R@20=0.0931
+[Coat s2028] epoch 50 loss0.334-|Sample:0.05| epoch_time=0.1s valid R@20=0.0912
+[Coat s2028] epoch 55 loss0.344-|Sample:0.04| epoch_time=0.1s valid R@20=0.0921
+[Coat s2028] epoch 60 loss0.319-|Sample:0.04| epoch_time=0.1s valid R@20=0.0905
+[Coat s2028] epoch 65 loss0.306-|Sample:0.04| epoch_time=0.1s valid R@20=0.0934
+{"dataset": "Coat", "seed": 2028, "config": {"decay": 0.0001, "dropout": 0, "keepprob": 0.6, "eval_every": 5, "patience": 10, "layer": 2, "recdim": 64, "epochs": 1000, "bpr_batch": 512, "lr": 0.001}, "best_epoch": 15, "best_valid_recall20": 0.10485312899106003, "sampler": "UniformSample_original_python", "wall_time_s": 9.612424612045288, "torch": "2.13.0+cu130"}
+[0;30;43muse NORMAL distribution initilizer[0m
+loading adjacency matrix
+successfully loaded...
+don't split the matrix
+lgn is already to go(dropout:0)
+[Coat s2028] LightGCN best epoch 15/65 | test R@20 0.11944 N@20 0.06842 AvgPop@20 26.82
+[backbone] wall time 9.8s

@@ -1,0 +1,266 @@
+[0;30;43mCpp extension not loaded[0m
+[0;30;43muse NORMAL distribution initilizer[0m
+loading adjacency matrix
+successfully loaded...
+/home/mohab/Workspace/99-temp/Masters/thesis/third_party/LightGCN-PyTorch/code/dataloader.py:330: UserWarning: torch.sparse.SparseTensor(indices, values, shape, *, device=) is deprecated.  Please use torch.sparse_coo_tensor(indices, values, shape, dtype=, device=). (Triggered internally at /__w/pytorch/pytorch/torch/csrc/utils/tensor_new.cpp:653.)
+  return torch.sparse.FloatTensor(index, data, torch.Size(coo.shape))
+don't split the matrix
+lgn is already to go(dropout:0)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270) and dimension 3
+/home/mohab/Workspace/99-temp/Masters/thesis/third_party/TSP/utils.py:21: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(indices, values, shape).coalesce().to(device)
+[tsp KuaiRec s2028] 1/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.001, 'L': 2} -> R@20 0.16127 N@20 0.19788 AvgPop 1464.62 (92.2s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270) and dimension 3
+[tsp KuaiRec s2028] 2/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.001, 'L': 3} -> R@20 0.16127 N@20 0.19789 AvgPop 1464.62 (11.0s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270) and dimension 3
+[tsp KuaiRec s2028] 3/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.001, 'L': 4} -> R@20 0.16127 N@20 0.19789 AvgPop 1464.62 (12.6s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270) and dimension 3
+[tsp KuaiRec s2028] 4/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.005, 'L': 2} -> R@20 0.16127 N@20 0.19788 AvgPop 1464.65 (11.5s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270) and dimension 3
+[tsp KuaiRec s2028] 5/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.005, 'L': 3} -> R@20 0.16127 N@20 0.19788 AvgPop 1464.73 (11.9s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270) and dimension 3
+[tsp KuaiRec s2028] 6/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.005, 'L': 4} -> R@20 0.16127 N@20 0.19788 AvgPop 1464.81 (11.9s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270) and dimension 3
+[tsp KuaiRec s2028] 7/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.01, 'L': 2} -> R@20 0.16127 N@20 0.19788 AvgPop 1464.81 (11.3s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270) and dimension 3
+[tsp KuaiRec s2028] 8/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.01, 'L': 3} -> R@20 0.16128 N@20 0.19791 AvgPop 1464.73 (11.3s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270) and dimension 3
+[tsp KuaiRec s2028] 9/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.01, 'L': 4} -> R@20 0.16128 N@20 0.19791 AvgPop 1464.69 (16.7s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270) and dimension 3
+[tsp KuaiRec s2028] 10/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.05, 'L': 2} -> R@20 0.16124 N@20 0.19780 AvgPop 1464.95 (10.8s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270) and dimension 3
+[tsp KuaiRec s2028] 11/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.05, 'L': 3} -> R@20 0.16118 N@20 0.19769 AvgPop 1464.82 (11.1s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270) and dimension 3
+[tsp KuaiRec s2028] 12/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.05, 'L': 4} -> R@20 0.16122 N@20 0.19779 AvgPop 1464.84 (11.6s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270) and dimension 3
+[tsp KuaiRec s2028] 13/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.1, 'L': 2} -> R@20 0.16122 N@20 0.19781 AvgPop 1464.92 (10.6s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270) and dimension 3
+[tsp KuaiRec s2028] 14/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.1, 'L': 3} -> R@20 0.16124 N@20 0.19793 AvgPop 1464.94 (11.0s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270) and dimension 3
+[tsp KuaiRec s2028] 15/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.1, 'L': 4} -> R@20 0.16133 N@20 0.19811 AvgPop 1465.03 (11.3s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270) and dimension 3
+[tsp KuaiRec s2028] 16/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.5, 'L': 2} -> R@20 0.16099 N@20 0.19804 AvgPop 1465.78 (11.1s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270) and dimension 3
+[tsp KuaiRec s2028] 17/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.5, 'L': 3} -> R@20 0.16077 N@20 0.19803 AvgPop 1465.98 (10.9s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270) and dimension 3
+[tsp KuaiRec s2028] 18/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.5, 'L': 4} -> R@20 0.16098 N@20 0.19828 AvgPop 1467.15 (12.0s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270) and dimension 3
+[tsp KuaiRec s2028] 19/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 1.0, 'L': 2} -> R@20 0.16084 N@20 0.19827 AvgPop 1467.29 (11.0s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270) and dimension 3
+[tsp KuaiRec s2028] 20/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 1.0, 'L': 3} -> R@20 0.16099 N@20 0.19846 AvgPop 1470.49 (11.9s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270) and dimension 3
+[tsp KuaiRec s2028] 21/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 1.0, 'L': 4} -> R@20 0.16097 N@20 0.19860 AvgPop 1472.35 (12.7s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206) and dimension 4
+[tsp KuaiRec s2028] 22/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.001, 'L': 2} -> R@20 0.16103 N@20 0.19753 AvgPop 1463.75 (125.1s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206) and dimension 4
+[tsp KuaiRec s2028] 23/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.001, 'L': 3} -> R@20 0.16103 N@20 0.19752 AvgPop 1463.75 (11.6s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206) and dimension 4
+[tsp KuaiRec s2028] 24/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.001, 'L': 4} -> R@20 0.16103 N@20 0.19752 AvgPop 1463.70 (11.8s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206) and dimension 4
+[tsp KuaiRec s2028] 25/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.005, 'L': 2} -> R@20 0.16103 N@20 0.19751 AvgPop 1463.77 (11.3s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206) and dimension 4
+[tsp KuaiRec s2028] 26/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.005, 'L': 3} -> R@20 0.16103 N@20 0.19752 AvgPop 1463.80 (11.4s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206) and dimension 4
+[tsp KuaiRec s2028] 27/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.005, 'L': 4} -> R@20 0.16106 N@20 0.19754 AvgPop 1463.82 (12.3s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206) and dimension 4
+[tsp KuaiRec s2028] 28/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.01, 'L': 2} -> R@20 0.16103 N@20 0.19752 AvgPop 1463.78 (11.1s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206) and dimension 4
+[tsp KuaiRec s2028] 29/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.01, 'L': 3} -> R@20 0.16106 N@20 0.19754 AvgPop 1463.91 (11.0s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206) and dimension 4
+[tsp KuaiRec s2028] 30/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.01, 'L': 4} -> R@20 0.16103 N@20 0.19752 AvgPop 1463.88 (11.5s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206) and dimension 4
+[tsp KuaiRec s2028] 31/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.05, 'L': 2} -> R@20 0.16117 N@20 0.19763 AvgPop 1463.93 (10.3s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206) and dimension 4
+[tsp KuaiRec s2028] 32/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.05, 'L': 3} -> R@20 0.16109 N@20 0.19758 AvgPop 1463.88 (12.0s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206) and dimension 4
+[tsp KuaiRec s2028] 33/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.05, 'L': 4} -> R@20 0.16110 N@20 0.19757 AvgPop 1463.95 (11.9s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206) and dimension 4
+[tsp KuaiRec s2028] 34/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.1, 'L': 2} -> R@20 0.16110 N@20 0.19754 AvgPop 1463.96 (11.3s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206) and dimension 4
+[tsp KuaiRec s2028] 35/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.1, 'L': 3} -> R@20 0.16120 N@20 0.19758 AvgPop 1464.57 (11.9s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206) and dimension 4
+[tsp KuaiRec s2028] 36/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.1, 'L': 4} -> R@20 0.16115 N@20 0.19759 AvgPop 1464.66 (12.2s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206) and dimension 4
+[tsp KuaiRec s2028] 37/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.5, 'L': 2} -> R@20 0.16119 N@20 0.19804 AvgPop 1466.93 (11.7s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206) and dimension 4
+[tsp KuaiRec s2028] 38/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.5, 'L': 3} -> R@20 0.16114 N@20 0.19816 AvgPop 1467.97 (11.4s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206) and dimension 4
+[tsp KuaiRec s2028] 39/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.5, 'L': 4} -> R@20 0.16113 N@20 0.19836 AvgPop 1469.88 (12.3s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206) and dimension 4
+[tsp KuaiRec s2028] 40/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 1.0, 'L': 2} -> R@20 0.16118 N@20 0.19838 AvgPop 1470.48 (11.5s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206) and dimension 4
+[tsp KuaiRec s2028] 41/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 1.0, 'L': 3} -> R@20 0.16111 N@20 0.19845 AvgPop 1473.29 (11.4s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206) and dimension 4
+[tsp KuaiRec s2028] 42/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 1.0, 'L': 4} -> R@20 0.16114 N@20 0.19865 AvgPop 1474.54 (12.1s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669) and dimension 5
+[tsp KuaiRec s2028] 43/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.001, 'L': 2} -> R@20 0.16103 N@20 0.19722 AvgPop 1462.87 (137.7s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669) and dimension 5
+[tsp KuaiRec s2028] 44/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.001, 'L': 3} -> R@20 0.16103 N@20 0.19722 AvgPop 1462.87 (13.4s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669) and dimension 5
+[tsp KuaiRec s2028] 45/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.001, 'L': 4} -> R@20 0.16103 N@20 0.19722 AvgPop 1462.87 (11.1s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669) and dimension 5
+[tsp KuaiRec s2028] 46/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.005, 'L': 2} -> R@20 0.16103 N@20 0.19723 AvgPop 1462.91 (11.1s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669) and dimension 5
+[tsp KuaiRec s2028] 47/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.005, 'L': 3} -> R@20 0.16106 N@20 0.19724 AvgPop 1462.90 (11.3s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669) and dimension 5
+[tsp KuaiRec s2028] 48/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.005, 'L': 4} -> R@20 0.16106 N@20 0.19729 AvgPop 1462.95 (12.0s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669) and dimension 5
+[tsp KuaiRec s2028] 49/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.01, 'L': 2} -> R@20 0.16106 N@20 0.19729 AvgPop 1462.95 (11.8s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669) and dimension 5
+[tsp KuaiRec s2028] 50/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.01, 'L': 3} -> R@20 0.16106 N@20 0.19728 AvgPop 1463.04 (12.0s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669) and dimension 5
+[tsp KuaiRec s2028] 51/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.01, 'L': 4} -> R@20 0.16106 N@20 0.19727 AvgPop 1463.15 (12.3s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669) and dimension 5
+[tsp KuaiRec s2028] 52/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.05, 'L': 2} -> R@20 0.16110 N@20 0.19737 AvgPop 1463.22 (11.2s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669) and dimension 5
+[tsp KuaiRec s2028] 53/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.05, 'L': 3} -> R@20 0.16112 N@20 0.19744 AvgPop 1463.48 (11.6s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669) and dimension 5
+[tsp KuaiRec s2028] 54/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.05, 'L': 4} -> R@20 0.16117 N@20 0.19758 AvgPop 1463.45 (12.9s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669) and dimension 5
+[tsp KuaiRec s2028] 55/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.1, 'L': 2} -> R@20 0.16117 N@20 0.19758 AvgPop 1463.44 (11.0s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669) and dimension 5
+[tsp KuaiRec s2028] 56/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.1, 'L': 3} -> R@20 0.16117 N@20 0.19759 AvgPop 1464.45 (12.5s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669) and dimension 5
+[tsp KuaiRec s2028] 57/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.1, 'L': 4} -> R@20 0.16132 N@20 0.19773 AvgPop 1464.90 (12.8s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669) and dimension 5
+[tsp KuaiRec s2028] 58/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.5, 'L': 2} -> R@20 0.16129 N@20 0.19816 AvgPop 1467.49 (13.0s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669) and dimension 5
+[tsp KuaiRec s2028] 59/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.5, 'L': 3} -> R@20 0.16135 N@20 0.19829 AvgPop 1469.05 (12.4s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669) and dimension 5
+[tsp KuaiRec s2028] 60/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.5, 'L': 4} -> R@20 0.16110 N@20 0.19827 AvgPop 1470.89 (12.6s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669) and dimension 5
+[tsp KuaiRec s2028] 61/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 1.0, 'L': 2} -> R@20 0.16105 N@20 0.19830 AvgPop 1471.71 (11.7s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669) and dimension 5
+[tsp KuaiRec s2028] 62/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 1.0, 'L': 3} -> R@20 0.16125 N@20 0.19863 AvgPop 1474.33 (11.8s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669) and dimension 5
+[tsp KuaiRec s2028] 63/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 1.0, 'L': 4} -> R@20 0.16131 N@20 0.19882 AvgPop 1475.82 (13.0s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669, 30091) and dimension 6
+[tsp KuaiRec s2028] 64/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.001, 'L': 2} -> R@20 0.16149 N@20 0.19727 AvgPop 1464.48 (146.9s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669, 30091) and dimension 6
+[tsp KuaiRec s2028] 65/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.001, 'L': 3} -> R@20 0.16149 N@20 0.19728 AvgPop 1464.54 (11.7s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669, 30091) and dimension 6
+[tsp KuaiRec s2028] 66/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.001, 'L': 4} -> R@20 0.16149 N@20 0.19727 AvgPop 1464.54 (14.6s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669, 30091) and dimension 6
+[tsp KuaiRec s2028] 67/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.005, 'L': 2} -> R@20 0.16149 N@20 0.19728 AvgPop 1464.64 (10.9s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669, 30091) and dimension 6
+[tsp KuaiRec s2028] 68/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.005, 'L': 3} -> R@20 0.16147 N@20 0.19725 AvgPop 1464.70 (11.0s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669, 30091) and dimension 6
+[tsp KuaiRec s2028] 69/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.005, 'L': 4} -> R@20 0.16147 N@20 0.19726 AvgPop 1464.75 (11.5s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669, 30091) and dimension 6
+[tsp KuaiRec s2028] 70/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.01, 'L': 2} -> R@20 0.16147 N@20 0.19726 AvgPop 1464.75 (10.5s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669, 30091) and dimension 6
+[tsp KuaiRec s2028] 71/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.01, 'L': 3} -> R@20 0.16147 N@20 0.19732 AvgPop 1464.74 (10.8s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669, 30091) and dimension 6
+[tsp KuaiRec s2028] 72/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.01, 'L': 4} -> R@20 0.16149 N@20 0.19730 AvgPop 1464.81 (11.5s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669, 30091) and dimension 6
+[tsp KuaiRec s2028] 73/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.05, 'L': 2} -> R@20 0.16147 N@20 0.19739 AvgPop 1465.24 (10.5s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669, 30091) and dimension 6
+[tsp KuaiRec s2028] 74/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.05, 'L': 3} -> R@20 0.16138 N@20 0.19737 AvgPop 1465.19 (11.8s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669, 30091) and dimension 6
+[tsp KuaiRec s2028] 75/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.05, 'L': 4} -> R@20 0.16140 N@20 0.19742 AvgPop 1465.40 (11.4s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669, 30091) and dimension 6
+[tsp KuaiRec s2028] 76/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.1, 'L': 2} -> R@20 0.16140 N@20 0.19743 AvgPop 1465.45 (10.7s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669, 30091) and dimension 6
+[tsp KuaiRec s2028] 77/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.1, 'L': 3} -> R@20 0.16135 N@20 0.19747 AvgPop 1466.06 (12.1s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669, 30091) and dimension 6
+[tsp KuaiRec s2028] 78/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.1, 'L': 4} -> R@20 0.16140 N@20 0.19749 AvgPop 1466.50 (13.1s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669, 30091) and dimension 6
+[tsp KuaiRec s2028] 79/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.5, 'L': 2} -> R@20 0.16152 N@20 0.19814 AvgPop 1469.93 (12.0s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669, 30091) and dimension 6
+[tsp KuaiRec s2028] 80/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.5, 'L': 3} -> R@20 0.16133 N@20 0.19822 AvgPop 1471.16 (12.6s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669, 30091) and dimension 6
+[tsp KuaiRec s2028] 81/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.5, 'L': 4} -> R@20 0.16128 N@20 0.19835 AvgPop 1473.42 (12.8s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669, 30091) and dimension 6
+[tsp KuaiRec s2028] 82/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 1.0, 'L': 2} -> R@20 0.16110 N@20 0.19838 AvgPop 1474.01 (11.9s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669, 30091) and dimension 6
+[tsp KuaiRec s2028] 83/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 1.0, 'L': 3} -> R@20 0.16124 N@20 0.19869 AvgPop 1476.74 (12.3s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669, 30091) and dimension 6
+[tsp KuaiRec s2028] 84/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 1.0, 'L': 4} -> R@20 0.16124 N@20 0.19854 AvgPop 1477.75 (12.2s)
+[tsp] semantic graph: 17904 nodes, 172223 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (17904, 172223, 313250, 301270, 193206, 88669, 30091) and dimension 6
+[tsp KuaiRec s2028] selected {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.5, 'L': 2} | valid R@20 0.16152 | test R@20 0.15499 N@20 0.34348 AvgPop@20 1469.64 -> /home/mohab/Workspace/99-temp/Masters/thesis/runs/KuaiRec/seed2028/tsp_selected.json
+[baselines] wall time 1464.4s

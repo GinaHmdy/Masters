@@ -1,0 +1,13 @@
+# Vendored upstream code. Every file below this directory is byte-identical to the
+# upstream repository at the listed commit and must never be edited.
+# Re-check with: bash scripts/verify_third_party.sh
+#
+# dir | url | commit | commit date | licence | excluded paths (not vendored)
+LightGCN-PyTorch | https://github.com/gusye1234/LightGCN-PyTorch | 947ca2b3b1d2d3545b114145710cb06c4e57b3d2 | 2023-03-20T16:05:33+08:00 | no licence file | .git
+PPD | https://github.com/edgeslab/Posthoc_Popularity_Debiasing | acdba3494407e9dbc5f257dc7a7c592dd3f50710 | 2026-06-18T23:40:22-05:00 | no licence file at repo root (AdvInfoNCE/LICENSE: MIT, (c) 2022 Fox) | .git, data/, AdvInfoNCE/data/
+DAP | https://github.com/MEICRS/DAP | 17ef6006961d70cb4947fd9d15010d7c77134cc8 | 2023-06-15T16:38:16+08:00 | no licence file | .git
+TSP | https://github.com/sotaagi/TSP | 0ebf889c95466d52413cedd1b06fdbc11e8385de | 2026-08-28T15:34:29+08:00 | no licence file | .git
+#
+# Note: PPD's excluded data/{Gowalla,Yahoo,KuaiRec,Coat}/{train,valid,test}.txt are
+# byte-identical to thesis/data/<ds>/*.txt (checked at vendoring time; see data/SHA256SUMS).
+# Git: nested upstream .gitignore files hide 8 prebuilt *.o under PPD/AdvInfoNCE/**/build/; stage third_party with `git add -f thesis/third_party`.

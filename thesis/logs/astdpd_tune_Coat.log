@@ -1,0 +1,208 @@
+[Coat] baseline min validation AvgPop@20: seed 2024 20.14, seeds [2024, 2025, 2026] 20.09, all seeds 20.79
+[Coat] stage1: 158 trials on GPU 0 x 6
+/home/mohab/Workspace/99-temp/Masters/thesis/src/astdpd/model.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(idx, torch.from_numpy(m.data), m.shape).coalesce().to(device)
+/home/mohab/Workspace/99-temp/Masters/thesis/src/astdpd/model.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(idx, torch.from_numpy(m.data), m.shape).coalesce().to(device)
+/home/mohab/Workspace/99-temp/Masters/thesis/src/astdpd/model.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(idx, torch.from_numpy(m.data), m.shape).coalesce().to(device)
+/home/mohab/Workspace/99-temp/Masters/thesis/src/astdpd/model.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(idx, torch.from_numpy(m.data), m.shape).coalesce().to(device)
+/home/mohab/Workspace/99-temp/Masters/thesis/src/astdpd/model.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(idx, torch.from_numpy(m.data), m.shape).coalesce().to(device)
+/home/mohab/Workspace/99-temp/Masters/thesis/src/astdpd/model.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(idx, torch.from_numpy(m.data), m.shape).coalesce().to(device)
+  [1/158 36s] 69cd964e55 s2024 valid N@20 0.0424 R@20 0.0936 AvgPop@20 14.08
+  [2/158 41s] 03300396c5 s2024 valid N@20 0.0429 R@20 0.0919 AvgPop@20 20.01
+  [3/158 47s] 40c9c8fff2 s2024 valid N@20 0.0466 R@20 0.1032 AvgPop@20 21.25
+  [4/158 47s] 3f30c7d8af s2024 valid N@20 0.0419 R@20 0.0941 AvgPop@20 17.67
+  [5/158 48s] 1777e33460 s2024 valid N@20 0.0435 R@20 0.0913 AvgPop@20 8.96
+  [6/158 48s] 27e731e088 s2024 valid N@20 0.0353 R@20 0.0791 AvgPop@20 4.85
+  [7/158 78s] 171e2b26b6 s2024 valid N@20 0.0410 R@20 0.0806 AvgPop@20 10.16
+  [8/158 83s] d7da1c61d4 s2024 valid N@20 0.0396 R@20 0.0923 AvgPop@20 14.42
+  [9/158 84s] 746ac7e794 s2024 valid N@20 0.0446 R@20 0.1064 AvgPop@20 21.90
+  [10/158 88s] 9010598518 s2024 valid N@20 0.0419 R@20 0.0905 AvgPop@20 16.00
+  [11/158 88s] 7763034291 s2024 valid N@20 0.0453 R@20 0.1087 AvgPop@20 19.34
+  [12/158 89s] 8933c1a870 s2024 valid N@20 0.0342 R@20 0.0806 AvgPop@20 4.12
+  [13/158 105s] 0a57cbab38 s2024 valid N@20 0.0432 R@20 0.1027 AvgPop@20 23.66
+  [14/158 118s] 53164bfdbe s2024 valid N@20 0.0451 R@20 0.0934 AvgPop@20 15.65
+  [15/158 124s] 4bdd391fc1 s2024 valid N@20 0.0379 R@20 0.0774 AvgPop@20 4.68
+  [16/158 127s] 91d4d5798f s2024 valid N@20 0.0448 R@20 0.0960 AvgPop@20 13.34
+  [17/158 128s] 26765f967a s2024 valid N@20 0.0353 R@20 0.0856 AvgPop@20 3.65
+  [18/158 128s] 3fe41665e9 s2024 valid N@20 0.0367 R@20 0.0886 AvgPop@20 4.64
+  [19/158 146s] 3a69c33f91 s2024 valid N@20 0.0415 R@20 0.0973 AvgPop@20 18.45
+  [20/158 153s] ff8c317eb6 s2024 valid N@20 0.0429 R@20 0.0999 AvgPop@20 24.54
+  [21/158 157s] b3ab2db685 s2024 valid N@20 0.0436 R@20 0.1027 AvgPop@20 25.17
+  [22/158 157s] 9e082e1fab s2024 valid N@20 0.0444 R@20 0.0909 AvgPop@20 15.53
+  [23/158 166s] 37bf763558 s2024 valid N@20 0.0456 R@20 0.1029 AvgPop@20 17.89
+  [24/158 170s] cb23846cc0 s2024 valid N@20 0.0487 R@20 0.0976 AvgPop@20 13.32
+  [25/158 182s] 6dd4d98a22 s2024 valid N@20 0.0316 R@20 0.0785 AvgPop@20 5.53
+  [26/158 188s] ad789c0d6a s2024 valid N@20 0.0439 R@20 0.1035 AvgPop@20 25.05
+  [27/158 192s] 106a30d8c3 s2024 valid N@20 0.0455 R@20 0.1065 AvgPop@20 18.01
+  [28/158 196s] 7566ce20c2 s2024 valid N@20 0.0426 R@20 0.1001 AvgPop@20 18.68
+  [29/158 196s] 3cba61cea2 s2024 valid N@20 0.0446 R@20 0.1046 AvgPop@20 19.89
+  [30/158 208s] d35cf0cc7a s2024 valid N@20 0.0351 R@20 0.0815 AvgPop@20 4.12
+  [31/158 215s] ce5370b2d9 s2024 valid N@20 0.0457 R@20 0.1054 AvgPop@20 25.27
+  [32/158 219s] 4847da3eb6 s2024 valid N@20 0.0414 R@20 0.0912 AvgPop@20 16.64
+  [33/158 221s] e00b7ed0ae s2024 valid N@20 0.0449 R@20 0.1081 AvgPop@20 18.16
+  [34/158 230s] 07b8f59d54 s2024 valid N@20 0.0445 R@20 0.1028 AvgPop@20 16.67
+  [35/158 233s] fdfa3680a2 s2024 valid N@20 0.0425 R@20 0.0950 AvgPop@20 17.17
+  [36/158 245s] 8ca35c897b s2024 valid N@20 0.0468 R@20 0.1071 AvgPop@20 20.42
+  [37/158 253s] d9bee43708 s2024 valid N@20 0.0471 R@20 0.1107 AvgPop@20 22.23
+  [38/158 255s] 17852cb103 s2024 valid N@20 0.0466 R@20 0.1126 AvgPop@20 24.19
+  [39/158 260s] 43fc557094 s2024 valid N@20 0.0473 R@20 0.1075 AvgPop@20 21.27
+  [40/158 263s] 1b5f794c6f s2024 valid N@20 0.0327 R@20 0.0808 AvgPop@20 5.48
+  [41/158 270s] 4410f41f2a s2024 valid N@20 0.0346 R@20 0.0830 AvgPop@20 4.17
+  [42/158 286s] 88b6bb998e s2024 valid N@20 0.0416 R@20 0.0966 AvgPop@20 23.30
+  [43/158 295s] d7c8af5383 s2024 valid N@20 0.0341 R@20 0.0837 AvgPop@20 3.57
+  [44/158 295s] 4eb40cca2d s2024 valid N@20 0.0451 R@20 0.1049 AvgPop@20 21.38
+  [45/158 296s] 52eab2b256 s2024 valid N@20 0.0432 R@20 0.0997 AvgPop@20 13.69
+  [46/158 296s] 9890581e40 s2024 valid N@20 0.0462 R@20 0.1054 AvgPop@20 20.65
+  [47/158 304s] f5c9febc34 s2024 valid N@20 0.0440 R@20 0.1068 AvgPop@20 21.33
+  [48/158 320s] 782f4f90d7 s2024 valid N@20 0.0429 R@20 0.1017 AvgPop@20 25.22
+  [49/158 325s] efcd11f3af s2024 valid N@20 0.0416 R@20 0.0917 AvgPop@20 13.49
+  [50/158 333s] e741668698 s2024 valid N@20 0.0447 R@20 0.1072 AvgPop@20 21.77
+  [51/158 335s] 8cd3463cf8 s2024 valid N@20 0.0463 R@20 0.1047 AvgPop@20 17.29
+  [52/158 335s] 3dccea8602 s2024 valid N@20 0.0352 R@20 0.0788 AvgPop@20 4.45
+  [53/158 341s] 5856f43e96 s2024 valid N@20 0.0440 R@20 0.0976 AvgPop@20 17.41
+  [54/158 342s] 804de7486a s2024 valid N@20 0.0430 R@20 0.1019 AvgPop@20 23.13
+  [55/158 363s] cd0950a549 s2024 valid N@20 0.0424 R@20 0.0875 AvgPop@20 14.22
+  [56/158 371s] c9853185f5 s2024 valid N@20 0.0420 R@20 0.0973 AvgPop@20 22.62
+  [57/158 374s] 2ffdbcf6f1 s2024 valid N@20 0.0453 R@20 0.1017 AvgPop@20 16.92
+  [58/158 377s] ef6ed183bf s2024 valid N@20 0.0475 R@20 0.1043 AvgPop@20 16.81
+  [59/158 379s] 1d7c19bd50 s2024 valid N@20 0.0435 R@20 0.0891 AvgPop@20 9.24
+  [60/158 382s] a345d892c8 s2024 valid N@20 0.0425 R@20 0.0941 AvgPop@20 19.15
+  [61/158 399s] 1490ba015a s2024 valid N@20 0.0452 R@20 0.0992 AvgPop@20 19.02
+  [62/158 400s] a229e84f0f s2024 valid N@20 0.0486 R@20 0.1136 AvgPop@20 22.79
+  [63/158 401s] bcd5bdbf2b s2024 valid N@20 0.0437 R@20 0.0928 AvgPop@20 19.20
+  [64/158 408s] 6495f363a2 s2024 valid N@20 0.0476 R@20 0.1153 AvgPop@20 23.98
+  [65/158 412s] 2ca31d5a38 s2024 valid N@20 0.0377 R@20 0.0840 AvgPop@20 6.22
+  [66/158 420s] 35a7eb5190 s2024 valid N@20 0.0403 R@20 0.0926 AvgPop@20 14.88
+  [67/158 427s] 2224c92b53 s2024 valid N@20 0.0432 R@20 0.0919 AvgPop@20 20.03
+  [68/158 428s] a4a265883a s2024 valid N@20 0.0439 R@20 0.0933 AvgPop@20 23.94
+  [69/158 430s] 677fd4da05 s2024 valid N@20 0.0387 R@20 0.0833 AvgPop@20 4.59
+  [70/158 437s] 3b47e44b71 s2024 valid N@20 0.0392 R@20 0.0905 AvgPop@20 23.25
+  [71/158 443s] 4cc94e0a10 s2024 valid N@20 0.0327 R@20 0.0868 AvgPop@20 4.23
+  [72/158 462s] 1baf8ff1e2 s2024 valid N@20 0.0401 R@20 0.0934 AvgPop@20 21.91
+  [73/158 464s] 7fdd723829 s2024 valid N@20 0.0443 R@20 0.0984 AvgPop@20 24.18
+  [74/158 468s] 4703cd3f2c s2024 valid N@20 0.0373 R@20 0.0766 AvgPop@20 11.54
+  [75/158 469s] d6fb26b31f s2024 valid N@20 0.0467 R@20 0.1178 AvgPop@20 18.30
+  [76/158 470s] 46d9ad2402 s2024 valid N@20 0.0359 R@20 0.0788 AvgPop@20 9.81
+  [77/158 482s] fd00b8fce3 s2024 valid N@20 0.0445 R@20 0.0930 AvgPop@20 13.60
+  [78/158 488s] 14552cad10 s2024 valid N@20 0.0486 R@20 0.1042 AvgPop@20 22.60
+  [79/158 502s] 99badfebac s2024 valid N@20 0.0436 R@20 0.0873 AvgPop@20 17.11
+  [80/158 504s] 5a16499d0b s2024 valid N@20 0.0412 R@20 0.0871 AvgPop@20 14.42
+  [81/158 506s] 52278cca12 s2024 valid N@20 0.0378 R@20 0.0900 AvgPop@20 9.54
+  [82/158 506s] 1469a1f041 s2024 valid N@20 0.0347 R@20 0.0826 AvgPop@20 5.02
+  [83/158 506s] b4513206ef s2024 valid N@20 0.0421 R@20 0.0984 AvgPop@20 22.39
+  [84/158 525s] 9004122804 s2024 valid N@20 0.0410 R@20 0.0896 AvgPop@20 15.37
+  [85/158 536s] 5c7f16e888 s2024 valid N@20 0.0418 R@20 0.0968 AvgPop@20 22.21
+  [86/158 538s] a74729decf s2024 valid N@20 0.0334 R@20 0.0845 AvgPop@20 4.40
+  [87/158 546s] 9078bbc01e s2024 valid N@20 0.0459 R@20 0.1015 AvgPop@20 22.01
+  [88/158 546s] 440ac1f2e0 s2024 valid N@20 0.0465 R@20 0.0869 AvgPop@20 7.37
+  [89/158 546s] d93bcdda5c s2024 valid N@20 0.0465 R@20 0.0923 AvgPop@20 12.43
+  [90/158 563s] 539f73be27 s2024 valid N@20 0.0431 R@20 0.0989 AvgPop@20 22.24
+  [91/158 564s] ba5a20f263 s2024 valid N@20 0.0403 R@20 0.0961 AvgPop@20 14.71
+  [92/158 576s] 5980a59626 s2024 valid N@20 0.0351 R@20 0.0866 AvgPop@20 3.53
+  [93/158 586s] f62618d4c7 s2024 valid N@20 0.0470 R@20 0.1134 AvgPop@20 23.57
+  [94/158 587s] 6d1b9dd802 s2024 valid N@20 0.0446 R@20 0.1006 AvgPop@20 14.54
+  [95/158 587s] b033e3d4d8 s2024 valid N@20 0.0414 R@20 0.0809 AvgPop@20 7.40
+  [96/158 599s] 74215132ea s2024 valid N@20 0.0374 R@20 0.0785 AvgPop@20 4.78
+  [97/158 600s] 9f97a861c2 s2024 valid N@20 0.0449 R@20 0.1033 AvgPop@20 16.05
+  [98/158 611s] f3681b8d3e s2024 valid N@20 0.0414 R@20 0.0820 AvgPop@20 5.77
+  [99/158 613s] 7c822cd5f6 s2024 valid N@20 0.0422 R@20 0.1014 AvgPop@20 21.53
+  [100/158 620s] a31f160619 s2024 valid N@20 0.0407 R@20 0.0799 AvgPop@20 16.33
+  [101/158 625s] 493baeb7e3 s2024 valid N@20 0.0420 R@20 0.0887 AvgPop@20 14.63
+  [102/158 630s] ca0683eb14 s2024 valid N@20 0.0408 R@20 0.0831 AvgPop@20 10.24
+  [103/158 635s] 073b392c99 s2024 valid N@20 0.0341 R@20 0.0771 AvgPop@20 9.07
+  [104/158 644s] 6b76e2f03e s2024 valid N@20 0.0448 R@20 0.1030 AvgPop@20 20.47
+  [105/158 650s] 53f1fd5b32 s2024 valid N@20 0.0434 R@20 0.0974 AvgPop@20 22.44
+  [106/158 650s] 7d30c8ff10 s2024 valid N@20 0.0412 R@20 0.0964 AvgPop@20 15.67
+  [107/158 653s] bc3ccc288e s2024 valid N@20 0.0445 R@20 0.1052 AvgPop@20 24.09
+  [108/158 671s] 8c0a5f6ef6 s2024 valid N@20 0.0420 R@20 0.0983 AvgPop@20 16.92
+  [109/158 674s] 5ca60ab3cf s2024 valid N@20 0.0369 R@20 0.0729 AvgPop@20 4.33
+  [110/158 679s] 6f1b96eb9d s2024 valid N@20 0.0413 R@20 0.0955 AvgPop@20 23.04
+  [111/158 684s] 9d9b4fe02d s2024 valid N@20 0.0297 R@20 0.0721 AvgPop@20 4.51
+  [112/158 686s] c705635947 s2024 valid N@20 0.0386 R@20 0.0874 AvgPop@20 10.84
+  [113/158 689s] 3a92bd2c69 s2024 valid N@20 0.0450 R@20 0.1054 AvgPop@20 19.92
+  [114/158 710s] 628a92fe80 s2024 valid N@20 0.0427 R@20 0.0936 AvgPop@20 16.59
+  [115/158 713s] 86da5bc055 s2024 valid N@20 0.0427 R@20 0.0946 AvgPop@20 13.24
+  [116/158 715s] bd2471042e s2024 valid N@20 0.0337 R@20 0.0797 AvgPop@20 4.10
+  [117/158 716s] 337de24570 s2024 valid N@20 0.0439 R@20 0.0969 AvgPop@20 20.56
+  [118/158 721s] 615f8e89c2 s2024 valid N@20 0.0373 R@20 0.0729 AvgPop@20 4.45
+  [119/158 723s] ce43a20c3f s2024 valid N@20 0.0386 R@20 0.0837 AvgPop@20 18.04
+  [120/158 746s] 8d710bfc60 s2024 valid N@20 0.0431 R@20 0.0994 AvgPop@20 20.82
+  [121/158 754s] c55cf28432 s2024 valid N@20 0.0461 R@20 0.1076 AvgPop@20 26.27
+  [122/158 755s] 3344de27dc s2024 valid N@20 0.0428 R@20 0.0849 AvgPop@20 8.02
+  [123/158 758s] 2e5137e37a s2024 valid N@20 0.0433 R@20 0.0916 AvgPop@20 7.98
+  [124/158 758s] 69931341fb s2024 valid N@20 0.0451 R@20 0.1139 AvgPop@20 19.26
+  [125/158 761s] f12a5101e9 s2024 valid N@20 0.0444 R@20 0.0957 AvgPop@20 17.21
+  [126/158 787s] 9f670f1cfb s2024 valid N@20 0.0457 R@20 0.1120 AvgPop@20 18.02
+  [127/158 793s] 8ef74b2888 s2024 valid N@20 0.0464 R@20 0.1123 AvgPop@20 23.16
+  [128/158 795s] a42fc84ae4 s2024 valid N@20 0.0382 R@20 0.0803 AvgPop@20 6.09
+  [129/158 797s] 85acc90aad s2024 valid N@20 0.0329 R@20 0.0768 AvgPop@20 3.83
+  [130/158 798s] 71bc00ce1b s2024 valid N@20 0.0332 R@20 0.0812 AvgPop@20 3.48
+  [131/158 799s] 1333d63213 s2024 valid N@20 0.0399 R@20 0.0909 AvgPop@20 12.03
+  [132/158 818s] df864ea83c s2024 valid N@20 0.0429 R@20 0.0994 AvgPop@20 21.23
+  [133/158 822s] eab2fd4610 s2024 valid N@20 0.0425 R@20 0.0962 AvgPop@20 15.83
+  [134/158 833s] 39d020019e s2024 valid N@20 0.0413 R@20 0.0954 AvgPop@20 23.40
+  [135/158 836s] b1989c5ea7 s2024 valid N@20 0.0352 R@20 0.0824 AvgPop@20 5.08
+  [136/158 837s] bf9d07466b s2024 valid N@20 0.0393 R@20 0.0872 AvgPop@20 17.70
+  [137/158 838s] 9ba87e3405 s2024 valid N@20 0.0405 R@20 0.0824 AvgPop@20 15.68
+  [138/158 851s] 74ad2bae75 s2024 valid N@20 0.0472 R@20 0.0994 AvgPop@20 21.78
+  [139/158 851s] 8e46a13e7c s2024 valid N@20 0.0326 R@20 0.0860 AvgPop@20 4.01
+  [140/158 855s] 469ef3f3d0 s2024 valid N@20 0.0416 R@20 0.0973 AvgPop@20 23.71
+  [141/158 862s] 88c4e9d041 s2024 valid N@20 0.0471 R@20 0.1044 AvgPop@20 24.01
+  [142/158 877s] 7ffc125c39 s2024 valid N@20 0.0436 R@20 0.0903 AvgPop@20 12.79
+  [143/158 880s] 121e7c7302 s2024 valid N@20 0.0348 R@20 0.0822 AvgPop@20 4.01
+  [144/158 881s] 1420546076 s2024 valid N@20 0.0418 R@20 0.1015 AvgPop@20 23.32
+  [145/158 887s] 8d12f7c57f s2024 valid N@20 0.0428 R@20 0.0872 AvgPop@20 8.32
+  [146/158 891s] 2ed8f30f1c s2024 valid N@20 0.0460 R@20 0.1113 AvgPop@20 18.51
+  [147/158 895s] 58b029c000 s2024 valid N@20 0.0436 R@20 0.0957 AvgPop@20 17.06
+  [148/158 913s] c68aea5578 s2024 valid N@20 0.0398 R@20 0.0970 AvgPop@20 10.00
+  [149/158 916s] 10aaccff11 s2024 valid N@20 0.0416 R@20 0.0913 AvgPop@20 14.79
+  [150/158 919s] a382511109 s2024 valid N@20 0.0425 R@20 0.0978 AvgPop@20 13.89
+  [151/158 928s] ee93b95a6b s2024 valid N@20 0.0324 R@20 0.0789 AvgPop@20 5.47
+  [152/158 929s] 76ddb25e49 s2024 valid N@20 0.0426 R@20 0.0889 AvgPop@20 14.23
+  [153/158 930s] 5a6baca4d4 s2024 valid N@20 0.0467 R@20 0.0984 AvgPop@20 21.07
+  [154/158 932s] 06978ecca8 s2024 valid N@20 0.0450 R@20 0.1055 AvgPop@20 19.03
+  [155/158 953s] 69dc371960 s2024 valid N@20 0.0460 R@20 0.1072 AvgPop@20 17.80
+  [156/158 957s] efa77dba9c s2024 valid N@20 0.0457 R@20 0.0840 AvgPop@20 9.34
+  [157/158 963s] 54f39cd298 s2024 valid N@20 0.0411 R@20 0.0966 AvgPop@20 24.57
+  [158/158 965s] 8a5979ea2c s2024 valid N@20 0.0421 R@20 0.0939 AvgPop@20 15.55
+[Coat] stage2: 16 trials on GPU 0 x 6
+/home/mohab/Workspace/99-temp/Masters/thesis/src/astdpd/model.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(idx, torch.from_numpy(m.data), m.shape).coalesce().to(device)
+/home/mohab/Workspace/99-temp/Masters/thesis/src/astdpd/model.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(idx, torch.from_numpy(m.data), m.shape).coalesce().to(device)
+/home/mohab/Workspace/99-temp/Masters/thesis/src/astdpd/model.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(idx, torch.from_numpy(m.data), m.shape).coalesce().to(device)
+/home/mohab/Workspace/99-temp/Masters/thesis/src/astdpd/model.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(idx, torch.from_numpy(m.data), m.shape).coalesce().to(device)
+/home/mohab/Workspace/99-temp/Masters/thesis/src/astdpd/model.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(idx, torch.from_numpy(m.data), m.shape).coalesce().to(device)
+/home/mohab/Workspace/99-temp/Masters/thesis/src/astdpd/model.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(idx, torch.from_numpy(m.data), m.shape).coalesce().to(device)
+  [1/16 41s] cb23846cc0 s2026 valid N@20 0.0405 R@20 0.0885 AvgPop@20 9.03
+  [2/16 44s] cb23846cc0 s2025 valid N@20 0.0417 R@20 0.0941 AvgPop@20 12.93
+  [3/16 44s] d6fb26b31f s2026 valid N@20 0.0431 R@20 0.0976 AvgPop@20 19.05
+  [4/16 45s] ef6ed183bf s2026 valid N@20 0.0469 R@20 0.0980 AvgPop@20 17.00
+  [5/16 45s] d6fb26b31f s2025 valid N@20 0.0431 R@20 0.0999 AvgPop@20 19.05
+  [6/16 45s] ef6ed183bf s2025 valid N@20 0.0413 R@20 0.0922 AvgPop@20 15.98
+  [7/16 76s] 440ac1f2e0 s2025 valid N@20 0.0301 R@20 0.0732 AvgPop@20 4.54
+  [8/16 77s] d93bcdda5c s2025 valid N@20 0.0382 R@20 0.0906 AvgPop@20 13.26
+  [9/16 79s] d93bcdda5c s2026 valid N@20 0.0494 R@20 0.1022 AvgPop@20 13.85
+  [10/16 79s] 8cd3463cf8 s2025 valid N@20 0.0404 R@20 0.0943 AvgPop@20 16.71
+  [11/16 79s] 440ac1f2e0 s2026 valid N@20 0.0492 R@20 0.0946 AvgPop@20 7.85
+  [12/16 79s] 8cd3463cf8 s2026 valid N@20 0.0457 R@20 0.0971 AvgPop@20 17.09
+  [13/16 97s] 2ed8f30f1c s2025 valid N@20 0.0394 R@20 0.0923 AvgPop@20 14.03
+  [14/16 100s] 69dc371960 s2025 valid N@20 0.0412 R@20 0.1019 AvgPop@20 17.23
+  [15/16 100s] 69dc371960 s2026 valid N@20 0.0475 R@20 0.0972 AvgPop@20 18.19
+  [16/16 103s] 2ed8f30f1c s2026 valid N@20 0.0469 R@20 0.0963 AvgPop@20 18.58
+[Coat] winner ef6ed183bf (feasible) overrides {'inference_pop_penalty': 1.0, 'sampler': [0.2, 0.6, 0.2], 'tail_phi': 3.0, 'lambda_deb': 0.1, 'fuse_lambda_min': 0.0, 'fuse_lambda_max': 1.0, 'alpha_base': 0.1, 'topo_pop_damping': 0.5, 'lambda_ind': 0.1, 'highfreq_gamma': 0.3} valid mean {'recall@20': 0.09819071945508727, 'ndcg@20': 0.04523592838283464, 'precision@20': 0.010600255427841635, 'avgpop@20': 16.59955300127714, 'aplt@20': 0.6387611749680716, 'coverage@20': 0.6255555555555555, 'recall@10': 0.04887186036611324, 'ndcg@10': 0.029832331787777656, 'avgpop@10': 21.376628352490417}
+[Coat] final runs of ef6ed183bf for seeds [2027, 2028]
+/home/mohab/Workspace/99-temp/Masters/thesis/src/astdpd/model.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(idx, torch.from_numpy(m.data), m.shape).coalesce().to(device)
+/home/mohab/Workspace/99-temp/Masters/thesis/src/astdpd/model.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(idx, torch.from_numpy(m.data), m.shape).coalesce().to(device)
+[Coat] runs/Coat/seed*/astdpd.json now use the retuned config; shipped results in astdpd_shipped.json

@@ -1,0 +1,266 @@
+[0;30;43mCpp extension not loaded[0m
+[0;30;43muse NORMAL distribution initilizer[0m
+loading adjacency matrix
+successfully loaded...
+/home/mohab/Workspace/99-temp/Masters/thesis/third_party/LightGCN-PyTorch/code/dataloader.py:330: UserWarning: torch.sparse.SparseTensor(indices, values, shape, *, device=) is deprecated.  Please use torch.sparse_coo_tensor(indices, values, shape, dtype=, device=). (Triggered internally at /__w/pytorch/pytorch/torch/csrc/utils/tensor_new.cpp:653.)
+  return torch.sparse.FloatTensor(index, data, torch.Size(coo.shape))
+don't split the matrix
+lgn is already to go(dropout:0)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606) and dimension 3
+/home/mohab/Workspace/99-temp/Masters/thesis/third_party/TSP/utils.py:21: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(indices, values, shape).coalesce().to(device)
+[tsp Coat s2027] 1/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.001, 'L': 2} -> R@20 0.10345 N@20 0.04920 AvgPop 20.79 (1.6s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606) and dimension 3
+[tsp Coat s2027] 2/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.001, 'L': 3} -> R@20 0.10345 N@20 0.04920 AvgPop 20.79 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606) and dimension 3
+[tsp Coat s2027] 3/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.001, 'L': 4} -> R@20 0.10345 N@20 0.04920 AvgPop 20.79 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606) and dimension 3
+[tsp Coat s2027] 4/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.005, 'L': 2} -> R@20 0.10345 N@20 0.04920 AvgPop 20.80 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606) and dimension 3
+[tsp Coat s2027] 5/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.005, 'L': 3} -> R@20 0.10345 N@20 0.04937 AvgPop 20.80 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606) and dimension 3
+[tsp Coat s2027] 6/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.005, 'L': 4} -> R@20 0.10345 N@20 0.04936 AvgPop 20.81 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606) and dimension 3
+[tsp Coat s2027] 7/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.01, 'L': 2} -> R@20 0.10345 N@20 0.04936 AvgPop 20.81 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606) and dimension 3
+[tsp Coat s2027] 8/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.01, 'L': 3} -> R@20 0.10536 N@20 0.04989 AvgPop 20.82 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606) and dimension 3
+[tsp Coat s2027] 9/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.01, 'L': 4} -> R@20 0.10536 N@20 0.04992 AvgPop 20.82 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606) and dimension 3
+[tsp Coat s2027] 10/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.05, 'L': 2} -> R@20 0.10441 N@20 0.04960 AvgPop 20.83 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606) and dimension 3
+[tsp Coat s2027] 11/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.05, 'L': 3} -> R@20 0.10441 N@20 0.04905 AvgPop 20.86 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606) and dimension 3
+[tsp Coat s2027] 12/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.05, 'L': 4} -> R@20 0.10441 N@20 0.04996 AvgPop 20.88 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606) and dimension 3
+[tsp Coat s2027] 13/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.1, 'L': 2} -> R@20 0.10441 N@20 0.04997 AvgPop 20.88 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606) and dimension 3
+[tsp Coat s2027] 14/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.1, 'L': 3} -> R@20 0.10632 N@20 0.05054 AvgPop 20.90 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606) and dimension 3
+[tsp Coat s2027] 15/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.1, 'L': 4} -> R@20 0.10632 N@20 0.05059 AvgPop 20.90 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606) and dimension 3
+[tsp Coat s2027] 16/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.5, 'L': 2} -> R@20 0.10460 N@20 0.05038 AvgPop 21.04 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606) and dimension 3
+[tsp Coat s2027] 17/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.5, 'L': 3} -> R@20 0.10460 N@20 0.05065 AvgPop 21.08 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606) and dimension 3
+[tsp Coat s2027] 18/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.5, 'L': 4} -> R@20 0.11034 N@20 0.05225 AvgPop 21.10 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606) and dimension 3
+[tsp Coat s2027] 19/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 1.0, 'L': 2} -> R@20 0.11226 N@20 0.05268 AvgPop 21.10 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606) and dimension 3
+[tsp Coat s2027] 20/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 1.0, 'L': 3} -> R@20 0.10651 N@20 0.05133 AvgPop 21.12 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606) and dimension 3
+[tsp Coat s2027] 21/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 1.0, 'L': 4} -> R@20 0.10575 N@20 0.05156 AvgPop 21.11 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538) and dimension 4
+[tsp Coat s2027] 22/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.001, 'L': 2} -> R@20 0.10824 N@20 0.04899 AvgPop 20.94 (1.0s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538) and dimension 4
+[tsp Coat s2027] 23/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.001, 'L': 3} -> R@20 0.10824 N@20 0.04899 AvgPop 20.94 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538) and dimension 4
+[tsp Coat s2027] 24/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.001, 'L': 4} -> R@20 0.10824 N@20 0.04899 AvgPop 20.94 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538) and dimension 4
+[tsp Coat s2027] 25/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.005, 'L': 2} -> R@20 0.10824 N@20 0.04902 AvgPop 20.95 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538) and dimension 4
+[tsp Coat s2027] 26/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.005, 'L': 3} -> R@20 0.10824 N@20 0.04902 AvgPop 20.94 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538) and dimension 4
+[tsp Coat s2027] 27/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.005, 'L': 4} -> R@20 0.10824 N@20 0.04901 AvgPop 20.94 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538) and dimension 4
+[tsp Coat s2027] 28/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.01, 'L': 2} -> R@20 0.10824 N@20 0.04901 AvgPop 20.94 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538) and dimension 4
+[tsp Coat s2027] 29/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.01, 'L': 3} -> R@20 0.10824 N@20 0.04900 AvgPop 20.94 (0.3s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538) and dimension 4
+[tsp Coat s2027] 30/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.01, 'L': 4} -> R@20 0.10824 N@20 0.04901 AvgPop 20.95 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538) and dimension 4
+[tsp Coat s2027] 31/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.05, 'L': 2} -> R@20 0.11015 N@20 0.04956 AvgPop 20.95 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538) and dimension 4
+[tsp Coat s2027] 32/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.05, 'L': 3} -> R@20 0.10920 N@20 0.04924 AvgPop 20.99 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538) and dimension 4
+[tsp Coat s2027] 33/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.05, 'L': 4} -> R@20 0.10920 N@20 0.04973 AvgPop 20.99 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538) and dimension 4
+[tsp Coat s2027] 34/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.1, 'L': 2} -> R@20 0.10920 N@20 0.04973 AvgPop 21.00 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538) and dimension 4
+[tsp Coat s2027] 35/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.1, 'L': 3} -> R@20 0.10920 N@20 0.05041 AvgPop 21.02 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538) and dimension 4
+[tsp Coat s2027] 36/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.1, 'L': 4} -> R@20 0.10920 N@20 0.05133 AvgPop 21.05 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538) and dimension 4
+[tsp Coat s2027] 37/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.5, 'L': 2} -> R@20 0.10843 N@20 0.05133 AvgPop 21.11 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538) and dimension 4
+[tsp Coat s2027] 38/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.5, 'L': 3} -> R@20 0.10651 N@20 0.05107 AvgPop 21.12 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538) and dimension 4
+[tsp Coat s2027] 39/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.5, 'L': 4} -> R@20 0.10939 N@20 0.05206 AvgPop 21.12 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538) and dimension 4
+[tsp Coat s2027] 40/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 1.0, 'L': 2} -> R@20 0.10651 N@20 0.05131 AvgPop 21.13 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538) and dimension 4
+[tsp Coat s2027] 41/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 1.0, 'L': 3} -> R@20 0.11130 N@20 0.05291 AvgPop 21.15 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538) and dimension 4
+[tsp Coat s2027] 42/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 1.0, 'L': 4} -> R@20 0.11054 N@20 0.05270 AvgPop 21.15 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50) and dimension 5
+[tsp Coat s2027] 43/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.001, 'L': 2} -> R@20 0.10632 N@20 0.04871 AvgPop 21.06 (1.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50) and dimension 5
+[tsp Coat s2027] 44/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.001, 'L': 3} -> R@20 0.10632 N@20 0.04871 AvgPop 21.06 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50) and dimension 5
+[tsp Coat s2027] 45/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.001, 'L': 4} -> R@20 0.10632 N@20 0.04871 AvgPop 21.06 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50) and dimension 5
+[tsp Coat s2027] 46/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.005, 'L': 2} -> R@20 0.10632 N@20 0.04872 AvgPop 21.07 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50) and dimension 5
+[tsp Coat s2027] 47/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.005, 'L': 3} -> R@20 0.10632 N@20 0.04873 AvgPop 21.07 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50) and dimension 5
+[tsp Coat s2027] 48/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.005, 'L': 4} -> R@20 0.10632 N@20 0.04873 AvgPop 21.07 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50) and dimension 5
+[tsp Coat s2027] 49/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.01, 'L': 2} -> R@20 0.10632 N@20 0.04873 AvgPop 21.07 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50) and dimension 5
+[tsp Coat s2027] 50/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.01, 'L': 3} -> R@20 0.10632 N@20 0.04873 AvgPop 21.07 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50) and dimension 5
+[tsp Coat s2027] 51/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.01, 'L': 4} -> R@20 0.10632 N@20 0.04891 AvgPop 21.07 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50) and dimension 5
+[tsp Coat s2027] 52/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.05, 'L': 2} -> R@20 0.10632 N@20 0.04894 AvgPop 21.08 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50) and dimension 5
+[tsp Coat s2027] 53/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.05, 'L': 3} -> R@20 0.10632 N@20 0.04864 AvgPop 21.09 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50) and dimension 5
+[tsp Coat s2027] 54/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.05, 'L': 4} -> R@20 0.10441 N@20 0.04837 AvgPop 21.09 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50) and dimension 5
+[tsp Coat s2027] 55/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.1, 'L': 2} -> R@20 0.10441 N@20 0.04837 AvgPop 21.09 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50) and dimension 5
+[tsp Coat s2027] 56/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.1, 'L': 3} -> R@20 0.10364 N@20 0.04854 AvgPop 21.11 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50) and dimension 5
+[tsp Coat s2027] 57/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.1, 'L': 4} -> R@20 0.09598 N@20 0.04844 AvgPop 21.11 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50) and dimension 5
+[tsp Coat s2027] 58/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.5, 'L': 2} -> R@20 0.10556 N@20 0.05068 AvgPop 21.12 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50) and dimension 5
+[tsp Coat s2027] 59/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.5, 'L': 3} -> R@20 0.10556 N@20 0.05114 AvgPop 21.11 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50) and dimension 5
+[tsp Coat s2027] 60/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.5, 'L': 4} -> R@20 0.11034 N@20 0.05240 AvgPop 21.15 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50) and dimension 5
+[tsp Coat s2027] 61/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 1.0, 'L': 2} -> R@20 0.11034 N@20 0.05246 AvgPop 21.11 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50) and dimension 5
+[tsp Coat s2027] 62/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 1.0, 'L': 3} -> R@20 0.11130 N@20 0.05281 AvgPop 21.15 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50) and dimension 5
+[tsp Coat s2027] 63/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 1.0, 'L': 4} -> R@20 0.11054 N@20 0.05248 AvgPop 21.14 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50, 2) and dimension 6
+[tsp Coat s2027] 64/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.001, 'L': 2} -> R@20 0.10441 N@20 0.04826 AvgPop 21.13 (1.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50, 2) and dimension 6
+[tsp Coat s2027] 65/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.001, 'L': 3} -> R@20 0.10441 N@20 0.04826 AvgPop 21.13 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50, 2) and dimension 6
+[tsp Coat s2027] 66/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.001, 'L': 4} -> R@20 0.10441 N@20 0.04826 AvgPop 21.13 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50, 2) and dimension 6
+[tsp Coat s2027] 67/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.005, 'L': 2} -> R@20 0.10441 N@20 0.04828 AvgPop 21.13 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50, 2) and dimension 6
+[tsp Coat s2027] 68/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.005, 'L': 3} -> R@20 0.10441 N@20 0.04832 AvgPop 21.12 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50, 2) and dimension 6
+[tsp Coat s2027] 69/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.005, 'L': 4} -> R@20 0.10441 N@20 0.04830 AvgPop 21.12 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50, 2) and dimension 6
+[tsp Coat s2027] 70/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.01, 'L': 2} -> R@20 0.10441 N@20 0.04830 AvgPop 21.12 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50, 2) and dimension 6
+[tsp Coat s2027] 71/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.01, 'L': 3} -> R@20 0.10057 N@20 0.04742 AvgPop 21.11 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50, 2) and dimension 6
+[tsp Coat s2027] 72/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.01, 'L': 4} -> R@20 0.10057 N@20 0.04743 AvgPop 21.11 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50, 2) and dimension 6
+[tsp Coat s2027] 73/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.05, 'L': 2} -> R@20 0.09598 N@20 0.04727 AvgPop 21.12 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50, 2) and dimension 6
+[tsp Coat s2027] 74/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.05, 'L': 3} -> R@20 0.09598 N@20 0.04755 AvgPop 21.12 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50, 2) and dimension 6
+[tsp Coat s2027] 75/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.05, 'L': 4} -> R@20 0.09598 N@20 0.04749 AvgPop 21.12 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50, 2) and dimension 6
+[tsp Coat s2027] 76/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.1, 'L': 2} -> R@20 0.09598 N@20 0.04750 AvgPop 21.12 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50, 2) and dimension 6
+[tsp Coat s2027] 77/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.1, 'L': 3} -> R@20 0.10172 N@20 0.04866 AvgPop 21.11 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50, 2) and dimension 6
+[tsp Coat s2027] 78/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.1, 'L': 4} -> R@20 0.10172 N@20 0.04978 AvgPop 21.13 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50, 2) and dimension 6
+[tsp Coat s2027] 79/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.5, 'L': 2} -> R@20 0.10556 N@20 0.05110 AvgPop 21.11 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50, 2) and dimension 6
+[tsp Coat s2027] 80/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.5, 'L': 3} -> R@20 0.10939 N@20 0.05204 AvgPop 21.14 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50, 2) and dimension 6
+[tsp Coat s2027] 81/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.5, 'L': 4} -> R@20 0.11034 N@20 0.05251 AvgPop 21.14 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50, 2) and dimension 6
+[tsp Coat s2027] 82/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 1.0, 'L': 2} -> R@20 0.11130 N@20 0.05275 AvgPop 21.13 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50, 2) and dimension 6
+[tsp Coat s2027] 83/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 1.0, 'L': 3} -> R@20 0.11054 N@20 0.05235 AvgPop 21.13 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606, 538, 50, 2) and dimension 6
+[tsp Coat s2027] 84/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 1.0, 'L': 4} -> R@20 0.11054 N@20 0.05163 AvgPop 21.15 (0.1s)
+[tsp] semantic graph: 590 nodes, 4755 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (590, 4755, 6085, 2606) and dimension 3
+[tsp Coat s2027] selected {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 1.0, 'L': 2} | valid R@20 0.11226 | test R@20 0.11550 N@20 0.06016 AvgPop@20 21.09 -> /home/mohab/Workspace/99-temp/Masters/thesis/runs/Coat/seed2027/tsp_selected.json
+[baselines] wall time 15.2s

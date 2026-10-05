@@ -1,0 +1,465 @@
+[0;30;43mCpp extension not loaded[0m
+[0;30;43muse NORMAL distribution initilizer[0m
+loading adjacency matrix
+successfully loaded...
+/home/mohab/Workspace/99-temp/Masters/thesis/third_party/LightGCN-PyTorch/code/dataloader.py:330: UserWarning: torch.sparse.SparseTensor(indices, values, shape, *, device=) is deprecated.  Please use torch.sparse_coo_tensor(indices, values, shape, dtype=, device=). (Triggered internally at /__w/pytorch/pytorch/torch/csrc/utils/tensor_new.cpp:653.)
+  return torch.sparse.FloatTensor(index, data, torch.Size(coo.shape))
+don't split the matrix
+lgn is already to go(dropout:0)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.0,weight2=0.0, num_cluster:1
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 1/72 {'alpha1': 0.0, 'alpha2': 0.0, 'cluster_num': 1} -> R@20 0.11111 N@20 0.04979 AvgPop 24.15 (0.9s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.0,weight2=0.0, num_cluster:10
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 2/72 {'alpha1': 0.0, 'alpha2': 0.0, 'cluster_num': 10} -> R@20 0.11111 N@20 0.04979 AvgPop 24.15 (0.4s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.0,weight2=0.0, num_cluster:30
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 3/72 {'alpha1': 0.0, 'alpha2': 0.0, 'cluster_num': 30} -> R@20 0.11111 N@20 0.04979 AvgPop 24.15 (0.4s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.0,weight2=0.0, num_cluster:70
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 4/72 {'alpha1': 0.0, 'alpha2': 0.0, 'cluster_num': 70} -> ValueError: Input X contains NaN.
+KMeans does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values (0.2s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.0,weight2=0.1, num_cluster:1
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 5/72 {'alpha1': 0.0, 'alpha2': 0.1, 'cluster_num': 1} -> R@20 0.10651 N@20 0.04861 AvgPop 23.74 (0.5s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.0,weight2=0.1, num_cluster:10
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 6/72 {'alpha1': 0.0, 'alpha2': 0.1, 'cluster_num': 10} -> R@20 0.09777 N@20 0.04714 AvgPop 23.19 (0.4s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.0,weight2=0.1, num_cluster:30
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 7/72 {'alpha1': 0.0, 'alpha2': 0.1, 'cluster_num': 30} -> R@20 0.09885 N@20 0.04315 AvgPop 23.15 (0.3s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.0,weight2=0.1, num_cluster:70
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 8/72 {'alpha1': 0.0, 'alpha2': 0.1, 'cluster_num': 70} -> ValueError: Input X contains NaN.
+KMeans does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values (0.2s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.0,weight2=0.5, num_cluster:1
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 9/72 {'alpha1': 0.0, 'alpha2': 0.5, 'cluster_num': 1} -> R@20 0.09904 N@20 0.04922 AvgPop 21.70 (0.3s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.0,weight2=0.5, num_cluster:10
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 10/72 {'alpha1': 0.0, 'alpha2': 0.5, 'cluster_num': 10} -> R@20 0.09406 N@20 0.04458 AvgPop 16.86 (0.3s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.0,weight2=0.5, num_cluster:30
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 11/72 {'alpha1': 0.0, 'alpha2': 0.5, 'cluster_num': 30} -> R@20 0.10057 N@20 0.04692 AvgPop 17.26 (0.3s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.0,weight2=0.5, num_cluster:70
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 12/72 {'alpha1': 0.0, 'alpha2': 0.5, 'cluster_num': 70} -> ValueError: Input X contains NaN.
+KMeans does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values (0.1s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.1,weight2=0.0, num_cluster:1
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 13/72 {'alpha1': 0.1, 'alpha2': 0.0, 'cluster_num': 1} -> R@20 0.10830 N@20 0.04989 AvgPop 23.37 (0.3s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.1,weight2=0.0, num_cluster:10
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 14/72 {'alpha1': 0.1, 'alpha2': 0.0, 'cluster_num': 10} -> R@20 0.09278 N@20 0.04495 AvgPop 23.33 (0.3s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.1,weight2=0.0, num_cluster:30
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 15/72 {'alpha1': 0.1, 'alpha2': 0.0, 'cluster_num': 30} -> R@20 0.09802 N@20 0.04625 AvgPop 23.45 (0.3s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.1,weight2=0.0, num_cluster:70
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 16/72 {'alpha1': 0.1, 'alpha2': 0.0, 'cluster_num': 70} -> ValueError: Input X contains NaN.
+KMeans does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values (0.1s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.1,weight2=0.1, num_cluster:1
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 17/72 {'alpha1': 0.1, 'alpha2': 0.1, 'cluster_num': 1} -> R@20 0.10255 N@20 0.04931 AvgPop 22.98 (0.3s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.1,weight2=0.1, num_cluster:10
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 18/72 {'alpha1': 0.1, 'alpha2': 0.1, 'cluster_num': 10} -> R@20 0.09298 N@20 0.04606 AvgPop 22.21 (0.3s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.1,weight2=0.1, num_cluster:30
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 19/72 {'alpha1': 0.1, 'alpha2': 0.1, 'cluster_num': 30} -> R@20 0.10128 N@20 0.04790 AvgPop 22.45 (0.3s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.1,weight2=0.1, num_cluster:70
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 20/72 {'alpha1': 0.1, 'alpha2': 0.1, 'cluster_num': 70} -> ValueError: Input X contains NaN.
+KMeans does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values (0.1s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.1,weight2=0.5, num_cluster:1
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 21/72 {'alpha1': 0.1, 'alpha2': 0.5, 'cluster_num': 1} -> R@20 0.09777 N@20 0.04941 AvgPop 20.99 (0.3s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.1,weight2=0.5, num_cluster:10
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 22/72 {'alpha1': 0.1, 'alpha2': 0.5, 'cluster_num': 10} -> R@20 0.09879 N@20 0.04770 AvgPop 15.93 (0.3s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.1,weight2=0.5, num_cluster:30
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 23/72 {'alpha1': 0.1, 'alpha2': 0.5, 'cluster_num': 30} -> R@20 0.11034 N@20 0.05205 AvgPop 16.24 (0.3s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.1,weight2=0.5, num_cluster:70
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 24/72 {'alpha1': 0.1, 'alpha2': 0.5, 'cluster_num': 70} -> ValueError: Input X contains NaN.
+KMeans does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values (0.1s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.3,weight2=0.0, num_cluster:1
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 25/72 {'alpha1': 0.3, 'alpha2': 0.0, 'cluster_num': 1} -> R@20 0.09681 N@20 0.04830 AvgPop 21.17 (0.3s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.3,weight2=0.0, num_cluster:10
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 26/72 {'alpha1': 0.3, 'alpha2': 0.0, 'cluster_num': 10} -> R@20 0.09234 N@20 0.04500 AvgPop 21.03 (0.3s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.3,weight2=0.0, num_cluster:30
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 27/72 {'alpha1': 0.3, 'alpha2': 0.0, 'cluster_num': 30} -> R@20 0.09789 N@20 0.04521 AvgPop 21.33 (0.3s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.3,weight2=0.0, num_cluster:70
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 28/72 {'alpha1': 0.3, 'alpha2': 0.0, 'cluster_num': 70} -> ValueError: Input X contains NaN.
+KMeans does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values (0.1s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.3,weight2=0.1, num_cluster:1
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 29/72 {'alpha1': 0.3, 'alpha2': 0.1, 'cluster_num': 1} -> R@20 0.09777 N@20 0.04809 AvgPop 20.75 (0.3s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.3,weight2=0.1, num_cluster:10
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 30/72 {'alpha1': 0.3, 'alpha2': 0.1, 'cluster_num': 10} -> R@20 0.10192 N@20 0.04826 AvgPop 19.05 (0.3s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.3,weight2=0.1, num_cluster:30
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 31/72 {'alpha1': 0.3, 'alpha2': 0.1, 'cluster_num': 30} -> R@20 0.10013 N@20 0.04712 AvgPop 19.56 (0.3s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.3,weight2=0.1, num_cluster:70
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 32/72 {'alpha1': 0.3, 'alpha2': 0.1, 'cluster_num': 70} -> ValueError: Input X contains NaN.
+KMeans does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values (0.1s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.3,weight2=0.5, num_cluster:1
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 33/72 {'alpha1': 0.3, 'alpha2': 0.5, 'cluster_num': 1} -> R@20 0.09898 N@20 0.05075 AvgPop 19.55 (0.3s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.3,weight2=0.5, num_cluster:10
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 34/72 {'alpha1': 0.3, 'alpha2': 0.5, 'cluster_num': 10} -> R@20 0.09725 N@20 0.04552 AvgPop 15.92 (0.3s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.3,weight2=0.5, num_cluster:30
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 35/72 {'alpha1': 0.3, 'alpha2': 0.5, 'cluster_num': 30} -> R@20 0.10109 N@20 0.04849 AvgPop 16.79 (0.4s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.3,weight2=0.5, num_cluster:70
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 36/72 {'alpha1': 0.3, 'alpha2': 0.5, 'cluster_num': 70} -> ValueError: Input X contains NaN.
+KMeans does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values (0.2s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.5,weight2=0.0, num_cluster:1
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 37/72 {'alpha1': 0.5, 'alpha2': 0.0, 'cluster_num': 1} -> R@20 0.11054 N@20 0.05026 AvgPop 19.16 (0.5s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.5,weight2=0.0, num_cluster:10
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 38/72 {'alpha1': 0.5, 'alpha2': 0.0, 'cluster_num': 10} -> R@20 0.09725 N@20 0.04471 AvgPop 17.92 (0.5s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.5,weight2=0.0, num_cluster:30
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 39/72 {'alpha1': 0.5, 'alpha2': 0.0, 'cluster_num': 30} -> R@20 0.08972 N@20 0.04312 AvgPop 18.21 (0.5s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.5,weight2=0.0, num_cluster:70
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 40/72 {'alpha1': 0.5, 'alpha2': 0.0, 'cluster_num': 70} -> ValueError: Input X contains NaN.
+KMeans does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values (0.3s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.5,weight2=0.1, num_cluster:1
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 41/72 {'alpha1': 0.5, 'alpha2': 0.1, 'cluster_num': 1} -> R@20 0.10383 N@20 0.04885 AvgPop 19.01 (0.6s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.5,weight2=0.1, num_cluster:10
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 42/72 {'alpha1': 0.5, 'alpha2': 0.1, 'cluster_num': 10} -> R@20 0.09527 N@20 0.04657 AvgPop 16.86 (0.5s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.5,weight2=0.1, num_cluster:30
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 43/72 {'alpha1': 0.5, 'alpha2': 0.1, 'cluster_num': 30} -> R@20 0.09476 N@20 0.04770 AvgPop 17.19 (0.5s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.5,weight2=0.1, num_cluster:70
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 44/72 {'alpha1': 0.5, 'alpha2': 0.1, 'cluster_num': 70} -> ValueError: Input X contains NaN.
+KMeans does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values (0.3s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.5,weight2=0.5, num_cluster:1
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 45/72 {'alpha1': 0.5, 'alpha2': 0.5, 'cluster_num': 1} -> R@20 0.09310 N@20 0.04706 AvgPop 17.52 (0.6s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.5,weight2=0.5, num_cluster:10
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 46/72 {'alpha1': 0.5, 'alpha2': 0.5, 'cluster_num': 10} -> R@20 0.08123 N@20 0.04181 AvgPop 13.65 (0.5s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.5,weight2=0.5, num_cluster:30
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 47/72 {'alpha1': 0.5, 'alpha2': 0.5, 'cluster_num': 30} -> R@20 0.09106 N@20 0.04280 AvgPop 14.02 (0.5s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.5,weight2=0.5, num_cluster:70
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 48/72 {'alpha1': 0.5, 'alpha2': 0.5, 'cluster_num': 70} -> ValueError: Input X contains NaN.
+KMeans does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values (0.3s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=1.0,weight2=0.0, num_cluster:1
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 49/72 {'alpha1': 1.0, 'alpha2': 0.0, 'cluster_num': 1} -> R@20 0.08997 N@20 0.04274 AvgPop 15.13 (0.6s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=1.0,weight2=0.0, num_cluster:10
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 50/72 {'alpha1': 1.0, 'alpha2': 0.0, 'cluster_num': 10} -> R@20 0.07433 N@20 0.04013 AvgPop 14.58 (0.5s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=1.0,weight2=0.0, num_cluster:30
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 51/72 {'alpha1': 1.0, 'alpha2': 0.0, 'cluster_num': 30} -> R@20 0.09432 N@20 0.04356 AvgPop 15.58 (0.5s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=1.0,weight2=0.0, num_cluster:70
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 52/72 {'alpha1': 1.0, 'alpha2': 0.0, 'cluster_num': 70} -> ValueError: Input X contains NaN.
+KMeans does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values (0.4s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=1.0,weight2=0.1, num_cluster:1
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 53/72 {'alpha1': 1.0, 'alpha2': 0.1, 'cluster_num': 1} -> R@20 0.08123 N@20 0.03819 AvgPop 15.20 (0.6s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=1.0,weight2=0.1, num_cluster:10
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 54/72 {'alpha1': 1.0, 'alpha2': 0.1, 'cluster_num': 10} -> R@20 0.06903 N@20 0.03585 AvgPop 13.53 (0.5s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=1.0,weight2=0.1, num_cluster:30
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 55/72 {'alpha1': 1.0, 'alpha2': 0.1, 'cluster_num': 30} -> R@20 0.08844 N@20 0.04437 AvgPop 13.82 (0.5s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=1.0,weight2=0.1, num_cluster:70
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 56/72 {'alpha1': 1.0, 'alpha2': 0.1, 'cluster_num': 70} -> ValueError: Input X contains NaN.
+KMeans does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values (0.3s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=1.0,weight2=0.5, num_cluster:1
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 57/72 {'alpha1': 1.0, 'alpha2': 0.5, 'cluster_num': 1} -> R@20 0.09106 N@20 0.04358 AvgPop 14.11 (0.6s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=1.0,weight2=0.5, num_cluster:10
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 58/72 {'alpha1': 1.0, 'alpha2': 0.5, 'cluster_num': 10} -> R@20 0.08538 N@20 0.04369 AvgPop 13.27 (0.5s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=1.0,weight2=0.5, num_cluster:30
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 59/72 {'alpha1': 1.0, 'alpha2': 0.5, 'cluster_num': 30} -> R@20 0.07375 N@20 0.03384 AvgPop 13.58 (0.5s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=1.0,weight2=0.5, num_cluster:70
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 60/72 {'alpha1': 1.0, 'alpha2': 0.5, 'cluster_num': 70} -> ValueError: Input X contains NaN.
+KMeans does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values (0.3s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=2.0,weight2=0.0, num_cluster:1
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 61/72 {'alpha1': 2.0, 'alpha2': 0.0, 'cluster_num': 1} -> R@20 0.09061 N@20 0.03713 AvgPop 14.33 (0.5s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=2.0,weight2=0.0, num_cluster:10
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 62/72 {'alpha1': 2.0, 'alpha2': 0.0, 'cluster_num': 10} -> R@20 0.10179 N@20 0.04669 AvgPop 11.48 (0.4s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=2.0,weight2=0.0, num_cluster:30
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 63/72 {'alpha1': 2.0, 'alpha2': 0.0, 'cluster_num': 30} -> R@20 0.09336 N@20 0.04441 AvgPop 13.82 (0.4s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=2.0,weight2=0.0, num_cluster:70
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 64/72 {'alpha1': 2.0, 'alpha2': 0.0, 'cluster_num': 70} -> ValueError: Input X contains NaN.
+KMeans does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values (0.2s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=2.0,weight2=0.1, num_cluster:1
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 65/72 {'alpha1': 2.0, 'alpha2': 0.1, 'cluster_num': 1} -> R@20 0.08716 N@20 0.03590 AvgPop 13.50 (0.4s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=2.0,weight2=0.1, num_cluster:10
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 66/72 {'alpha1': 2.0, 'alpha2': 0.1, 'cluster_num': 10} -> R@20 0.10332 N@20 0.04559 AvgPop 11.08 (0.4s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=2.0,weight2=0.1, num_cluster:30
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 67/72 {'alpha1': 2.0, 'alpha2': 0.1, 'cluster_num': 30} -> R@20 0.09668 N@20 0.04439 AvgPop 14.99 (0.4s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=2.0,weight2=0.1, num_cluster:70
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 68/72 {'alpha1': 2.0, 'alpha2': 0.1, 'cluster_num': 70} -> ValueError: Input X contains NaN.
+KMeans does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values (0.2s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=2.0,weight2=0.5, num_cluster:1
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 69/72 {'alpha1': 2.0, 'alpha2': 0.5, 'cluster_num': 1} -> R@20 0.08014 N@20 0.03346 AvgPop 11.81 (0.4s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=2.0,weight2=0.5, num_cluster:10
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 70/72 {'alpha1': 2.0, 'alpha2': 0.5, 'cluster_num': 10} -> R@20 0.09438 N@20 0.03741 AvgPop 10.27 (0.4s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=2.0,weight2=0.5, num_cluster:30
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 71/72 {'alpha1': 2.0, 'alpha2': 0.5, 'cluster_num': 30} -> R@20 0.09266 N@20 0.03757 AvgPop 12.38 (0.4s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=2.0,weight2=0.5, num_cluster:70
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] 72/72 {'alpha1': 2.0, 'alpha2': 0.5, 'cluster_num': 70} -> ValueError: Input X contains NaN.
+KMeans does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values (0.2s)
+[0;30;43muse NORMAL distribution initilizer[0m
+lgn is already to go(dropout:0)
+weight1=0.0,weight2=0.0, num_cluster:1
+[0;30;43mGCN debiasing at 1-layer[0m
+[0;30;43mGCN debiasing at 2-layer[0m
+[dap Coat s2027] selected {'alpha1': 0.0, 'alpha2': 0.0, 'cluster_num': 1} | valid R@20 0.11111 | test R@20 0.12337 N@20 0.06772 AvgPop@20 24.17 -> /home/mohab/Workspace/99-temp/Masters/thesis/runs/Coat/seed2027/dap_selected.json
+[baselines] wall time 29.2s

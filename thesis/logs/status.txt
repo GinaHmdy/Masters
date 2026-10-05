@@ -1,0 +1,6 @@
+2026-10-03 18:45:55  elapsed 18.16 h  done=131  running=0  pending=0  failed=5  skipped=0
+  FAILED  Gowalla/s2024/dap (see /home/mohab/Workspace/99-temp/Masters/thesis/logs/Gowalla_s2024_dap.log)
+  FAILED  Gowalla/s2025/dap (see /home/mohab/Workspace/99-temp/Masters/thesis/logs/Gowalla_s2025_dap.log)
+  FAILED  Gowalla/s2026/dap (see /home/mohab/Workspace/99-temp/Masters/thesis/logs/Gowalla_s2026_dap.log)
+  FAILED  Gowalla/s2027/dap (see /home/mohab/Workspace/99-temp/Masters/thesis/logs/Gowalla_s2027_dap.log)
+  FAILED  Gowalla/s2028/dap (see /home/mohab/Workspace/99-temp/Masters/thesis/logs/Gowalla_s2028_dap.log)

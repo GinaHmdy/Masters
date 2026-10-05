@@ -1,0 +1,52 @@
+[0;30;43mCpp extension not loaded[0m
+[0;30;43muse NORMAL distribution initilizer[0m
+loading adjacency matrix
+successfully loaded...
+/home/mohab/Workspace/99-temp/Masters/thesis/third_party/LightGCN-PyTorch/code/dataloader.py:330: UserWarning: torch.sparse.SparseTensor(indices, values, shape, *, device=) is deprecated.  Please use torch.sparse_coo_tensor(indices, values, shape, dtype=, device=). (Triggered internally at /__w/pytorch/pytorch/torch/csrc/utils/tensor_new.cpp:653.)
+  return torch.sparse.FloatTensor(index, data, torch.Size(coo.shape))
+don't split the matrix
+lgn is already to go(dropout:0)
+[Coat s2025] epoch 5 loss0.677-|Sample:0.04| epoch_time=0.2s valid R@20=0.0704
+[Coat s2025] epoch 10 loss0.646-|Sample:0.05| epoch_time=0.1s valid R@20=0.0785
+[Coat s2025] epoch 15 loss0.570-|Sample:0.04| epoch_time=0.1s valid R@20=0.0755
+[Coat s2025] epoch 20 loss0.471-|Sample:0.05| epoch_time=0.1s valid R@20=0.0845
+[Coat s2025] epoch 25 loss0.408-|Sample:0.04| epoch_time=0.1s valid R@20=0.0941
+[Coat s2025] epoch 30 loss0.352-|Sample:0.05| epoch_time=0.1s valid R@20=0.1001
+[Coat s2025] epoch 35 loss0.353-|Sample:0.05| epoch_time=0.1s valid R@20=0.0992
+[Coat s2025] epoch 40 loss0.339-|Sample:0.04| epoch_time=0.1s valid R@20=0.0944
+[Coat s2025] epoch 45 loss0.332-|Sample:0.04| epoch_time=0.1s valid R@20=0.0950
+[Coat s2025] epoch 50 loss0.314-|Sample:0.05| epoch_time=0.1s valid R@20=0.0835
+[Coat s2025] epoch 55 loss0.304-|Sample:0.05| epoch_time=0.1s valid R@20=0.0902
+[Coat s2025] epoch 60 loss0.312-|Sample:0.04| epoch_time=0.1s valid R@20=0.0886
+[Coat s2025] epoch 65 loss0.308-|Sample:0.05| epoch_time=0.1s valid R@20=0.0931
+[Coat s2025] epoch 70 loss0.289-|Sample:0.05| epoch_time=0.1s valid R@20=0.0960
+[Coat s2025] epoch 75 loss0.303-|Sample:0.04| epoch_time=0.1s valid R@20=0.0960
+[Coat s2025] epoch 80 loss0.307-|Sample:0.05| epoch_time=0.1s valid R@20=0.1036
+[Coat s2025] epoch 85 loss0.270-|Sample:0.04| epoch_time=0.1s valid R@20=0.1113
+[Coat s2025] epoch 90 loss0.257-|Sample:0.04| epoch_time=0.1s valid R@20=0.1062
+[Coat s2025] epoch 95 loss0.248-|Sample:0.04| epoch_time=0.1s valid R@20=0.1100
+[Coat s2025] epoch 100 loss0.245-|Sample:0.04| epoch_time=0.1s valid R@20=0.1100
+[Coat s2025] epoch 105 loss0.244-|Sample:0.04| epoch_time=0.1s valid R@20=0.1113
+[Coat s2025] epoch 110 loss0.229-|Sample:0.04| epoch_time=0.1s valid R@20=0.1111
+[Coat s2025] epoch 115 loss0.227-|Sample:0.04| epoch_time=0.1s valid R@20=0.1102
+[Coat s2025] epoch 120 loss0.214-|Sample:0.04| epoch_time=0.1s valid R@20=0.1151
+[Coat s2025] epoch 125 loss0.208-|Sample:0.04| epoch_time=0.1s valid R@20=0.1173
+[Coat s2025] epoch 130 loss0.216-|Sample:0.05| epoch_time=0.1s valid R@20=0.1192
+[Coat s2025] epoch 135 loss0.203-|Sample:0.04| epoch_time=0.1s valid R@20=0.1132
+[Coat s2025] epoch 140 loss0.205-|Sample:0.04| epoch_time=0.1s valid R@20=0.1160
+[Coat s2025] epoch 145 loss0.183-|Sample:0.04| epoch_time=0.1s valid R@20=0.1173
+[Coat s2025] epoch 150 loss0.178-|Sample:0.04| epoch_time=0.1s valid R@20=0.1112
+[Coat s2025] epoch 155 loss0.171-|Sample:0.05| epoch_time=0.1s valid R@20=0.1112
+[Coat s2025] epoch 160 loss0.160-|Sample:0.04| epoch_time=0.1s valid R@20=0.1163
+[Coat s2025] epoch 165 loss0.150-|Sample:0.04| epoch_time=0.1s valid R@20=0.1103
+[Coat s2025] epoch 170 loss0.169-|Sample:0.04| epoch_time=0.1s valid R@20=0.1084
+[Coat s2025] epoch 175 loss0.160-|Sample:0.04| epoch_time=0.1s valid R@20=0.1084
+[Coat s2025] epoch 180 loss0.172-|Sample:0.04| epoch_time=0.1s valid R@20=0.1074
+{"dataset": "Coat", "seed": 2025, "config": {"decay": 0.0001, "dropout": 0, "keepprob": 0.6, "eval_every": 5, "patience": 10, "layer": 2, "recdim": 64, "epochs": 1000, "bpr_batch": 512, "lr": 0.001}, "best_epoch": 130, "best_valid_recall20": 0.11922094508301403, "sampler": "UniformSample_original_python", "wall_time_s": 20.560824632644653, "torch": "2.13.0+cu130"}
+[0;30;43muse NORMAL distribution initilizer[0m
+loading adjacency matrix
+successfully loaded...
+don't split the matrix
+lgn is already to go(dropout:0)
+[Coat s2025] LightGCN best epoch 130/180 | test R@20 0.14632 N@20 0.07606 AvgPop@20 26.23
+[backbone] wall time 20.7s

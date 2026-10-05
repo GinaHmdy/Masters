@@ -1,0 +1,52 @@
+# Validation grids of the post-hoc baselines (src/methods/tune.py). Every point is applied to the
+# same trained LightGCN backbone (runs/<ds>/seed<seed>/lightgcn.pt) and scored on VALIDATION;
+# selection = valid Recall@20, ties -> NDCG@20; only the winner is evaluated on test.
+# Layout per method: `grid` (cartesian product), `fixed` (constants), optional per-dataset
+# `overrides` (replace grid axes) and `fixed_overrides` (replace constants).
+
+ppd:
+  # PPD (third_party/PPD, README "Options to reproduce results"): the published commands use
+  #   beta_ppd 0.10 (Coat LGN), 0.20 (KuaiRec LGN: `run.sh KuaiRec lgn lgn 2 311 0.20 0.50`;
+  #   KuaiRec/Coat SGL), 0.30 (Yahoo LGN/SGL)  and  phi_ppd 0.5 (KuaiRec) / 1.0 (Coat, Yahoo).
+  # The grid is exactly the set of values used there; parse.py defaults (0.20, 1.0) are inside it.
+  grid:
+    beta: [0.10, 0.20, 0.30]
+    phi: [0.5, 1.0]
+  # Every dataset runs the official pure-Python loops of utilities.py (no re-implementation).
+  # Measured cost on one CPU core: p (global popularity) Gowalla ~65 min, KuaiRec ~4 min, Yahoo
+  # ~1 min, Coat ~2 s; b(beta) Gowalla ~20 min, KuaiRec ~91 min, Yahoo ~1 min per beta. run.py
+  # computes p once per backbone, then one CPU process per beta (both phi values), in parallel.
+
+tsp:
+  # TSP paper (arXiv 2411.13892), App. G, Table 5 "Search intervals": max simplicial-complex
+  # dimension K in [3,4,5,6], simplicial filter beta in [1e-3,5e-3,1e-2,5e-2,1e-1,5e-1,1],
+  # message-passing layers L in [2,3,4]. theta / topk are not searched in the paper; they are fixed
+  # to the README run command (`--theta 0.3 --topk 10`); variant='full', normalized=True are the
+  # tsp.TSP defaults (normalised Hodge Laplacians, for which the docstring recommends beta ~ 1).
+  grid:
+    K: [3, 4, 5, 6]
+    beta: [0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0]
+    L: [2, 3, 4]
+  fixed:
+    theta: 0.3
+    topk: 10
+    variant: full
+    normalized: true
+
+dap:
+  # DAP paper (arXiv 2305.14886), Sec. 4.1.2: alpha (alpha1) and beta (alpha2) of Eq. 17 "tuned in
+  # the range of [0, 2.0] with step of 0.1"; number of Kmeans clusters P (cluster_num) "searched in
+  # {1, 5, 10, 20, 30, ..., 70}". We keep the paper's ranges on a coarser lattice (the full
+  # 21x21x8 = 3528-point grid is impractical): alpha=beta=0 is plain LightGCN (paper Fig. 5) and is
+  # kept as the lower end of the paper range. Fig. 5 shows the optimum at small-to-moderate values;
+  # the ablation (Sec. 4.3.1) finds the lower-degree part (beta) least useful, hence fewer beta
+  # values; P spans the paper's range {1, ..., 70} (Table 5: flat beyond ~10-30).
+  # PPD's own DAP run (third_party/PPD/LightGCN/code/main.py) uses alpha1 0.1, alpha2 0.0, P {1, 5}.
+  # Cost (Gowalla, one point, RTX 3090): ~215 s at P=1 (the official per-node loop scans one
+  # 70k-node cluster), ~50 s at P=70 -> ~1.8 h per seed for this 72-point grid.
+  # P >= 30 fails on Coat (590 nodes): a cluster whose members share one degree gives an empty-mean
+  # (NaN) anchor and the next layer's Kmeans raises; tune.py records and skips such points.
+  grid:
+    alpha1: [0.0, 0.1, 0.3, 0.5, 1.0, 2.0]
+    alpha2: [0.0, 0.1, 0.5]
+    cluster_num: [1, 10, 30, 70]

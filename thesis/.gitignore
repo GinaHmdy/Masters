@@ -1,0 +1,10 @@
+runs/
+__pycache__/
+*.pyc
+.cache/
+cache/
+# third_party/ must be committed byte-for-byte; override any ignore rule from the
+# repo root (e.g. *.pth.tar) or from vendored .gitignore files.
+!third_party/**
+logs/*.lock
+logs/.*.lock

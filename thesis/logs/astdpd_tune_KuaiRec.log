@@ -1,0 +1,166 @@
+[KuaiRec] waiting for baseline selections of seeds [2025, 2026, 2027, 2028]
+[KuaiRec] waiting for baseline selections of seeds [2025, 2026, 2027, 2028]
+[KuaiRec] waiting for baseline selections of seeds [2025, 2026, 2027, 2028]
+[KuaiRec] waiting for baseline selections of seeds [2026, 2027, 2028]
+[KuaiRec] waiting for baseline selections of seeds [2026, 2027, 2028]
+[KuaiRec] waiting for baseline selections of seeds [2026, 2027, 2028]
+[KuaiRec] waiting for baseline selections of seeds [2027, 2028]
+[KuaiRec] waiting for baseline selections of seeds [2027, 2028]
+[KuaiRec] waiting for baseline selections of seeds [2027, 2028]
+[KuaiRec] waiting for baseline selections of seeds [2027, 2028]
+[KuaiRec] waiting for baseline selections of seeds [2028]
+[KuaiRec] waiting for baseline selections of seeds [2028]
+[KuaiRec] baseline min validation AvgPop@20: seed 2024 1510.09, seeds [2024, 2025, 2026] 1484.62, all seeds 1476.08
+[KuaiRec] stage1: 29 trials on GPUs [0, 1], 6 workers
+/home/mohab/Workspace/99-temp/Masters/thesis/src/astdpd/model.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(idx, torch.from_numpy(m.data), m.shape).coalesce().to(device)
+/home/mohab/Workspace/99-temp/Masters/thesis/src/astdpd/model.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(idx, torch.from_numpy(m.data), m.shape).coalesce().to(device)
+/home/mohab/Workspace/99-temp/Masters/thesis/src/astdpd/model.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(idx, torch.from_numpy(m.data), m.shape).coalesce().to(device)
+/home/mohab/Workspace/99-temp/Masters/thesis/src/astdpd/model.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(idx, torch.from_numpy(m.data), m.shape).coalesce().to(device)
+/home/mohab/Workspace/99-temp/Masters/thesis/src/astdpd/model.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(idx, torch.from_numpy(m.data), m.shape).coalesce().to(device)
+/home/mohab/Workspace/99-temp/Masters/thesis/src/astdpd/model.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(idx, torch.from_numpy(m.data), m.shape).coalesce().to(device)
+  [1/29 2638s] d99c1dd630 s2024 valid N@20 0.2266 R@20 0.1818 AvgPop@20 1584.86
+  [2/29 2640s] a3afbf2aa7 s2024 valid N@20 0.2270 R@20 0.1820 AvgPop@20 1589.83
+  [3/29 2643s] 04ab9096b8 s2024 valid N@20 0.2261 R@20 0.1815 AvgPop@20 1579.89
+  [4/29 3627s] 521ac25ae6 s2024 valid N@20 0.2268 R@20 0.1819 AvgPop@20 1587.31
+  [5/29 3628s] ddf36f2571 s2024 valid N@20 0.2264 R@20 0.1817 AvgPop@20 1582.44
+  [6/29 3629s] 1d6c20c732 s2024 valid N@20 0.2269 R@20 0.1819 AvgPop@20 1588.40
+  [7/29 5271s] d82f9e4932 s2024 valid N@20 0.2260 R@20 0.1811 AvgPop@20 1576.65
+  [8/29 5272s] 54e2928dc9 s2024 valid N@20 0.2258 R@20 0.1810 AvgPop@20 1574.02
+  [9/29 5273s] 9d5d1975c9 s2024 valid N@20 0.2255 R@20 0.1807 AvgPop@20 1567.99
+  [10/29 8018s] 8abd7eb329 s2024 valid N@20 0.2240 R@20 0.1791 AvgPop@20 1550.66
+  [11/29 8023s] 6c7086f75c s2024 valid N@20 0.2242 R@20 0.1814 AvgPop@20 1547.34
+  [12/29 8024s] 4f35743514 s2024 valid N@20 0.2214 R@20 0.1768 AvgPop@20 1527.74
+  [13/29 8033s] 6282e03d99 s2024 valid N@20 0.2258 R@20 0.1820 AvgPop@20 1628.53
+  [14/29 8053s] 85d6e062ea s2024 valid N@20 0.2089 R@20 0.1695 AvgPop@20 1405.51
+  [15/29 8064s] 826a020008 s2024 valid N@20 0.2085 R@20 0.1706 AvgPop@20 1430.16
+  [16/29 10671s] 40a1a3a98a s2024 valid N@20 0.2312 R@20 0.1847 AvgPop@20 1650.64
+  [17/29 10678s] 7f66631f5b s2024 valid N@20 0.2197 R@20 0.1776 AvgPop@20 1515.80
+  [18/29 10848s] 806de121ea s2024 valid N@20 0.2131 R@20 0.1758 AvgPop@20 1441.75
+  [19/29 12938s] 81270a199f s2024 valid N@20 0.2280 R@20 0.1815 AvgPop@20 1593.06
+  [20/29 12986s] adbdc8978e s2024 valid N@20 0.2031 R@20 0.1637 AvgPop@20 1345.29
+  [21/29 13020s] a49428f178 s2024 valid N@20 0.2114 R@20 0.1727 AvgPop@20 1415.36
+  [22/29 13387s] c4f124ef36 s2024 valid N@20 0.2218 R@20 0.1803 AvgPop@20 1505.98
+  [23/29 13544s] 1ded12a70e s2024 valid N@20 0.2292 R@20 0.1843 AvgPop@20 1655.19
+  [24/29 13568s] 32ed3707c4 s2024 valid N@20 0.2247 R@20 0.1807 AvgPop@20 1573.68
+  [25/29 15477s] 587e05ded9 s2024 valid N@20 0.2000 R@20 0.1619 AvgPop@20 1315.67
+  [26/29 15565s] 7e376b689a s2024 valid N@20 0.2105 R@20 0.1731 AvgPop@20 1404.02
+  [27/29 17644s] fa578a8ecb s2024 valid N@20 0.2050 R@20 0.1655 AvgPop@20 1362.49
+  [28/29 17680s] aba5f92bed s2024 valid N@20 0.2094 R@20 0.1713 AvgPop@20 1415.28
+  [29/29 17683s] 1ecbbc8176 s2024 valid N@20 0.2244 R@20 0.1800 AvgPop@20 1573.35
+[KuaiRec] stage2: 8 trials on GPUs [0, 1], 6 workers
+/home/mohab/Workspace/99-temp/Masters/thesis/src/astdpd/model.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(idx, torch.from_numpy(m.data), m.shape).coalesce().to(device)
+/home/mohab/Workspace/99-temp/Masters/thesis/src/astdpd/model.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(idx, torch.from_numpy(m.data), m.shape).coalesce().to(device)
+/home/mohab/Workspace/99-temp/Masters/thesis/src/astdpd/model.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(idx, torch.from_numpy(m.data), m.shape).coalesce().to(device)
+/home/mohab/Workspace/99-temp/Masters/thesis/src/astdpd/model.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(idx, torch.from_numpy(m.data), m.shape).coalesce().to(device)
+/home/mohab/Workspace/99-temp/Masters/thesis/src/astdpd/model.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(idx, torch.from_numpy(m.data), m.shape).coalesce().to(device)
+/home/mohab/Workspace/99-temp/Masters/thesis/src/astdpd/model.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(idx, torch.from_numpy(m.data), m.shape).coalesce().to(device)
+  [1/8 2642s] c4f124ef36 s2025 valid N@20 0.2217 R@20 0.1807 AvgPop@20 1503.79
+  [2/8 2676s] 806de121ea s2026 valid N@20 0.2193 R@20 0.1804 AvgPop@20 1507.69
+  [3/8 2688s] 806de121ea s2025 valid N@20 0.2184 R@20 0.1782 AvgPop@20 1502.29
+  [4/8 4769s] 7e376b689a s2025 valid N@20 0.2124 R@20 0.1743 AvgPop@20 1420.05
+  [5/8 4787s] 7e376b689a s2026 valid N@20 0.2084 R@20 0.1725 AvgPop@20 1379.93
+  [6/8 4927s] c4f124ef36 s2026 valid N@20 0.2195 R@20 0.1802 AvgPop@20 1492.16
+  [7/8 4941s] a49428f178 s2025 valid N@20 0.2150 R@20 0.1750 AvgPop@20 1448.79
+  [8/8 4943s] a49428f178 s2026 valid N@20 0.2112 R@20 0.1743 AvgPop@20 1418.55
+[KuaiRec] winner 806de121ea (feasible) overrides {'inference_pop_penalty': 1.0, 'sampler': [0.1, 0.6, 0.3], 'tail_phi': 1.0, 'lambda_deb': 0.1, 'fuse_lambda_min': 0.2, 'fuse_lambda_max': 0.8, 'alpha_base': 0.05, 'topo_pop_damping': 0.05, 'lambda_ind': 0.1, 'highfreq_gamma': 0.3} valid mean {'recall@20': 0.1781544209171766, 'ndcg@20': 0.21695802557237662, 'precision@20': 0.1752009456264775, 'avgpop@20': 1483.911607565012, 'aplt@20': 0.07392434988179669, 'coverage@20': 0.0457370121799652, 'recall@10': 0.10379367666603151, 'ndcg@10': 0.2035301339447443, 'avgpop@10': 1811.0435460992906}
+[KuaiRec] final: 2 trials on GPUs [0, 1], 6 workers
+/home/mohab/Workspace/99-temp/Masters/thesis/src/astdpd/model.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(idx, torch.from_numpy(m.data), m.shape).coalesce().to(device)
+/home/mohab/Workspace/99-temp/Masters/thesis/src/astdpd/model.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(idx, torch.from_numpy(m.data), m.shape).coalesce().to(device)
+  [1/2 2709s] 806de121ea s2028 valid N@20 0.2193 R@20 0.1796 AvgPop@20 1514.11
+  [2/2 4732s] 806de121ea s2027 valid N@20 0.2196 R@20 0.1799 AvgPop@20 1506.05
+[KuaiRec] runs/KuaiRec/seed*/astdpd.json now use the retuned config; shipped results in astdpd_shipped.json
+### Coat
+
+| Method | Recall@20 | NDCG@20 | Precision@20 | AvgPop@20 ↓ | APLT@20 | Coverage@20 | TailRecall@20 | Recall@10 | NDCG@10 | AvgPop@10 ↓ | seeds | time/seed (s) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| LightGCN | 0.1291 ± 0.0115 | 0.0707 ± 0.0033 | 0.0227 ± 0.0017 | 25.8 ± 1.4 | 0.2909 ± 0.0627 | 0.6460 ± 0.1394 | 0.0383 ± 0.0083 | 0.0710 ± 0.0065 | 0.0503 ± 0.0013 | 30.7 ± 2.0 | 5 | 13 |
+| PPD | 0.1226 ± 0.0149 | 0.0671 ± 0.0047 | 0.0222 ± 0.0017 | 24.1 ± 1.6 | 0.3637 ± 0.0637 | 0.7907 ± 0.1277 | 0.0461 ± 0.0077 | 0.0678 ± 0.0076 | 0.0472 ± 0.0037 | 28.1 ± 2.5 | 5 | 9 |
+| TSP | 0.1226 ± 0.0111 | 0.0640 ± 0.0028 | 0.0217 ± 0.0019 | 20.8 ± 1.3 | 0.4943 ± 0.0477 | 0.9180 ± 0.0463 | 0.0614 ± 0.0172 | 0.0676 ± 0.0053 | 0.0444 ± 0.0033 | 22.7 ± 1.9 | 5 | 14 |
+| DAP | 0.1311 ± 0.0156 | 0.0716 ± 0.0055 | 0.0235 ± 0.0024 | 25.0 ± 0.9 | 0.3255 ± 0.0416 | 0.7353 ± 0.0762 | 0.0482 ± 0.0171 | 0.0730 ± 0.0079 | 0.0510 ± 0.0027 | 29.5 ± 1.3 | 5 | 22 |
+| ASTD-PD | 0.0937 ± 0.0061 | 0.0542 ± 0.0031 | 0.0172 ± 0.0012 | 16.2 ± 1.0 | 0.6487 ± 0.0296 | 0.5827 ± 0.0693 | 0.0712 ± 0.0088 | 0.0575 ± 0.0072 | 0.0408 ± 0.0024 | 20.8 ± 1.4 | 5 | 35 |
+| ASTD-PD (shipped) | 0.1186 ± 0.0035 | 0.0660 ± 0.0024 | 0.0217 ± 0.0006 | 25.9 ± 1.1 | 0.2863 ± 0.0560 | 0.5060 ± 0.1204 | 0.0344 ± 0.0052 | 0.0595 ± 0.0055 | 0.0450 ± 0.0028 | 31.4 ± 1.5 | 5 | 12 |
+
+ASTD-PD minus baseline on test @20 (mean over seeds); Holm-adjusted p: paired t-test over seeds / per-user Wilcoxon (pooled over seeds).
+
+| Comparison | ΔRecall | p (seed / user) | ΔNDCG | p (seed / user) | ΔPrecision | p (seed / user) | ΔAvgPop | p (seed / user) |
+|---|---|---|---|---|---|---|---|---|
+| ASTD-PD vs LightGCN | -0.0354 | 0.0093 / 4.2e-09 | -0.0164 | 0.0093 / 1.4e-08 | -0.0056 | 0.0093 / 4.1e-09 | -9.6 | 0.00028 / 1.9e-230 |
+| ASTD-PD vs PPD | -0.0290 | 0.039 / 4.1e-07 | -0.0129 | 0.039 / 5.8e-06 | -0.0050 | 0.031 / 3.8e-07 | -7.9 | 0.0024 / 2.5e-228 |
+| ASTD-PD vs TSP | -0.0289 | 0.023 / 3.1e-05 | -0.0098 | 0.011 / 0.025 | -0.0046 | 0.023 / 1.4e-05 | -4.6 | 0.01 / 1.8e-155 |
+| ASTD-PD vs DAP | -0.0374 | 0.026 / 5.1e-09 | -0.0174 | 0.026 / 8.5e-09 | -0.0063 | 0.026 / 3.7e-10 | -8.7 | 0.00014 / 1.6e-229 |
+| ASTD-PD vs ASTD-PD (shipped) | -0.0249 | 0.00091 / 1.1e-07 | -0.0118 | 0.0018 / 1.1e-07 | -0.0046 | 0.0019 / 8e-08 | -9.7 | 7.4e-07 / 1.2e-230 |
+
+**Popularity race (Coat):** lowest test AvgPop@20 = ASTD-PD (16.2); ASTD-PD wins.
+
+### Yahoo
+
+| Method | Recall@20 | NDCG@20 | Precision@20 | AvgPop@20 ↓ | APLT@20 | Coverage@20 | TailRecall@20 | Recall@10 | NDCG@10 | AvgPop@10 ↓ | seeds | time/seed (s) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| LightGCN | 0.1409 ± 0.0018 | 0.0636 ± 0.0012 | 0.0111 ± 0.0001 | 597.1 ± 23.5 | 0.1110 ± 0.0194 | 0.6766 ± 0.0481 | 0.0241 ± 0.0038 | 0.0870 ± 0.0030 | 0.0485 ± 0.0015 | 737.3 ± 33.6 | 5 | 162 |
+| PPD | 0.1260 ± 0.0020 | 0.0580 ± 0.0007 | 0.0100 ± 0.0001 | 824.6 ± 23.9 | 0.0235 ± 0.0039 | 0.4946 ± 0.0223 | 0.0045 ± 0.0005 | 0.0777 ± 0.0029 | 0.0444 ± 0.0009 | 978.1 ± 29.9 | 5 | 215 |
+| TSP | 0.1227 ± 0.0029 | 0.0551 ± 0.0017 | 0.0099 ± 0.0002 | 290.7 ± 15.1 | 0.3920 ± 0.0278 | 0.9384 ± 0.0151 | 0.0555 ± 0.0063 | 0.0744 ± 0.0013 | 0.0414 ± 0.0014 | 325.2 ± 21.6 | 5 | 497 |
+| DAP | 0.1413 ± 0.0022 | 0.0639 ± 0.0013 | 0.0111 ± 0.0001 | 594.0 ± 23.3 | 0.1144 ± 0.0198 | 0.6840 ± 0.0493 | 0.0250 ± 0.0036 | 0.0872 ± 0.0029 | 0.0487 ± 0.0014 | 732.7 ± 33.7 | 5 | 2121 |
+| ASTD-PD | 0.1109 ± 0.0040 | 0.0530 ± 0.0011 | 0.0091 ± 0.0003 | 289.6 ± 5.0 | 0.5946 ± 0.0060 | 0.9550 ± 0.0051 | 0.0671 ± 0.0030 | 0.0722 ± 0.0023 | 0.0419 ± 0.0007 | 440.2 ± 7.8 | 5 | 129 |
+| ASTD-PD (shipped) | 0.1368 ± 0.0024 | 0.0623 ± 0.0006 | 0.0108 ± 0.0001 | 521.3 ± 8.7 | 0.1439 ± 0.0065 | 0.6412 ± 0.0189 | 0.0273 ± 0.0020 | 0.0861 ± 0.0027 | 0.0479 ± 0.0010 | 670.9 ± 11.2 | 5 | 276 |
+
+ASTD-PD minus baseline on test @20 (mean over seeds); Holm-adjusted p: paired t-test over seeds / per-user Wilcoxon (pooled over seeds).
+
+| Comparison | ΔRecall | p (seed / user) | ΔNDCG | p (seed / user) | ΔPrecision | p (seed / user) | ΔAvgPop | p (seed / user) |
+|---|---|---|---|---|---|---|---|---|
+| ASTD-PD vs LightGCN | -0.0300 | 0.00017 / 2.5e-28 | -0.0106 | 0.00017 / 1.4e-22 | -0.0019 | 0.00025 / 6.6e-23 | -307.6 | 6e-05 / 0 |
+| ASTD-PD vs PPD | -0.0151 | 0.0028 / 1.8e-07 | -0.0050 | 0.0019 / 0.00017 | -0.0009 | 0.0071 / 4.3e-05 | -535.0 | 7.3e-06 / 0 |
+| ASTD-PD vs TSP | -0.0118 | 0.012 / 2.4e-05 | -0.0021 | 0.099 / 0.016 | -0.0007 | 0.013 / 0.00037 | -1.1 | 0.9 / 1.3e-07 |
+| ASTD-PD vs DAP | -0.0304 | 0.00021 / 7.3e-29 | -0.0109 | 0.00021 / 1.4e-23 | -0.0020 | 0.00029 / 5.8e-24 | -304.5 | 6.4e-05 / 0 |
+| ASTD-PD vs ASTD-PD (shipped) | -0.0259 | 0.00036 / 3.9e-27 | -0.0093 | 0.00021 / 4.9e-24 | -0.0017 | 0.00036 / 8.5e-23 | -231.7 | 5.2e-06 / 0 |
+
+**Popularity race (Yahoo):** lowest test AvgPop@20 = ASTD-PD (289.6); ASTD-PD wins.
+
+### KuaiRec
+
+| Method | Recall@20 | NDCG@20 | Precision@20 | AvgPop@20 ↓ | APLT@20 | Coverage@20 | TailRecall@20 | Recall@10 | NDCG@10 | AvgPop@10 ↓ | seeds | time/seed (s) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| LightGCN | 0.1783 ± 0.0009 | 0.4070 ± 0.0013 | 0.3741 ± 0.0013 | 1744.1 ± 3.1 | 0.0022 ± 0.0000 | 0.0080 ± 0.0002 | 0.0000 ± 0.0000 | 0.1041 ± 0.0020 | 0.4259 ± 0.0045 | 2104.4 ± 19.9 | 5 | 1901 |
+| PPD | 0.1796 ± 0.0017 | 0.4062 ± 0.0035 | 0.3735 ± 0.0030 | 1713.6 ± 2.0 | 0.0013 ± 0.0004 | 0.0128 ± 0.0014 | 0.0000 ± 0.0000 | 0.1043 ± 0.0019 | 0.4246 ± 0.0057 | 2036.8 ± 30.8 | 5 | 20798 |
+| TSP | 0.1566 ± 0.0015 | 0.3407 ± 0.0047 | 0.3352 ± 0.0026 | 1475.9 ± 21.4 | 0.0526 ± 0.0012 | 0.0175 ± 0.0007 | 0.0151 ± 0.0002 | 0.0773 ± 0.0051 | 0.3263 ± 0.0128 | 1369.2 ± 104.2 | 5 | 1525 |
+| DAP | 0.1785 ± 0.0012 | 0.4064 ± 0.0016 | 0.3736 ± 0.0020 | 1738.0 ± 9.5 | 0.0022 ± 0.0001 | 0.0087 ± 0.0005 | 0.0000 ± 0.0000 | 0.1033 ± 0.0013 | 0.4243 ± 0.0039 | 2109.1 ± 21.0 | 5 | 1823 |
+| ASTD-PD | 0.1708 ± 0.0015 | 0.3762 ± 0.0042 | 0.3463 ± 0.0038 | 1491.2 ± 29.0 | 0.0773 ± 0.0084 | 0.0446 ± 0.0034 | 0.0121 ± 0.0008 | 0.1007 ± 0.0010 | 0.3950 ± 0.0050 | 1822.4 ± 41.3 | 5 | 3116 |
+| ASTD-PD (shipped) | 0.1772 ± 0.0010 | 0.3954 ± 0.0034 | 0.3637 ± 0.0028 | 1615.8 ± 25.4 | 0.0095 ± 0.0017 | 0.0317 ± 0.0031 | 0.0009 ± 0.0004 | 0.1047 ± 0.0012 | 0.4147 ± 0.0053 | 1937.3 ± 34.6 | 5 | 4389 |
+
+ASTD-PD minus baseline on test @20 (mean over seeds); Holm-adjusted p: paired t-test over seeds / per-user Wilcoxon (pooled over seeds).
+
+| Comparison | ΔRecall | p (seed / user) | ΔNDCG | p (seed / user) | ΔPrecision | p (seed / user) | ΔAvgPop | p (seed / user) |
+|---|---|---|---|---|---|---|---|---|
+| ASTD-PD vs LightGCN | -0.0075 | 0.0007 / 1.9e-69 | -0.0307 | 0.00021 / 9.5e-114 | -0.0278 | 0.00022 / 1.6e-142 | -253.0 | 0.00013 / 0 |
+| ASTD-PD vs PPD | -0.0089 | 0.00012 / 2e-101 | -0.0300 | 0.00012 / 2.5e-116 | -0.0272 | 4.4e-05 / 1.3e-143 | -222.5 | 0.00012 / 0 |
+| ASTD-PD vs TSP | +0.0142 | 0.00035 / 2.3e-192 | +0.0355 | 0.0013 / 2.1e-164 | +0.0111 | 0.021 / 6e-53 | +15.3 | 0.53 / 4e-161 |
+| ASTD-PD vs DAP | -0.0078 | 0.0017 / 3e-72 | -0.0302 | 0.00026 / 1.6e-109 | -0.0273 | 0.0004 / 7.8e-135 | -246.8 | 0.00015 / 0 |
+| ASTD-PD vs ASTD-PD (shipped) | -0.0064 | 0.0014 / 3.4e-92 | -0.0192 | 0.0014 / 1.1e-98 | -0.0174 | 0.0014 / 1.6e-105 | -124.7 | 0.0014 / 0 |
+
+**Popularity race (KuaiRec):** lowest test AvgPop@20 = TSP (1475.9); ASTD-PD does not win (1491.2).
+
+### Gowalla
+
+| Method | Recall@20 | NDCG@20 | Precision@20 | AvgPop@20 ↓ | APLT@20 | Coverage@20 | TailRecall@20 | Recall@10 | NDCG@10 | AvgPop@10 ↓ | seeds | time/seed (s) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| LightGCN | 0.1671 ± 0.0005 | 0.1409 ± 0.0005 | 0.0511 ± 0.0001 | 149.0 ± 0.3 | 0.1165 ± 0.0008 | 0.4215 ± 0.0019 | 0.0349 ± 0.0003 | 0.1175 ± 0.0003 | 0.1268 ± 0.0004 | 196.2 ± 0.4 | 5 | 14626 |
+| PPD | 0.1317 ± 0.0010 | 0.1046 ± 0.0009 | 0.0392 ± 0.0003 | 161.6 ± 6.6 | 0.1743 ± 0.0026 | 0.4249 ± 0.0012 | 0.0369 ± 0.0006 | 0.0882 ± 0.0010 | 0.0907 ± 0.0008 | 194.8 ± 8.8 | 5 | 5346 |
+| TSP | 0.1057 ± 0.0011 | 0.0723 ± 0.0006 | 0.0312 ± 0.0003 | 30.8 ± 0.4 | 0.6014 ± 0.0080 | 0.9779 ± 0.0009 | 0.0867 ± 0.0025 | 0.0637 ± 0.0005 | 0.0571 ± 0.0004 | 31.5 ± 0.5 | 5 | 1904 |
+
+**Popularity race (Gowalla):** lowest test AvgPop@20 = TSP (30.8); ASTD-PD missing.
+
+-> /home/mohab/Workspace/99-temp/Masters/thesis/results/results.json, significance.json, tables.txt
+[report] wall time 1.4s

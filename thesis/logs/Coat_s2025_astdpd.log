@@ -1,0 +1,54 @@
+/home/mohab/Workspace/99-temp/Masters/thesis/src/astdpd/model.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(idx, torch.from_numpy(m.data), m.shape).coalesce().to(device)
+epoch   0 loss 12.1001 | valid R@20 0.06909 N@20 0.03226 AvgPop 12.0 HV 1.772e-05 | 0.7s train
+epoch   1 loss 12.2124 | valid R@20 0.07586 N@20 0.03566 AvgPop 12.2 HV 2.406e-05 | 0.2s train
+epoch   2 loss 12.1025 | valid R@20 0.08397 N@20 0.03677 AvgPop 12.4 HV 2.863e-05 | 0.2s train
+epoch   3 loss 12.0668 | valid R@20 0.08550 N@20 0.03768 AvgPop 13.0 HV 3.229e-05 | 0.2s train
+epoch   4 loss 11.9691 | valid R@20 0.08244 N@20 0.03804 AvgPop 14.0 HV 3.081e-05 | 0.2s train
+epoch   5 loss 12.0059 | valid R@20 0.08052 N@20 0.03747 AvgPop 15.3 HV 2.904e-05 | 0.2s train
+epoch   6 loss 11.8584 | valid R@20 0.08123 N@20 0.03858 AvgPop 16.9 HV 3.011e-05 | 0.3s train
+epoch   7 loss 11.7358 | valid R@20 0.09496 N@20 0.03983 AvgPop 18.7 HV 3.983e-05 | 0.2s train
+epoch   8 loss 11.4842 | valid R@20 0.09674 N@20 0.04008 AvgPop 20.2 HV 3.932e-05 | 0.2s train
+epoch   9 loss 11.3042 | valid R@20 0.08544 N@20 0.03735 AvgPop 21.6 HV 2.932e-05 | 0.2s train
+epoch  10 loss 11.0082 | valid R@20 0.08257 N@20 0.03755 AvgPop 22.8 HV 2.845e-05 | 0.2s train
+epoch  11 loss 10.6609 | valid R@20 0.09017 N@20 0.03915 AvgPop 23.7 HV 3.633e-05 | 0.2s train
+epoch  12 loss 10.3036 | valid R@20 0.08940 N@20 0.03879 AvgPop 24.5 HV 3.502e-05 | 0.2s train
+epoch  13 loss 9.7442 | valid R@20 0.09195 N@20 0.03913 AvgPop 25.1 HV 3.631e-05 | 0.2s train
+epoch  14 loss 9.3415 | valid R@20 0.09100 N@20 0.03887 AvgPop 25.5 HV 3.568e-05 | 0.2s train
+epoch  15 loss 8.6758 | valid R@20 0.09215 N@20 0.03951 AvgPop 25.9 HV 3.671e-05 | 0.2s train
+epoch  16 loss 8.1068 | valid R@20 0.09266 N@20 0.04130 AvgPop 26.2 HV 3.858e-05 | 0.2s train
+epoch  17 loss 7.7805 | valid R@20 0.09138 N@20 0.04083 AvgPop 26.3 HV 3.691e-05 | 0.2s train
+epoch  18 loss 7.5106 | valid R@20 0.09361 N@20 0.04160 AvgPop 26.5 HV 3.998e-05 | 0.2s train
+epoch  19 loss 7.1585 | valid R@20 0.09266 N@20 0.04124 AvgPop 26.6 HV 3.850e-05 | 0.2s train
+epoch  20 loss 6.8793 | valid R@20 0.09010 N@20 0.04088 AvgPop 26.6 HV 3.712e-05 | 0.2s train
+epoch  21 loss 6.9056 | valid R@20 0.08819 N@20 0.03992 AvgPop 26.6 HV 3.481e-05 | 0.2s train
+epoch  22 loss 6.8045 | valid R@20 0.09010 N@20 0.04057 AvgPop 26.6 HV 3.684e-05 | 0.2s train
+epoch  23 loss 6.6967 | valid R@20 0.08914 N@20 0.04024 AvgPop 26.6 HV 3.548e-05 | 0.2s train
+epoch  24 loss 6.6458 | valid R@20 0.08723 N@20 0.04010 AvgPop 26.5 HV 3.394e-05 | 0.3s train
+epoch  25 loss 6.5624 | valid R@20 0.08978 N@20 0.04049 AvgPop 26.5 HV 3.528e-05 | 0.2s train
+epoch  26 loss 6.6562 | valid R@20 0.09074 N@20 0.04085 AvgPop 26.4 HV 3.667e-05 | 0.2s train
+epoch  27 loss 6.3448 | valid R@20 0.09074 N@20 0.04110 AvgPop 26.4 HV 3.689e-05 | 0.2s train
+epoch  28 loss 6.3441 | valid R@20 0.09278 N@20 0.04192 AvgPop 26.4 HV 3.993e-05 | 0.2s train
+epoch  29 loss 6.1750 | valid R@20 0.09278 N@20 0.04179 AvgPop 26.4 HV 3.981e-05 | 0.2s train
+epoch  30 loss 6.4490 | valid R@20 0.09470 N@20 0.04228 AvgPop 26.3 HV 4.185e-05 | 0.2s train
+epoch  31 loss 6.1923 | valid R@20 0.09151 N@20 0.04025 AvgPop 26.3 HV 3.782e-05 | 0.2s train
+epoch  32 loss 6.2662 | valid R@20 0.09534 N@20 0.04106 AvgPop 26.2 HV 4.092e-05 | 0.2s train
+epoch  33 loss 6.1465 | valid R@20 0.09534 N@20 0.04241 AvgPop 26.2 HV 4.227e-05 | 0.2s train
+epoch  34 loss 6.1761 | valid R@20 0.09534 N@20 0.04235 AvgPop 26.1 HV 4.221e-05 | 0.2s train
+epoch  35 loss 6.1224 | valid R@20 0.09598 N@20 0.04259 AvgPop 26.1 HV 4.274e-05 | 0.2s train
+epoch  36 loss 6.0337 | valid R@20 0.09502 N@20 0.04237 AvgPop 26.1 HV 4.210e-05 | 0.2s train
+epoch  37 loss 6.0529 | valid R@20 0.09745 N@20 0.04311 AvgPop 26.1 HV 4.470e-05 | 0.3s train
+epoch  38 loss 5.8689 | valid R@20 0.09234 N@20 0.04183 AvgPop 26.1 HV 3.966e-05 | 0.2s train
+epoch  39 loss 5.9686 | valid R@20 0.10077 N@20 0.04380 AvgPop 26.1 HV 4.779e-05 | 0.2s train
+epoch  40 loss 6.0311 | valid R@20 0.09693 N@20 0.04309 AvgPop 26.0 HV 4.446e-05 | 0.2s train
+epoch  41 loss 5.9913 | valid R@20 0.09693 N@20 0.04310 AvgPop 26.0 HV 4.446e-05 | 0.2s train
+epoch  42 loss 5.7649 | valid R@20 0.09693 N@20 0.04310 AvgPop 25.9 HV 4.447e-05 | 0.2s train
+epoch  43 loss 5.8973 | valid R@20 0.09821 N@20 0.04368 AvgPop 25.9 HV 4.646e-05 | 0.2s train
+epoch  44 loss 5.8072 | valid R@20 0.09725 N@20 0.04351 AvgPop 25.9 HV 4.504e-05 | 0.2s train
+epoch  45 loss 5.8017 | valid R@20 0.09725 N@20 0.04354 AvgPop 25.9 HV 4.507e-05 | 0.2s train
+epoch  46 loss 5.6571 | valid R@20 0.09674 N@20 0.04352 AvgPop 25.8 HV 4.482e-05 | 0.2s train
+epoch  47 loss 5.6325 | valid R@20 0.09802 N@20 0.04393 AvgPop 25.8 HV 4.665e-05 | 0.2s train
+epoch  48 loss 5.7070 | valid R@20 0.09751 N@20 0.04381 AvgPop 25.7 HV 4.628e-05 | 0.2s train
+epoch  49 loss 5.6495 | valid R@20 0.09751 N@20 0.04353 AvgPop 25.6 HV 4.599e-05 | 0.2s train
+best epoch 39 | test R@20 0.11474 N@20 0.06459 AvgPop@20 26.14 -> /home/mohab/Workspace/99-temp/Masters/thesis/runs/Coat/seed2025
+[astdpd] wall time 14.9s

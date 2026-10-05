@@ -1,0 +1,266 @@
+[0;30;43mCpp extension not loaded[0m
+[0;30;43muse NORMAL distribution initilizer[0m
+loading adjacency matrix
+successfully loaded...
+/home/mohab/Workspace/99-temp/Masters/thesis/third_party/LightGCN-PyTorch/code/dataloader.py:330: UserWarning: torch.sparse.SparseTensor(indices, values, shape, *, device=) is deprecated.  Please use torch.sparse_coo_tensor(indices, values, shape, dtype=, device=). (Triggered internally at /__w/pytorch/pytorch/torch/csrc/utils/tensor_new.cpp:653.)
+  return torch.sparse.FloatTensor(index, data, torch.Size(coo.shape))
+don't split the matrix
+lgn is already to go(dropout:0)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293) and dimension 3
+/home/mohab/Workspace/99-temp/Masters/thesis/third_party/TSP/utils.py:21: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:816.)
+  return torch.sparse_coo_tensor(indices, values, shape).coalesce().to(device)
+[tsp Yahoo s2028] 1/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.001, 'L': 2} -> R@20 0.32438 N@20 0.19278 AvgPop 264.57 (34.4s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293) and dimension 3
+[tsp Yahoo s2028] 2/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.001, 'L': 3} -> R@20 0.32438 N@20 0.19280 AvgPop 264.57 (2.2s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293) and dimension 3
+[tsp Yahoo s2028] 3/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.001, 'L': 4} -> R@20 0.32438 N@20 0.19280 AvgPop 264.57 (2.1s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293) and dimension 3
+[tsp Yahoo s2028] 4/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.005, 'L': 2} -> R@20 0.32433 N@20 0.19280 AvgPop 264.62 (2.1s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293) and dimension 3
+[tsp Yahoo s2028] 5/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.005, 'L': 3} -> R@20 0.32445 N@20 0.19283 AvgPop 264.65 (2.2s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293) and dimension 3
+[tsp Yahoo s2028] 6/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.005, 'L': 4} -> R@20 0.32446 N@20 0.19284 AvgPop 264.69 (3.5s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293) and dimension 3
+[tsp Yahoo s2028] 7/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.01, 'L': 2} -> R@20 0.32446 N@20 0.19284 AvgPop 264.70 (2.1s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293) and dimension 3
+[tsp Yahoo s2028] 8/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.01, 'L': 3} -> R@20 0.32454 N@20 0.19290 AvgPop 264.79 (2.2s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293) and dimension 3
+[tsp Yahoo s2028] 9/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.01, 'L': 4} -> R@20 0.32451 N@20 0.19291 AvgPop 264.89 (2.4s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293) and dimension 3
+[tsp Yahoo s2028] 10/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.05, 'L': 2} -> R@20 0.32500 N@20 0.19318 AvgPop 265.36 (2.1s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293) and dimension 3
+[tsp Yahoo s2028] 11/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.05, 'L': 3} -> R@20 0.32559 N@20 0.19355 AvgPop 265.84 (2.2s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293) and dimension 3
+[tsp Yahoo s2028] 12/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.05, 'L': 4} -> R@20 0.32575 N@20 0.19371 AvgPop 266.22 (2.3s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293) and dimension 3
+[tsp Yahoo s2028] 13/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.1, 'L': 2} -> R@20 0.32575 N@20 0.19370 AvgPop 266.23 (2.1s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293) and dimension 3
+[tsp Yahoo s2028] 14/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.1, 'L': 3} -> R@20 0.32602 N@20 0.19398 AvgPop 267.01 (2.2s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293) and dimension 3
+[tsp Yahoo s2028] 15/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.1, 'L': 4} -> R@20 0.32705 N@20 0.19465 AvgPop 267.78 (2.3s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293) and dimension 3
+[tsp Yahoo s2028] 16/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.5, 'L': 2} -> R@20 0.33276 N@20 0.19827 AvgPop 272.90 (2.1s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293) and dimension 3
+[tsp Yahoo s2028] 17/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.5, 'L': 3} -> R@20 0.33406 N@20 0.19941 AvgPop 275.35 (2.1s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293) and dimension 3
+[tsp Yahoo s2028] 18/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 0.5, 'L': 4} -> R@20 0.33711 N@20 0.20109 AvgPop 277.52 (2.3s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293) and dimension 3
+[tsp Yahoo s2028] 19/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 1.0, 'L': 2} -> R@20 0.33882 N@20 0.20208 AvgPop 279.18 (2.1s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293) and dimension 3
+[tsp Yahoo s2028] 20/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 1.0, 'L': 3} -> R@20 0.34037 N@20 0.20306 AvgPop 280.97 (2.2s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293) and dimension 3
+[tsp Yahoo s2028] 21/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 3, 'beta': 1.0, 'L': 4} -> R@20 0.34100 N@20 0.20356 AvgPop 281.88 (2.3s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037) and dimension 4
+[tsp Yahoo s2028] 22/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.001, 'L': 2} -> R@20 0.32364 N@20 0.19245 AvgPop 264.93 (49.6s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037) and dimension 4
+[tsp Yahoo s2028] 23/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.001, 'L': 3} -> R@20 0.32363 N@20 0.19244 AvgPop 264.94 (2.4s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037) and dimension 4
+[tsp Yahoo s2028] 24/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.001, 'L': 4} -> R@20 0.32364 N@20 0.19245 AvgPop 264.94 (2.5s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037) and dimension 4
+[tsp Yahoo s2028] 25/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.005, 'L': 2} -> R@20 0.32369 N@20 0.19249 AvgPop 264.99 (2.5s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037) and dimension 4
+[tsp Yahoo s2028] 26/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.005, 'L': 3} -> R@20 0.32370 N@20 0.19252 AvgPop 265.00 (2.4s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037) and dimension 4
+[tsp Yahoo s2028] 27/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.005, 'L': 4} -> R@20 0.32368 N@20 0.19251 AvgPop 265.06 (2.5s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037) and dimension 4
+[tsp Yahoo s2028] 28/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.01, 'L': 2} -> R@20 0.32368 N@20 0.19251 AvgPop 265.05 (2.2s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037) and dimension 4
+[tsp Yahoo s2028] 29/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.01, 'L': 3} -> R@20 0.32379 N@20 0.19257 AvgPop 265.18 (2.2s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037) and dimension 4
+[tsp Yahoo s2028] 30/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.01, 'L': 4} -> R@20 0.32393 N@20 0.19264 AvgPop 265.31 (2.8s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037) and dimension 4
+[tsp Yahoo s2028] 31/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.05, 'L': 2} -> R@20 0.32478 N@20 0.19302 AvgPop 265.89 (2.4s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037) and dimension 4
+[tsp Yahoo s2028] 32/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.05, 'L': 3} -> R@20 0.32565 N@20 0.19340 AvgPop 266.28 (2.8s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037) and dimension 4
+[tsp Yahoo s2028] 33/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.05, 'L': 4} -> R@20 0.32577 N@20 0.19365 AvgPop 266.70 (2.6s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037) and dimension 4
+[tsp Yahoo s2028] 34/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.1, 'L': 2} -> R@20 0.32567 N@20 0.19363 AvgPop 266.72 (2.3s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037) and dimension 4
+[tsp Yahoo s2028] 35/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.1, 'L': 3} -> R@20 0.32662 N@20 0.19429 AvgPop 267.72 (2.4s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037) and dimension 4
+[tsp Yahoo s2028] 36/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.1, 'L': 4} -> R@20 0.32750 N@20 0.19486 AvgPop 268.50 (2.4s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037) and dimension 4
+[tsp Yahoo s2028] 37/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.5, 'L': 2} -> R@20 0.33330 N@20 0.19865 AvgPop 273.91 (2.3s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037) and dimension 4
+[tsp Yahoo s2028] 38/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.5, 'L': 3} -> R@20 0.33547 N@20 0.20022 AvgPop 276.47 (2.5s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037) and dimension 4
+[tsp Yahoo s2028] 39/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 0.5, 'L': 4} -> R@20 0.33763 N@20 0.20141 AvgPop 278.63 (2.9s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037) and dimension 4
+[tsp Yahoo s2028] 40/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 1.0, 'L': 2} -> R@20 0.34007 N@20 0.20268 AvgPop 280.30 (2.4s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037) and dimension 4
+[tsp Yahoo s2028] 41/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 1.0, 'L': 3} -> R@20 0.34096 N@20 0.20343 AvgPop 281.79 (2.5s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037) and dimension 4
+[tsp Yahoo s2028] 42/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 4, 'beta': 1.0, 'L': 4} -> R@20 0.34159 N@20 0.20397 AvgPop 282.54 (2.6s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918) and dimension 5
+[tsp Yahoo s2028] 43/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.001, 'L': 2} -> R@20 0.32480 N@20 0.19338 AvgPop 266.30 (58.6s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918) and dimension 5
+[tsp Yahoo s2028] 44/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.001, 'L': 3} -> R@20 0.32483 N@20 0.19339 AvgPop 266.31 (2.5s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918) and dimension 5
+[tsp Yahoo s2028] 45/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.001, 'L': 4} -> R@20 0.32492 N@20 0.19342 AvgPop 266.31 (2.8s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918) and dimension 5
+[tsp Yahoo s2028] 46/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.005, 'L': 2} -> R@20 0.32497 N@20 0.19345 AvgPop 266.43 (2.8s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918) and dimension 5
+[tsp Yahoo s2028] 47/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.005, 'L': 3} -> R@20 0.32505 N@20 0.19349 AvgPop 266.49 (2.6s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918) and dimension 5
+[tsp Yahoo s2028] 48/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.005, 'L': 4} -> R@20 0.32511 N@20 0.19351 AvgPop 266.51 (2.7s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918) and dimension 5
+[tsp Yahoo s2028] 49/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.01, 'L': 2} -> R@20 0.32511 N@20 0.19351 AvgPop 266.51 (2.5s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918) and dimension 5
+[tsp Yahoo s2028] 50/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.01, 'L': 3} -> R@20 0.32505 N@20 0.19354 AvgPop 266.63 (2.6s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918) and dimension 5
+[tsp Yahoo s2028] 51/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.01, 'L': 4} -> R@20 0.32495 N@20 0.19351 AvgPop 266.74 (2.8s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918) and dimension 5
+[tsp Yahoo s2028] 52/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.05, 'L': 2} -> R@20 0.32568 N@20 0.19400 AvgPop 267.25 (2.5s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918) and dimension 5
+[tsp Yahoo s2028] 53/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.05, 'L': 3} -> R@20 0.32655 N@20 0.19441 AvgPop 267.60 (2.8s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918) and dimension 5
+[tsp Yahoo s2028] 54/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.05, 'L': 4} -> R@20 0.32683 N@20 0.19466 AvgPop 268.00 (2.7s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918) and dimension 5
+[tsp Yahoo s2028] 55/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.1, 'L': 2} -> R@20 0.32702 N@20 0.19468 AvgPop 268.03 (3.8s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918) and dimension 5
+[tsp Yahoo s2028] 56/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.1, 'L': 3} -> R@20 0.32835 N@20 0.19545 AvgPop 269.06 (2.5s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918) and dimension 5
+[tsp Yahoo s2028] 57/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.1, 'L': 4} -> R@20 0.33019 N@20 0.19632 AvgPop 269.99 (2.7s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918) and dimension 5
+[tsp Yahoo s2028] 58/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.5, 'L': 2} -> R@20 0.33438 N@20 0.19937 AvgPop 275.05 (2.6s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918) and dimension 5
+[tsp Yahoo s2028] 59/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.5, 'L': 3} -> R@20 0.33654 N@20 0.20097 AvgPop 277.80 (3.1s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918) and dimension 5
+[tsp Yahoo s2028] 60/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 0.5, 'L': 4} -> R@20 0.33906 N@20 0.20208 AvgPop 279.71 (2.9s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918) and dimension 5
+[tsp Yahoo s2028] 61/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 1.0, 'L': 2} -> R@20 0.33996 N@20 0.20297 AvgPop 281.10 (2.6s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918) and dimension 5
+[tsp Yahoo s2028] 62/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 1.0, 'L': 3} -> R@20 0.34138 N@20 0.20384 AvgPop 282.43 (2.3s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918) and dimension 5
+[tsp Yahoo s2028] 63/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 5, 'beta': 1.0, 'L': 4} -> R@20 0.34250 N@20 0.20456 AvgPop 283.10 (2.8s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918, 39935) and dimension 6
+[tsp Yahoo s2028] 64/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.001, 'L': 2} -> R@20 0.32666 N@20 0.19469 AvgPop 267.92 (75.1s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918, 39935) and dimension 6
+[tsp Yahoo s2028] 65/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.001, 'L': 3} -> R@20 0.32661 N@20 0.19468 AvgPop 267.93 (2.7s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918, 39935) and dimension 6
+[tsp Yahoo s2028] 66/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.001, 'L': 4} -> R@20 0.32661 N@20 0.19468 AvgPop 267.94 (2.8s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918, 39935) and dimension 6
+[tsp Yahoo s2028] 67/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.005, 'L': 2} -> R@20 0.32671 N@20 0.19473 AvgPop 268.01 (2.4s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918, 39935) and dimension 6
+[tsp Yahoo s2028] 68/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.005, 'L': 3} -> R@20 0.32683 N@20 0.19478 AvgPop 268.12 (2.6s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918, 39935) and dimension 6
+[tsp Yahoo s2028] 69/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.005, 'L': 4} -> R@20 0.32674 N@20 0.19481 AvgPop 268.17 (4.2s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918, 39935) and dimension 6
+[tsp Yahoo s2028] 70/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.01, 'L': 2} -> R@20 0.32674 N@20 0.19484 AvgPop 268.18 (2.5s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918, 39935) and dimension 6
+[tsp Yahoo s2028] 71/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.01, 'L': 3} -> R@20 0.32672 N@20 0.19486 AvgPop 268.22 (2.7s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918, 39935) and dimension 6
+[tsp Yahoo s2028] 72/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.01, 'L': 4} -> R@20 0.32684 N@20 0.19495 AvgPop 268.34 (2.9s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918, 39935) and dimension 6
+[tsp Yahoo s2028] 73/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.05, 'L': 2} -> R@20 0.32793 N@20 0.19539 AvgPop 269.00 (2.5s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918, 39935) and dimension 6
+[tsp Yahoo s2028] 74/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.05, 'L': 3} -> R@20 0.32850 N@20 0.19578 AvgPop 269.47 (2.7s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918, 39935) and dimension 6
+[tsp Yahoo s2028] 75/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.05, 'L': 4} -> R@20 0.32955 N@20 0.19618 AvgPop 269.89 (2.7s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918, 39935) and dimension 6
+[tsp Yahoo s2028] 76/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.1, 'L': 2} -> R@20 0.32966 N@20 0.19623 AvgPop 269.94 (2.5s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918, 39935) and dimension 6
+[tsp Yahoo s2028] 77/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.1, 'L': 3} -> R@20 0.33096 N@20 0.19685 AvgPop 270.85 (2.9s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918, 39935) and dimension 6
+[tsp Yahoo s2028] 78/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.1, 'L': 4} -> R@20 0.33131 N@20 0.19712 AvgPop 271.67 (2.8s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918, 39935) and dimension 6
+[tsp Yahoo s2028] 79/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.5, 'L': 2} -> R@20 0.33578 N@20 0.20024 AvgPop 276.38 (2.5s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918, 39935) and dimension 6
+[tsp Yahoo s2028] 80/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.5, 'L': 3} -> R@20 0.33790 N@20 0.20164 AvgPop 278.92 (2.7s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918, 39935) and dimension 6
+[tsp Yahoo s2028] 81/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 0.5, 'L': 4} -> R@20 0.33970 N@20 0.20264 AvgPop 280.49 (2.8s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918, 39935) and dimension 6
+[tsp Yahoo s2028] 82/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 1.0, 'L': 2} -> R@20 0.34077 N@20 0.20332 AvgPop 281.72 (2.4s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918, 39935) and dimension 6
+[tsp Yahoo s2028] 83/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 1.0, 'L': 3} -> R@20 0.34202 N@20 0.20418 AvgPop 282.84 (2.6s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918, 39935) and dimension 6
+[tsp Yahoo s2028] 84/84 {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 1.0, 'L': 4} -> R@20 0.34296 N@20 0.20462 AvgPop 283.37 (2.8s)
+[tsp] semantic graph: 15382 nodes, 118218 edges (theta=0.3, topk=10)
+[tsp] Simplicial Complex with shape (15382, 118218, 179677, 169293, 129037, 80918, 39935) and dimension 6
+[tsp Yahoo s2028] selected {'theta': 0.3, 'topk': 10, 'variant': 'full', 'normalized': True, 'K': 6, 'beta': 1.0, 'L': 4} | valid R@20 0.34296 | test R@20 0.11851 N@20 0.05327 AvgPop@20 283.97 -> /home/mohab/Workspace/99-temp/Masters/thesis/runs/Yahoo/seed2028/tsp_selected.json
+[baselines] wall time 430.2s

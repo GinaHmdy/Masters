@@ -1,0 +1,27 @@
+[0;30;43mCpp extension not loaded[0m
+[0;30;43muse NORMAL distribution initilizer[0m
+loading adjacency matrix
+successfully loaded...
+/home/mohab/Workspace/99-temp/Masters/thesis/third_party/LightGCN-PyTorch/code/dataloader.py:330: UserWarning: torch.sparse.SparseTensor(indices, values, shape, *, device=) is deprecated.  Please use torch.sparse_coo_tensor(indices, values, shape, dtype=, device=). (Triggered internally at /__w/pytorch/pytorch/torch/csrc/utils/tensor_new.cpp:653.)
+  return torch.sparse.FloatTensor(index, data, torch.Size(coo.shape))
+don't split the matrix
+lgn is already to go(dropout:0)
+[KuaiRec s2026] epoch 5 loss0.187-|Sample:13.80| epoch_time=32.0s valid R@20=0.1856
+[KuaiRec s2026] epoch 10 loss0.152-|Sample:11.58| epoch_time=25.8s valid R@20=0.1806
+[KuaiRec s2026] epoch 15 loss0.128-|Sample:11.42| epoch_time=27.8s valid R@20=0.1712
+[KuaiRec s2026] epoch 20 loss0.113-|Sample:11.92| epoch_time=31.5s valid R@20=0.1689
+[KuaiRec s2026] epoch 25 loss0.099-|Sample:11.95| epoch_time=26.9s valid R@20=0.1651
+[KuaiRec s2026] epoch 30 loss0.090-|Sample:12.22| epoch_time=31.7s valid R@20=0.1637
+[KuaiRec s2026] epoch 35 loss0.080-|Sample:13.06| epoch_time=41.6s valid R@20=0.1631
+[KuaiRec s2026] epoch 40 loss0.073-|Sample:12.74| epoch_time=41.9s valid R@20=0.1613
+[KuaiRec s2026] epoch 45 loss0.067-|Sample:12.82| epoch_time=42.5s valid R@20=0.1611
+[KuaiRec s2026] epoch 50 loss0.063-|Sample:12.53| epoch_time=42.3s valid R@20=0.1600
+[KuaiRec s2026] epoch 55 loss0.058-|Sample:13.25| epoch_time=41.6s valid R@20=0.1600
+{"dataset": "KuaiRec", "seed": 2026, "config": {"decay": 0.0001, "dropout": 0, "keepprob": 0.6, "eval_every": 5, "patience": 10, "layer": 2, "recdim": 256, "epochs": 1000, "bpr_batch": 2048, "lr": 0.001}, "best_epoch": 5, "best_valid_recall20": 0.18557591931782705, "sampler": "UniformSample_original_python", "wall_time_s": 1892.834984779358, "torch": "2.13.0+cu130"}
+[0;30;43muse NORMAL distribution initilizer[0m
+loading adjacency matrix
+successfully loaded...
+don't split the matrix
+lgn is already to go(dropout:0)
+[KuaiRec s2026] LightGCN best epoch 5/55 | test R@20 0.17878 N@20 0.40745 AvgPop@20 1746.27
+[backbone] wall time 1894.6s

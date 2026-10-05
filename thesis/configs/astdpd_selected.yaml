@@ -1,0 +1,130 @@
+# Validation-retuned ASTD-PD configurations, written by `python -m src.astdpd.tune`.
+# src/astdpd/train.py:load_config prefers <dataset>.config over configs/astdpd.yaml.
+# Selection used validation metrics only; see runs/<dataset>/astdpd_tune.json.
+Coat:
+  config:
+    lr: 0.001
+    decay: 0.0001
+    patience: 20
+    n_layers: 2
+    latent_dim: 64
+    epochs: 50
+    batch_size: 512
+    model: {alpha_base: 0.1, topo_pop_damping: 0.5, tail_phi: 3.0, fuse_lambda_max: 1.0,
+      temperature_acc: 0.2, temperature_deb: 0.2, lambda_final: 1.0, lambda_acc: 1.0,
+      lambda_deb: 0.1, lambda_ind: 0.1, inference_pop_penalty: 1.0, fuse_lambda_min: 0.0,
+      highfreq_gamma: 0.3}
+    sampler: {uniform_ratio: 0.2, matched_ratio: 0.6, hard_ratio: 0.2}
+  tune_log: runs/Coat/astdpd_tune.json
+  config_id: ef6ed183bf
+  overrides:
+    inference_pop_penalty: 1.0
+    sampler: [0.2, 0.6, 0.2]
+    tail_phi: 3.0
+    lambda_deb: 0.1
+    fuse_lambda_min: 0.0
+    fuse_lambda_max: 1.0
+    alpha_base: 0.1
+    topo_pop_damping: 0.5
+    lambda_ind: 0.1
+    highfreq_gamma: 0.3
+  feasible: true
+  valid_mean_confirm_seeds: {recall@20: 0.09819071945508727, ndcg@20: 0.04523592838283464,
+    precision@20: 0.010600255427841635, avgpop@20: 16.59955300127714, aplt@20: 0.6387611749680716,
+    coverage@20: 0.6255555555555555, recall@10: 0.04887186036611324, ndcg@10: 0.029832331787777656,
+    avgpop@10: 21.376628352490417}
+Yahoo:
+  config:
+    lr: 0.001
+    decay: 0.0001
+    patience: 20
+    n_layers: 2
+    latent_dim: 256
+    epochs: 100
+    batch_size: 2048
+    model: {alpha_base: 0.2, topo_pop_damping: 0.1, tail_phi: 1.0, fuse_lambda_max: 0.8,
+      highfreq_gamma: 0.1, inference_pop_penalty: 6.0, lambda_deb: 0.3, fuse_lambda_min: 0.2,
+      lambda_ind: 0.3}
+    sampler: {uniform_ratio: 0.2, matched_ratio: 0.6, hard_ratio: 0.2}
+  tune_log: runs/Yahoo/astdpd_tune.json
+  config_id: 4b89d2c5da
+  overrides:
+    inference_pop_penalty: 6.0
+    sampler: [0.2, 0.6, 0.2]
+    tail_phi: 1.0
+    lambda_deb: 0.3
+    fuse_lambda_min: 0.2
+    fuse_lambda_max: 0.8
+    alpha_base: 0.2
+    topo_pop_damping: 0.1
+    lambda_ind: 0.3
+    highfreq_gamma: 0.1
+  feasible: true
+  valid_mean_confirm_seeds: {recall@20: 0.31206370748353246, ndcg@20: 0.21574737270564295,
+    precision@20: 0.047321054207846665, avgpop@20: 286.3650029949086, aplt@20: 0.5920170709793351,
+    coverage@20: 0.981, recall@10: 0.24399773362641755, ndcg@10: 0.19323998007815527,
+    avgpop@10: 434.7696825396826}
+KuaiRec:
+  config:
+    lr: 0.001
+    decay: 0.0001
+    patience: 20
+    n_layers: 2
+    latent_dim: 256
+    epochs: 100
+    batch_size: 2048
+    model: {alpha_base: 0.2, topo_pop_damping: 0.1, tail_phi: 1.0, fuse_lambda_max: 0.8,
+      temperature_acc: 0.2, temperature_deb: 0.2, lambda_final: 1.0, lambda_acc: 1.0,
+      lambda_deb: 0.3, lambda_ind: 0.3, inference_pop_penalty: 3.0, fuse_lambda_min: 0.2,
+      highfreq_gamma: 0.1}
+    sampler: {uniform_ratio: 0.2, matched_ratio: 0.6, hard_ratio: 0.2}
+  tune_log: runs/KuaiRec/astdpd_tune.json
+  config_id: a49428f178
+  overrides:
+    inference_pop_penalty: 3.0
+    sampler: [0.2, 0.6, 0.2]
+    tail_phi: 1.0
+    lambda_deb: 0.3
+    fuse_lambda_min: 0.2
+    fuse_lambda_max: 0.8
+    alpha_base: 0.2
+    topo_pop_damping: 0.1
+    lambda_ind: 0.3
+    highfreq_gamma: 0.1
+  feasible: true
+  valid_mean_confirm_seeds: {recall@20: 0.17398862107410365, ndcg@20: 0.21252932075755396,
+    precision@20: 0.1705082742316785, avgpop@20: 1427.5675650118203, aplt@20: 0.05390070921985816,
+    coverage@20: 0.04757022122793935, recall@10: 0.10303794035563567, ndcg@10: 0.20058226123211734,
+    avgpop@10: 1709.2713711583922}
+Gowalla:
+  config:
+    lr: 0.001
+    decay: 0.0001
+    patience: 20
+    n_layers: 3
+    latent_dim: 64
+    epochs: 100
+    batch_size: 2048
+    model: {alpha_base: 0.4, topo_pop_damping: 0.3, tail_phi: 1.5, fuse_lambda_max: 0.8,
+      temperature_acc: 0.2, temperature_deb: 0.2, lambda_final: 1.0, lambda_acc: 1.0,
+      lambda_deb: 0.5, lambda_ind: 0.1, inference_pop_penalty: 3.0, fuse_lambda_min: 0.2,
+      highfreq_gamma: 0.3}
+    sampler: {uniform_ratio: 0.1, matched_ratio: 0.6, hard_ratio: 0.3}
+  tune_log: runs/Gowalla/astdpd_tune.json
+  config_id: 4ad72f6581
+  overrides:
+    inference_pop_penalty: 3.0
+    sampler: [0.1, 0.6, 0.3]
+    tail_phi: 1.5
+    lambda_deb: 0.5
+    fuse_lambda_min: 0.2
+    fuse_lambda_max: 0.8
+    alpha_base: 0.4
+    topo_pop_damping: 0.3
+    lambda_ind: 0.1
+    highfreq_gamma: 0.3
+  feasible: true
+  valid_mean_confirm_seeds: {recall@20: 0.04935978731423649, ndcg@20: 0.032146711503222174,
+    precision@20: 0.010701207939803961, avgpop@20: 23.377905418983186, aplt@20: 0.9673510170361935,
+    coverage@20: 0.3192455040140553, recall@10: 0.030142676026532658, ndcg@10: 0.025690430548855853,
+    avgpop@10: 31.038046754638625}

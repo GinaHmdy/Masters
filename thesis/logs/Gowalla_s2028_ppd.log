@@ -1,0 +1,11 @@
+[0;30;43mCpp extension not loaded[0m
+[0;30;43muse NORMAL distribution initilizer[0m
+loading adjacency matrix
+successfully loaded...
+/home/mohab/Workspace/99-temp/Masters/thesis/third_party/LightGCN-PyTorch/code/dataloader.py:330: UserWarning: torch.sparse.SparseTensor(indices, values, shape, *, device=) is deprecated.  Please use torch.sparse_coo_tensor(indices, values, shape, dtype=, device=). (Triggered internally at /__w/pytorch/pytorch/torch/csrc/utils/tensor_new.cpp:653.)
+  return torch.sparse.FloatTensor(index, data, torch.Size(coo.shape))
+don't split the matrix
+lgn is already to go(dropout:0)
+[0;30;43mCpp extension not loaded[0m
+[ppd Gowalla s2028] selected {'beta': 0.3, 'phi': 1.0} | valid R@20 0.14006 | test R@20 0.13280 N@20 0.10536 AvgPop@20 164.05 -> /home/mohab/Workspace/99-temp/Masters/thesis/runs/Gowalla/seed2028/ppd_selected.json
+[baselines] wall time 81.8s

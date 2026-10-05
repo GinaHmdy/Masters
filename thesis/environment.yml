@@ -1,0 +1,37 @@
+# Pinned to the versions installed in the `gMasters` env this benchmark was run in
+# (python 3.12.14, torch 2.13.0+cu130, CUDA 13.0 wheels, cuDNN 9.20).
+#
+# Install:
+#   conda env create -f environment.yml        # creates env `thesis`
+#   conda activate thesis
+#   python -c "import torch; print(torch.__version__, torch.cuda.is_available())"
+#
+# torch comes from the PyTorch cu130 wheel index (bundles the CUDA runtime as nvidia-* wheels;
+# only an NVIDIA driver supporting CUDA 13.0 is needed on the host). For another CUDA version
+# swap the index URL (e.g. .../whl/cu128) and the torch version accordingly.
+#
+# Imported by the vendored official code: torch, numpy, scipy, pandas, scikit-learn
+# (roc_auc_score), tensorboardX, tqdm, cppimport (LightGCN's optional C++ sampler; falls
+# back to Python if it cannot build), networkx + toponetx (TSP), matplotlib.
+# Imported by thesis/src: torch, numpy, scipy, pyyaml.
+name: thesis
+channels:
+  - defaults
+dependencies:
+  - python=3.12.14
+  - pip=26.2.1
+  - pip:
+      - --extra-index-url https://download.pytorch.org/whl/cu130
+      - torch==2.13.0+cu130
+      - numpy==2.5.2
+      - scipy==1.18.1
+      - pandas==3.0.5
+      - scikit-learn==1.9.0
+      - networkx==3.6.1
+      - TopoNetX==0.4.0
+      - tensorboardX==2.6.5
+      - tqdm==4.70.0
+      - PyYAML==6.0.3
+      - matplotlib==3.11.1
+      - cppimport==26.4.17
+      - pybind11==3.1.0

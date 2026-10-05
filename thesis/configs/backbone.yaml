@@ -1,0 +1,44 @@
+# LightGCN backbone hyperparameters per dataset.
+# Source: LightGCN/code/experiment_configs.py, DATASET_CONFIGS[<ds>] (layer, recdim, epochs,
+# bpr_batch, lr) of the previous harness at commit ed06d1a. `decay`, `dropout`, `keepprob` were
+# never overridden there, so they are the parser defaults of both the old harness and the
+# official LightGCN-PyTorch parse.py (1e-4, 0, 0.6).
+# `epochs` is a cap only: 1000 = the official LightGCN-PyTorch parse.py default (the old
+# harness's 50/100 cut Gowalla off while still improving).
+# Model selection is ours (the official code has none): validation Recall@20 every
+# `eval_every` epochs, stop after `patience` checks without improvement, keep the best.
+
+defaults:
+  decay: 1.0e-4
+  dropout: 0
+  keepprob: 0.6
+  eval_every: 5
+  patience: 10
+
+Gowalla:
+  layer: 3
+  recdim: 64
+  epochs: 1000
+  bpr_batch: 2048
+  lr: 0.001
+
+Yahoo:
+  layer: 2
+  recdim: 256
+  epochs: 1000
+  bpr_batch: 2048
+  lr: 0.001
+
+KuaiRec:
+  layer: 2
+  recdim: 256
+  epochs: 1000
+  bpr_batch: 2048
+  lr: 0.001
+
+Coat:
+  layer: 2
+  recdim: 64
+  epochs: 1000
+  bpr_batch: 512
+  lr: 0.001

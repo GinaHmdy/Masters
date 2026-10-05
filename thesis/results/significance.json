@@ -1,0 +1,2149 @@
+{
+  "meta": {
+    "generated": "2026-10-04 03:07:59",
+    "seeds": [
+      2024,
+      2025,
+      2026,
+      2027,
+      2028
+    ],
+    "std": "sample std over seeds (ddof=1)",
+    "stale_results_ignored": [],
+    "selection": {
+      "LightGCN": "valid Recall@20 every 5 epochs, patience 10 checks",
+      "PPD/TSP/DAP": "grid on valid Recall@20 (ties NDCG@20), configs/grids.yaml",
+      "ASTD-PD": "valid Pareto hypervolume, src/astdpd/train.py; hyperparameters re-tuned on validation (src/astdpd/tune.py) where configs/astdpd_selected.yaml lists the dataset"
+    },
+    "metrics": [
+      "recall@20",
+      "ndcg@20",
+      "precision@20",
+      "avgpop@20"
+    ],
+    "holm": "across the 4 metrics, per level"
+  },
+  "Coat": {
+    "ASTD-PD vs LightGCN": {
+      "seeds": [
+        2024,
+        2025,
+        2026,
+        2027,
+        2028
+      ],
+      "across_seed": {
+        "recall@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.12906857081234308,
+          "baseline_std": 0.01028596227159546,
+          "candidate_mean": 0.09365397749739388,
+          "candidate_std": 0.005498038309697403,
+          "mean_diff": -0.03541459331494918,
+          "diff_std_across_seeds": 0.013906231997890837,
+          "sigma_of_baseline": -3.4430024512870396,
+          "p_value": 0.0070150863934040665,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.00925406287146544
+        },
+        "ndcg@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.07066364230662588,
+          "baseline_std": 0.002981671710483148,
+          "candidate_mean": 0.054215752648040585,
+          "candidate_std": 0.002765470738299979,
+          "mean_diff": -0.016447889658585298,
+          "diff_std_across_seeds": 0.0051507040797020365,
+          "sigma_of_baseline": -5.516331526625409,
+          "p_value": 0.0030846876238218132,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.00925406287146544
+        },
+        "precision@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.022740213523131676,
+          "baseline_std": 0.0014904193303467567,
+          "candidate_mean": 0.017153024911032027,
+          "candidate_std": 0.0011117793132963205,
+          "mean_diff": -0.005587188612099643,
+          "diff_std_across_seeds": 0.0018750092344938778,
+          "sigma_of_baseline": -3.7487360089457136,
+          "p_value": 0.0039797290042054645,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.00925406287146544
+        },
+        "avgpop@20": {
+          "n_seeds": 5,
+          "baseline_mean": 25.812028469750892,
+          "baseline_std": 1.2788493957079226,
+          "candidate_mean": 16.245765124555156,
+          "candidate_std": 0.8624377839113334,
+          "mean_diff": -9.56626334519573,
+          "diff_std_across_seeds": 1.1197070571453063,
+          "sigma_of_baseline": -7.4803674125366495,
+          "p_value": 6.880621186957283e-05,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.00027522484747829134
+        }
+      },
+      "per_user": {
+        "recall@20": {
+          "n_pairs": 1405,
+          "mean_diff": -0.035414593314949186,
+          "n_better": 187,
+          "n_worse": 307,
+          "n_tied": 911,
+          "p_value": 2.0764143930378185e-09,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 4.152828786075637e-09
+        },
+        "ndcg@20": {
+          "n_pairs": 1405,
+          "mean_diff": -0.0164478896585853,
+          "n_better": 281,
+          "n_worse": 381,
+          "n_tied": 743,
+          "p_value": 1.4197694879904492e-08,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 1.4197694879904492e-08
+        },
+        "precision@20": {
+          "n_pairs": 1405,
+          "mean_diff": -0.005587188612099644,
+          "n_better": 187,
+          "n_worse": 307,
+          "n_tied": 911,
+          "p_value": 1.3532141710289826e-09,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 4.0596425130869475e-09
+        },
+        "avgpop@20": {
+          "n_pairs": 1405,
+          "mean_diff": -9.566263345195729,
+          "n_better": 3,
+          "n_worse": 1401,
+          "n_tied": 1,
+          "p_value": 4.7076563663077615e-231,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 1.8830625465231046e-230
+        }
+      }
+    },
+    "ASTD-PD vs PPD": {
+      "seeds": [
+        2024,
+        2025,
+        2026,
+        2027,
+        2028
+      ],
+      "across_seed": {
+        "recall@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.12261383535404888,
+          "baseline_std": 0.013354745657103805,
+          "candidate_mean": 0.09365397749739388,
+          "candidate_std": 0.005498038309697403,
+          "mean_diff": -0.028959857856655013,
+          "diff_std_across_seeds": 0.017348892178305982,
+          "sigma_of_baseline": -2.168506881390913,
+          "p_value": 0.02887538521848072,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.03941669114427452
+        },
+        "ndcg@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.0671398435556406,
+          "baseline_std": 0.004202677757747914,
+          "candidate_mean": 0.054215752648040585,
+          "candidate_std": 0.002765470738299979,
+          "mean_diff": -0.012924090907600017,
+          "diff_std_across_seeds": 0.006867407489140387,
+          "sigma_of_baseline": -3.0752038706212015,
+          "p_value": 0.01970834557213726,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.03941669114427452
+        },
+        "precision@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.02217081850533808,
+          "baseline_std": 0.0014955089956904405,
+          "candidate_mean": 0.017153024911032027,
+          "candidate_std": 0.0011117793132963205,
+          "mean_diff": -0.005017793594306048,
+          "diff_std_across_seeds": 0.002197779025856869,
+          "sigma_of_baseline": -3.3552413317242897,
+          "p_value": 0.010290050227497509,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.030870150682492527
+        },
+        "avgpop@20": {
+          "n_seeds": 5,
+          "baseline_mean": 24.140925266903913,
+          "baseline_std": 1.4566965298514665,
+          "candidate_mean": 16.245765124555156,
+          "candidate_std": 0.8624377839113334,
+          "mean_diff": -7.895160142348755,
+          "diff_std_across_seeds": 1.5976234566414185,
+          "sigma_of_baseline": -5.419907290610346,
+          "p_value": 0.0005880481141586783,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.002352192456634713
+        }
+      },
+      "per_user": {
+        "recall@20": {
+          "n_pairs": 1405,
+          "mean_diff": -0.028959857856655006,
+          "n_better": 192,
+          "n_worse": 298,
+          "n_tied": 915,
+          "p_value": 2.0377098373771995e-07,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 4.075419674754399e-07
+        },
+        "ndcg@20": {
+          "n_pairs": 1405,
+          "mean_diff": -0.012924090907600019,
+          "n_better": 285,
+          "n_worse": 389,
+          "n_tied": 731,
+          "p_value": 5.813923794752957e-06,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 5.813923794752957e-06
+        },
+        "precision@20": {
+          "n_pairs": 1405,
+          "mean_diff": -0.00501779359430605,
+          "n_better": 192,
+          "n_worse": 298,
+          "n_tied": 915,
+          "p_value": 1.279618838629844e-07,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 3.838856515889532e-07
+        },
+        "avgpop@20": {
+          "n_pairs": 1405,
+          "mean_diff": -7.895160142348755,
+          "n_better": 31,
+          "n_worse": 1372,
+          "n_tied": 2,
+          "p_value": 6.262299356146722e-229,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 2.5049197424586888e-228
+        }
+      }
+    },
+    "ASTD-PD vs TSP": {
+      "seeds": [
+        2024,
+        2025,
+        2026,
+        2027,
+        2028
+      ],
+      "across_seed": {
+        "recall@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.12257709273723508,
+          "baseline_std": 0.00994592852983356,
+          "candidate_mean": 0.09365397749739388,
+          "candidate_std": 0.005498038309697403,
+          "mean_diff": -0.0289231152398412,
+          "diff_std_across_seeds": 0.013581383757230276,
+          "sigma_of_baseline": -2.908035700546625,
+          "p_value": 0.013061617608606971,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.022921155931489436
+        },
+        "ndcg@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.06404133882070209,
+          "baseline_std": 0.0024865270789873883,
+          "candidate_mean": 0.054215752648040585,
+          "candidate_std": 0.002765470738299979,
+          "mean_diff": -0.009825586172661509,
+          "diff_std_across_seeds": 0.0032570191472157443,
+          "sigma_of_baseline": -3.9515299293112363,
+          "p_value": 0.0038041105875006227,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.011412331762501868
+        },
+        "precision@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.021708185053380784,
+          "baseline_std": 0.00169926496602325,
+          "candidate_mean": 0.017153024911032027,
+          "candidate_std": 0.0011117793132963205,
+          "mean_diff": -0.004555160142348753,
+          "diff_std_across_seeds": 0.0020585273827728938,
+          "sigma_of_baseline": -2.680665013066849,
+          "p_value": 0.011460577965744718,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.022921155931489436
+        },
+        "avgpop@20": {
+          "n_seeds": 5,
+          "baseline_mean": 20.82224199288256,
+          "baseline_std": 1.1275869139797658,
+          "candidate_mean": 16.245765124555156,
+          "candidate_std": 0.8624377839113334,
+          "mean_diff": -4.576476868327402,
+          "diff_std_across_seeds": 1.3617845478628163,
+          "sigma_of_baseline": -4.058646665359869,
+          "p_value": 0.002551652503608259,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.010206610014433036
+        }
+      },
+      "per_user": {
+        "recall@20": {
+          "n_pairs": 1405,
+          "mean_diff": -0.028923115239841216,
+          "n_better": 215,
+          "n_worse": 304,
+          "n_tied": 886,
+          "p_value": 1.567208802073713e-05,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 3.134417604147426e-05
+        },
+        "ndcg@20": {
+          "n_pairs": 1405,
+          "mean_diff": -0.009825586172661506,
+          "n_better": 320,
+          "n_worse": 359,
+          "n_tied": 726,
+          "p_value": 0.024971281108743384,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.024971281108743384
+        },
+        "precision@20": {
+          "n_pairs": 1405,
+          "mean_diff": -0.004555160142348755,
+          "n_better": 215,
+          "n_worse": 304,
+          "n_tied": 886,
+          "p_value": 4.796862039231313e-06,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 1.4390586117693938e-05
+        },
+        "avgpop@20": {
+          "n_pairs": 1405,
+          "mean_diff": -4.576476868327402,
+          "n_better": 198,
+          "n_worse": 1207,
+          "n_tied": 0,
+          "p_value": 4.3813686960189303e-156,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 1.7525474784075721e-155
+        }
+      }
+    },
+    "ASTD-PD vs DAP": {
+      "seeds": [
+        2024,
+        2025,
+        2026,
+        2027,
+        2028
+      ],
+      "across_seed": {
+        "recall@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.1310753441892232,
+          "baseline_std": 0.013920778073481263,
+          "candidate_mean": 0.09365397749739388,
+          "candidate_std": 0.005498038309697403,
+          "mean_diff": -0.03742136669182932,
+          "diff_std_across_seeds": 0.01768168517699591,
+          "sigma_of_baseline": -2.6881663147203025,
+          "p_value": 0.013340313349772162,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.025985083728395662
+        },
+        "ndcg@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.07158813769498522,
+          "baseline_std": 0.004955796323021334,
+          "candidate_mean": 0.054215752648040585,
+          "candidate_std": 0.002765470738299979,
+          "mean_diff": -0.01737238504694464,
+          "diff_std_across_seeds": 0.007241726338223532,
+          "sigma_of_baseline": -3.505467923740952,
+          "p_value": 0.008661694576131888,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.025985083728395662
+        },
+        "precision@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.023487544483985767,
+          "baseline_std": 0.0021441096557141734,
+          "candidate_mean": 0.017153024911032027,
+          "candidate_std": 0.0011117793132963205,
+          "mean_diff": -0.006334519572953737,
+          "diff_std_across_seeds": 0.0026645276223964246,
+          "sigma_of_baseline": -2.9543822798763504,
+          "p_value": 0.00893992410540813,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.025985083728395662
+        },
+        "avgpop@20": {
+          "n_seeds": 5,
+          "baseline_mean": 24.966903914590745,
+          "baseline_std": 0.8206726605102798,
+          "candidate_mean": 16.245765124555156,
+          "candidate_std": 0.8624377839113334,
+          "mean_diff": -8.721138790035589,
+          "diff_std_across_seeds": 0.8540993949901774,
+          "sigma_of_baseline": -10.626817743158325,
+          "p_value": 3.395170096935591e-05,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.00013580680387742365
+        }
+      },
+      "per_user": {
+        "recall@20": {
+          "n_pairs": 1405,
+          "mean_diff": -0.03742136669182933,
+          "n_better": 186,
+          "n_worse": 321,
+          "n_tied": 898,
+          "p_value": 2.570814857856103e-09,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 5.141629715712206e-09
+        },
+        "ndcg@20": {
+          "n_pairs": 1405,
+          "mean_diff": -0.017372385046944636,
+          "n_better": 283,
+          "n_worse": 396,
+          "n_tied": 726,
+          "p_value": 8.455202771597202e-09,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 8.455202771597202e-09
+        },
+        "precision@20": {
+          "n_pairs": 1405,
+          "mean_diff": -0.0063345195729537385,
+          "n_better": 186,
+          "n_worse": 321,
+          "n_tied": 898,
+          "p_value": 1.2495650547746816e-10,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 3.7486951643240445e-10
+        },
+        "avgpop@20": {
+          "n_pairs": 1405,
+          "mean_diff": -8.721138790035587,
+          "n_better": 9,
+          "n_worse": 1395,
+          "n_tied": 1,
+          "p_value": 4.0874473474361388e-230,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 1.6349789389744555e-229
+        }
+      }
+    },
+    "ASTD-PD vs ASTD-PD (shipped)": {
+      "seeds": [
+        2024,
+        2025,
+        2026,
+        2027,
+        2028
+      ],
+      "across_seed": {
+        "recall@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.11855463634823064,
+          "baseline_std": 0.0031377230154741183,
+          "candidate_mean": 0.09365397749739388,
+          "candidate_std": 0.005498038309697403,
+          "mean_diff": -0.024900658850836775,
+          "diff_std_across_seeds": 0.004246523751652459,
+          "sigma_of_baseline": -7.935900883550175,
+          "p_value": 0.00030238397256778643,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.0009071519177033593
+        },
+        "ndcg@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.06600556003008101,
+          "baseline_std": 0.0021064821883423914,
+          "candidate_mean": 0.054215752648040585,
+          "candidate_std": 0.002765470738299979,
+          "mean_diff": -0.011789807382040426,
+          "diff_std_across_seeds": 0.0026759889855325313,
+          "sigma_of_baseline": -5.596917670268993,
+          "p_value": 0.0009152562427745132,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.0018305124855490264
+        },
+        "precision@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.021743772241992882,
+          "baseline_std": 0.0005326202685799209,
+          "candidate_mean": 0.017153024911032027,
+          "candidate_std": 0.0011117793132963205,
+          "mean_diff": -0.004590747330960852,
+          "diff_std_across_seeds": 0.0012702183841690206,
+          "sigma_of_baseline": -8.619175051675676,
+          "p_value": 0.0019432707113171076,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.0019432707113171076
+        },
+        "avgpop@20": {
+          "n_seeds": 5,
+          "baseline_mean": 25.921708185053383,
+          "baseline_std": 0.9683884908947956,
+          "candidate_mean": 16.245765124555156,
+          "candidate_std": 0.8624377839113334,
+          "mean_diff": -9.675943060498224,
+          "diff_std_across_seeds": 0.25691962246023936,
+          "sigma_of_baseline": -9.991798902481385,
+          "p_value": 1.8618170640504958e-07,
+          "test": "paired t-test over seeds",
+          "p_holm": 7.447268256201983e-07
+        }
+      },
+      "per_user": {
+        "recall@20": {
+          "n_pairs": 1405,
+          "mean_diff": -0.024900658850836786,
+          "n_better": 148,
+          "n_worse": 246,
+          "n_tied": 1011,
+          "p_value": 6.927092542659583e-08,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 1.0854232907998921e-07
+        },
+        "ndcg@20": {
+          "n_pairs": 1405,
+          "mean_diff": -0.01178980738204043,
+          "n_better": 235,
+          "n_worse": 353,
+          "n_tied": 817,
+          "p_value": 5.4271164539994604e-08,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 1.0854232907998921e-07
+        },
+        "precision@20": {
+          "n_pairs": 1405,
+          "mean_diff": -0.004590747330960854,
+          "n_better": 148,
+          "n_worse": 246,
+          "n_tied": 1011,
+          "p_value": 2.6761916710434976e-08,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 8.028575013130493e-08
+        },
+        "avgpop@20": {
+          "n_pairs": 1405,
+          "mean_diff": -9.675943060498222,
+          "n_better": 0,
+          "n_worse": 1405,
+          "n_tied": 0,
+          "p_value": 3.082921704148757e-231,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 1.2331686816595029e-230
+        }
+      }
+    }
+  },
+  "Yahoo": {
+    "ASTD-PD vs LightGCN": {
+      "seeds": [
+        2024,
+        2025,
+        2026,
+        2027,
+        2028
+      ],
+      "across_seed": {
+        "recall@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.1409309660358758,
+          "baseline_std": 0.001649634970769084,
+          "candidate_mean": 0.11089812761025516,
+          "candidate_std": 0.003601628358944462,
+          "mean_diff": -0.030032838425620635,
+          "diff_std_across_seeds": 0.0033348143958789084,
+          "sigma_of_baseline": -18.205747912593587,
+          "p_value": 5.585476501914636e-05,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.00016756429505743908
+        },
+        "ndcg@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.06359524530263767,
+          "baseline_std": 0.0010823349764538127,
+          "candidate_mean": 0.05299654121000326,
+          "candidate_std": 0.001021511964398316,
+          "mean_diff": -0.010598704092634411,
+          "diff_std_across_seeds": 0.001196563419043918,
+          "sigma_of_baseline": -9.792443488577122,
+          "p_value": 5.964764096284277e-05,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.00016756429505743908
+        },
+        "precision@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.011057490558120017,
+          "baseline_std": 0.00010106248072842928,
+          "candidate_mean": 0.009127150650440622,
+          "candidate_std": 0.00024468954657344896,
+          "mean_diff": -0.0019303399076793953,
+          "diff_std_across_seeds": 0.0003134678874860775,
+          "sigma_of_baseline": -19.100460366360107,
+          "p_value": 0.00024969959329350605,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.00024969959329350605
+        },
+        "avgpop@20": {
+          "n_seeds": 5,
+          "baseline_mean": 597.1421569450273,
+          "baseline_std": 21.034417541903164,
+          "candidate_mean": 289.55801930339913,
+          "candidate_std": 4.46862232523161,
+          "mean_diff": -307.58413764162816,
+          "diff_std_across_seeds": 24.494464493583557,
+          "sigma_of_baseline": -14.622897783068273,
+          "p_value": 1.492350777937056e-05,
+          "test": "paired t-test over seeds",
+          "p_holm": 5.969403111748224e-05
+        }
+      },
+      "per_user": {
+        "recall@20": {
+          "n_pairs": 11915,
+          "mean_diff": -0.03003283842562063,
+          "n_better": 776,
+          "n_worse": 1227,
+          "n_tied": 9912,
+          "p_value": 8.429137064109032e-29,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 2.5287411192327095e-28
+        },
+        "ndcg@20": {
+          "n_pairs": 11915,
+          "mean_diff": -0.010598704092634408,
+          "n_better": 1307,
+          "n_worse": 1729,
+          "n_tied": 8879,
+          "p_value": 1.393371279561456e-22,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 1.393371279561456e-22
+        },
+        "precision@20": {
+          "n_pairs": 11915,
+          "mean_diff": -0.001930339907679396,
+          "n_better": 776,
+          "n_worse": 1227,
+          "n_tied": 9912,
+          "p_value": 3.303351530261506e-23,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 6.606703060523012e-23
+        },
+        "avgpop@20": {
+          "n_pairs": 11915,
+          "mean_diff": -307.5841376416282,
+          "n_better": 362,
+          "n_worse": 11553,
+          "n_tied": 0,
+          "p_value": 0.0,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.0
+        }
+      }
+    },
+    "ASTD-PD vs PPD": {
+      "seeds": [
+        2024,
+        2025,
+        2026,
+        2027,
+        2028
+      ],
+      "across_seed": {
+        "recall@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.12600150537204668,
+          "baseline_std": 0.0018258767794018613,
+          "candidate_mean": 0.11089812761025516,
+          "candidate_std": 0.003601628358944462,
+          "mean_diff": -0.01510337776179151,
+          "diff_std_across_seeds": 0.0038349985885479583,
+          "sigma_of_baseline": -8.271849410746777,
+          "p_value": 0.0014044680859972352,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.0028089361719944705
+        },
+        "ndcg@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.058009536860429645,
+          "baseline_std": 0.0006194882385270177,
+          "candidate_mean": 0.05299654121000326,
+          "candidate_std": 0.001021511964398316,
+          "mean_diff": -0.005012995650426395,
+          "diff_std_across_seeds": 0.0010326253200257454,
+          "sigma_of_baseline": -8.092156297181685,
+          "p_value": 0.000629952156042797,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.001889856468128391
+        },
+        "precision@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.009995803608896351,
+          "baseline_std": 0.00012906887536071925,
+          "candidate_mean": 0.009127150650440622,
+          "candidate_std": 0.00024468954657344896,
+          "mean_diff": -0.0008686529584557287,
+          "diff_std_across_seeds": 0.0003415872668899487,
+          "sigma_of_baseline": -6.7301505186903805,
+          "p_value": 0.007051214011798698,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.007051214011798698
+        },
+        "avgpop@20": {
+          "n_seeds": 5,
+          "baseline_mean": 824.5697859840539,
+          "baseline_std": 21.356245716318377,
+          "candidate_mean": 289.55801930339913,
+          "candidate_std": 4.46862232523161,
+          "mean_diff": -535.0117666806547,
+          "diff_std_across_seeds": 25.1827595126131,
+          "sigma_of_baseline": -25.05177051188592,
+          "p_value": 1.8339573968923661e-06,
+          "test": "paired t-test over seeds",
+          "p_holm": 7.3358295875694645e-06
+        }
+      },
+      "per_user": {
+        "recall@20": {
+          "n_pairs": 11915,
+          "mean_diff": -0.015103377761791527,
+          "n_better": 987,
+          "n_worse": 1214,
+          "n_tied": 9714,
+          "p_value": 5.911815534304569e-08,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 1.7735446602913707e-07
+        },
+        "ndcg@20": {
+          "n_pairs": 11915,
+          "mean_diff": -0.0050129956504263926,
+          "n_better": 1485,
+          "n_worse": 1577,
+          "n_tied": 8853,
+          "p_value": 0.0001699327985398297,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.0001699327985398297
+        },
+        "precision@20": {
+          "n_pairs": 11915,
+          "mean_diff": -0.0008686529584557282,
+          "n_better": 987,
+          "n_worse": 1214,
+          "n_tied": 9714,
+          "p_value": 2.1396108688242884e-05,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 4.279221737648577e-05
+        },
+        "avgpop@20": {
+          "n_pairs": 11915,
+          "mean_diff": -535.0117666806547,
+          "n_better": 40,
+          "n_worse": 11875,
+          "n_tied": 0,
+          "p_value": 0.0,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.0
+        }
+      }
+    },
+    "ASTD-PD vs TSP": {
+      "seeds": [
+        2024,
+        2025,
+        2026,
+        2027,
+        2028
+      ],
+      "across_seed": {
+        "recall@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.12267416688314717,
+          "baseline_std": 0.0026295611250640627,
+          "candidate_mean": 0.11089812761025516,
+          "candidate_std": 0.003601628358944462,
+          "mean_diff": -0.011776039272891985,
+          "diff_std_across_seeds": 0.00362772751029295,
+          "sigma_of_baseline": -4.478328782946657,
+          "p_value": 0.0029028441546457466,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.011611376618582987
+        },
+        "ndcg@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.055096145869306036,
+          "baseline_std": 0.0014966379033805304,
+          "candidate_mean": 0.05299654121000326,
+          "candidate_std": 0.001021511964398316,
+          "mean_diff": -0.0020996046593027783,
+          "diff_std_across_seeds": 0.0015058332408322524,
+          "sigma_of_baseline": -1.402880853518608,
+          "p_value": 0.049381161701279194,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.09876232340255839
+        },
+        "precision@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.009865715484683173,
+          "baseline_std": 0.00017271603547844503,
+          "candidate_mean": 0.009127150650440622,
+          "candidate_std": 0.00024468954657344896,
+          "mean_diff": -0.0007385648342425517,
+          "diff_std_across_seeds": 0.00025157355916612394,
+          "sigma_of_baseline": -4.276179870598782,
+          "p_value": 0.00420240042021922,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.01260720126065766
+        },
+        "avgpop@20": {
+          "n_seeds": 5,
+          "baseline_mean": 290.7030717582879,
+          "baseline_std": 13.496978363899968,
+          "candidate_mean": 289.55801930339913,
+          "candidate_std": 4.46862232523161,
+          "mean_diff": -1.1450524548887984,
+          "diff_std_across_seeds": 17.03194288237873,
+          "sigma_of_baseline": -0.08483768914910923,
+          "p_value": 0.899533485923168,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.899533485923168
+        }
+      },
+      "per_user": {
+        "recall@20": {
+          "n_pairs": 11915,
+          "mean_diff": -0.01177603927289198,
+          "n_better": 913,
+          "n_worse": 1086,
+          "n_tied": 9916,
+          "p_value": 7.942549820975413e-06,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 2.382764946292624e-05
+        },
+        "ndcg@20": {
+          "n_pairs": 11915,
+          "mean_diff": -0.0020996046593027727,
+          "n_better": 1423,
+          "n_worse": 1580,
+          "n_tied": 8912,
+          "p_value": 0.01629925031704877,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.01629925031704877
+        },
+        "precision@20": {
+          "n_pairs": 11915,
+          "mean_diff": -0.0007385648342425515,
+          "n_better": 913,
+          "n_worse": 1086,
+          "n_tied": 9916,
+          "p_value": 0.00018648645267609445,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.0003729729053521889
+        },
+        "avgpop@20": {
+          "n_pairs": 11915,
+          "mean_diff": -1.1450524548887961,
+          "n_better": 6435,
+          "n_worse": 5479,
+          "n_tied": 1,
+          "p_value": 3.1827632404396016e-08,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 1.2731052961758406e-07
+        }
+      }
+    },
+    "ASTD-PD vs DAP": {
+      "seeds": [
+        2024,
+        2025,
+        2026,
+        2027,
+        2028
+      ],
+      "across_seed": {
+        "recall@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.14125618634640874,
+          "baseline_std": 0.0019245978089651498,
+          "candidate_mean": 0.11089812761025516,
+          "candidate_std": 0.003601628358944462,
+          "mean_diff": -0.03035805873615357,
+          "diff_std_across_seeds": 0.0035676082602933657,
+          "sigma_of_baseline": -15.77371573153614,
+          "p_value": 6.990579510830594e-05,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.0002097173853249178
+        },
+        "ndcg@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.06385242272185232,
+          "baseline_std": 0.0011189061199439122,
+          "candidate_mean": 0.05299654121000326,
+          "candidate_std": 0.001021511964398316,
+          "mean_diff": -0.010855881511849064,
+          "diff_std_across_seeds": 0.001347329063812826,
+          "sigma_of_baseline": -9.702227307857822,
+          "p_value": 8.67356638420027e-05,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.0002097173853249178
+        },
+        "precision@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.011107847251363826,
+          "baseline_std": 0.000125611662166142,
+          "candidate_mean": 0.009127150650440622,
+          "candidate_std": 0.00024468954657344896,
+          "mean_diff": -0.001980696600923205,
+          "diff_std_across_seeds": 0.000335081238399952,
+          "sigma_of_baseline": -15.768413272832975,
+          "p_value": 0.00029303748216026116,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.00029303748216026116
+        },
+        "avgpop@20": {
+          "n_seeds": 5,
+          "baseline_mean": 594.0226772975242,
+          "baseline_std": 20.873445575830722,
+          "candidate_mean": 289.55801930339913,
+          "candidate_std": 4.46862232523161,
+          "mean_diff": -304.46465799412505,
+          "diff_std_across_seeds": 24.648636535380426,
+          "sigma_of_baseline": -14.586219457062874,
+          "p_value": 1.5934049140217954e-05,
+          "test": "paired t-test over seeds",
+          "p_holm": 6.373619656087181e-05
+        }
+      },
+      "per_user": {
+        "recall@20": {
+          "n_pairs": 11915,
+          "mean_diff": -0.03035805873615358,
+          "n_better": 773,
+          "n_worse": 1235,
+          "n_tied": 9907,
+          "p_value": 2.424670482000275e-29,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 7.274011446000825e-29
+        },
+        "ndcg@20": {
+          "n_pairs": 11915,
+          "mean_diff": -0.010855881511849057,
+          "n_better": 1309,
+          "n_worse": 1732,
+          "n_tied": 8874,
+          "p_value": 1.3868664654855807e-23,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 1.3868664654855807e-23
+        },
+        "precision@20": {
+          "n_pairs": 11915,
+          "mean_diff": -0.0019806966009232063,
+          "n_better": 773,
+          "n_worse": 1235,
+          "n_tied": 9907,
+          "p_value": 2.896061941670102e-24,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 5.792123883340204e-24
+        },
+        "avgpop@20": {
+          "n_pairs": 11915,
+          "mean_diff": -304.46465799412505,
+          "n_better": 383,
+          "n_worse": 11532,
+          "n_tied": 0,
+          "p_value": 0.0,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.0
+        }
+      }
+    },
+    "ASTD-PD vs ASTD-PD (shipped)": {
+      "seeds": [
+        2024,
+        2025,
+        2026,
+        2027,
+        2028
+      ],
+      "across_seed": {
+        "recall@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.13676591464673712,
+          "baseline_std": 0.002105535352075606,
+          "candidate_mean": 0.11089812761025516,
+          "candidate_std": 0.003601628358944462,
+          "mean_diff": -0.02586778703648196,
+          "diff_std_across_seeds": 0.0038764442762002083,
+          "sigma_of_baseline": -12.285610408289688,
+          "p_value": 0.00018224093154398875,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.0003644818630879775
+        },
+        "ndcg@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.06225997558984701,
+          "baseline_std": 0.000525163577560951,
+          "candidate_mean": 0.05299654121000326,
+          "candidate_std": 0.001021511964398316,
+          "mean_diff": -0.00926343437984375,
+          "diff_std_across_seeds": 0.0010844995401525339,
+          "sigma_of_baseline": -17.639140975591793,
+          "p_value": 6.886592603479707e-05,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.00020659777810439124
+        },
+        "precision@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.010843474611833822,
+          "baseline_std": 0.00012961347219035232,
+          "candidate_mean": 0.009127150650440622,
+          "candidate_std": 0.00024468954657344896,
+          "mean_diff": -0.0017163239613932012,
+          "diff_std_across_seeds": 0.0002756233633851944,
+          "sigma_of_baseline": -13.241863923470715,
+          "p_value": 0.0002390333555486072,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.0003644818630879775
+        },
+        "avgpop@20": {
+          "n_seeds": 5,
+          "baseline_mean": 521.3044271926144,
+          "baseline_std": 7.789992978577193,
+          "candidate_mean": 289.55801930339913,
+          "candidate_std": 4.46862232523161,
+          "mean_diff": -231.74640788921528,
+          "diff_std_across_seeds": 10.007698600313555,
+          "sigma_of_baseline": -29.749244771661232,
+          "p_value": 1.3000722189902786e-06,
+          "test": "paired t-test over seeds",
+          "p_holm": 5.200288875961114e-06
+        }
+      },
+      "per_user": {
+        "recall@20": {
+          "n_pairs": 11915,
+          "mean_diff": -0.02586778703648196,
+          "n_better": 613,
+          "n_worse": 1014,
+          "n_tied": 10288,
+          "p_value": 1.307962184074678e-27,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 3.923886552224034e-27
+        },
+        "ndcg@20": {
+          "n_pairs": 11915,
+          "mean_diff": -0.009263434379843751,
+          "n_better": 1156,
+          "n_worse": 1546,
+          "n_tied": 9213,
+          "p_value": 2.4264417728959644e-24,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 4.852883545791929e-24
+        },
+        "precision@20": {
+          "n_pairs": 11915,
+          "mean_diff": -0.0017163239613932019,
+          "n_better": 613,
+          "n_worse": 1014,
+          "n_tied": 10288,
+          "p_value": 8.452993546234574e-23,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 8.452993546234574e-23
+        },
+        "avgpop@20": {
+          "n_pairs": 11915,
+          "mean_diff": -231.74640788921528,
+          "n_better": 177,
+          "n_worse": 11738,
+          "n_tied": 0,
+          "p_value": 0.0,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.0
+        }
+      }
+    }
+  },
+  "KuaiRec": {
+    "ASTD-PD vs LightGCN": {
+      "seeds": [
+        2024,
+        2025,
+        2026,
+        2027,
+        2028
+      ],
+      "across_seed": {
+        "recall@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.1782993219438071,
+          "baseline_std": 0.0008454276786017797,
+          "candidate_mean": 0.16958008645767905,
+          "candidate_std": 0.0023211016157187606,
+          "mean_diff": -0.008719235486128052,
+          "diff_std_across_seeds": 0.002610664997280644,
+          "sigma_of_baseline": -10.313401970170245,
+          "p_value": 0.00261135717774933,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.00261135717774933
+        },
+        "ndcg@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.40695423640357775,
+          "baseline_std": 0.0011534353919148844,
+          "candidate_mean": 0.37041132069384475,
+          "candidate_std": 0.005438479073617684,
+          "mean_diff": -0.036542915709733025,
+          "diff_std_across_seeds": 0.005931281208800505,
+          "sigma_of_baseline": -31.681805470756387,
+          "p_value": 0.00024921855478220824,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.0007476556643466247
+        },
+        "precision@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.37412765957446814,
+          "baseline_std": 0.0012045468241863246,
+          "candidate_mean": 0.3404609929078014,
+          "candidate_std": 0.004811365499096597,
+          "mean_diff": -0.033666666666666664,
+          "diff_std_across_seeds": 0.005507337657163983,
+          "sigma_of_baseline": -27.949653754148255,
+          "p_value": 0.0002569640122150624,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.0007476556643466247
+        },
+        "avgpop@20": {
+          "n_seeds": 5,
+          "baseline_mean": 1744.1479432624117,
+          "baseline_std": 2.8074968971530363,
+          "candidate_mean": 1433.5662978723406,
+          "candidate_std": 27.964182335746127,
+          "mean_diff": -310.58164539007106,
+          "diff_std_across_seeds": 28.553959358922054,
+          "sigma_of_baseline": -110.62581964205152,
+          "p_value": 2.641800675772177e-05,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.00010567202703088708
+        }
+      },
+      "per_user": {
+        "recall@20": {
+          "n_pairs": 7050,
+          "mean_diff": -0.008719235486128046,
+          "n_better": 1634,
+          "n_worse": 2801,
+          "n_tied": 2615,
+          "p_value": 1.600113623734042e-51,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 1.600113623734042e-51
+        },
+        "ndcg@20": {
+          "n_pairs": 7050,
+          "mean_diff": -0.036542915709733,
+          "n_better": 2919,
+          "n_worse": 4109,
+          "n_tied": 22,
+          "p_value": 4.436978460478707e-98,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 8.873956920957414e-98
+        },
+        "precision@20": {
+          "n_pairs": 7050,
+          "mean_diff": -0.033666666666666664,
+          "n_better": 1634,
+          "n_worse": 2801,
+          "n_tied": 2615,
+          "p_value": 4.041298903446066e-139,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 1.21238967103382e-138
+        },
+        "avgpop@20": {
+          "n_pairs": 7050,
+          "mean_diff": -310.5816453900709,
+          "n_better": 490,
+          "n_worse": 6330,
+          "n_tied": 230,
+          "p_value": 0.0,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.0
+        }
+      }
+    },
+    "ASTD-PD vs PPD": {
+      "seeds": [
+        2024,
+        2025,
+        2026,
+        2027,
+        2028
+      ],
+      "across_seed": {
+        "recall@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.1796451853677054,
+          "baseline_std": 0.0014939558749200537,
+          "candidate_mean": 0.16958008645767905,
+          "candidate_std": 0.0023211016157187606,
+          "mean_diff": -0.010065098910026387,
+          "diff_std_across_seeds": 0.0025474196257506115,
+          "sigma_of_baseline": -6.737212978639683,
+          "p_value": 0.0013872714037309283,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.0013872714037309283
+        },
+        "ndcg@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.40624211454615394,
+          "baseline_std": 0.0031446561895235653,
+          "candidate_mean": 0.37041132069384475,
+          "candidate_std": 0.005438479073617684,
+          "mean_diff": -0.035830793852309174,
+          "diff_std_across_seeds": 0.006817006226371496,
+          "sigma_of_baseline": -11.394184830659583,
+          "p_value": 0.000463045729091147,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.0011524869437013572
+        },
+        "precision@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.37352482269503545,
+          "baseline_std": 0.0027018949658747337,
+          "candidate_mean": 0.3404609929078014,
+          "candidate_std": 0.004811365499096597,
+          "mean_diff": -0.033063829787234045,
+          "diff_std_across_seeds": 0.0059955971975478575,
+          "sigma_of_baseline": -12.237274285208821,
+          "p_value": 0.00038416231456711906,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.0011524869437013572
+        },
+        "avgpop@20": {
+          "n_seeds": 5,
+          "baseline_mean": 1713.6475035460994,
+          "baseline_std": 1.8208571809719507,
+          "candidate_mean": 1433.5662978723406,
+          "candidate_std": 27.964182335746127,
+          "mean_diff": -280.0812056737589,
+          "diff_std_across_seeds": 29.330426952638852,
+          "sigma_of_baseline": -153.81832721457874,
+          "p_value": 4.4286618513093386e-05,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.00017714647405237354
+        }
+      },
+      "per_user": {
+        "recall@20": {
+          "n_pairs": 7050,
+          "mean_diff": -0.01006509891002639,
+          "n_better": 1498,
+          "n_worse": 2774,
+          "n_tied": 2778,
+          "p_value": 9.291986426441465e-77,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 9.291986426441465e-77
+        },
+        "ndcg@20": {
+          "n_pairs": 7050,
+          "mean_diff": -0.03583079385230917,
+          "n_better": 2927,
+          "n_worse": 4100,
+          "n_tied": 23,
+          "p_value": 4.7710806742049756e-101,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 9.542161348409951e-101
+        },
+        "precision@20": {
+          "n_pairs": 7050,
+          "mean_diff": -0.033063829787234045,
+          "n_better": 1498,
+          "n_worse": 2774,
+          "n_tied": 2778,
+          "p_value": 1.4632176455689122e-141,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 4.3896529367067365e-141
+        },
+        "avgpop@20": {
+          "n_pairs": 7050,
+          "mean_diff": -280.08120567375886,
+          "n_better": 705,
+          "n_worse": 5988,
+          "n_tied": 357,
+          "p_value": 0.0,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.0
+        }
+      }
+    },
+    "ASTD-PD vs TSP": {
+      "seeds": [
+        2024,
+        2025,
+        2026,
+        2027,
+        2028
+      ],
+      "across_seed": {
+        "recall@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.15658651462875856,
+          "baseline_std": 0.0013090235027968119,
+          "candidate_mean": 0.16958008645767905,
+          "candidate_std": 0.0023211016157187606,
+          "mean_diff": 0.012993571828920502,
+          "diff_std_across_seeds": 0.0028483810743895363,
+          "sigma_of_baseline": 9.92615625400072,
+          "p_value": 0.0008007605027380359,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.0032030420109521434
+        },
+        "ndcg@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.3407346098010934,
+          "baseline_std": 0.004248042071771203,
+          "candidate_mean": 0.37041132069384475,
+          "candidate_std": 0.005438479073617684,
+          "mean_diff": 0.029676710892751222,
+          "diff_std_across_seeds": 0.007609889369646168,
+          "sigma_of_baseline": 6.985973865456009,
+          "p_value": 0.0014578907917180803,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.004373672375154241
+        },
+        "precision@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.33520567375886523,
+          "baseline_std": 0.0023354126414026795,
+          "candidate_mean": 0.3404609929078014,
+          "candidate_std": 0.004811365499096597,
+          "mean_diff": 0.005255319148936177,
+          "diff_std_across_seeds": 0.006298391455188411,
+          "sigma_of_baseline": 2.2502743437150206,
+          "p_value": 0.1704849125469176,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.20690408173936423
+        },
+        "avgpop@20": {
+          "n_seeds": 5,
+          "baseline_mean": 1475.878319148936,
+          "baseline_std": 19.117221804763346,
+          "candidate_mean": 1433.5662978723406,
+          "candidate_std": 27.964182335746127,
+          "mean_diff": -42.31202127659581,
+          "diff_std_across_seeds": 40.264151202049824,
+          "sigma_of_baseline": -2.2132934224811436,
+          "p_value": 0.10345204086968211,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.20690408173936423
+        }
+      },
+      "per_user": {
+        "recall@20": {
+          "n_pairs": 7050,
+          "mean_diff": 0.012993571828920502,
+          "n_better": 3434,
+          "n_worse": 2055,
+          "n_tied": 1561,
+          "p_value": 1.2349759809297874e-141,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 4.9399039237191496e-141
+        },
+        "ndcg@20": {
+          "n_pairs": 7050,
+          "mean_diff": 0.029676710892751243,
+          "n_better": 4432,
+          "n_worse": 2601,
+          "n_tied": 17,
+          "p_value": 1.6502356003450636e-108,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 4.950706801035191e-108
+        },
+        "precision@20": {
+          "n_pairs": 7050,
+          "mean_diff": 0.005255319148936172,
+          "n_better": 3434,
+          "n_worse": 2055,
+          "n_tied": 1561,
+          "p_value": 1.519367537985308e-22,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 1.519367537985308e-22
+        },
+        "avgpop@20": {
+          "n_pairs": 7050,
+          "mean_diff": -42.31202127659574,
+          "n_better": 4919,
+          "n_worse": 2131,
+          "n_tied": 0,
+          "p_value": 4.798808617954713e-30,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 9.597617235909426e-30
+        }
+      }
+    },
+    "ASTD-PD vs DAP": {
+      "seeds": [
+        2024,
+        2025,
+        2026,
+        2027,
+        2028
+      ],
+      "across_seed": {
+        "recall@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.1785235178929952,
+          "baseline_std": 0.001099682214184841,
+          "candidate_mean": 0.16958008645767905,
+          "candidate_std": 0.0023211016157187606,
+          "mean_diff": -0.008943431435316163,
+          "diff_std_across_seeds": 0.0028989540569733245,
+          "sigma_of_baseline": -8.13274173206997,
+          "p_value": 0.0035035884922904573,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.0035035884922904573
+        },
+        "ndcg@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.40641743662402074,
+          "baseline_std": 0.001428955614279994,
+          "candidate_mean": 0.37041132069384475,
+          "candidate_std": 0.005438479073617684,
+          "mean_diff": -0.036006115930176066,
+          "diff_std_across_seeds": 0.006072040560593512,
+          "sigma_of_baseline": -25.197504786261973,
+          "p_value": 0.00028943781651507466,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.000868313449545224
+        },
+        "precision@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.37359574468085105,
+          "baseline_std": 0.0017814834875258133,
+          "candidate_mean": 0.3404609929078014,
+          "candidate_std": 0.004811365499096597,
+          "mean_diff": -0.03313475177304964,
+          "diff_std_across_seeds": 0.005795224632385871,
+          "sigma_of_baseline": -18.599527868242184,
+          "p_value": 0.0003336984683356988,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.000868313449545224
+        },
+        "avgpop@20": {
+          "n_seeds": 5,
+          "baseline_mean": 1737.9600070921988,
+          "baseline_std": 8.454079302114218,
+          "candidate_mean": 1433.5662978723406,
+          "candidate_std": 27.964182335746127,
+          "mean_diff": -304.3937092198581,
+          "diff_std_across_seeds": 28.72671230552867,
+          "sigma_of_baseline": -36.005542217203306,
+          "p_value": 2.930980891313653e-05,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.00011723923565254612
+        }
+      },
+      "per_user": {
+        "recall@20": {
+          "n_pairs": 7050,
+          "mean_diff": -0.008943431435316168,
+          "n_better": 1640,
+          "n_worse": 2774,
+          "n_tied": 2636,
+          "p_value": 3.627670141881872e-52,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 3.627670141881872e-52
+        },
+        "ndcg@20": {
+          "n_pairs": 7050,
+          "mean_diff": -0.03600611593017603,
+          "n_better": 2933,
+          "n_worse": 4100,
+          "n_tied": 17,
+          "p_value": 9.757906838473757e-95,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 1.9515813676947514e-94
+        },
+        "precision@20": {
+          "n_pairs": 7050,
+          "mean_diff": -0.03313475177304965,
+          "n_better": 1640,
+          "n_worse": 2774,
+          "n_tied": 2636,
+          "p_value": 5.988316954551684e-132,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 1.7964950863655053e-131
+        },
+        "avgpop@20": {
+          "n_pairs": 7050,
+          "mean_diff": -304.39370921985807,
+          "n_better": 666,
+          "n_worse": 6133,
+          "n_tied": 251,
+          "p_value": 0.0,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.0
+        }
+      }
+    },
+    "ASTD-PD vs ASTD-PD (shipped)": {
+      "seeds": [
+        2024,
+        2025,
+        2026,
+        2027,
+        2028
+      ],
+      "across_seed": {
+        "recall@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.1771554851234422,
+          "baseline_std": 0.0009060782140019604,
+          "candidate_mean": 0.16958008645767905,
+          "candidate_std": 0.0023211016157187606,
+          "mean_diff": -0.0075753986657631665,
+          "diff_std_across_seeds": 0.0027121537990705434,
+          "sigma_of_baseline": -8.36064541526078,
+          "p_value": 0.005036736647841093,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.005036736647841093
+        },
+        "ndcg@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.395426338111976,
+          "baseline_std": 0.0030808531829940463,
+          "candidate_mean": 0.37041132069384475,
+          "candidate_std": 0.005438479073617684,
+          "mean_diff": -0.02501501741813128,
+          "diff_std_across_seeds": 0.006054999348063002,
+          "sigma_of_baseline": -8.11950973717647,
+          "p_value": 0.0011706367659425456,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.0029379176825460765
+        },
+        "precision@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.3637163120567376,
+          "baseline_std": 0.0024874717523069773,
+          "candidate_mean": 0.3404609929078014,
+          "candidate_std": 0.004811365499096597,
+          "mean_diff": -0.023255319148936138,
+          "diff_std_across_seeds": 0.005372329892553384,
+          "sigma_of_baseline": -9.348978185327434,
+          "p_value": 0.0009793058941820255,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.0029379176825460765
+        },
+        "avgpop@20": {
+          "n_seeds": 5,
+          "baseline_mean": 1615.8381418439715,
+          "baseline_std": 22.75222145646365,
+          "candidate_mean": 1433.5662978723406,
+          "candidate_std": 27.964182335746127,
+          "mean_diff": -182.27184397163128,
+          "diff_std_across_seeds": 33.17857542747294,
+          "sigma_of_baseline": -8.01116692365219,
+          "p_value": 0.0003899179776270675,
+          "test": "paired t-test over seeds",
+          "p_holm": 0.00155967191050827
+        }
+      },
+      "per_user": {
+        "recall@20": {
+          "n_pairs": 7050,
+          "mean_diff": -0.007575398665763166,
+          "n_better": 1132,
+          "n_worse": 2384,
+          "n_tied": 3534,
+          "p_value": 1.1024992811201499e-90,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 1.1024992811201499e-90
+        },
+        "ndcg@20": {
+          "n_pairs": 7050,
+          "mean_diff": -0.025015017418131245,
+          "n_better": 2870,
+          "n_worse": 4104,
+          "n_tied": 76,
+          "p_value": 8.970557718111245e-106,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 1.794111543622249e-105
+        },
+        "precision@20": {
+          "n_pairs": 7050,
+          "mean_diff": -0.023255319148936172,
+          "n_better": 1132,
+          "n_worse": 2384,
+          "n_tied": 3534,
+          "p_value": 1.4397840291177814e-143,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 4.319352087353344e-143
+        },
+        "avgpop@20": {
+          "n_pairs": 7050,
+          "mean_diff": -182.2718439716312,
+          "n_better": 1186,
+          "n_worse": 4831,
+          "n_tied": 1033,
+          "p_value": 0.0,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.0
+        }
+      }
+    }
+  },
+  "Gowalla": {
+    "ASTD-PD vs LightGCN": {
+      "seeds": [
+        2024,
+        2025,
+        2026,
+        2027,
+        2028
+      ],
+      "across_seed": {
+        "recall@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.16714342097847726,
+          "baseline_std": 0.00046927527537160964,
+          "candidate_mean": 0.04558794600030299,
+          "candidate_std": 0.0006338185443814551,
+          "mean_diff": -0.12155547497817427,
+          "diff_std_across_seeds": 0.0003801168083605993,
+          "sigma_of_baseline": -259.02808299865563,
+          "p_value": 3.5858687314838206e-11,
+          "test": "paired t-test over seeds",
+          "warning": "differences are near-constant across seeds, so t is inflated; report the effect size, not the p-value",
+          "p_holm": 1.4343474925935282e-10
+        },
+        "ndcg@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.14093755748720851,
+          "baseline_std": 0.00043162809980212016,
+          "candidate_mean": 0.034046444546971436,
+          "candidate_std": 0.0007458897889628174,
+          "mean_diff": -0.10689111294023708,
+          "diff_std_across_seeds": 0.0004527597408893377,
+          "sigma_of_baseline": -247.64632559659876,
+          "p_value": 1.2070439862763823e-10,
+          "test": "paired t-test over seeds",
+          "warning": "differences are near-constant across seeds, so t is inflated; report the effect size, not the p-value",
+          "p_holm": 3.6211319588291467e-10
+        },
+        "precision@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.051070734811440824,
+          "baseline_std": 0.0001159350669970187,
+          "candidate_mean": 0.013155938107039989,
+          "candidate_std": 0.000184504594805502,
+          "mean_diff": -0.03791479670440083,
+          "diff_std_across_seeds": 0.00017182140997155741,
+          "sigma_of_baseline": -327.03475908092435,
+          "p_value": 1.581577908637363e-10,
+          "test": "paired t-test over seeds",
+          "warning": "differences are near-constant across seeds, so t is inflated; report the effect size, not the p-value",
+          "p_holm": 3.6211319588291467e-10
+        },
+        "avgpop@20": {
+          "n_seeds": 5,
+          "baseline_mean": 148.9917526291111,
+          "baseline_std": 0.23738679518334585,
+          "candidate_mean": 23.199951771719473,
+          "candidate_std": 1.242229717060266,
+          "mean_diff": -125.79180085739165,
+          "diff_std_across_seeds": 1.2908072280290268,
+          "sigma_of_baseline": -529.9022667214335,
+          "p_value": 4.157107648889011e-09,
+          "test": "paired t-test over seeds",
+          "warning": "differences are near-constant across seeds, so t is inflated; report the effect size, not the p-value",
+          "p_holm": 4.157107648889011e-09
+        }
+      },
+      "per_user": {
+        "recall@20": {
+          "n_pairs": 149290,
+          "mean_diff": -0.12155547497817429,
+          "n_better": 7392,
+          "n_worse": 71973,
+          "n_tied": 69925,
+          "p_value": 0.0,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.0
+        },
+        "ndcg@20": {
+          "n_pairs": 149290,
+          "mean_diff": -0.10689111294023708,
+          "n_better": 9848,
+          "n_worse": 78386,
+          "n_tied": 61056,
+          "p_value": 0.0,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.0
+        },
+        "precision@20": {
+          "n_pairs": 149290,
+          "mean_diff": -0.03791479670440083,
+          "n_better": 7392,
+          "n_worse": 71973,
+          "n_tied": 69925,
+          "p_value": 0.0,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.0
+        },
+        "avgpop@20": {
+          "n_pairs": 149290,
+          "mean_diff": -125.79180085739168,
+          "n_better": 336,
+          "n_worse": 148953,
+          "n_tied": 1,
+          "p_value": 0.0,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.0
+        }
+      }
+    },
+    "ASTD-PD vs PPD": {
+      "seeds": [
+        2024,
+        2025,
+        2026,
+        2027,
+        2028
+      ],
+      "across_seed": {
+        "recall@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.1316573221270817,
+          "baseline_std": 0.0009087772535791519,
+          "candidate_mean": 0.04558794600030299,
+          "candidate_std": 0.0006338185443814551,
+          "mean_diff": -0.0860693761267787,
+          "diff_std_across_seeds": 0.001101757593165828,
+          "sigma_of_baseline": -94.70899033597159,
+          "p_value": 1.0066123627344644e-08,
+          "test": "paired t-test over seeds",
+          "warning": "differences are near-constant across seeds, so t is inflated; report the effect size, not the p-value",
+          "p_holm": 4.0264494509378577e-08
+        },
+        "ndcg@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.10462269111641251,
+          "baseline_std": 0.0007690318251308203,
+          "candidate_mean": 0.034046444546971436,
+          "candidate_std": 0.0007458897889628174,
+          "mean_diff": -0.07057624656944109,
+          "diff_std_across_seeds": 0.0011656967743748643,
+          "sigma_of_baseline": -91.77285550885405,
+          "p_value": 2.7896002799119746e-08,
+          "test": "paired t-test over seeds",
+          "warning": "differences are near-constant across seeds, so t is inflated; report the effect size, not the p-value",
+          "p_holm": 6.473870105692586e-08
+        },
+        "precision@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.039209926987741985,
+          "baseline_std": 0.00029322999783543607,
+          "candidate_mean": 0.013155938107039989,
+          "candidate_std": 0.000184504594805502,
+          "mean_diff": -0.02605398888070199,
+          "diff_std_across_seeds": 0.0004035715109246194,
+          "sigma_of_baseline": -88.85171733119807,
+          "p_value": 2.1579567018975288e-08,
+          "test": "paired t-test over seeds",
+          "warning": "differences are near-constant across seeds, so t is inflated; report the effect size, not the p-value",
+          "p_holm": 6.473870105692586e-08
+        },
+        "avgpop@20": {
+          "n_seeds": 5,
+          "baseline_mean": 161.61174090695962,
+          "baseline_std": 5.926568500689254,
+          "candidate_mean": 23.199951771719473,
+          "candidate_std": 1.242229717060266,
+          "mean_diff": -138.41178913524013,
+          "diff_std_across_seeds": 6.182444056351872,
+          "sigma_of_baseline": -23.354456987908428,
+          "p_value": 1.4877739981275554e-06,
+          "test": "paired t-test over seeds",
+          "p_holm": 1.4877739981275554e-06
+        }
+      },
+      "per_user": {
+        "recall@20": {
+          "n_pairs": 149290,
+          "mean_diff": -0.0860693761267787,
+          "n_better": 10079,
+          "n_worse": 56555,
+          "n_tied": 82656,
+          "p_value": 0.0,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.0
+        },
+        "ndcg@20": {
+          "n_pairs": 149290,
+          "mean_diff": -0.07057624656944109,
+          "n_better": 13989,
+          "n_worse": 61460,
+          "n_tied": 73841,
+          "p_value": 0.0,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.0
+        },
+        "precision@20": {
+          "n_pairs": 149290,
+          "mean_diff": -0.026053988880701987,
+          "n_better": 10079,
+          "n_worse": 56555,
+          "n_tied": 82656,
+          "p_value": 0.0,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.0
+        },
+        "avgpop@20": {
+          "n_pairs": 149290,
+          "mean_diff": -138.41178913524013,
+          "n_better": 4070,
+          "n_worse": 145213,
+          "n_tied": 7,
+          "p_value": 0.0,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.0
+        }
+      }
+    },
+    "ASTD-PD vs TSP": {
+      "seeds": [
+        2024,
+        2025,
+        2026,
+        2027,
+        2028
+      ],
+      "across_seed": {
+        "recall@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.10573515960294075,
+          "baseline_std": 0.001027451190844597,
+          "candidate_mean": 0.04558794600030299,
+          "candidate_std": 0.0006338185443814551,
+          "mean_diff": -0.060147213602637764,
+          "diff_std_across_seeds": 0.001333104385601306,
+          "sigma_of_baseline": -58.5402149888939,
+          "p_value": 9.042121828199152e-08,
+          "test": "paired t-test over seeds",
+          "p_holm": 2.7126365484597455e-07
+        },
+        "ndcg@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.07233757590349554,
+          "baseline_std": 0.000562185474483743,
+          "candidate_mean": 0.034046444546971436,
+          "candidate_std": 0.0007458897889628174,
+          "mean_diff": -0.03829113135652411,
+          "diff_std_across_seeds": 0.0008641998896601389,
+          "sigma_of_baseline": -68.11120723403072,
+          "p_value": 9.721352643536729e-08,
+          "test": "paired t-test over seeds",
+          "p_holm": 2.7126365484597455e-07
+        },
+        "precision@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.031222452943934626,
+          "baseline_std": 0.00024623329533928655,
+          "candidate_mean": 0.013155938107039989,
+          "candidate_std": 0.000184504594805502,
+          "mean_diff": -0.018066514836894632,
+          "diff_std_across_seeds": 0.00029968498186896893,
+          "sigma_of_baseline": -73.3715349583437,
+          "p_value": 2.837883211950467e-08,
+          "test": "paired t-test over seeds",
+          "warning": "differences are near-constant across seeds, so t is inflated; report the effect size, not the p-value",
+          "p_holm": 1.1351532847801868e-07
+        },
+        "avgpop@20": {
+          "n_seeds": 5,
+          "baseline_mean": 30.841092504521402,
+          "baseline_std": 0.3846265187242468,
+          "candidate_mean": 23.199951771719473,
+          "candidate_std": 1.242229717060266,
+          "mean_diff": -7.641140732801928,
+          "diff_std_across_seeds": 0.9708578571019111,
+          "sigma_of_baseline": -19.866390799434576,
+          "p_value": 9.515366868554906e-05,
+          "test": "paired t-test over seeds",
+          "p_holm": 9.515366868554906e-05
+        }
+      },
+      "per_user": {
+        "recall@20": {
+          "n_pairs": 149290,
+          "mean_diff": -0.06014721360263778,
+          "n_better": 13664,
+          "n_worse": 45013,
+          "n_tied": 90613,
+          "p_value": 0.0,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.0
+        },
+        "ndcg@20": {
+          "n_pairs": 149290,
+          "mean_diff": -0.038291131356524115,
+          "n_better": 18814,
+          "n_worse": 48219,
+          "n_tied": 82257,
+          "p_value": 0.0,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.0
+        },
+        "precision@20": {
+          "n_pairs": 149290,
+          "mean_diff": -0.018066514836894632,
+          "n_better": 13664,
+          "n_worse": 45013,
+          "n_tied": 90613,
+          "p_value": 0.0,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.0
+        },
+        "avgpop@20": {
+          "n_pairs": 149290,
+          "mean_diff": -7.6411407328019285,
+          "n_better": 28902,
+          "n_worse": 120359,
+          "n_tied": 29,
+          "p_value": 0.0,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.0
+        }
+      }
+    },
+    "ASTD-PD vs DAP": {
+      "seeds": [
+        2024,
+        2025,
+        2026,
+        2027,
+        2028
+      ],
+      "across_seed": {
+        "recall@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.16695142745201788,
+          "baseline_std": 0.0003783085629117663,
+          "candidate_mean": 0.04558794600030299,
+          "candidate_std": 0.0006338185443814551,
+          "mean_diff": -0.1213634814517149,
+          "diff_std_across_seeds": 0.00046531508607833885,
+          "sigma_of_baseline": -320.80553640553137,
+          "p_value": 8.103209275284229e-11,
+          "test": "paired t-test over seeds",
+          "warning": "differences are near-constant across seeds, so t is inflated; report the effect size, not the p-value",
+          "p_holm": 3.2412837101136915e-10
+        },
+        "ndcg@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.1406016842735364,
+          "baseline_std": 0.0005696002113495009,
+          "candidate_mean": 0.034046444546971436,
+          "candidate_std": 0.0007458897889628174,
+          "mean_diff": -0.10655523972656493,
+          "diff_std_across_seeds": 0.0005721065917805682,
+          "sigma_of_baseline": -187.0702250515559,
+          "p_value": 3.116154392366921e-10,
+          "test": "paired t-test over seeds",
+          "warning": "differences are near-constant across seeds, so t is inflated; report the effect size, not the p-value",
+          "p_holm": 6.232308784733842e-10
+        },
+        "precision@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.05076696362783843,
+          "baseline_std": 0.00015671900962419615,
+          "candidate_mean": 0.013155938107039989,
+          "candidate_std": 0.000184504594805502,
+          "mean_diff": -0.037611025520798445,
+          "diff_std_across_seeds": 0.0001500921246563786,
+          "sigma_of_baseline": -239.99019398468434,
+          "p_value": 9.510222137314899e-11,
+          "test": "paired t-test over seeds",
+          "warning": "differences are near-constant across seeds, so t is inflated; report the effect size, not the p-value",
+          "p_holm": 3.2412837101136915e-10
+        },
+        "avgpop@20": {
+          "n_seeds": 5,
+          "baseline_mean": 142.4151744925983,
+          "baseline_std": 0.7457638720195409,
+          "candidate_mean": 23.199951771719473,
+          "candidate_std": 1.242229717060266,
+          "mean_diff": -119.21522272087881,
+          "diff_std_across_seeds": 1.1507474317999735,
+          "sigma_of_baseline": -159.85652723836301,
+          "p_value": 3.255045234646056e-09,
+          "test": "paired t-test over seeds",
+          "warning": "differences are near-constant across seeds, so t is inflated; report the effect size, not the p-value",
+          "p_holm": 3.255045234646056e-09
+        }
+      },
+      "per_user": {
+        "recall@20": {
+          "n_pairs": 149290,
+          "mean_diff": -0.1213634814517149,
+          "n_better": 7333,
+          "n_worse": 71345,
+          "n_tied": 70612,
+          "p_value": 0.0,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.0
+        },
+        "ndcg@20": {
+          "n_pairs": 149290,
+          "mean_diff": -0.10655523972656494,
+          "n_better": 9876,
+          "n_worse": 77732,
+          "n_tied": 61682,
+          "p_value": 0.0,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.0
+        },
+        "precision@20": {
+          "n_pairs": 149290,
+          "mean_diff": -0.037611025520798445,
+          "n_better": 7333,
+          "n_worse": 71345,
+          "n_tied": 70612,
+          "p_value": 0.0,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.0
+        },
+        "avgpop@20": {
+          "n_pairs": 149290,
+          "mean_diff": -119.21522272087884,
+          "n_better": 558,
+          "n_worse": 148731,
+          "n_tied": 1,
+          "p_value": 0.0,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.0
+        }
+      }
+    },
+    "ASTD-PD vs ASTD-PD (shipped)": {
+      "seeds": [
+        2024,
+        2025,
+        2026,
+        2027,
+        2028
+      ],
+      "across_seed": {
+        "recall@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.142011645789065,
+          "baseline_std": 0.0009898925255545873,
+          "candidate_mean": 0.04558794600030299,
+          "candidate_std": 0.0006338185443814551,
+          "mean_diff": -0.096423699788762,
+          "diff_std_across_seeds": 0.0012576847467146617,
+          "sigma_of_baseline": -97.40825119852342,
+          "p_value": 1.0850759670233874e-08,
+          "test": "paired t-test over seeds",
+          "warning": "differences are near-constant across seeds, so t is inflated; report the effect size, not the p-value",
+          "p_holm": 3.464298140399414e-08
+        },
+        "ndcg@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.12069036315951301,
+          "baseline_std": 0.0008166753281162189,
+          "candidate_mean": 0.034046444546971436,
+          "candidate_std": 0.0007458897889628174,
+          "mean_diff": -0.08664391861254159,
+          "diff_std_across_seeds": 0.0012017309433590307,
+          "sigma_of_baseline": -106.09346900732076,
+          "p_value": 1.3872945210717348e-08,
+          "test": "paired t-test over seeds",
+          "warning": "differences are near-constant across seeds, so t is inflated; report the effect size, not the p-value",
+          "p_holm": 3.464298140399414e-08
+        },
+        "precision@20": {
+          "n_seeds": 5,
+          "baseline_mean": 0.043223591667224864,
+          "baseline_std": 0.0003121085708252499,
+          "candidate_mean": 0.013155938107039989,
+          "candidate_std": 0.000184504594805502,
+          "mean_diff": -0.030067653560184877,
+          "diff_std_across_seeds": 0.00037068758392164907,
+          "sigma_of_baseline": -96.33716075365264,
+          "p_value": 8.660745350998536e-09,
+          "test": "paired t-test over seeds",
+          "warning": "differences are near-constant across seeds, so t is inflated; report the effect size, not the p-value",
+          "p_holm": 3.464298140399414e-08
+        },
+        "avgpop@20": {
+          "n_seeds": 5,
+          "baseline_mean": 138.06534563601045,
+          "baseline_std": 3.270208310300192,
+          "candidate_mean": 23.199951771719473,
+          "candidate_std": 1.242229717060266,
+          "mean_diff": -114.86539386429097,
+          "diff_std_across_seeds": 2.3623930278742886,
+          "sigma_of_baseline": -35.12479419200876,
+          "p_value": 6.704662897731477e-08,
+          "test": "paired t-test over seeds",
+          "p_holm": 6.704662897731477e-08
+        }
+      },
+      "per_user": {
+        "recall@20": {
+          "n_pairs": 149290,
+          "mean_diff": -0.096423699788762,
+          "n_better": 7733,
+          "n_worse": 62596,
+          "n_tied": 78961,
+          "p_value": 0.0,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.0
+        },
+        "ndcg@20": {
+          "n_pairs": 149290,
+          "mean_diff": -0.08664391861254157,
+          "n_better": 10239,
+          "n_worse": 69496,
+          "n_tied": 69555,
+          "p_value": 0.0,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.0
+        },
+        "precision@20": {
+          "n_pairs": 149290,
+          "mean_diff": -0.030067653560184877,
+          "n_better": 7733,
+          "n_worse": 62596,
+          "n_tied": 78961,
+          "p_value": 0.0,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.0
+        },
+        "avgpop@20": {
+          "n_pairs": 149290,
+          "mean_diff": -114.86539386429097,
+          "n_better": 42,
+          "n_worse": 149247,
+          "n_tied": 1,
+          "p_value": 0.0,
+          "test": "wilcoxon signed-rank (two-sided), pooled over seeds",
+          "p_holm": 0.0
+        }
+      }
+    }
+  }
+}

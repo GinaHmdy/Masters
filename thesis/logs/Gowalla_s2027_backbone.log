@@ -1,0 +1,165 @@
+[0;30;43mCpp extension not loaded[0m
+[0;30;43muse NORMAL distribution initilizer[0m
+loading adjacency matrix
+successfully loaded...
+/home/mohab/Workspace/99-temp/Masters/thesis/third_party/LightGCN-PyTorch/code/dataloader.py:330: UserWarning: torch.sparse.SparseTensor(indices, values, shape, *, device=) is deprecated.  Please use torch.sparse_coo_tensor(indices, values, shape, dtype=, device=). (Triggered internally at /__w/pytorch/pytorch/torch/csrc/utils/tensor_new.cpp:653.)
+  return torch.sparse.FloatTensor(index, data, torch.Size(coo.shape))
+don't split the matrix
+lgn is already to go(dropout:0)
+[Gowalla s2027] epoch 5 loss0.121-|Sample:8.71| epoch_time=21.5s valid R@20=0.0901
+[Gowalla s2027] epoch 10 loss0.078-|Sample:8.51| epoch_time=16.7s valid R@20=0.1049
+[Gowalla s2027] epoch 15 loss0.063-|Sample:9.02| epoch_time=18.5s valid R@20=0.1118
+[Gowalla s2027] epoch 20 loss0.054-|Sample:9.21| epoch_time=17.1s valid R@20=0.1165
+[Gowalla s2027] epoch 25 loss0.048-|Sample:9.56| epoch_time=17.0s valid R@20=0.1216
+[Gowalla s2027] epoch 30 loss0.043-|Sample:9.99| epoch_time=22.0s valid R@20=0.1256
+[Gowalla s2027] epoch 35 loss0.040-|Sample:9.76| epoch_time=16.3s valid R@20=0.1295
+[Gowalla s2027] epoch 40 loss0.037-|Sample:9.53| epoch_time=14.5s valid R@20=0.1326
+[Gowalla s2027] epoch 45 loss0.034-|Sample:9.62| epoch_time=19.7s valid R@20=0.1358
+[Gowalla s2027] epoch 50 loss0.032-|Sample:9.78| epoch_time=19.9s valid R@20=0.1385
+[Gowalla s2027] epoch 55 loss0.030-|Sample:9.50| epoch_time=17.5s valid R@20=0.1409
+[Gowalla s2027] epoch 60 loss0.028-|Sample:9.89| epoch_time=21.9s valid R@20=0.1441
+[Gowalla s2027] epoch 65 loss0.027-|Sample:9.73| epoch_time=18.3s valid R@20=0.1461
+[Gowalla s2027] epoch 70 loss0.026-|Sample:9.61| epoch_time=20.9s valid R@20=0.1479
+[Gowalla s2027] epoch 75 loss0.024-|Sample:9.56| epoch_time=14.3s valid R@20=0.1498
+[Gowalla s2027] epoch 80 loss0.023-|Sample:9.72| epoch_time=21.0s valid R@20=0.1514
+[Gowalla s2027] epoch 85 loss0.022-|Sample:9.62| epoch_time=17.9s valid R@20=0.1537
+[Gowalla s2027] epoch 90 loss0.021-|Sample:9.89| epoch_time=18.5s valid R@20=0.1558
+[Gowalla s2027] epoch 95 loss0.020-|Sample:9.83| epoch_time=21.9s valid R@20=0.1576
+[Gowalla s2027] epoch 100 loss0.020-|Sample:9.56| epoch_time=14.3s valid R@20=0.1588
+[Gowalla s2027] epoch 105 loss0.019-|Sample:9.91| epoch_time=22.2s valid R@20=0.1600
+[Gowalla s2027] epoch 110 loss0.019-|Sample:9.78| epoch_time=14.5s valid R@20=0.1611
+[Gowalla s2027] epoch 115 loss0.018-|Sample:9.69| epoch_time=23.7s valid R@20=0.1628
+[Gowalla s2027] epoch 120 loss0.018-|Sample:9.71| epoch_time=24.0s valid R@20=0.1636
+[Gowalla s2027] epoch 125 loss0.017-|Sample:9.13| epoch_time=21.0s valid R@20=0.1647
+[Gowalla s2027] epoch 130 loss0.016-|Sample:9.88| epoch_time=21.2s valid R@20=0.1660
+[Gowalla s2027] epoch 135 loss0.016-|Sample:9.76| epoch_time=17.2s valid R@20=0.1667
+[Gowalla s2027] epoch 140 loss0.015-|Sample:9.74| epoch_time=19.3s valid R@20=0.1676
+[Gowalla s2027] epoch 145 loss0.015-|Sample:9.69| epoch_time=20.3s valid R@20=0.1690
+[Gowalla s2027] epoch 150 loss0.015-|Sample:9.72| epoch_time=21.0s valid R@20=0.1695
+[Gowalla s2027] epoch 155 loss0.015-|Sample:10.03| epoch_time=16.4s valid R@20=0.1698
+[Gowalla s2027] epoch 160 loss0.015-|Sample:10.19| epoch_time=21.2s valid R@20=0.1710
+[Gowalla s2027] epoch 165 loss0.014-|Sample:10.18| epoch_time=17.1s valid R@20=0.1717
+[Gowalla s2027] epoch 170 loss0.014-|Sample:10.25| epoch_time=23.5s valid R@20=0.1725
+[Gowalla s2027] epoch 175 loss0.014-|Sample:9.69| epoch_time=23.0s valid R@20=0.1726
+[Gowalla s2027] epoch 180 loss0.014-|Sample:10.32| epoch_time=15.1s valid R@20=0.1733
+[Gowalla s2027] epoch 185 loss0.013-|Sample:10.16| epoch_time=23.1s valid R@20=0.1736
+[Gowalla s2027] epoch 190 loss0.013-|Sample:10.20| epoch_time=14.9s valid R@20=0.1738
+[Gowalla s2027] epoch 195 loss0.013-|Sample:9.44| epoch_time=15.0s valid R@20=0.1745
+[Gowalla s2027] epoch 200 loss0.013-|Sample:9.43| epoch_time=22.2s valid R@20=0.1755
+[Gowalla s2027] epoch 205 loss0.013-|Sample:9.70| epoch_time=21.1s valid R@20=0.1756
+[Gowalla s2027] epoch 210 loss0.013-|Sample:9.54| epoch_time=15.1s valid R@20=0.1764
+[Gowalla s2027] epoch 215 loss0.013-|Sample:9.85| epoch_time=15.8s valid R@20=0.1760
+[Gowalla s2027] epoch 220 loss0.012-|Sample:9.64| epoch_time=22.6s valid R@20=0.1767
+[Gowalla s2027] epoch 225 loss0.012-|Sample:10.01| epoch_time=18.3s valid R@20=0.1773
+[Gowalla s2027] epoch 230 loss0.012-|Sample:9.78| epoch_time=21.3s valid R@20=0.1782
+[Gowalla s2027] epoch 235 loss0.012-|Sample:9.66| epoch_time=20.3s valid R@20=0.1781
+[Gowalla s2027] epoch 240 loss0.012-|Sample:9.56| epoch_time=19.1s valid R@20=0.1783
+[Gowalla s2027] epoch 245 loss0.012-|Sample:9.48| epoch_time=14.2s valid R@20=0.1790
+[Gowalla s2027] epoch 250 loss0.012-|Sample:9.69| epoch_time=22.8s valid R@20=0.1792
+[Gowalla s2027] epoch 255 loss0.012-|Sample:9.80| epoch_time=14.5s valid R@20=0.1798
+[Gowalla s2027] epoch 260 loss0.012-|Sample:9.57| epoch_time=22.5s valid R@20=0.1792
+[Gowalla s2027] epoch 265 loss0.012-|Sample:9.75| epoch_time=19.5s valid R@20=0.1801
+[Gowalla s2027] epoch 270 loss0.011-|Sample:9.71| epoch_time=22.4s valid R@20=0.1806
+[Gowalla s2027] epoch 275 loss0.012-|Sample:9.53| epoch_time=14.4s valid R@20=0.1808
+[Gowalla s2027] epoch 280 loss0.011-|Sample:9.98| epoch_time=23.4s valid R@20=0.1802
+[Gowalla s2027] epoch 285 loss0.011-|Sample:9.59| epoch_time=14.4s valid R@20=0.1808
+[Gowalla s2027] epoch 290 loss0.011-|Sample:9.84| epoch_time=22.4s valid R@20=0.1808
+[Gowalla s2027] epoch 295 loss0.011-|Sample:9.27| epoch_time=22.9s valid R@20=0.1813
+[Gowalla s2027] epoch 300 loss0.011-|Sample:9.27| epoch_time=18.4s valid R@20=0.1820
+[Gowalla s2027] epoch 305 loss0.011-|Sample:9.64| epoch_time=18.4s valid R@20=0.1829
+[Gowalla s2027] epoch 310 loss0.011-|Sample:9.33| epoch_time=21.7s valid R@20=0.1829
+[Gowalla s2027] epoch 315 loss0.011-|Sample:8.86| epoch_time=14.6s valid R@20=0.1836
+[Gowalla s2027] epoch 320 loss0.011-|Sample:9.45| epoch_time=19.8s valid R@20=0.1830
+[Gowalla s2027] epoch 325 loss0.011-|Sample:9.41| epoch_time=19.7s valid R@20=0.1829
+[Gowalla s2027] epoch 330 loss0.011-|Sample:9.75| epoch_time=20.6s valid R@20=0.1831
+[Gowalla s2027] epoch 335 loss0.011-|Sample:9.17| epoch_time=13.9s valid R@20=0.1833
+[Gowalla s2027] epoch 340 loss0.011-|Sample:9.48| epoch_time=19.0s valid R@20=0.1841
+[Gowalla s2027] epoch 345 loss0.011-|Sample:9.08| epoch_time=22.5s valid R@20=0.1841
+[Gowalla s2027] epoch 350 loss0.011-|Sample:9.13| epoch_time=17.5s valid R@20=0.1841
+[Gowalla s2027] epoch 355 loss0.011-|Sample:9.27| epoch_time=20.9s valid R@20=0.1849
+[Gowalla s2027] epoch 360 loss0.011-|Sample:9.40| epoch_time=18.5s valid R@20=0.1846
+[Gowalla s2027] epoch 365 loss0.011-|Sample:9.14| epoch_time=13.8s valid R@20=0.1847
+[Gowalla s2027] epoch 370 loss0.010-|Sample:9.44| epoch_time=20.1s valid R@20=0.1849
+[Gowalla s2027] epoch 375 loss0.011-|Sample:9.50| epoch_time=19.0s valid R@20=0.1846
+[Gowalla s2027] epoch 380 loss0.011-|Sample:8.92| epoch_time=20.8s valid R@20=0.1846
+[Gowalla s2027] epoch 385 loss0.010-|Sample:9.02| epoch_time=20.8s valid R@20=0.1852
+[Gowalla s2027] epoch 390 loss0.011-|Sample:8.81| epoch_time=20.8s valid R@20=0.1855
+[Gowalla s2027] epoch 395 loss0.010-|Sample:8.61| epoch_time=17.2s valid R@20=0.1853
+[Gowalla s2027] epoch 400 loss0.010-|Sample:8.47| epoch_time=22.1s valid R@20=0.1858
+[Gowalla s2027] epoch 405 loss0.010-|Sample:8.01| epoch_time=17.6s valid R@20=0.1860
+[Gowalla s2027] epoch 410 loss0.010-|Sample:8.31| epoch_time=21.5s valid R@20=0.1862
+[Gowalla s2027] epoch 415 loss0.010-|Sample:7.94| epoch_time=19.8s valid R@20=0.1859
+[Gowalla s2027] epoch 420 loss0.010-|Sample:7.94| epoch_time=18.3s valid R@20=0.1858
+[Gowalla s2027] epoch 425 loss0.010-|Sample:7.75| epoch_time=12.4s valid R@20=0.1863
+[Gowalla s2027] epoch 430 loss0.010-|Sample:8.12| epoch_time=15.3s valid R@20=0.1866
+[Gowalla s2027] epoch 435 loss0.010-|Sample:8.05| epoch_time=22.7s valid R@20=0.1866
+[Gowalla s2027] epoch 440 loss0.010-|Sample:7.91| epoch_time=12.6s valid R@20=0.1871
+[Gowalla s2027] epoch 445 loss0.010-|Sample:7.76| epoch_time=20.1s valid R@20=0.1874
+[Gowalla s2027] epoch 450 loss0.010-|Sample:7.96| epoch_time=12.6s valid R@20=0.1874
+[Gowalla s2027] epoch 455 loss0.010-|Sample:7.77| epoch_time=21.8s valid R@20=0.1872
+[Gowalla s2027] epoch 460 loss0.010-|Sample:7.79| epoch_time=19.5s valid R@20=0.1871
+[Gowalla s2027] epoch 465 loss0.010-|Sample:7.93| epoch_time=15.8s valid R@20=0.1872
+[Gowalla s2027] epoch 470 loss0.010-|Sample:8.15| epoch_time=21.3s valid R@20=0.1871
+[Gowalla s2027] epoch 475 loss0.010-|Sample:7.84| epoch_time=17.1s valid R@20=0.1870
+[Gowalla s2027] epoch 480 loss0.010-|Sample:8.00| epoch_time=18.4s valid R@20=0.1869
+[Gowalla s2027] epoch 485 loss0.010-|Sample:8.00| epoch_time=19.5s valid R@20=0.1873
+[Gowalla s2027] epoch 490 loss0.010-|Sample:7.94| epoch_time=18.7s valid R@20=0.1872
+[Gowalla s2027] epoch 495 loss0.010-|Sample:7.88| epoch_time=17.5s valid R@20=0.1874
+[Gowalla s2027] epoch 500 loss0.010-|Sample:7.81| epoch_time=18.2s valid R@20=0.1877
+[Gowalla s2027] epoch 505 loss0.010-|Sample:7.88| epoch_time=17.8s valid R@20=0.1880
+[Gowalla s2027] epoch 510 loss0.010-|Sample:8.52| epoch_time=27.7s valid R@20=0.1882
+[Gowalla s2027] epoch 515 loss0.010-|Sample:8.70| epoch_time=26.1s valid R@20=0.1882
+[Gowalla s2027] epoch 520 loss0.010-|Sample:8.22| epoch_time=12.9s valid R@20=0.1882
+[Gowalla s2027] epoch 525 loss0.010-|Sample:8.04| epoch_time=18.9s valid R@20=0.1884
+[Gowalla s2027] epoch 530 loss0.010-|Sample:8.05| epoch_time=21.2s valid R@20=0.1883
+[Gowalla s2027] epoch 535 loss0.010-|Sample:7.91| epoch_time=20.5s valid R@20=0.1882
+[Gowalla s2027] epoch 540 loss0.010-|Sample:8.10| epoch_time=19.3s valid R@20=0.1886
+[Gowalla s2027] epoch 545 loss0.010-|Sample:7.82| epoch_time=21.9s valid R@20=0.1885
+[Gowalla s2027] epoch 550 loss0.010-|Sample:7.81| epoch_time=18.3s valid R@20=0.1889
+[Gowalla s2027] epoch 555 loss0.010-|Sample:7.94| epoch_time=21.5s valid R@20=0.1890
+[Gowalla s2027] epoch 560 loss0.010-|Sample:7.79| epoch_time=13.3s valid R@20=0.1891
+[Gowalla s2027] epoch 565 loss0.010-|Sample:7.76| epoch_time=18.4s valid R@20=0.1889
+[Gowalla s2027] epoch 570 loss0.010-|Sample:7.91| epoch_time=20.8s valid R@20=0.1894
+[Gowalla s2027] epoch 575 loss0.010-|Sample:7.67| epoch_time=20.7s valid R@20=0.1892
+[Gowalla s2027] epoch 580 loss0.010-|Sample:8.05| epoch_time=17.1s valid R@20=0.1894
+[Gowalla s2027] epoch 585 loss0.010-|Sample:7.87| epoch_time=13.0s valid R@20=0.1896
+[Gowalla s2027] epoch 590 loss0.010-|Sample:8.06| epoch_time=17.1s valid R@20=0.1894
+[Gowalla s2027] epoch 595 loss0.010-|Sample:7.82| epoch_time=21.0s valid R@20=0.1891
+[Gowalla s2027] epoch 600 loss0.010-|Sample:8.00| epoch_time=20.5s valid R@20=0.1893
+[Gowalla s2027] epoch 605 loss0.010-|Sample:7.93| epoch_time=14.4s valid R@20=0.1891
+[Gowalla s2027] epoch 610 loss0.010-|Sample:8.05| epoch_time=20.3s valid R@20=0.1892
+[Gowalla s2027] epoch 615 loss0.010-|Sample:7.72| epoch_time=14.5s valid R@20=0.1890
+[Gowalla s2027] epoch 620 loss0.010-|Sample:7.89| epoch_time=20.3s valid R@20=0.1894
+[Gowalla s2027] epoch 625 loss0.010-|Sample:7.68| epoch_time=19.3s valid R@20=0.1895
+[Gowalla s2027] epoch 630 loss0.010-|Sample:7.96| epoch_time=12.6s valid R@20=0.1896
+[Gowalla s2027] epoch 635 loss0.010-|Sample:7.93| epoch_time=20.2s valid R@20=0.1901
+[Gowalla s2027] epoch 640 loss0.010-|Sample:7.94| epoch_time=20.0s valid R@20=0.1898
+[Gowalla s2027] epoch 645 loss0.010-|Sample:7.71| epoch_time=19.0s valid R@20=0.1896
+[Gowalla s2027] epoch 650 loss0.010-|Sample:8.06| epoch_time=16.9s valid R@20=0.1898
+[Gowalla s2027] epoch 655 loss0.010-|Sample:7.89| epoch_time=20.7s valid R@20=0.1896
+[Gowalla s2027] epoch 660 loss0.010-|Sample:8.34| epoch_time=18.1s valid R@20=0.1895
+[Gowalla s2027] epoch 665 loss0.010-|Sample:8.09| epoch_time=18.5s valid R@20=0.1900
+[Gowalla s2027] epoch 670 loss0.010-|Sample:8.34| epoch_time=19.2s valid R@20=0.1904
+[Gowalla s2027] epoch 675 loss0.010-|Sample:7.82| epoch_time=17.7s valid R@20=0.1905
+[Gowalla s2027] epoch 680 loss0.010-|Sample:8.32| epoch_time=18.8s valid R@20=0.1905
+[Gowalla s2027] epoch 685 loss0.010-|Sample:8.05| epoch_time=18.9s valid R@20=0.1903
+[Gowalla s2027] epoch 690 loss0.010-|Sample:8.61| epoch_time=15.3s valid R@20=0.1905
+[Gowalla s2027] epoch 695 loss0.010-|Sample:8.54| epoch_time=14.1s valid R@20=0.1907
+[Gowalla s2027] epoch 700 loss0.010-|Sample:8.38| epoch_time=15.6s valid R@20=0.1899
+[Gowalla s2027] epoch 705 loss0.010-|Sample:8.40| epoch_time=14.0s valid R@20=0.1906
+[Gowalla s2027] epoch 710 loss0.010-|Sample:8.38| epoch_time=14.2s valid R@20=0.1900
+[Gowalla s2027] epoch 715 loss0.010-|Sample:7.96| epoch_time=13.8s valid R@20=0.1902
+[Gowalla s2027] epoch 720 loss0.010-|Sample:8.53| epoch_time=14.2s valid R@20=0.1900
+[Gowalla s2027] epoch 725 loss0.010-|Sample:8.13| epoch_time=14.6s valid R@20=0.1902
+[Gowalla s2027] epoch 730 loss0.010-|Sample:8.59| epoch_time=14.3s valid R@20=0.1905
+[Gowalla s2027] epoch 735 loss0.010-|Sample:8.45| epoch_time=15.1s valid R@20=0.1905
+[Gowalla s2027] epoch 740 loss0.010-|Sample:8.54| epoch_time=14.2s valid R@20=0.1901
+[Gowalla s2027] epoch 745 loss0.010-|Sample:8.32| epoch_time=14.0s valid R@20=0.1904
+{"dataset": "Gowalla", "seed": 2027, "config": {"decay": 0.0001, "dropout": 0, "keepprob": 0.6, "eval_every": 5, "patience": 10, "layer": 3, "recdim": 64, "epochs": 1000, "bpr_batch": 2048, "lr": 0.001}, "best_epoch": 695, "best_valid_recall20": 0.19072633184800142, "sampler": "UniformSample_original_python", "wall_time_s": 13634.758925199509, "torch": "2.13.0+cu130"}
+[0;30;43muse NORMAL distribution initilizer[0m
+loading adjacency matrix
+successfully loaded...
+don't split the matrix
+lgn is already to go(dropout:0)
+[Gowalla s2027] LightGCN best epoch 695/745 | test R@20 0.16688 N@20 0.14075 AvgPop@20 148.89
+[backbone] wall time 13639.3s

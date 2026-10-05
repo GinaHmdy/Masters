@@ -1,0 +1,46 @@
+[0;30;43mCpp extension not loaded[0m
+[0;30;43muse NORMAL distribution initilizer[0m
+loading adjacency matrix
+generating adjacency matrix
+costing 1.0561261177062988s, saved norm_mat...
+/home/mohab/Workspace/99-temp/Masters/thesis/third_party/LightGCN-PyTorch/code/dataloader.py:330: UserWarning: torch.sparse.SparseTensor(indices, values, shape, *, device=) is deprecated.  Please use torch.sparse_coo_tensor(indices, values, shape, dtype=, device=). (Triggered internally at /__w/pytorch/pytorch/torch/csrc/utils/tensor_new.cpp:653.)
+  return torch.sparse.FloatTensor(index, data, torch.Size(coo.shape))
+don't split the matrix
+lgn is already to go(dropout:0)
+[Yahoo s2028] epoch 5 loss0.257-|Sample:1.05| epoch_time=1.6s valid R@20=0.3724
+[0;30;43mCpp extension not loaded[0m
+[0;30;43muse NORMAL distribution initilizer[0m
+loading adjacency matrix
+successfully loaded...
+/home/mohab/Workspace/99-temp/Masters/thesis/third_party/LightGCN-PyTorch/code/dataloader.py:330: UserWarning: torch.sparse.SparseTensor(indices, values, shape, *, device=) is deprecated.  Please use torch.sparse_coo_tensor(indices, values, shape, dtype=, device=). (Triggered internally at /__w/pytorch/pytorch/torch/csrc/utils/tensor_new.cpp:653.)
+  return torch.sparse.FloatTensor(index, data, torch.Size(coo.shape))
+don't split the matrix
+lgn is already to go(dropout:0)
+[Yahoo s2028] epoch 5 loss0.257-|Sample:1.02| epoch_time=1.5s valid R@20=0.3724
+[Yahoo s2028] epoch 10 loss0.151-|Sample:1.06| epoch_time=1.6s valid R@20=0.4131
+[Yahoo s2028] epoch 15 loss0.103-|Sample:1.14| epoch_time=1.6s valid R@20=0.4372
+[Yahoo s2028] epoch 20 loss0.079-|Sample:0.97| epoch_time=1.3s valid R@20=0.4466
+[Yahoo s2028] epoch 25 loss0.063-|Sample:0.96| epoch_time=1.4s valid R@20=0.4530
+[Yahoo s2028] epoch 30 loss0.052-|Sample:1.09| epoch_time=1.5s valid R@20=0.4574
+[Yahoo s2028] epoch 35 loss0.045-|Sample:1.10| epoch_time=1.8s valid R@20=0.4607
+[Yahoo s2028] epoch 40 loss0.038-|Sample:1.09| epoch_time=1.5s valid R@20=0.4632
+[Yahoo s2028] epoch 45 loss0.034-|Sample:1.08| epoch_time=1.6s valid R@20=0.4635
+[Yahoo s2028] epoch 50 loss0.031-|Sample:0.99| epoch_time=1.4s valid R@20=0.4646
+[Yahoo s2028] epoch 55 loss0.028-|Sample:1.07| epoch_time=1.4s valid R@20=0.4638
+[Yahoo s2028] epoch 60 loss0.025-|Sample:1.07| epoch_time=1.5s valid R@20=0.4632
+[Yahoo s2028] epoch 65 loss0.023-|Sample:1.08| epoch_time=1.8s valid R@20=0.4619
+[Yahoo s2028] epoch 70 loss0.021-|Sample:0.98| epoch_time=1.3s valid R@20=0.4604
+[Yahoo s2028] epoch 75 loss0.019-|Sample:1.08| epoch_time=1.7s valid R@20=0.4581
+[Yahoo s2028] epoch 80 loss0.017-|Sample:0.99| epoch_time=1.4s valid R@20=0.4564
+[Yahoo s2028] epoch 85 loss0.017-|Sample:1.07| epoch_time=1.4s valid R@20=0.4554
+[Yahoo s2028] epoch 90 loss0.016-|Sample:1.09| epoch_time=1.7s valid R@20=0.4544
+[Yahoo s2028] epoch 95 loss0.015-|Sample:0.97| epoch_time=1.3s valid R@20=0.4515
+[Yahoo s2028] epoch 100 loss0.014-|Sample:1.08| epoch_time=1.4s valid R@20=0.4501
+{"dataset": "Yahoo", "seed": 2028, "config": {"decay": 0.0001, "dropout": 0, "keepprob": 0.6, "eval_every": 5, "patience": 10, "layer": 2, "recdim": 256, "epochs": 1000, "bpr_batch": 2048, "lr": 0.001}, "best_epoch": 50, "best_valid_recall20": 0.46463125791202364, "sampler": "UniformSample_original_python", "wall_time_s": 149.41318154335022, "torch": "2.13.0+cu130"}
+[0;30;43muse NORMAL distribution initilizer[0m
+loading adjacency matrix
+successfully loaded...
+don't split the matrix
+lgn is already to go(dropout:0)
+[Yahoo s2028] LightGCN best epoch 50/100 | test R@20 0.14000 N@20 0.06235 AvgPop@20 589.90
+[backbone] wall time 151.1s
