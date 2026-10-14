@@ -467,6 +467,10 @@ ASTD-PD minus baseline on test @20 (mean over seeds); Holm-adjusted p: paired t-
 
 ## 9. Method
 
+An interactive walk-through of this section, with real per-dataset examples taken from the trained
+models, is in [`docs/astdpd_explained.html`](docs/astdpd_explained.html) (open it in a browser; rebuild
+its data with `python scripts/build_explainer.py`).
+
 ### 9.1 Diagram
 
 Names follow `src/astdpd/model.py`; `cfg` keys are in brackets.

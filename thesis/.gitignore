@@ -6,5 +6,10 @@ cache/
 # third_party/ must be committed byte-for-byte; override any ignore rule from the
 # repo root (e.g. *.pth.tar) or from vendored .gitignore files.
 !third_party/**
+# ...except model weights: too large for git; they come from upstream or are retrained.
+third_party/**/*.pth
+third_party/**/*.pth.tar
+third_party/**/*.pt
+third_party/**/*.ckpt
 logs/*.lock
 logs/.*.lock
